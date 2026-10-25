@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /checkout
+Disallow: /booking-confirmation
+
+Sitemap: https://elhanagroup.com/sitemap.xml
