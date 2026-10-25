@@ -1,7 +1,9 @@
 import React from 'react';
 
-export const WHATSAPP_PHONE = "+201100777330";
-export const WHATSAPP_DISPLAY = "01100777330";
+export const WHATSAPP_PHONE = "+201044790588";
+export const WHATSAPP_DISPLAY = "01044790588";
+export const CALL_PHONE = "+20110077330";
+export const CALL_DISPLAY = "0110077330";
 
 export const getWhatsAppLink = (message = "مرحباً! أود الاستفسار وحجز إحدى رحلات مجموعة الهنا في شرم الشيخ.") => {
   const encoded = encodeURIComponent(message);

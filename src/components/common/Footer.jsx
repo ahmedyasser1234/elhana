@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ShieldCheck, MapPin, MessageCircle, Heart, Camera, Share2, Video } from 'lucide-react';
+import { ShieldCheck, MapPin, MessageCircle, Heart, Camera, Share2, Video, Phone } from 'lucide-react';
 import { getWhatsAppLink } from './WhatsAppButton';
 
 export const Footer = () => {
@@ -97,38 +97,36 @@ export const Footer = () => {
 
             <div className="flex items-center gap-3 text-slate-600 pt-2">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/el_hana_group/"
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#0284C7] hover:border-[#0284C7] transition duration-300"
-                title="Instagram"
+                className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-gradient-to-tr hover:from-amber-500 hover:to-purple-600 hover:border-transparent transition duration-300"
+                title="Instagram @el_hana_group"
               >
                 <Camera className="w-4 h-4" />
               </a>
               <a
-                href="https://facebook.com"
+                href="https://web.facebook.com/profile.php?id=61583787661164"
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#0284C7] hover:border-[#0284C7] transition duration-300"
+                className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2] transition duration-300"
                 title="Facebook"
               >
                 <Share2 className="w-4 h-4" />
               </a>
               <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#F97316] hover:border-[#F97316] transition duration-300"
-                title="YouTube"
+                href="tel:+20110077330"
+                className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#0284C7] hover:border-[#0284C7] transition duration-300"
+                title="اتصال هاتف: 0110077330"
               >
-                <Video className="w-4 h-4" />
+                <Phone className="w-4 h-4" />
               </a>
               <a
                 href={getWhatsAppLink()}
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#0284C7] hover:border-[#0284C7] transition duration-300"
-                title="WhatsApp"
+                className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#25D366] hover:border-[#25D366] transition duration-300"
+                title="واتساب: 01044790588"
               >
                 <MessageCircle className="w-4 h-4" />
               </a>

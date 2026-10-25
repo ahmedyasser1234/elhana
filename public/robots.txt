@@ -1,5 +1,11 @@
 User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /login
+Disallow: /admin-login
 Disallow: /checkout
 Disallow: /booking-confirmation
+Disallow: /qr
 
 Sitemap: https://elhanagroup.com/sitemap.xml

@@ -7,8 +7,8 @@ import { SectionTitle } from '../components/common/SectionTitle';
 import { Button } from '../components/common/Button';
 import { useToast } from '../context/ToastContext';
 import { contactApi } from '../services/api/contactApi';
-import { Mail, MapPin, MessageCircle, Clock, Send } from 'lucide-react';
-import { getWhatsAppLink } from '../components/common/WhatsAppButton';
+import { Mail, MapPin, MessageCircle, Clock, Send, Phone, Camera, Share2 } from 'lucide-react';
+import { getWhatsAppLink, WHATSAPP_DISPLAY, CALL_DISPLAY, CALL_PHONE } from '../components/common/WhatsAppButton';
 import { GoogleMapLocation } from '../components/common/GoogleMapLocation';
 
 export const ContactUsPage = () => {
@@ -60,20 +60,58 @@ export const ContactUsPage = () => {
               <h3 className="text-xl font-bold font-heading text-white">{isAr ? "معلومات التواصل المباشر" : "Direct Contact"}</h3>
 
               <div className="space-y-4 text-xs text-slate-300">
+                {/* WhatsApp */}
                 <a
                   href={getWhatsAppLink()}
                   target="_blank"
                   rel="noreferrer"
+                  className="flex items-center gap-3 p-3.5 rounded-2xl bg-emerald-950/40 hover:bg-emerald-900/60 transition group border border-emerald-500/30"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white flex items-center justify-center font-bold shrink-0 shadow-md">
+                    <MessageCircle className="w-5 h-5 fill-white text-emerald-500" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-emerald-300 group-hover:text-emerald-200">{isAr ? "واتساب مباشر للحجز" : "WhatsApp Direct Booking"}</div>
+                    <div className="text-[11px] text-slate-200 font-semibold font-mono" dir="ltr">{WHATSAPP_DISPLAY} (+201044790588)</div>
+                  </div>
+                </a>
+
+                {/* Direct Phone Call */}
+                <a
+                  href={`tel:${CALL_PHONE}`}
                   className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-800/80 hover:bg-[#0284C7]/20 transition group border border-slate-700"
                 >
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white flex items-center justify-center font-bold shrink-0 shadow-md">
-                    <MessageCircle className="w-5 h-5 fill-white text-[#0284C7]" />
+                    <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="font-bold text-white group-hover:text-[#38BDF8]">{isAr ? "واتساب مباشر" : "WhatsApp Direct"}</div>
-                    <div className="text-[11px] text-slate-300 font-semibold" dir="ltr">+20 110 077 7330</div>
+                    <div className="font-bold text-white group-hover:text-[#38BDF8]">{isAr ? "اتصال هاتفي مباشر" : "Direct Phone Call"}</div>
+                    <div className="text-[11px] text-slate-300 font-semibold font-mono" dir="ltr">{CALL_DISPLAY} (+20110077330)</div>
                   </div>
                 </a>
+
+                {/* Social Media Links */}
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <a
+                    href="https://web.facebook.com/profile.php?id=61583787661164"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 p-2.5 rounded-xl bg-[#1877F2]/15 border border-[#1877F2]/30 hover:bg-[#1877F2]/30 text-white text-xs font-bold transition"
+                  >
+                    <Share2 className="w-4 h-4 text-[#1877F2]" />
+                    <span>فيسبوك</span>
+                  </a>
+
+                  <a
+                    href="https://www.instagram.com/el_hana_group/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 p-2.5 rounded-xl bg-gradient-to-r from-amber-500/15 to-purple-600/15 border border-purple-500/30 hover:border-purple-500/60 text-white text-xs font-bold transition"
+                  >
+                    <Camera className="w-4 h-4 text-pink-400" />
+                    <span>إنستغرام</span>
+                  </a>
+                </div>
 
                 <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700">
                   <div className="w-10 h-10 rounded-xl bg-[#0284C7]/20 text-[#38BDF8] flex items-center justify-center font-bold shrink-0">
@@ -81,7 +119,7 @@ export const ContactUsPage = () => {
                   </div>
                   <div>
                     <div className="font-bold text-white">{isAr ? "البريد الإلكتروني" : "Email Us"}</div>
-                    <div className="text-[11px] text-slate-400">info@elhanagroup.com</div>
+                    <div className="text-[11px] text-slate-400 font-mono">info@elhanagroup.com</div>
                   </div>
                 </div>
 
@@ -90,8 +128,8 @@ export const ContactUsPage = () => {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="font-bold text-white">{isAr ? "مقر الشركة" : "Local Office"}</div>
-                    <div className="text-[11px] text-slate-400">{t('footer.location')}</div>
+                    <div className="font-bold text-white">{isAr ? "مقر الشركة وموقعنا" : "Local Office & Location"}</div>
+                    <div className="text-[11px] text-slate-300 font-bold">{isAr ? "منطقة السفاري، شرم الشيخ، مصر" : "Safari Area, Sharm El Sheikh, Egypt"}</div>
                   </div>
                 </div>
 
@@ -101,7 +139,7 @@ export const ContactUsPage = () => {
                   </div>
                   <div>
                     <div className="font-bold text-white">{isAr ? "ساعات العمل" : "Working Hours"}</div>
-                    <div className="text-[11px] text-slate-400">{isAr ? "7 أيام في الأسبوع: 07:00 ص – 11:00 م" : "7 Days a Week: 07:00 AM – 11:00 PM"}</div>
+                    <div className="text-[11px] text-slate-400">{isAr ? "7 أيام في الأسبوع: 07:00 ص – 11:30 م" : "7 Days a Week: 07:00 AM – 11:30 PM"}</div>
                   </div>
                 </div>
               </div>
