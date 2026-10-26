@@ -57,7 +57,11 @@ import {
   UserPlus,
   Crown,
   Mail,
-  UserCheck
+  UserCheck,
+  Folder,
+  FolderOpen,
+  ChevronRight,
+  ChevronLeft
 } from 'lucide-react';
 import { 
   getAdminUsers, 
@@ -137,6 +141,8 @@ export const AdminBookingsPage = () => {
   const [photoInputUrl, setPhotoInputUrl] = useState('');
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState('');
   const [photoSaveSuccess, setPhotoSaveSuccess] = useState(false);
+  const [photoFolderFilter, setPhotoFolderFilter] = useState('all');
+  const [photoSearchQuery, setPhotoSearchQuery] = useState('');
 
   // ==========================================
   // TAB 6: ADMIN TEAM & MODERATORS (NO BACKEND)
@@ -582,28 +588,105 @@ export const AdminBookingsPage = () => {
   // Categories list for tabs
   const categoriesList = Array.from(new Set(EXPERIENCES.map(e => e.category)));
 
+  // ==========================================
+  // TAB 5 FOLDERS & CATEGORIES CONFIGURATION
+  // ==========================================
+  const PHOTO_FOLDERS = [
+    {
+      id: 'all',
+      nameAr: '📁 جميع الرحلات',
+      nameEn: '📁 All Tours',
+      icon: '📁',
+      color: 'sky',
+      filter: () => true
+    },
+    {
+      id: 'safari',
+      nameAr: '🏜️ فولدر رحلات السفاري والصحراء',
+      nameEn: '🏜️ Desert Safari Folder',
+      icon: '🏜️',
+      color: 'amber',
+      filter: (e) => ['atv', 'buggy', 'bedouin', 'camel', 'horse', 'safari'].includes(e.category) || e.slug.includes('desert') || e.slug.includes('safari')
+    },
+    {
+      id: 'sea',
+      nameAr: '⛵ فولدر الرحلات البحرية واليخوت',
+      nameEn: '⛵ Red Sea & Yacht Folder',
+      icon: '⛵',
+      color: 'sky',
+      filter: (e) => ['yacht', 'snorkeling', 'diving', 'parasailing', 'banana', 'sea'].includes(e.category) || e.slug.includes('yacht') || e.slug.includes('sea')
+    },
+    {
+      id: 'sinai',
+      nameAr: '⛰️ فولدر رحلات جنوب سيناء (دهب، كاترين، نويبع، طابا)',
+      nameEn: '⛰️ South Sinai Excursions Folder',
+      icon: '⛰️',
+      color: 'emerald',
+      filter: (e) => ['dahab', 'catherine', 'nuweiba', 'taba', 'excursions'].includes(e.category)
+    },
+    {
+      id: 'transfers',
+      nameAr: '🚗 فولدر خدمات التوصيل والانتقالات',
+      nameEn: '🚗 Transfers & VIP Folder',
+      icon: '🚗',
+      color: 'purple',
+      filter: (e) => ['transfer'].includes(e.category) || e.slug.includes('transfer') || e.slug.includes('airport')
+    }
+  ];
+
+  const getTourFolder = (tour) => {
+    if (!tour) return { id: 'all', nameAr: 'فولدر عام', nameEn: 'General Folder', icon: '📁' };
+    if (['atv', 'buggy', 'bedouin', 'camel', 'horse', 'safari'].includes(tour.category) || tour.slug.includes('desert') || tour.slug.includes('safari')) {
+      return { id: 'safari', nameAr: 'فولدر رحلات السفاري والصحراء', nameEn: 'Desert Safari Folder', icon: '🏜️' };
+    }
+    if (['yacht', 'snorkeling', 'diving', 'parasailing', 'banana', 'sea'].includes(tour.category) || tour.slug.includes('yacht') || tour.slug.includes('sea')) {
+      return { id: 'sea', nameAr: 'فولدر الرحلات البحرية واليخوت', nameEn: 'Red Sea & Yacht Folder', icon: '⛵' };
+    }
+    if (['dahab', 'catherine', 'nuweiba', 'taba', 'excursions'].includes(tour.category)) {
+      return { id: 'sinai', nameAr: 'فولدر رحلات جنوب سيناء (دهب، كاترين، نويبع، طابا)', nameEn: 'South Sinai Excursions Folder', icon: '⛰️' };
+    }
+    if (['transfer'].includes(tour.category) || tour.slug.includes('transfer') || tour.slug.includes('airport')) {
+      return { id: 'transfers', nameAr: 'فولدر خدمات التوصيل والانتقالات', nameEn: 'Transfers & VIP Folder', icon: '🚗' };
+    }
+    return { id: 'all', nameAr: 'فولدر عام', nameEn: 'General Folder', icon: '📁' };
+  };
+
+  const currentPhotoFolderObj = PHOTO_FOLDERS.find(f => f.id === photoFolderFilter) || PHOTO_FOLDERS[0];
+  const photoFilteredExperiences = localizedExperiences.filter(tour => {
+    const matchesFolder = currentPhotoFolderObj.filter(tour);
+    const matchesSearch = !photoSearchQuery.trim() || 
+      (tour.title + ' ' + (tour.categoryLabel || '') + ' ' + tour.slug).toLowerCase().includes(photoSearchQuery.toLowerCase());
+    return matchesFolder && matchesSearch;
+  });
+
   // Selected tour for photo management
-  const activeSelectedTour = EXPERIENCES.find(e => e.slug === selectedTourForPhoto) || EXPERIENCES[0];
+  const activeSelectedTour = EXPERIENCES.find(e => e.slug === selectedTourForPhoto) || photoFilteredExperiences[0] || EXPERIENCES[0];
+  const activeSelectedLocalized = getLocalizedExperience(activeSelectedTour, isAr ? 'ar' : 'en');
+  const activeSelectedFolder = getTourFolder(activeSelectedTour);
 
   return (
-    <div className="pt-28 pb-20 bg-slate-950 text-slate-100 min-h-screen relative overflow-hidden" dir={isAr ? 'rtl' : 'ltr'}>
+    <div className="pt-28 pb-20 bg-[#F8FAFC] text-slate-800 min-h-screen relative overflow-hidden" dir={isAr ? 'rtl' : 'ltr'}>
       <SEOHead 
         title={isAr ? "لوحة تحكم الأدمن الشاملة | مجموعة الهنا" : "Admin Command Center | El Hana Group"} 
       />
 
+      {/* Soft Light Ambient Glow Accents */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-100/50 rounded-full blur-[140px] pointer-events-none"></div>
+      <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-purple-100/40 rounded-full blur-[140px] pointer-events-none"></div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
         
         {/* Top Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-xs uppercase tracking-wider mb-2">
-              <ShieldCheck className="w-4 h-4" /> 
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 font-bold text-xs uppercase tracking-wider mb-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" /> 
               {isAr ? "لوحة تحكم الإدارة الذاتية (بدون باك إند)" : "Client-Side Master Admin (No Backend)"}
             </div>
-            <h1 className="text-3xl md:text-4xl font-black font-heading text-white">
+            <h1 className="text-3xl md:text-4xl font-black font-heading text-slate-900">
               {isAr ? "مركز إدارة مجموعة الهنا للمغامرات" : "El Hana Group Command Center"}
             </h1>
-            <p className="text-xs text-slate-400 font-normal">
+            <p className="text-xs text-slate-500 font-normal">
               {isAr 
                 ? "إدارة الحجوزات، المرشدين السياحيين، تقييمات العملاء السرية، تعديل الأسعار ورفع الصور مباشرة."
                 : "Manage bookings, guides, confidential reviews, prices, and photo replacements with real-time browser storage."}
@@ -611,21 +694,21 @@ export const AdminBookingsPage = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
-              <Crown className="w-3.5 h-3.5 text-amber-400" />
-              <span className="font-bold text-white">{currentAdmin?.name || PRIMARY_ADMIN.name}</span>
-              <span className="text-slate-400 font-mono text-[11px] hidden sm:inline">({currentAdmin?.email || PRIMARY_ADMIN.email})</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 shadow-xs">
+              <Crown className="w-3.5 h-3.5 text-amber-500" />
+              <span className="font-bold text-slate-900">{currentAdmin?.name || PRIMARY_ADMIN.name}</span>
+              <span className="text-slate-600 font-mono text-[11px] hidden sm:inline">({currentAdmin?.email || PRIMARY_ADMIN.email})</span>
             </div>
 
             <a 
               href="/qr" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/40 text-sky-300 font-bold text-xs transition"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 border border-sky-300 text-sky-800 font-bold text-xs transition shadow-xs"
             >
-              <QrCode className="w-4 h-4" />
+              <QrCode className="w-4 h-4 text-sky-600" />
               <span>{isAr ? "مركز QR" : "QR Center"}</span>
-              <ExternalLink className="w-3 h-3" />
+              <ExternalLink className="w-3 h-3 text-sky-500" />
             </a>
 
             <Button 
@@ -638,6 +721,7 @@ export const AdminBookingsPage = () => {
                 refreshImagesData();
               }} 
               icon={RefreshCw}
+              className="bg-white hover:bg-slate-50 border-slate-200 text-slate-700 shadow-xs"
             >
               {isAr ? "تحديث الكل" : "Refresh All"}
             </Button>
@@ -646,7 +730,7 @@ export const AdminBookingsPage = () => {
               variant="outline" 
               size="sm" 
               onClick={() => setShowChangePassModal(true)}
-              className="text-amber-300 border-amber-900/50 hover:bg-amber-950/50"
+              className="bg-white hover:bg-amber-50 border-amber-300 text-amber-800 shadow-xs"
               icon={KeyRound}
             >
               {isAr ? "تغيير الرمز" : "Change Password"}
@@ -656,7 +740,7 @@ export const AdminBookingsPage = () => {
               variant="outline" 
               size="sm" 
               onClick={handleAdminLogout}
-              className="text-rose-400 border-rose-900/50 hover:bg-rose-950/50"
+              className="bg-white hover:bg-rose-50 border-rose-300 text-rose-700 shadow-xs"
               icon={LogOut}
             >
               {isAr ? "تسجيل الخروج" : "Logout"}
@@ -665,19 +749,19 @@ export const AdminBookingsPage = () => {
         </div>
 
         {/* Master Admin Navigation Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800 scrollbar-none">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200/80 scrollbar-none">
           <button
             onClick={() => setActiveTab('bookings')}
             className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
               activeTab === 'bookings'
-                ? 'bg-[#0284C7] text-white shadow-lg shadow-sky-900/30 ring-2 ring-sky-400/30'
-                : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                ? 'bg-[#0284C7] text-white shadow-md shadow-sky-600/30 ring-2 ring-sky-400/40'
+                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
             }`}
           >
             <ClipboardList className="w-4 h-4" />
             <span>{isAr ? "سجل الحجوزات والإشعارات" : "Bookings & Alerts"}</span>
             {bookings.length > 0 && (
-              <span className="px-2 py-0.5 rounded-full text-xs bg-black/40 text-sky-200">
+              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'bookings' ? 'bg-black/20 text-white' : 'bg-sky-100 text-sky-800'}`}>
                 {bookings.length}
               </span>
             )}
@@ -687,13 +771,13 @@ export const AdminBookingsPage = () => {
             onClick={() => setActiveTab('guides')}
             className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
               activeTab === 'guides'
-                ? 'bg-[#0284C7] text-white shadow-lg shadow-sky-900/30 ring-2 ring-sky-400/30'
-                : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                ? 'bg-[#0284C7] text-white shadow-md shadow-sky-600/30 ring-2 ring-sky-400/40'
+                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
             }`}
           >
             <Users className="w-4 h-4" />
             <span>{isAr ? "إدارة المرشدين السياحيين" : "Guides Management"}</span>
-            <span className="px-2 py-0.5 rounded-full text-xs bg-black/40 text-sky-200">
+            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'guides' ? 'bg-black/20 text-white' : 'bg-sky-100 text-sky-800'}`}>
               {guides.length}
             </span>
           </button>
@@ -702,14 +786,14 @@ export const AdminBookingsPage = () => {
             onClick={() => setActiveTab('reviews')}
             className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
               activeTab === 'reviews'
-                ? 'bg-amber-600 text-white shadow-lg shadow-amber-900/30 ring-2 ring-amber-400/30'
-                : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30 ring-2 ring-amber-400/40'
+                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
             }`}
           >
             <Star className="w-4 h-4 text-amber-300" />
             <span>{isAr ? "تقييمات المرشدين (سري للأدمن)" : "Secret Guide Reviews"}</span>
             {guideReviews.length > 0 && (
-              <span className="px-2 py-0.5 rounded-full text-xs bg-amber-900/60 text-amber-200">
+              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'reviews' ? 'bg-black/20 text-white' : 'bg-amber-100 text-amber-800'}`}>
                 {guideReviews.length}
               </span>
             )}
@@ -719,8 +803,8 @@ export const AdminBookingsPage = () => {
             onClick={() => setActiveTab('prices')}
             className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
               activeTab === 'prices'
-                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/30 ring-2 ring-emerald-400/30'
-                : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 ring-2 ring-emerald-400/40'
+                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
             }`}
           >
             <DollarSign className="w-4 h-4 text-emerald-300" />
@@ -731,8 +815,8 @@ export const AdminBookingsPage = () => {
             onClick={() => setActiveTab('photos')}
             className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
               activeTab === 'photos'
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30 ring-2 ring-purple-400/30'
-                : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30 ring-2 ring-purple-400/40'
+                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
             }`}
           >
             <ImageIcon className="w-4 h-4 text-purple-300" />
@@ -743,13 +827,13 @@ export const AdminBookingsPage = () => {
             onClick={() => setActiveTab('team')}
             className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
               activeTab === 'team'
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/30 ring-2 ring-indigo-400/30'
-                : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 ring-2 ring-indigo-400/40'
+                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
             }`}
           >
             <ShieldCheck className="w-4 h-4 text-indigo-300" />
             <span>{isAr ? "فريق الإدارة والمشرفين" : "Admin & Moderators"}</span>
-            <span className="px-2 py-0.5 rounded-full text-xs bg-black/40 text-indigo-200">
+            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'team' ? 'bg-black/20 text-white' : 'bg-indigo-100 text-indigo-800'}`}>
               {adminUsers.length}
             </span>
           </button>
@@ -761,14 +845,14 @@ export const AdminBookingsPage = () => {
         {activeTab === 'bookings' && (
           <div className="space-y-6">
             {/* Multi-Channel Automated Notifications Settings */}
-            <div className="bg-slate-900/90 backdrop-blur-md rounded-3xl p-6 border border-slate-800 space-y-6 shadow-xl">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-800/80 pb-4">
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 space-y-6 shadow-sm">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-200 pb-4">
                 <div>
-                  <h2 className="text-lg font-bold font-heading text-amber-400 flex items-center gap-2">
-                    <Settings className="w-5 h-5 text-amber-400" />
+                  <h2 className="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
+                    <Settings className="w-5 h-5 text-amber-500" />
                     {isAr ? "إعداد قنوات التنبيهات الفورية (واتساب + تليجرام + جيميل)" : "Multi-Channel Alert Configuration"}
                   </h2>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500">
                     {isAr ? "تصلك تنبيهات الحجز الجديد لحظياً على الرقم أو القنوات المحددة." : "Get instant notifications when a guest completes a booking."}
                   </p>
                 </div>
@@ -780,17 +864,17 @@ export const AdminBookingsPage = () => {
               </div>
 
               {saveStatus && (
-                <div className="p-3 bg-emerald-500/20 border border-emerald-500/40 rounded-xl text-emerald-300 text-xs font-bold flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   {saveStatus}
                 </div>
               )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {/* WhatsApp Channel */}
-                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-emerald-400 flex items-center gap-2">
+                    <span className="font-bold text-sm text-emerald-700 flex items-center gap-2">
                       <Phone className="w-4 h-4" /> {isAr ? "تنبيه واتساب الإدارة" : "Admin WhatsApp"}
                     </span>
                     <input 
@@ -801,20 +885,20 @@ export const AdminBookingsPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] text-slate-400 block mb-1">{isAr ? "رقم هاتف الإدارة" : "Admin Phone"}</label>
+                    <label className="text-[11px] text-slate-600 block mb-1">{isAr ? "رقم هاتف الإدارة" : "Admin Phone"}</label>
                     <input 
                       type="text" 
                       value={whatsappAdminPhone} 
                       onChange={(e) => setWhatsappAdminPhone(e.target.value)} 
-                      className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white" 
+                      className="w-full bg-white border border-slate-300 text-slate-900 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-500" 
                     />
                   </div>
                 </div>
 
                 {/* Email Channel */}
-                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-sky-400 flex items-center gap-2">
+                    <span className="font-bold text-sm text-sky-700 flex items-center gap-2">
                       <Send className="w-4 h-4" /> {isAr ? "بريد إلكتروني (Email)" : "Email Alert"}
                     </span>
                     <input 
@@ -825,20 +909,20 @@ export const AdminBookingsPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] text-slate-400 block mb-1">{isAr ? "البريد الإلكتروني" : "Admin Email"}</label>
+                    <label className="text-[11px] text-slate-600 block mb-1">{isAr ? "البريد الإلكتروني" : "Admin Email"}</label>
                     <input 
                       type="email" 
                       value={adminEmail} 
                       onChange={(e) => setAdminEmail(e.target.value)} 
-                      className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white" 
+                      className="w-full bg-white border border-slate-300 text-slate-900 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-sky-500" 
                     />
                   </div>
                 </div>
 
                 {/* Telegram Channel */}
-                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-blue-400 flex items-center gap-2">
+                    <span className="font-bold text-sm text-blue-700 flex items-center gap-2">
                       <Bell className="w-4 h-4" /> {isAr ? "قناة تليجرام (Telegram)" : "Telegram Bot"}
                     </span>
                     <input 
@@ -849,13 +933,13 @@ export const AdminBookingsPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] text-slate-400 block mb-1">{isAr ? "Chat ID" : "Telegram Chat ID"}</label>
+                    <label className="text-[11px] text-slate-600 block mb-1">{isAr ? "Chat ID" : "Telegram Chat ID"}</label>
                     <input 
                       type="text" 
                       value={telegramChatId} 
                       onChange={(e) => setTelegramChatId(e.target.value)} 
                       placeholder="@channel_or_id"
-                      className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white" 
+                      className="w-full bg-white border border-slate-300 text-slate-900 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500" 
                     />
                   </div>
                 </div>
@@ -871,19 +955,19 @@ export const AdminBookingsPage = () => {
                   placeholder={isAr ? "بحث بالاسم، الفندق، رقم الحجز..." : "Search name, hotel, ref..."}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-2xl pr-10 pl-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500"
+                  className="w-full bg-white border border-slate-200 rounded-2xl pr-10 pl-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 shadow-xs"
                 />
               </div>
-              <div className="text-xs text-slate-400">
+              <div className="text-xs text-slate-500">
                 {isAr ? `عرض ${filteredBookings.length} من إجمالي ${bookings.length} حجز` : `Showing ${filteredBookings.length} of ${bookings.length} bookings`}
               </div>
             </div>
 
             {/* Bookings List */}
             {filteredBookings.length === 0 ? (
-              <div className="bg-slate-900/60 rounded-3xl p-12 text-center border border-slate-800 space-y-3">
-                <ClipboardList className="w-12 h-12 text-slate-600 mx-auto" />
-                <h3 className="text-lg font-bold text-slate-300">
+              <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-3 shadow-xs">
+                <ClipboardList className="w-12 h-12 text-slate-400 mx-auto" />
+                <h3 className="text-lg font-bold text-slate-800">
                   {isAr ? "لا توجد حجوزات مطابقة حتى الآن" : "No bookings found"}
                 </h3>
                 <p className="text-xs text-slate-500 max-w-sm mx-auto">
@@ -905,41 +989,41 @@ export const AdminBookingsPage = () => {
                   const waLink = getWhatsAppLink(b.leadTraveler?.whatsapp || WHATSAPP_PHONE, waText);
 
                   return (
-                    <div key={b.id || idx} className="bg-slate-900/90 rounded-3xl p-5 border border-slate-800 space-y-4 shadow-lg hover:border-slate-700 transition">
-                      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                        <span className="font-mono text-xs font-bold text-sky-400">
+                    <div key={b.id || idx} className="bg-white rounded-3xl p-5 border border-slate-200 space-y-4 shadow-sm hover:shadow-md hover:border-slate-300 transition">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <span className="font-mono text-xs font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100">
                           #{ref}
                         </span>
-                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-700">
                           {b.paymentMethod === 'cash_arrival' ? (isAr ? 'كاش عند الوصول' : 'Cash on Arrival') : 'Electronic'}
                         </span>
                       </div>
 
-                      <h3 className="text-base font-bold text-white line-clamp-2">
+                      <h3 className="text-base font-bold text-slate-900 line-clamp-2">
                         {b.itemTitle}
                       </h3>
 
-                      <div className="grid grid-cols-2 gap-3 text-xs bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                      <div className="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-200">
                         <div>
                           <span className="text-slate-500 text-[10px] block">{isAr ? "العميل" : "Guest"}</span>
-                          <span className="font-bold text-white">{b.leadTraveler?.fullName || 'Guest'}</span>
+                          <span className="font-bold text-slate-800">{b.leadTraveler?.fullName || 'Guest'}</span>
                         </div>
                         <div>
                           <span className="text-slate-500 text-[10px] block">{isAr ? "الفندق" : "Hotel"}</span>
-                          <span className="font-bold text-white">{b.leadTraveler?.hotelName || '-'}</span>
+                          <span className="font-bold text-slate-800">{b.leadTraveler?.hotelName || '-'}</span>
                         </div>
                         <div>
                           <span className="text-slate-500 text-[10px] block">{isAr ? "الموعد" : "Time"}</span>
-                          <span className="text-slate-300">{b.date} • {b.timeSlot}</span>
+                          <span className="text-slate-700">{b.date} • {b.timeSlot}</span>
                         </div>
                         <div>
                           <span className="text-slate-500 text-[10px] block">{isAr ? "واتساب" : "WhatsApp"}</span>
-                          <span className="text-emerald-400 font-mono">{b.leadTraveler?.whatsapp || '-'}</span>
+                          <span className="text-emerald-700 font-mono font-semibold">{b.leadTraveler?.whatsapp || '-'}</span>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
-                        <div className="text-lg font-black text-emerald-400 font-heading">
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                        <div className="text-lg font-black text-emerald-600 font-heading">
                           ${b.totalPrice || 0} USD
                         </div>
                         <a href={waLink} target="_blank" rel="noopener noreferrer">
@@ -961,13 +1045,13 @@ export const AdminBookingsPage = () => {
         {/* ======================================================== */}
         {activeTab === 'guides' && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 p-5 rounded-3xl border border-slate-800">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
               <div>
-                <h2 className="text-xl font-bold font-heading text-white flex items-center gap-2">
-                  <Users className="w-5 h-5 text-sky-400" />
+                <h2 className="text-xl font-bold font-heading text-slate-900 flex items-center gap-2">
+                  <Users className="w-5 h-5 text-sky-600" />
                   {isAr ? "المرشدين السياحيين المعتمدين (الجايدات)" : "Registered Tour Guides"}
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   {isAr 
                     ? "إضافة وإدارة المرشدين السياحيين. كل مرشد له رابط وتقييم QR خاص وسري."
                     : "Add and manage tour guides. Each guide gets an independent QR review link."}
@@ -979,6 +1063,7 @@ export const AdminBookingsPage = () => {
                 size="sm" 
                 onClick={() => setShowAddGuideModal(true)} 
                 icon={Plus}
+                className="bg-sky-600 hover:bg-sky-700 text-white"
               >
                 {isAr ? "إضافة مرشد جديد" : "Add New Guide"}
               </Button>
@@ -992,7 +1077,7 @@ export const AdminBookingsPage = () => {
                 const isCopied = copiedLinkGuideId === g.id;
 
                 return (
-                  <div key={g.id} className="bg-slate-900/90 rounded-3xl p-5 border border-slate-800 space-y-4 hover:border-slate-700 transition relative">
+                  <div key={g.id} className="bg-white rounded-3xl p-5 border border-slate-200 space-y-4 hover:border-slate-300 shadow-sm hover:shadow-md transition relative">
                     <div className="flex items-start gap-4">
                       <img 
                         src={g.photo || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face'} 
@@ -1000,41 +1085,41 @@ export const AdminBookingsPage = () => {
                         className="w-16 h-16 rounded-2xl object-cover ring-2 ring-sky-500/30 flex-shrink-0"
                       />
                       <div className="space-y-1 min-w-0">
-                        <div className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                        <div className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
                           {g.badge || (isAr ? 'مرشد معتمد' : 'Certified Guide')}
                         </div>
-                        <h3 className="text-base font-bold text-white truncate">
+                        <h3 className="text-base font-bold text-slate-900 truncate">
                           {isAr ? g.name : (g.nameEn || g.name)}
                         </h3>
-                        <p className="text-xs text-slate-400 line-clamp-1">
+                        <p className="text-xs text-slate-500 line-clamp-1">
                           {isAr ? g.specialty : (g.specialtyEn || g.specialty)}
                         </p>
                       </div>
                     </div>
 
                     {/* Stats & Languages */}
-                    <div className="grid grid-cols-2 gap-2 text-xs bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                    <div className="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-200">
                       <div>
                         <span className="text-slate-500 text-[10px] block">{isAr ? "تقييم سري" : "Rating"}</span>
-                        <div className="flex items-center gap-1 font-bold text-amber-400">
-                          <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                        <div className="flex items-center gap-1 font-bold text-amber-600">
+                          <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
                           <span>{stats.average} / 5</span>
-                          <span className="text-[10px] text-slate-500 font-normal">({stats.count})</span>
+                          <span className="text-[10px] text-slate-400 font-normal">({stats.count})</span>
                         </div>
                       </div>
                       <div>
                         <span className="text-slate-500 text-[10px] block">{isAr ? "اللغات" : "Languages"}</span>
-                        <span className="text-slate-300 font-semibold truncate block">
+                        <span className="text-slate-700 font-semibold truncate block">
                           {Array.isArray(g.languages) ? g.languages.join(' • ') : g.languages}
                         </span>
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
                       <button
                         onClick={() => setSelectedGuideForQR(g)}
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-sky-600/20 hover:bg-sky-600/30 text-sky-300 text-xs font-bold transition border border-sky-500/30"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-bold transition border border-sky-200"
                       >
                         <QrCode className="w-3.5 h-3.5" />
                         <span>{isAr ? "عرض الـ QR" : "Show QR"}</span>
@@ -1044,17 +1129,17 @@ export const AdminBookingsPage = () => {
                         onClick={() => copyGuideLink(g.id)}
                         className={`flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition border ${
                           isCopied 
-                            ? 'bg-emerald-600/20 border-emerald-500 text-emerald-300'
-                            : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-300'
+                            ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
+                            : 'bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-700'
                         }`}
                       >
-                        {isCopied ? <Check className="w-3.5 h-3.5" /> : <LinkIcon className="w-3.5 h-3.5" />}
+                        {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <LinkIcon className="w-3.5 h-3.5 text-slate-500" />}
                         <span>{isCopied ? (isAr ? "تم النسخ!" : "Copied!") : (isAr ? "نسخ الرابط" : "Copy Link")}</span>
                       </button>
 
                       <button
                         onClick={() => handleDeleteGuide(g.id, g.name)}
-                        className="p-2 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 transition border border-rose-900/50"
+                        className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 transition border border-rose-200"
                         title={isAr ? "حذف المرشد" : "Delete Guide"}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -1067,16 +1152,16 @@ export const AdminBookingsPage = () => {
 
             {/* Add Guide Modal */}
             {showAddGuideModal && (
-              <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-                <div className="bg-slate-900 rounded-3xl p-6 border border-slate-800 max-w-lg w-full space-y-5 shadow-2xl my-8">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                      <Plus className="w-5 h-5 text-sky-400" />
+              <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 text-slate-900 max-w-lg w-full space-y-5 shadow-2xl my-8">
+                  <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                      <Plus className="w-5 h-5 text-sky-600" />
                       {isAr ? "إضافة مرشد سياحي جديد" : "Add New Tour Guide"}
                     </h3>
                     <button 
                       onClick={() => setShowAddGuideModal(false)}
-                      className="text-slate-400 hover:text-white text-sm"
+                      className="text-slate-400 hover:text-slate-700 text-sm font-bold"
                     >
                       ✕
                     </button>
@@ -1084,65 +1169,65 @@ export const AdminBookingsPage = () => {
 
                   <form onSubmit={handleSaveGuide} className="space-y-4 text-xs">
                     <div>
-                      <label className="block text-slate-300 mb-1 font-bold">{isAr ? "اسم المرشد (بالعربي) *" : "Guide Name (Arabic) *"}</label>
+                      <label className="block text-slate-700 mb-1 font-bold">{isAr ? "اسم المرشد (بالعربي) *" : "Guide Name (Arabic) *"}</label>
                       <input 
                         type="text" 
                         required 
                         value={newGuide.name} 
                         onChange={(e) => setNewGuide(prev => ({ ...prev, name: e.target.value }))}
                         placeholder={isAr ? "مثال: كابتن أحمد السيناوي" : "e.g. Capt. Ahmed El-Sinawi"}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs"
+                        className="w-full bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-sky-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-slate-300 mb-1 font-bold">{isAr ? "اسم المرشد (بالإنجليزية)" : "Guide Name (English)"}</label>
+                      <label className="block text-slate-700 mb-1 font-bold">{isAr ? "اسم المرشد (بالإنجليزية)" : "Guide Name (English)"}</label>
                       <input 
                         type="text" 
                         value={newGuide.nameEn} 
                         onChange={(e) => setNewGuide(prev => ({ ...prev, nameEn: e.target.value }))}
                         placeholder="Capt. Ahmed El-Sinawi"
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs"
+                        className="w-full bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-sky-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-slate-300 mb-1 font-bold">{isAr ? "التخصص والرحلات" : "Specialty & Tours"}</label>
+                      <label className="block text-slate-700 mb-1 font-bold">{isAr ? "التخصص والرحلات" : "Specialty & Tours"}</label>
                       <input 
                         type="text" 
                         value={newGuide.specialty} 
                         onChange={(e) => setNewGuide(prev => ({ ...prev, specialty: e.target.value }))}
                         placeholder={isAr ? "مثال: رحلات سفاري الصحراء والبيتش باجي" : "e.g. Desert Safari & Quads"}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs"
+                        className="w-full bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-sky-500"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-slate-300 mb-1 font-bold">{isAr ? "اللغات (مفصولة بفاصلة)" : "Languages (comma separated)"}</label>
+                        <label className="block text-slate-700 mb-1 font-bold">{isAr ? "اللغات (مفصولة بفاصلة)" : "Languages (comma separated)"}</label>
                         <input 
                           type="text" 
                           value={newGuide.languages} 
                           onChange={(e) => setNewGuide(prev => ({ ...prev, languages: e.target.value }))}
                           placeholder="العربية, English, Italiano"
-                          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs"
+                          className="w-full bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-sky-500"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-300 mb-1 font-bold">{isAr ? "رقم الهاتف / الواتساب" : "Phone / WhatsApp"}</label>
+                        <label className="block text-slate-700 mb-1 font-bold">{isAr ? "رقم الهاتف / الواتساب" : "Phone / WhatsApp"}</label>
                         <input 
                           type="text" 
                           value={newGuide.phone} 
                           onChange={(e) => setNewGuide(prev => ({ ...prev, phone: e.target.value }))}
                           placeholder="+201100777330"
-                          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs font-mono"
+                          className="w-full bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-sky-500"
                         />
                       </div>
                     </div>
 
                     {/* Photo upload / URL */}
                     <div className="space-y-2">
-                      <label className="block text-slate-300 font-bold">{isAr ? "صورة المرشد الشخصية" : "Guide Profile Photo"}</label>
+                      <label className="block text-slate-700 font-bold">{isAr ? "صورة المرشد الشخصية" : "Guide Profile Photo"}</label>
                       <div className="flex items-center gap-3">
                         {newGuide.photo && (
                           <img 
@@ -1151,8 +1236,8 @@ export const AdminBookingsPage = () => {
                             className="w-12 h-12 rounded-xl object-cover ring-2 ring-sky-500"
                           />
                         )}
-                        <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition">
-                          <Upload className="w-4 h-4 text-sky-400" />
+                        <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 font-bold transition">
+                          <Upload className="w-4 h-4 text-sky-600" />
                           <span>{isAr ? "رفع صورة من جهازك" : "Upload File"}</span>
                           <input 
                             type="file" 
@@ -1168,16 +1253,17 @@ export const AdminBookingsPage = () => {
                         value={newGuide.photo} 
                         onChange={(e) => setNewGuide(prev => ({ ...prev, photo: e.target.value }))}
                         placeholder="https://..."
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs font-mono"
+                        className="w-full bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-sky-500"
                       />
                     </div>
 
-                    <div className="pt-3 border-t border-slate-800 flex justify-end gap-2">
+                    <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
                       <Button 
                         type="button" 
                         variant="outline" 
                         size="sm" 
                         onClick={() => setShowAddGuideModal(false)}
+                        className="border-slate-300 text-slate-700 hover:bg-slate-100"
                       >
                         {isAr ? "إلغاء" : "Cancel"}
                       </Button>
@@ -1186,6 +1272,7 @@ export const AdminBookingsPage = () => {
                         variant="primary" 
                         size="sm" 
                         icon={CheckCircle2}
+                        className="bg-sky-600 hover:bg-sky-700 text-white"
                       >
                         {isAr ? "حفظ المرشد" : "Save Guide"}
                       </Button>
@@ -1197,21 +1284,21 @@ export const AdminBookingsPage = () => {
 
             {/* QR Modal for Guide */}
             {selectedGuideForQR && (
-              <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-                <div className="bg-slate-900 rounded-3xl p-6 border border-slate-800 max-w-sm w-full text-center space-y-4 shadow-2xl">
-                  <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                    <h3 className="font-bold text-white text-sm">
+              <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 text-slate-900 max-w-sm w-full text-center space-y-4 shadow-2xl">
+                  <div className="flex justify-between items-center border-b border-slate-200 pb-3">
+                    <h3 className="font-bold text-slate-900 text-sm">
                       {isAr ? `كيوار كود تقييم: ${selectedGuideForQR.name}` : `QR Review: ${selectedGuideForQR.name}`}
                     </h3>
                     <button 
                       onClick={() => setSelectedGuideForQR(null)}
-                      className="text-slate-400 hover:text-white text-sm"
+                      className="text-slate-400 hover:text-slate-700 text-sm font-bold"
                     >
                       ✕
                     </button>
                   </div>
 
-                  <div className="bg-white p-4 rounded-2xl inline-block shadow-md">
+                  <div className="bg-slate-50 p-4 rounded-2xl inline-block border border-slate-200 shadow-inner">
                     <QRCodeSVG 
                       value={`${window.location.origin}/review-guide?guideId=${selectedGuideForQR.id}`}
                       size={200}
@@ -1220,7 +1307,7 @@ export const AdminBookingsPage = () => {
                     />
                   </div>
 
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500">
                     {isAr 
                       ? "يقوم السائح بمسح هذا الكود بكاميرا الموبايل لتقييم هذا المرشد مباشرة وبسرية تامة للأدمن."
                       : "Scan with any smartphone camera to submit private feedback."}
@@ -1231,16 +1318,16 @@ export const AdminBookingsPage = () => {
                       href={`${window.location.origin}/review-guide?guideId=${selectedGuideForQR.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition shadow-xs"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       <span>{isAr ? "فتح صفحة التقييم" : "Open Page"}</span>
                     </a>
                     <button
                       onClick={() => copyGuideLink(selectedGuideForQR.id)}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition border border-slate-700"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition border border-slate-200"
                     >
-                      <LinkIcon className="w-3.5 h-3.5" />
+                      <LinkIcon className="w-3.5 h-3.5 text-slate-500" />
                       <span>{isAr ? "نسخ الرابط" : "Copy Link"}</span>
                     </button>
                   </div>
@@ -1255,16 +1342,16 @@ export const AdminBookingsPage = () => {
         {/* ======================================================== */}
         {activeTab === 'reviews' && (
           <div className="space-y-6">
-            <div className="bg-amber-950/20 border border-amber-500/30 rounded-3xl p-6 space-y-4">
+            <div className="bg-amber-50/70 border border-amber-200 rounded-3xl p-6 space-y-4 shadow-xs">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-2xl bg-amber-500/20 text-amber-400">
-                  <Star className="w-6 h-6 fill-amber-400" />
+                <div className="p-2.5 rounded-2xl bg-amber-100 text-amber-700">
+                  <Star className="w-6 h-6 fill-amber-500 text-amber-500" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold font-heading text-white">
+                  <h2 className="text-xl font-bold font-heading text-slate-900">
                     {isAr ? "تقييمات المرشدين السياحيين السرية (خاصة بالإدارة فقط)" : "Confidential Tour Guide Reviews (Admin Only)"}
                   </h2>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500">
                     {isAr 
                       ? "هذه التقييمات لا تظهر للجمهور في الموقع. يرسلها العملاء بعد انتهاء الرحلة لتقييم أداء كل مرشد بشفافية."
                       : "These reviews are strictly confidential to the admin and do not appear on the public website."}
@@ -1273,14 +1360,14 @@ export const AdminBookingsPage = () => {
               </div>
 
               {/* Guide Filter Selector */}
-              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-amber-500/20">
-                <span className="text-xs text-slate-400 font-bold">{isAr ? "تصفية حسب المرشد:" : "Filter by guide:"}</span>
+              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-amber-200">
+                <span className="text-xs text-slate-600 font-bold">{isAr ? "تصفية حسب المرشد:" : "Filter by guide:"}</span>
                 <button
                   onClick={() => setSelectedGuideFilter('ALL')}
                   className={`px-3 py-1 rounded-xl text-xs font-bold transition ${
                     selectedGuideFilter === 'ALL'
-                      ? 'bg-amber-500 text-slate-950 font-black'
-                      : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
+                      ? 'bg-amber-500 text-white font-black shadow-xs'
+                      : 'bg-white text-slate-700 hover:bg-amber-50 border border-slate-200'
                   }`}
                 >
                   {isAr ? "جميع المرشدين" : "All Guides"} ({guideReviews.length})
@@ -1291,8 +1378,8 @@ export const AdminBookingsPage = () => {
                     onClick={() => setSelectedGuideFilter(g.id)}
                     className={`px-3 py-1 rounded-xl text-xs font-bold transition ${
                       selectedGuideFilter === g.id
-                        ? 'bg-amber-500 text-slate-950 font-black'
-                        : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
+                        ? 'bg-amber-500 text-white font-black shadow-xs'
+                        : 'bg-white text-slate-700 hover:bg-amber-50 border border-slate-200'
                     }`}
                   >
                     {isAr ? g.name : (g.nameEn || g.name)} ({guideReviews.filter(r => r.guideId === g.id).length})
@@ -1309,9 +1396,9 @@ export const AdminBookingsPage = () => {
 
               if (displayedReviews.length === 0) {
                 return (
-                  <div className="bg-slate-900/60 rounded-3xl p-12 text-center border border-slate-800 space-y-3">
-                    <Star className="w-12 h-12 text-slate-600 mx-auto" />
-                    <h3 className="text-lg font-bold text-slate-300">
+                  <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-3 shadow-xs">
+                    <Star className="w-12 h-12 text-slate-400 mx-auto" />
+                    <h3 className="text-lg font-bold text-slate-800">
                       {isAr ? "لا توجد تقييمات مسجلة للمرشدين حتى الآن" : "No guide reviews yet"}
                     </h3>
                     <p className="text-xs text-slate-500 max-w-md mx-auto">
@@ -1330,14 +1417,14 @@ export const AdminBookingsPage = () => {
                     const waLink = rev.clientPhone ? getWhatsAppLink(rev.clientPhone, `مرحباً ${rev.clientName || 'عزيزي العميل'}، شكراً لتقييمك لرحلتنا مع ${rev.guideName || 'مرشدنا'}`) : null;
 
                     return (
-                      <div key={rev.id} className="bg-slate-900/90 rounded-3xl p-5 border border-slate-800 space-y-4 shadow-lg hover:border-slate-700 transition">
-                        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                      <div key={rev.id} className="bg-white rounded-3xl p-5 border border-slate-200 space-y-4 shadow-sm hover:shadow-md hover:border-slate-300 transition">
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                           <div className="flex items-center gap-2.5">
                             {guideObj?.photo && (
                               <img src={guideObj.photo} alt="" className="w-9 h-9 rounded-full object-cover ring-1 ring-amber-400" />
                             )}
                             <div>
-                              <span className="font-bold text-white text-sm block">
+                              <span className="font-bold text-slate-900 text-sm block">
                                 {rev.guideName || guideObj?.name || 'المرشد'}
                               </span>
                               <span className="text-[10px] text-slate-400">
@@ -1346,47 +1433,47 @@ export const AdminBookingsPage = () => {
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 font-black text-sm">
-                            <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 font-black text-sm">
+                            <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
                             <span>{rev.rating} / 5</span>
                           </div>
                         </div>
 
                         {/* Detailed Sub-Ratings */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] bg-slate-950 p-2.5 rounded-2xl border border-slate-800">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] bg-slate-50 p-2.5 rounded-2xl border border-slate-200">
                           <div className="text-center p-1">
                             <span className="text-slate-500 block text-[10px]">{isAr ? "المواعيد" : "Punctual"}</span>
-                            <span className="font-bold text-amber-400">★ {rev.punctuality || 5}</span>
+                            <span className="font-bold text-amber-600">★ {rev.punctuality || 5}</span>
                           </div>
                           <div className="text-center p-1">
                             <span className="text-slate-500 block text-[10px]">{isAr ? "المعلومات" : "Knowledge"}</span>
-                            <span className="font-bold text-amber-400">★ {rev.knowledge || 5}</span>
+                            <span className="font-bold text-amber-600">★ {rev.knowledge || 5}</span>
                           </div>
                           <div className="text-center p-1">
                             <span className="text-slate-500 block text-[10px]">{isAr ? "الضيافة" : "Hospitality"}</span>
-                            <span className="font-bold text-amber-400">★ {rev.hospitality || 5}</span>
+                            <span className="font-bold text-amber-600">★ {rev.hospitality || 5}</span>
                           </div>
                           <div className="text-center p-1">
                             <span className="text-slate-500 block text-[10px]">{isAr ? "الأمان" : "Safety"}</span>
-                            <span className="font-bold text-amber-400">★ {rev.safety || 5}</span>
+                            <span className="font-bold text-amber-600">★ {rev.safety || 5}</span>
                           </div>
                         </div>
 
                         {/* Client Feedback Comment */}
                         {(rev.feedback || rev.comment) && (
-                          <div className="p-3 bg-slate-950/80 rounded-2xl border border-slate-800 text-xs text-slate-300 italic">
+                          <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-700 italic">
                             "{rev.feedback || rev.comment}"
                           </div>
                         )}
 
                         {/* Client Info & Action */}
-                        <div className="flex items-center justify-between pt-2 border-t border-slate-800 text-xs">
+                        <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
                           <div>
-                            <span className="text-slate-400 font-bold block">
+                            <span className="text-slate-800 font-bold block">
                               {rev.clientName || (isAr ? 'عميل بدون اسم' : 'Anonymous Guest')}
                             </span>
                             {rev.clientPhone && (
-                              <span className="text-emerald-400 font-mono text-[11px]">
+                              <span className="text-emerald-700 font-mono text-[11px]">
                                 {rev.clientPhone}
                               </span>
                             )}
@@ -1402,7 +1489,7 @@ export const AdminBookingsPage = () => {
                             )}
                             <button
                               onClick={() => handleDeleteGuideReview(rev.id)}
-                              className="p-2 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 transition border border-rose-900/50"
+                              className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 transition border border-rose-200"
                               title={isAr ? "حذف التقييم" : "Delete Review"}
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -1423,13 +1510,13 @@ export const AdminBookingsPage = () => {
         {/* ======================================================== */}
         {activeTab === 'prices' && (
           <div className="space-y-6">
-            <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="bg-emerald-50/70 border border-emerald-200 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
               <div>
-                <h2 className="text-xl font-bold font-heading text-white flex items-center gap-2">
-                  <DollarSign className="w-5 h-5 text-emerald-400" />
+                <h2 className="text-xl font-bold font-heading text-slate-900 flex items-center gap-2">
+                  <DollarSign className="w-5 h-5 text-emerald-600" />
                   {isAr ? "تعديل أسعار الرحلات الفوري (بدون باك إند)" : "Live Tour Price Editor (No Backend)"}
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   {isAr 
                     ? "أي سعر تقوم بتعديله هنا يُحفظ مباشرة في متصفح العميل ويظهر في كافة صفحات وتفاصيل الرحلة بدون الحاجة لأي خادم."
                     : "Prices modified here take effect instantly across all pages and experience details with zero backend needed."}
@@ -1441,7 +1528,7 @@ export const AdminBookingsPage = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={handleResetAllPrices}
-                  className="text-rose-400 border-rose-900/50 hover:bg-rose-950/50"
+                  className="text-rose-600 border-rose-200 hover:bg-rose-50 bg-white"
                   icon={RefreshCw}
                 >
                   {isAr ? "استعادة كافة الأسعار الأصلية" : "Reset All to Default"}
@@ -1458,7 +1545,7 @@ export const AdminBookingsPage = () => {
                   placeholder={isAr ? "بحث في الرحلات لتعديل سعرها..." : "Search tour to edit price..."}
                   value={tourSearchTerm}
                   onChange={(e) => setTourSearchTerm(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-2xl pr-10 pl-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-white border border-slate-200 rounded-2xl pr-10 pl-4 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 shadow-xs"
                 />
               </div>
 
@@ -1468,8 +1555,8 @@ export const AdminBookingsPage = () => {
                   onClick={() => setTourCategoryFilter('ALL')}
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
                     tourCategoryFilter === 'ALL'
-                      ? 'bg-emerald-500 text-slate-950 font-black'
-                      : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                      ? 'bg-emerald-600 text-white font-black shadow-xs'
+                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                   }`}
                 >
                   {isAr ? "الكل" : "All"} ({EXPERIENCES.length})
@@ -1480,8 +1567,8 @@ export const AdminBookingsPage = () => {
                     onClick={() => setTourCategoryFilter(cat)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
                       tourCategoryFilter === cat
-                        ? 'bg-emerald-500 text-slate-950 font-black'
-                        : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                        ? 'bg-emerald-600 text-white font-black shadow-xs'
+                        : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                     }`}
                   >
                     {cat}
@@ -1491,10 +1578,10 @@ export const AdminBookingsPage = () => {
             </div>
 
             {/* Tours Price Table */}
-            <div className="bg-slate-900/90 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
+            <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-right text-xs">
-                  <thead className="bg-slate-950 text-slate-400 border-b border-slate-800 uppercase font-bold text-[11px]">
+                  <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 uppercase font-bold text-[11px]">
                     <tr>
                       <th className="p-4">{isAr ? "الرحلة" : "Tour"}</th>
                       <th className="p-4">{isAr ? "القسم" : "Category"}</th>
@@ -1503,7 +1590,7 @@ export const AdminBookingsPage = () => {
                       <th className="p-4 text-center">{isAr ? "تعديل وحفظ" : "Action"}</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/80">
+                  <tbody className="divide-y divide-slate-100">
                     {filteredExperiences.map((tour) => {
                       const originalDefault = EXPERIENCES.find(e => e.slug === tour.slug)?.startingPrice || tour.startingPrice;
                       const activeCustom = customPrices[tour.slug] !== undefined ? customPrices[tour.slug] : null;
@@ -1513,48 +1600,48 @@ export const AdminBookingsPage = () => {
                       const isSaved = priceSaveSuccess[tour.slug];
 
                       return (
-                        <tr key={tour.slug} className="hover:bg-slate-800/40 transition">
+                        <tr key={tour.slug} className="hover:bg-slate-50/80 transition">
                           <td className="p-4 flex items-center gap-3">
                             <img 
                               src={tour.images?.[0] || '/images/default.jpg'} 
                               alt="" 
-                              className="w-12 h-12 rounded-xl object-cover ring-1 ring-slate-700 flex-shrink-0"
+                              className="w-12 h-12 rounded-xl object-cover ring-1 ring-slate-200 flex-shrink-0 shadow-xs"
                             />
                             <div className="min-w-0">
-                              <span className="font-bold text-white block truncate max-w-xs">
+                              <span className="font-bold text-slate-900 block truncate max-w-xs">
                                 {tour.title}
                               </span>
-                              <span className="text-[10px] text-slate-500 font-mono">
+                              <span className="text-[10px] text-slate-400 font-mono">
                                 {tour.slug}
                               </span>
                             </div>
                           </td>
 
                           <td className="p-4">
-                            <span className="px-2 py-0.5 rounded-lg bg-slate-800 text-slate-300 font-semibold text-[11px]">
+                            <span className="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 font-semibold text-[11px] border border-slate-200">
                               {tour.categoryLabel || tour.category}
                             </span>
                           </td>
 
-                          <td className="p-4 text-center font-bold text-slate-400">
+                          <td className="p-4 text-center font-bold text-slate-500">
                             ${originalDefault} USD
                           </td>
 
                           <td className="p-4 text-center">
                             <div className="inline-flex items-center gap-1.5">
-                              <span className="text-emerald-400 font-bold">$</span>
+                              <span className="text-emerald-600 font-bold">$</span>
                               <input
                                 type="number"
                                 min="1"
                                 max="9999"
                                 value={currentValueInput}
                                 onChange={(e) => handlePriceChange(tour.slug, e.target.value)}
-                                className="w-20 bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 text-center font-bold text-white text-xs focus:outline-none focus:border-emerald-500"
+                                className="w-20 bg-slate-50 border border-slate-300 rounded-xl px-2 py-1 text-center font-bold text-slate-900 text-xs focus:outline-none focus:border-emerald-500 focus:bg-white"
                               />
                               <span className="text-slate-400 text-[10px]">USD</span>
                             </div>
                             {activeCustom !== null && (
-                              <span className="block text-[10px] text-emerald-400 font-bold mt-1">
+                              <span className="block text-[10px] text-emerald-600 font-bold mt-1">
                                 {isAr ? "مُعدّل من الإدارة" : "Customized"}
                               </span>
                             )}
@@ -1566,8 +1653,8 @@ export const AdminBookingsPage = () => {
                                 onClick={() => handleSaveSinglePrice(tour.slug)}
                                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition inline-flex items-center gap-1 ${
                                   isSaved
-                                    ? 'bg-emerald-600 text-white'
-                                    : 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30'
+                                    ? 'bg-emerald-600 text-white shadow-xs'
+                                    : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200'
                                 }`}
                               >
                                 {isSaved ? <Check className="w-3.5 h-3.5" /> : <DollarSign className="w-3.5 h-3.5" />}
@@ -1577,7 +1664,7 @@ export const AdminBookingsPage = () => {
                               {activeCustom !== null && (
                                 <button
                                   onClick={() => handleResetSinglePrice(tour.slug, originalDefault)}
-                                  className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition"
+                                  className="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition border border-slate-200"
                                   title={isAr ? "استعادة السعر الافتراضي" : "Reset to default"}
                                 >
                                   <RefreshCw className="w-3.5 h-3.5" />
@@ -1596,20 +1683,25 @@ export const AdminBookingsPage = () => {
         )}
 
         {/* ======================================================== */}
-        {/* TAB 5: WEBSITE PHOTOS MANAGER (NO BACKEND)               */}
+        {/* TAB 5: WEBSITE PHOTOS MANAGER (FOLDER SYSTEM)            */}
         {/* ======================================================== */}
         {activeTab === 'photos' && (
           <div className="space-y-6">
-            <div className="bg-purple-950/20 border border-purple-500/30 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <h2 className="text-xl font-bold font-heading text-white flex items-center gap-2">
-                  <ImageIcon className="w-5 h-5 text-purple-400" />
-                  {isAr ? "إدارة ورفع صور الموقع المباشرة (بدون باك إند)" : "Live Website Photo & Media Manager (No Backend)"}
+            {/* Folder Manager Header */}
+            <div className="bg-gradient-to-r from-purple-50 via-white to-pink-50 border border-purple-200/80 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-800 font-bold text-xs">
+                  <FolderOpen className="w-3.5 h-3.5 text-purple-600" />
+                  <span>{isAr ? "نظام الفولدرات والأقسام المباشرة" : "Live Folder Categories System"}</span>
+                </div>
+                <h2 className="text-xl md:text-2xl font-black font-heading text-slate-900 flex items-center gap-2">
+                  <ImageIcon className="w-6 h-6 text-purple-600" />
+                  {isAr ? "إدارة ورفع صور الموقع المباشرة" : "Live Website Photos Manager"}
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   {isAr 
-                    ? "اختر أي رحلة، وارفع صورة جديدة من جهازك أو الصق رابط صورة، وسيتم استبدال الصورة تلقائياً في كل صفحات الموقع."
-                    : "Upload images from your computer or paste direct image URLs. Persisted directly in client storage without an API."}
+                    ? "اختر الفولدر المناسب (سفاري، بحر، سيناء، تنقلات) ثم اضغط على الرحلة المطلوبة وارفع صورتها فوراً بدون باك إند."
+                    : "Select a folder (Safari, Sea, Sinai, Transfers), choose a tour, and upload or paste photos with real-time website updates."}
                 </p>
               </div>
 
@@ -1618,7 +1710,7 @@ export const AdminBookingsPage = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={handleResetAllTourPhotos}
-                  className="text-rose-400 border-rose-900/50 hover:bg-rose-950/50"
+                  className="bg-white hover:bg-rose-50 border-rose-200 text-rose-600 shadow-xs"
                   icon={RefreshCw}
                 >
                   {isAr ? "استعادة كافة الصور الأصلية" : "Reset All Photos"}
@@ -1626,66 +1718,140 @@ export const AdminBookingsPage = () => {
               </div>
             </div>
 
+            {/* Folder Selector Navigation Bar */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+              {PHOTO_FOLDERS.map((folder) => {
+                const isCurrent = photoFolderFilter === folder.id;
+                const folderToursCount = localizedExperiences.filter(folder.filter).length;
+                return (
+                  <button
+                    key={folder.id}
+                    onClick={() => {
+                      setPhotoFolderFilter(folder.id);
+                      const firstInFolder = localizedExperiences.find(folder.filter);
+                      if (firstInFolder) {
+                        setSelectedTourForPhoto(firstInFolder.slug);
+                        setPhotoInputUrl('');
+                        setPhotoPreviewUrl('');
+                      }
+                    }}
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition whitespace-nowrap border ${
+                      isCurrent
+                        ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/20 ring-2 ring-purple-400/30'
+                        : 'bg-white text-slate-700 hover:bg-purple-50 hover:text-purple-700 border-slate-200 shadow-xs'
+                    }`}
+                  >
+                    <span className="text-base">{folder.icon}</span>
+                    <span>{isAr ? folder.nameAr : folder.nameEn}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                      isCurrent ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+                    }`}>
+                      {folderToursCount}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
             {/* Photo Editor Interface */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Left Selector Column */}
-              <div className="bg-slate-900/90 rounded-3xl p-5 border border-slate-800 space-y-4">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-purple-400" />
-                  {isAr ? "اختر الرحلة المطلوب تغيير صورتها" : "Select Tour to Modify"}
-                </h3>
+              {/* Left Selector Column (Tours inside selected folder) */}
+              <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
+                <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                  <h3 className="text-xs font-bold text-slate-800 flex items-center gap-2">
+                    <Folder className="w-4 h-4 text-purple-600" />
+                    <span>{isAr ? currentPhotoFolderObj.nameAr : currentPhotoFolderObj.nameEn}</span>
+                    <span className="px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 text-[11px] font-mono">
+                      ({photoFilteredExperiences.length})
+                    </span>
+                  </h3>
+                </div>
 
+                {/* Quick Search inside folder */}
+                <div className="relative">
+                  <Search className="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-3 text-slate-600" />
+                  <input
+                    type="text"
+                    value={photoSearchQuery}
+                    onChange={(e) => setPhotoSearchQuery(e.target.value)}
+                    placeholder={isAr ? "ابحث باسم الرحلة داخل الفولدر..." : "Search inside folder..."}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-600 focus:outline-none focus:border-purple-500 focus:bg-white transition"
+                  />
+                </div>
+
+                {/* Tours List inside this folder */}
                 <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
-                  {EXPERIENCES.map((tour) => {
-                    const isSelected = selectedTourForPhoto === tour.slug || (!selectedTourForPhoto && tour === EXPERIENCES[0]);
-                    const hasCustom = Boolean(customImages[tour.slug]);
+                  {photoFilteredExperiences.length === 0 ? (
+                    <div className="p-6 text-center text-xs text-slate-600">
+                      {isAr ? "لا توجد رحلات مطابقة في هذا الفولدر" : "No tours match in this folder"}
+                    </div>
+                  ) : (
+                    photoFilteredExperiences.map((tour) => {
+                      const isSelected = activeSelectedTour?.slug === tour.slug;
+                      const hasCustom = Boolean(customImages[tour.slug]);
 
-                    return (
-                      <button
-                        key={tour.slug}
-                        onClick={() => {
-                          setSelectedTourForPhoto(tour.slug);
-                          setPhotoInputUrl('');
-                          setPhotoPreviewUrl('');
-                        }}
-                        className={`w-full text-right p-2.5 rounded-2xl flex items-center gap-3 transition border ${
-                          isSelected
-                            ? 'bg-purple-600/20 border-purple-500/60 text-white'
-                            : 'bg-slate-950/60 hover:bg-slate-800/60 border-slate-800 text-slate-300'
-                        }`}
-                      >
-                        <img 
-                          src={tour.images?.[0] || '/images/default.jpg'} 
-                          alt="" 
-                          className="w-10 h-10 rounded-xl object-cover ring-1 ring-slate-700 flex-shrink-0"
-                        />
-                        <div className="min-w-0 flex-1">
-                          <span className="font-bold text-xs truncate block">{tour.title}</span>
-                          <span className="text-[10px] text-slate-500 block">{tour.category}</span>
-                        </div>
-                        {hasCustom && (
-                          <span className="w-2 h-2 rounded-full bg-purple-400 flex-shrink-0" title="Customized photo active" />
-                        )}
-                      </button>
-                    );
-                  })}
+                      return (
+                        <button
+                          key={tour.slug}
+                          onClick={() => {
+                            setSelectedTourForPhoto(tour.slug);
+                            setPhotoInputUrl('');
+                            setPhotoPreviewUrl('');
+                          }}
+                          className={`w-full text-right p-3 rounded-2xl flex items-center gap-3 transition border ${
+                            isSelected
+                              ? 'bg-purple-50 border-purple-500 text-purple-950 ring-2 ring-purple-400/20 shadow-xs'
+                              : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-800 shadow-2xs'
+                          }`}
+                        >
+                          <img 
+                            src={tour.images?.[0] || '/images/default.jpg'} 
+                            alt="" 
+                            className="w-12 h-12 rounded-xl object-cover ring-1 ring-slate-200 flex-shrink-0 shadow-xs"
+                          />
+                          <div className="min-w-0 flex-1">
+                            <span className="font-bold text-xs text-slate-900 block leading-snug">
+                              {tour.title}
+                            </span>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-semibold">
+                                {tour.categoryLabel || tour.category}
+                              </span>
+                              {hasCustom && (
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 font-bold">
+                                  {isAr ? "صورة مخصصة" : "Custom"}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })
+                  )}
                 </div>
               </div>
 
               {/* Right Preview and Upload Controls */}
-              <div className="lg:col-span-2 bg-slate-900/90 rounded-3xl p-6 border border-slate-800 space-y-6">
-                <div>
-                  <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider block mb-1">
-                    {activeSelectedTour?.categoryLabel || activeSelectedTour?.category}
+              <div className="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+                {/* Visual Breadcrumb Location Tracker */}
+                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 via-sky-50 to-white border border-purple-200 flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2 text-xs font-bold text-purple-900">
+                    <FolderOpen className="w-4 h-4 text-purple-600 shrink-0" />
+                    <span className="text-slate-600">{isAr ? "مسار الرفع المحدد:" : "Upload Location:"}</span>
+                    <span className="px-2.5 py-1 rounded-xl bg-white border border-purple-200 text-purple-700 shadow-xs">
+                      {activeSelectedFolder.icon} {isAr ? activeSelectedFolder.nameAr : activeSelectedFolder.nameEn}
+                    </span>
+                    <span className="text-slate-600">&larr;</span>
+                    <span className="text-slate-900 font-black">{activeSelectedLocalized?.title}</span>
+                  </div>
+                  <span className="text-[11px] text-slate-500 font-mono bg-white px-2 py-0.5 rounded-md border border-slate-200">
+                    ID: {activeSelectedTour?.slug}
                   </span>
-                  <h3 className="text-xl font-black text-white">
-                    {activeSelectedTour?.title}
-                  </h3>
                 </div>
 
                 {photoSaveSuccess && (
-                  <div className="p-3 bg-emerald-500/20 border border-emerald-500/40 rounded-xl text-emerald-300 text-xs font-bold flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     {isAr ? "تم تحديث وحفظ صورة الرحلة بنجاح في كل الموقع!" : "Tour image updated successfully across the entire site!"}
                   </div>
                 )}
@@ -1694,10 +1860,10 @@ export const AdminBookingsPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Current Active Image */}
                   <div className="space-y-2">
-                    <span className="text-xs font-bold text-slate-400 block">
+                    <span className="text-xs font-bold text-slate-600 block">
                       {isAr ? "الصورة الحالية الفعالة في الموقع:" : "Currently Active on Site:"}
                     </span>
-                    <div className="aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 relative group">
+                    <div className="aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 relative group shadow-inner">
                       <img 
                         src={activeSelectedTour?.images?.[0] || '/images/default.jpg'} 
                         alt="Current" 
@@ -1713,10 +1879,10 @@ export const AdminBookingsPage = () => {
 
                   {/* New Upload / URL Preview */}
                   <div className="space-y-2">
-                    <span className="text-xs font-bold text-purple-400 block">
+                    <span className="text-xs font-bold text-purple-700 block">
                       {isAr ? "معاينة الصورة الجديدة قبل الحفظ:" : "New Image Preview:"}
                     </span>
-                    <div className="aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-dashed border-purple-500/50 flex items-center justify-center relative">
+                    <div className="aspect-video rounded-2xl overflow-hidden bg-purple-50/40 border-2 border-dashed border-purple-300 flex items-center justify-center relative">
                       {photoPreviewUrl || photoInputUrl ? (
                         <img 
                           src={photoPreviewUrl || photoInputUrl} 
@@ -1724,9 +1890,9 @@ export const AdminBookingsPage = () => {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="text-center p-4 space-y-2 text-slate-500">
-                          <Upload className="w-8 h-8 mx-auto text-slate-600" />
-                          <span className="text-xs block">{isAr ? "ارفع صورة أو الصق رابطاً للمعاينة" : "Upload or paste URL to preview"}</span>
+                        <div className="text-center p-4 space-y-2 text-slate-600">
+                          <Upload className="w-8 h-8 mx-auto text-purple-400" />
+                          <span className="text-xs font-medium block">{isAr ? "اختر صورة أو الصق رابطاً للمعاينة هنا" : "Upload or paste URL to preview"}</span>
                         </div>
                       )}
                     </div>
@@ -1734,9 +1900,9 @@ export const AdminBookingsPage = () => {
                 </div>
 
                 {/* Upload & Link Controls */}
-                <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-4">
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
                   <div className="flex flex-col sm:flex-row items-center gap-3">
-                    <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition shadow-lg shadow-purple-900/30">
+                    <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition shadow-md shadow-purple-600/20">
                       <Upload className="w-4 h-4" />
                       <span>{isAr ? "اختر صورة من جهازك (ملف)" : "Upload File From Computer"}</span>
                       <input 
@@ -1746,29 +1912,29 @@ export const AdminBookingsPage = () => {
                         className="hidden" 
                       />
                     </label>
-                    <span className="text-xs text-slate-500 font-bold">{isAr ? "أو" : "or"}</span>
+                    <span className="text-xs text-slate-600 font-bold">{isAr ? "أو" : "or"}</span>
                     <div className="relative flex-1 w-full">
-                      <LinkIcon className="w-3.5 h-3.5 absolute top-1/2 -translate-y-1/2 right-3 text-slate-500" />
+                      <LinkIcon className="w-3.5 h-3.5 absolute top-1/2 -translate-y-1/2 right-3 text-slate-600" />
                       <input
                         type="url"
                         placeholder={isAr ? "الصق رابط صورة مباشر https://..." : "Paste image URL https://..."}
                         value={photoInputUrl}
                         onChange={(e) => setPhotoInputUrl(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl pr-9 pl-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-mono"
+                        className="w-full bg-white border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-600 focus:outline-none focus:border-purple-500 font-mono shadow-xs"
                       />
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-3 border-t border-slate-800/80">
-                    <div className="text-[11px] text-slate-400">
-                      {isAr ? "يتم حفظ الصورة بصيغة بيانات مشفرة في التخزين المحلي." : "Stored securely in client state with real-time site reactivity."}
+                  <div className="flex items-center justify-between pt-3 border-t border-slate-200">
+                    <div className="text-[11px] text-slate-500">
+                      {isAr ? "يتم حفظ الصورة بصيغة بيانات مشفرة في التخزين المحلي للمتصفح مباشرة." : "Stored securely in client state with real-time site reactivity."}
                     </div>
 
                     <div className="flex items-center gap-2">
                       {customImages[activeSelectedTour?.slug] && (
                         <button
                           onClick={() => handleResetTourPhoto(activeSelectedTour?.slug)}
-                          className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition border border-slate-700"
+                          className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition border border-slate-200"
                         >
                           {isAr ? "استعادة الصورة الأصلية" : "Reset Original"}
                         </button>
@@ -1778,6 +1944,7 @@ export const AdminBookingsPage = () => {
                         size="sm"
                         onClick={handleSaveTourPhoto}
                         icon={CheckCircle2}
+                        className="bg-[#0284C7] hover:bg-[#0369A1] text-white shadow-md shadow-sky-600/20"
                       >
                         {isAr ? "تطبيق وحفظ الصورة للرحلة" : "Apply & Save Photo"}
                       </Button>
@@ -1796,17 +1963,17 @@ export const AdminBookingsPage = () => {
         {activeTab === 'team' && (
           <div className="space-y-6">
             {/* Top Bar for Team Management */}
-            <div className="bg-slate-900/90 backdrop-blur-md rounded-3xl p-6 border border-slate-800 space-y-4 shadow-xl">
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 space-y-4 shadow-sm">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 font-bold text-xs uppercase tracking-wider mb-2">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold text-xs uppercase tracking-wider mb-2">
                     <ShieldCheck className="w-4 h-4" />
                     {isAr ? "فريق الإدارة والمشرفين (Client-Side)" : "Admin & Moderator Team"}
                   </div>
-                  <h2 className="text-xl md:text-2xl font-black font-heading text-white">
+                  <h2 className="text-xl md:text-2xl font-black font-heading text-slate-900">
                     {isAr ? "إدارة حسابات المسؤولين والمشرفين" : "Admin & Moderator Accounts"}
                   </h2>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500">
                     {isAr
                       ? "يمكنك تعيين مشرفين إضافيين مع تحديد بيانات الدخول (البريد الإلكتروني وكلمة المرور) وتعيين الصلاحيات الخاصة بهم بدون سيرفر باك إند."
                       : "Add and manage moderators with their own email, password, and permissions stored safely in your browser."}
@@ -1819,7 +1986,7 @@ export const AdminBookingsPage = () => {
                     size="sm"
                     onClick={() => setShowAddModModal(true)}
                     icon={UserPlus}
-                    className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20"
                   >
                     {isAr ? "إضافة مشرف جديد" : "Add Moderator"}
                   </Button>
@@ -1827,15 +1994,15 @@ export const AdminBookingsPage = () => {
               </div>
 
               {/* Quick Info Alert */}
-              <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-800/40 text-indigo-200 text-xs flex items-start gap-3">
-                <Crown className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <div className="p-4 rounded-2xl bg-indigo-50/80 border border-indigo-200 text-indigo-900 text-xs flex items-start gap-3">
+                <Crown className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <span className="font-bold text-white block">
+                  <span className="font-bold text-slate-900 block">
                     {isAr ? "الحساب الأساسي للمدير (غير قابل للحذف):" : "Master Admin Account (Protected):"}
                   </span>
-                  <p className="text-slate-300">
+                  <p className="text-slate-600">
                     {isAr ? "البريد الإلكتروني الأساسي للأدمن هو " : "Primary Admin email is "}
-                    <span className="text-amber-300 font-mono font-bold">ahmedyasser697@gmail.com</span>
+                    <span className="text-amber-700 font-mono font-bold">ahmedyasser697@gmail.com</span>
                     {isAr ? " ولديه صلاحيات كاملة في لوحة التحكم وتغيير الأسعار والصور وإدارة المشرفين." : " with full command access."}
                   </p>
                 </div>
@@ -1853,25 +2020,25 @@ export const AdminBookingsPage = () => {
                     key={user.id}
                     className={`rounded-3xl p-5 border relative overflow-hidden transition-all duration-300 flex flex-col justify-between ${
                       isUserPrimary
-                        ? 'bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-900 border-amber-500/50 shadow-xl shadow-amber-950/20'
-                        : 'bg-slate-900/90 border-slate-800 hover:border-slate-700'
+                        ? 'bg-gradient-to-br from-amber-50/90 to-orange-50/50 border-amber-300 shadow-sm'
+                        : 'bg-white border-slate-200 shadow-sm hover:border-slate-300 hover:shadow-md'
                     }`}
                   >
                     {/* Header Tag */}
                     <div className="flex items-center justify-between gap-2 mb-4">
                       {isUserPrimary ? (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs">
-                          <Crown className="w-3.5 h-3.5" />
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-800 font-bold text-xs">
+                          <Crown className="w-3.5 h-3.5 text-amber-600" />
                           <span>{isAr ? "المدير العام والمالك" : "Master Superadmin"}</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 font-bold text-xs">
-                          <ShieldCheck className="w-3.5 h-3.5" />
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold text-xs">
+                          <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
                           <span>{user.roleLabel || (isAr ? "مشرف" : "Moderator")}</span>
                         </span>
                       )}
 
-                      <span className="text-[10px] text-slate-500 font-mono">
+                      <span className="text-[10px] text-slate-400 font-mono">
                         {user.createdAt || '2026-10-25'}
                       </span>
                     </div>
@@ -1880,71 +2047,71 @@ export const AdminBookingsPage = () => {
                     <div className="space-y-3.5 flex-1">
                       <div className="flex items-center gap-3">
                         <div className={`w-11 h-11 rounded-2xl flex items-center justify-center font-bold text-base ${
-                          isUserPrimary ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/30' : 'bg-slate-800 text-indigo-400 border border-slate-700'
+                          isUserPrimary ? 'bg-amber-500 text-white shadow-md shadow-amber-500/20' : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
                         }`}>
                           {user.name ? user.name.charAt(0) : 'U'}
                         </div>
                         <div>
-                          <h3 className="font-bold text-sm text-white flex items-center gap-1.5">
+                          <h3 className="font-bold text-sm text-slate-900 flex items-center gap-1.5">
                             {user.name}
-                            {isUserPrimary && <Crown className="w-3.5 h-3.5 text-amber-400" />}
+                            {isUserPrimary && <Crown className="w-3.5 h-3.5 text-amber-500" />}
                           </h3>
-                          <span className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
-                            <Mail className="w-3 h-3 text-slate-500" />
+                          <span className="text-[11px] text-slate-500 flex items-center gap-1 mt-0.5">
+                            <Mail className="w-3 h-3 text-slate-400" />
                             <span className="font-mono">{user.email}</span>
                           </span>
                         </div>
                       </div>
 
                       {/* Password Display Box */}
-                      <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800/80 space-y-1">
-                        <div className="flex items-center justify-between text-[11px] text-slate-400">
+                      <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                        <div className="flex items-center justify-between text-[11px] text-slate-600">
                           <span>{isAr ? "كلمة المرور:" : "Password:"}</span>
                           <button
                             type="button"
                             onClick={() => togglePasswordVisibility(user.id)}
-                            className="text-sky-400 hover:text-sky-300 flex items-center gap-1 text-[11px]"
+                            className="text-sky-600 hover:text-sky-700 flex items-center gap-1 text-[11px] font-bold"
                           >
                             <Eye className="w-3 h-3" />
-                            <span>{isPasswordRevealed ? (isAr ? "إخفاء" : "Hide") : (isAr ? "كشف" : "Show")}</span>
+                            <span>{isPasswordRevealed ? (isAr ? "إخفاء" : "كشف") : (isAr ? "كشف" : "Show")}</span>
                           </button>
                         </div>
-                        <div className="font-mono text-xs font-bold text-slate-200 tracking-wider">
+                        <div className="font-mono text-xs font-bold text-slate-900 tracking-wider">
                           {isPasswordRevealed ? (
-                            <span className="text-amber-300 select-all">{user.password}</span>
+                            <span className="text-amber-800 font-black select-all">{user.password}</span>
                           ) : (
-                            <span className="text-slate-500 tracking-widest">••••••••••••</span>
+                            <span className="text-slate-400 tracking-widest">••••••••••••</span>
                           )}
                         </div>
                       </div>
                     </div>
 
                     {/* Bottom Action Footer */}
-                    <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between">
+                    <div className="pt-4 mt-4 border-t border-slate-200/80 flex items-center justify-between">
                       {isUserPrimary ? (
                         <div className="flex items-center justify-between w-full">
-                          <span className="text-[11px] text-amber-400/90 font-bold flex items-center gap-1">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
+                          <span className="text-[11px] text-amber-800 font-bold flex items-center gap-1">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
                             {isAr ? "حساب رئيسي محمي" : "Protected Account"}
                           </span>
                           <button
                             type="button"
                             onClick={() => setShowChangePassModal(true)}
-                            className="text-xs px-2.5 py-1 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-bold transition border border-amber-500/30"
+                            className="text-xs px-2.5 py-1 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold transition border border-amber-300"
                           >
                             {isAr ? "تغيير الباسورد" : "Change Pass"}
                           </button>
                         </div>
                       ) : (
                         <div className="flex items-center justify-between w-full">
-                          <span className="text-[11px] text-slate-400 flex items-center gap-1">
-                            <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="text-[11px] text-slate-600 flex items-center gap-1">
+                            <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
                             {isAr ? "مشرف مفعل" : "Active Moderator"}
                           </span>
                           <button
                             type="button"
                             onClick={() => handleDeleteModerator(user.id, user.email)}
-                            className="text-xs px-2.5 py-1 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold transition border border-rose-500/30 flex items-center gap-1"
+                            className="text-xs px-2.5 py-1 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold transition border border-rose-200 flex items-center gap-1"
                           >
                             <Trash2 className="w-3 h-3" />
                             <span>{isAr ? "حذف" : "Delete"}</span>
@@ -1961,11 +2128,11 @@ export const AdminBookingsPage = () => {
 
         {/* Add Moderator Modal */}
         {showAddModModal && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-slate-900 rounded-3xl p-6 border border-slate-800 max-w-md w-full space-y-4 shadow-2xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <UserPlus className="w-5 h-5 text-indigo-400" />
+          <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 text-slate-900 max-w-md w-full space-y-4 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <UserPlus className="w-5 h-5 text-indigo-600" />
                   <span>{isAr ? "إضافة مشرف جديد للوحة التحكم" : "Add New Moderator"}</span>
                 </h3>
                 <button
@@ -1974,7 +2141,7 @@ export const AdminBookingsPage = () => {
                     setModFormError('');
                     setModFormSuccess('');
                   }}
-                  className="text-slate-400 hover:text-white text-sm"
+                  className="text-slate-400 hover:text-slate-700 text-sm font-bold"
                 >
                   ✕
                 </button>
@@ -1982,7 +2149,7 @@ export const AdminBookingsPage = () => {
 
               <form onSubmit={handleAddModerator} className="space-y-3.5 text-xs">
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">
+                  <label className="block text-slate-700 font-bold mb-1">
                     {isAr ? "اسم المشرف *" : "Moderator Name *"}
                   </label>
                   <input
@@ -1991,12 +2158,12 @@ export const AdminBookingsPage = () => {
                     value={newMod.name}
                     onChange={e => setNewMod({ ...newMod, name: e.target.value })}
                     placeholder={isAr ? "مثال: مروان أحمد" : "e.g. Marwan Ahmed"}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-400"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl focus:outline-none focus:border-indigo-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">
+                  <label className="block text-slate-700 font-bold mb-1">
                     {isAr ? "البريد الإلكتروني *" : "Email Address *"}
                   </label>
                   <input
@@ -2005,12 +2172,12 @@ export const AdminBookingsPage = () => {
                     value={newMod.email}
                     onChange={e => setNewMod({ ...newMod, email: e.target.value })}
                     placeholder={isAr ? "مثال: mod@elhanagroup.com" : "e.g. mod@elhanagroup.com"}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-400"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl focus:outline-none focus:border-indigo-500 font-mono"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">
+                  <label className="block text-slate-700 font-bold mb-1">
                     {isAr ? "كلمة المرور الخاصة بالمشرف *" : "Moderator Password *"}
                   </label>
                   <input
@@ -2019,18 +2186,18 @@ export const AdminBookingsPage = () => {
                     value={newMod.password}
                     onChange={e => setNewMod({ ...newMod, password: e.target.value })}
                     placeholder={isAr ? "كلمة مرور قوية (6 خانات على الأقل)" : "Strong password (min 6 chars)"}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-400 font-mono"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl focus:outline-none focus:border-indigo-500 font-mono"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">
+                  <label className="block text-slate-700 font-bold mb-1">
                     {isAr ? "الدور والصلاحية" : "Role & Permissions"}
                   </label>
                   <select
                     value={newMod.role}
                     onChange={e => setNewMod({ ...newMod, role: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-400 text-xs"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl focus:outline-none focus:border-indigo-500 text-xs"
                   >
                     <option value="moderator">{isAr ? "مشرف عام (كامل الصلاحيات)" : "General Moderator (Full Access)"}</option>
                     <option value="bookings_mod">{isAr ? "مشرف حجوزات وعملاء" : "Bookings & Customers Moderator"}</option>
@@ -2039,27 +2206,27 @@ export const AdminBookingsPage = () => {
                 </div>
 
                 {modFormError && (
-                  <div className="p-3 rounded-xl text-xs font-bold bg-rose-500/15 border border-rose-500/30 text-rose-300 flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 shrink-0" />
+                  <div className="p-3 rounded-xl text-xs font-bold bg-rose-50 border border-rose-200 text-rose-700 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                     <span>{modFormError}</span>
                   </div>
                 )}
 
                 {modFormSuccess && (
-                  <div className="p-3 rounded-xl text-xs font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                  <div className="p-3 rounded-xl text-xs font-bold bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
                     <span>{modFormSuccess}</span>
                   </div>
                 )}
 
                 <div className="pt-2 flex items-center gap-2">
-                  <Button type="submit" variant="primary" size="sm" icon={UserPlus} className="flex-1 bg-indigo-600 hover:bg-indigo-500">
+                  <Button type="submit" variant="primary" size="sm" icon={UserPlus} className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white">
                     {isAr ? "حفظ وإضافة المشرف" : "Save Moderator"}
                   </Button>
                   <button
                     type="button"
                     onClick={() => setShowAddModModal(false)}
-                    className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs"
+                    className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition border border-slate-200"
                   >
                     {isAr ? "إلغاء" : "Cancel"}
                   </button>
@@ -2071,11 +2238,11 @@ export const AdminBookingsPage = () => {
 
         {/* Change Password Modal */}
         {showChangePassModal && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-slate-900 rounded-3xl p-6 border border-slate-800 max-w-md w-full space-y-4 shadow-2xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <KeyRound className="w-5 h-5 text-amber-400" />
+          <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 text-slate-900 max-w-md w-full space-y-4 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <KeyRound className="w-5 h-5 text-amber-500" />
                   <span>{isAr ? "تغيير رمز مرور لوحة التحكم" : "Change Admin Password"}</span>
                 </h3>
                 <button
@@ -2083,7 +2250,7 @@ export const AdminBookingsPage = () => {
                     setShowChangePassModal(false);
                     setAdminPassStatus({ text: '', type: '' });
                   }}
-                  className="text-slate-400 hover:text-white text-sm"
+                  className="text-slate-400 hover:text-slate-700 text-sm font-bold"
                 >
                   ✕
                 </button>
@@ -2091,7 +2258,7 @@ export const AdminBookingsPage = () => {
 
               <form onSubmit={handleChangeAdminPassword} className="space-y-3.5 text-xs">
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">
+                  <label className="block text-slate-700 font-bold mb-1">
                     {isAr ? "كلمة المرور الحالية *" : "Current Password *"}
                   </label>
                   <input
@@ -2100,12 +2267,12 @@ export const AdminBookingsPage = () => {
                     value={adminOldPass}
                     onChange={e => setAdminOldPass(e.target.value)}
                     placeholder={isAr ? "أدخل كلمة المرور الحالية" : "Current password"}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">
+                  <label className="block text-slate-700 font-bold mb-1">
                     {isAr ? "كلمة المرور الجديدة *" : "New Password *"}
                   </label>
                   <input
@@ -2114,12 +2281,12 @@ export const AdminBookingsPage = () => {
                     value={adminNewPass}
                     onChange={e => setAdminNewPass(e.target.value)}
                     placeholder={isAr ? "كلمة المرور الجديدة (4 أحرف/أرقام على الأقل)" : "New password"}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">
+                  <label className="block text-slate-700 font-bold mb-1">
                     {isAr ? "تأكيد كلمة المرور الجديدة *" : "Confirm New Password *"}
                   </label>
                   <input
@@ -2128,30 +2295,30 @@ export const AdminBookingsPage = () => {
                     value={adminConfirmPass}
                     onChange={e => setAdminConfirmPass(e.target.value)}
                     placeholder={isAr ? "أعد كتابة كلمة المرور الجديدة" : "Confirm new password"}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
                 {adminPassStatus.text && (
                   <div className={`p-3 rounded-xl text-xs font-bold flex items-center gap-2 ${
                     adminPassStatus.type === 'success'
-                      ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-300'
-                      : 'bg-rose-500/15 border border-rose-500/30 text-rose-300'
+                      ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                      : 'bg-rose-50 border border-rose-200 text-rose-700'
                   }`}>
-                    {adminPassStatus.type === 'success' ? <CheckCircle2 className="w-4 h-4 shrink-0" /> : <AlertCircle className="w-4 h-4 shrink-0" />}
+                    {adminPassStatus.type === 'success' ? <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" /> : <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />}
                     <span>{adminPassStatus.text}</span>
                   </div>
                 )}
 
                 <div className="pt-2 flex flex-col gap-2">
-                  <Button type="submit" variant="primary" size="sm" icon={CheckCircle2}>
+                  <Button type="submit" variant="primary" size="sm" icon={CheckCircle2} className="bg-amber-600 hover:bg-amber-700 text-white">
                     {isAr ? "حفظ كلمة المرور الجديدة" : "Save New Password"}
                   </Button>
 
                   <button
                     type="button"
                     onClick={restoreDefaultAdminPassword}
-                    className="w-full py-2 px-3 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white font-semibold text-[11px] transition border border-slate-800 flex items-center justify-center gap-1.5"
+                    className="w-full py-2 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 font-semibold text-[11px] transition border border-slate-200 flex items-center justify-center gap-1.5"
                   >
                     <RefreshCw className="w-3.5 h-3.5" />
                     <span>{isAr ? "استعادة كلمة المرور الافتراضية (elhana2026)" : "Restore default (elhana2026)"}</span>
