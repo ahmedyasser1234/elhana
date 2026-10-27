@@ -105,31 +105,6 @@
       }
     }
     </script>
-
-    <script>
-      (function() {
-        if (typeof window !== 'undefined' && window.performance) {
-          const origMeasure = window.performance.measure;
-          if (origMeasure) {
-            window.performance.measure = function(name, startOrOptions, end) {
-              try {
-                return origMeasure.call(window.performance, name, startOrOptions, end);
-              } catch (e) {
-                // Prevents React performance measurement DOMException from interrupting rendering
-              }
-            };
-          }
-          const origClear = window.performance.clearMeasures;
-          if (origClear) {
-            window.performance.clearMeasures = function(name) {
-              try {
-                return origClear.call(window.performance, name);
-              } catch (e) {}
-            };
-          }
-        }
-      })();
-    </script>
   </head>
   <body class="bg-[#F8FAFC] text-[#0F172A] font-sans antialiased selection:bg-[#0284C7] selection:text-white overflow-x-hidden">
     <div id="root"></div>

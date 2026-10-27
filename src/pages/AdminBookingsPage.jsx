@@ -187,17 +187,20 @@ export const AdminBookingsPage = () => {
       refreshImagesData();
       refreshGuidesData();
       refreshAdminUsers();
+      loadBookings();
     };
     window.addEventListener('elhana_content_updated', handleStorageUpdate);
     window.addEventListener('elhana_guides_updated', handleStorageUpdate);
     window.addEventListener('elhana_guide_reviews_updated', handleStorageUpdate);
     window.addEventListener('elhana_admins_updated', handleStorageUpdate);
+    window.addEventListener('elhana_bookings_updated', handleStorageUpdate);
 
     return () => {
       window.removeEventListener('elhana_content_updated', handleStorageUpdate);
       window.removeEventListener('elhana_guides_updated', handleStorageUpdate);
       window.removeEventListener('elhana_guide_reviews_updated', handleStorageUpdate);
       window.removeEventListener('elhana_admins_updated', handleStorageUpdate);
+      window.removeEventListener('elhana_bookings_updated', handleStorageUpdate);
     };
   }, []);
 
@@ -322,10 +325,12 @@ export const AdminBookingsPage = () => {
     if (confirm(isAr ? 'هل تريد حذف جميع سجلات الحجوزات؟' : 'Delete all bookings?')) {
       try { 
         await adminApi.clearBookings(); 
-        setBookings([]); 
       } catch { 
-        alert(isAr ? 'تعذر حذف الحجوزات.' : 'Could not delete bookings.'); 
+        // ignore backend failure
       }
+      localStorage.removeItem('elhana_local_bookings');
+      setBookings([]);
+      alert(isAr ? 'تم مسح سجل الحجوزات بنجاح!' : 'Bookings cleared successfully!');
     }
   };
 

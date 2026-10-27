@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Car, MapPin, Calendar, Clock, Users, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
@@ -40,7 +40,7 @@ export const TransferCalculator = () => {
     
     showToast(
       isAr 
-        ? `ØªÙ… Ø­ÙØ¸ Ø­Ø¬Ø² Ø§Ù„ØªÙˆØµÙŠÙ„ Ù…Ù† ${pickupName} Ø¥Ù„Ù‰ ${dropoffName}! Ø¬Ø§Ø±ÙŠ Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ Ù„ØªØ£ÙƒÙŠØ¯ Ø§Ù„Ø­Ø¬Ø².` 
+        ? `تم حفظ حجز التوصيل من ${pickupName} إلى ${dropoffName}! جاري الانتقال لتأكيد الحجز.` 
         : `Transfer from ${pickupName} to ${dropoffName} saved! Proceeding to checkout.`, 
       'success'
     );
@@ -69,15 +69,15 @@ export const TransferCalculator = () => {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D4AF37]/15 text-[#B8860B] font-bold text-xs uppercase tracking-wider mb-2">
             <Car className="w-3.5 h-3.5" />
-            <span>{isAr ? "Ø³ÙŠØ§Ø±Ø§Øª Ø®Ø§ØµØ© ÙˆØªØ§ÙƒØ³ÙŠ Ø§Ù„Ù…Ø·Ø§Ø± 24 Ø³Ø§Ø¹Ø©" : "Private Shuttle & Airport Taxi"}</span>
+            <span>{isAr ? "سيارات خاصة وتاكسي المطار 24 ساعة" : "Private Shuttle & Airport Taxi"}</span>
           </div>
           <h3 className="text-2xl font-extrabold text-stone-900 font-heading">
-            {isAr ? "Ø­Ø³Ø§Ø¨ ØªÙƒÙ„ÙØ© Ø§Ù„Ù…Ø´ÙˆØ§Ø± ÙˆØ§Ù„ØªÙˆØµÙŠÙ„" : "Calculate Your Transfer Fare"}
+            {isAr ? "حساب تكلفة المشوار والتوصيل" : "Calculate Your Transfer Fare"}
           </h3>
         </div>
         <div className="text-right">
           <span className="text-xs text-stone-500 font-bold uppercase block">
-            {isAr ? "Ø§Ù„Ø³Ø¹Ø± Ø§Ù„ØªÙ‚Ø¯ÙŠØ±ÙŠ" : "Estimated Rate"}
+            {isAr ? "السعر التقديري" : "Estimated Rate"}
           </span>
           <div className="text-3xl font-black text-[#B8860B] font-heading">
             {formatPrice(calculatedPriceInUSD)}
@@ -91,7 +91,7 @@ export const TransferCalculator = () => {
         <div className="space-y-1.5">
           <label className="text-xs font-bold text-stone-700 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>{isAr ? "Ù…ÙƒØ§Ù† Ø§Ù„ØªØ­Ø±Ùƒ / Ø§Ù„Ø§Ø³ØªÙ„Ø§Ù…" : "Pickup Location"}</span>
+            <span>{isAr ? "مكان التحرك / الاستلام" : "Pickup Location"}</span>
           </label>
           <select
             value={pickup}
@@ -110,7 +110,7 @@ export const TransferCalculator = () => {
         <div className="space-y-1.5">
           <label className="text-xs font-bold text-stone-700 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5 text-[#00A896]" />
-            <span>{isAr ? "Ù…ÙƒØ§Ù† Ø§Ù„ÙˆØµÙˆÙ„ / Ø§Ù„ØªÙˆØµÙŠÙ„" : "Drop-off Location"}</span>
+            <span>{isAr ? "مكان الوصول / التوصيل" : "Drop-off Location"}</span>
           </label>
           <select
             value={dropoff}
@@ -130,7 +130,7 @@ export const TransferCalculator = () => {
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-stone-700 flex items-center gap-1">
               <Calendar className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>{isAr ? "ØªØ§Ø±ÙŠØ® Ø§Ù„Ø±Ø­Ù„Ø©" : "Date"}</span>
+              <span>{isAr ? "تاريخ الرحلة" : "Date"}</span>
             </label>
             <input
               type="date"
@@ -144,7 +144,7 @@ export const TransferCalculator = () => {
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-stone-700 flex items-center gap-1">
               <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>{isAr ? "ÙˆÙ‚Øª Ø§Ù„ØªØ­Ø±Ùƒ" : "Pickup Time"}</span>
+              <span>{isAr ? "وقت التحرك" : "Pickup Time"}</span>
             </label>
             <input
               type="time"
@@ -159,7 +159,7 @@ export const TransferCalculator = () => {
         <div className="space-y-1.5">
           <label className="text-xs font-bold text-stone-700 flex items-center gap-1">
             <Users className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>{isAr ? "Ø¹Ø¯Ø¯ Ø§Ù„Ø±ÙƒØ§Ø¨ ÙˆØ§Ù„Ø­Ù‚Ø§Ø¦Ø¨" : "Passengers & Luggage"}</span>
+            <span>{isAr ? "عدد الركاب والحقائب" : "Passengers & Luggage"}</span>
           </label>
           <select
             value={passengers}
@@ -168,7 +168,7 @@ export const TransferCalculator = () => {
           >
             {[1,2,3,4,5,6,7,8,9,10].map(num => (
               <option key={num} value={num}>
-                {num} {isAr ? 'Ø±ÙƒØ§Ø¨' : 'Passengers'}
+                {num} {isAr ? 'ركاب' : 'Passengers'}
               </option>
             ))}
           </select>
@@ -179,7 +179,7 @@ export const TransferCalculator = () => {
       {/* Vehicle Type Choice */}
       <div className="space-y-3 pt-2">
         <label className="text-xs font-bold uppercase tracking-wider text-stone-700 block">
-          {isAr ? "Ø§Ø®ØªØ± Ù†ÙˆØ¹ Ø§Ù„Ø³ÙŠØ§Ø±Ø© ÙˆØ§Ù„Ø£Ø³Ø·ÙˆÙ„" : "Select Vehicle Class"}
+          {isAr ? "اختر نوع السيارة والأسطول" : "Select Vehicle Class"}
         </label>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {VEHICLE_TYPES.map((v) => {
@@ -199,7 +199,7 @@ export const TransferCalculator = () => {
                   <div className="font-bold text-sm">{isAr ? v.nameAr : v.name}</div>
                   <div className="text-[11px] opacity-80 mt-1">
                     {isAr 
-                      ? `Ø­ØªÙ‰ ${v.maxPassengers} Ø±ÙƒØ§Ø¨ Ùˆ ${v.maxLuggage} Ø­Ù‚Ø§Ø¦Ø¨` 
+                      ? `حتى ${v.maxPassengers} ركاب و ${v.maxLuggage} حقائب` 
                       : `Up to ${v.maxPassengers} passengers & ${v.maxLuggage} bags`}
                   </div>
                 </div>
@@ -218,13 +218,13 @@ export const TransferCalculator = () => {
           <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
           <span>
             {isAr 
-              ? "Ù…ØªØ§Ø¨Ø¹Ø© Ø­ÙŠØ© Ù„Ù…ÙˆØ§Ø¹ÙŠØ¯ Ø§Ù„Ø·ÙŠØ±Ø§Ù† + 60 Ø¯Ù‚ÙŠÙ‚Ø© Ø§Ù†ØªØ¸Ø§Ø± Ù…Ø¬Ø§Ù†ÙŠ" 
+              ? "متابعة حية لمواعيد الطيران + 60 دقيقة انتظار مجاني" 
               : "Flight status tracking + 60 min free waiting time"}
           </span>
         </div>
         <Button variant="primary" size="lg" onClick={handleBookTransfer} icon={Sparkles}>
           {isAr 
-            ? `Ø§Ø­Ø¬Ø² Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ Ø§Ù„Ø¢Ù† (${formatPrice(calculatedPriceInUSD)})` 
+            ? `احجز الانتقال الآن (${formatPrice(calculatedPriceInUSD)})` 
             : `Book Transfer Now (${formatPrice(calculatedPriceInUSD)})`}
         </Button>
       </div>
@@ -234,6 +234,3 @@ export const TransferCalculator = () => {
 };
 
 export default TransferCalculator;
-
-
-
