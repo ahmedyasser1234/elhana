@@ -47,7 +47,7 @@ export const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-between pt-28 sm:pt-32 md:pt-36 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden select-none bg-slate-900">
+    <section className="relative min-h-screen flex flex-col justify-between pt-28 sm:pt-32 md:pt-36 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-slate-900">
       {/* 1. REAL PHOTO BACKGROUND - SOFT DARK SLATE SHADOW FOR ULTRA READABILITY */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
@@ -221,7 +221,7 @@ export const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="w-full pt-2"
+          className="w-full pt-2 relative z-30"
         >
           <FloatingSearchWidget />
         </motion.div>
