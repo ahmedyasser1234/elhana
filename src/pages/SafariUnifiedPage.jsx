@@ -267,7 +267,7 @@ const GalleryShowcase = ({ galleryTitle, images, isAr, onOpenLightbox }) => {
 };
 
 
-export const SafariUnifiedPage = ({ defaultTab = 'buggy' }) => {
+export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
   const { t, i18n } = useTranslation();
   const isAr = i18n.language === 'ar';
   const { formatPrice } = useCurrency();
