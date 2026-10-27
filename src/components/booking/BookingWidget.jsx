@@ -1050,153 +1050,166 @@ export const BookingWidget = ({ experience }) => {
                 )}
               </div>
 
-              {/* Primary Essentials (Always Compact & Visible) */}
-              <div className="space-y-1.5">
+              {/* Primary Essentials (Always in 2-Column Grid) */}
+              <div className="grid grid-cols-2 gap-2">
                 {/* 1. Private Transfer */}
                 <label
-                  className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                  className={`flex flex-col justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[56px] ${
                     privateTransfer
                       ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
                       : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
                   }`}
                 >
-                  <div className="flex flex-col">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-start justify-between gap-1.5">
+                    <div className="flex items-start gap-1.5">
                       <input
                         type="checkbox"
                         checked={privateTransfer}
                         onChange={(e) => setPrivateTransfer(e.target.checked)}
-                        className="w-4 h-4 accent-[#0284C7] rounded"
+                        className="mt-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0"
                       />
-                      <span className="text-xs font-semibold text-stone-800">
-                        {totalPeopleCount > 6
-                          ? (isAr ? 'سيارة فان خاصة 14 راكب' : '14-Seater Private Van')
-                          : (isAr ? 'سيارة خاصة VIP' : 'Private VIP Car Transfer')}
-                      </span>
+                      <div>
+                        <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight block">
+                          {totalPeopleCount > 6
+                            ? (isAr ? 'سيارة فان 14 راكب' : '14-Seater Van')
+                            : (isAr ? 'سيارة خاصة VIP' : 'Private VIP Car')}
+                        </span>
+                        <span className="text-[9px] sm:text-[10px] text-slate-400 block mt-0.5 leading-none">
+                          {totalPeopleCount > 6
+                            ? (isAr ? 'لأكثر من 6 أفراد' : '6+ guests')
+                            : (isAr ? 'حتى 6 أفراد' : 'Up to 6 guests')}
+                        </span>
+                      </div>
                     </div>
-                    <span className="text-[10px] text-slate-400 mt-0.5 pl-6 rtl:pl-0 rtl:pr-6">
-                      {isAr
-                        ? (totalPeopleCount > 6 ? 'سيارة فان 14 راكب (لأكثر من 6 أفراد)' : 'سيارة خاصة (حتى 6 أفراد)')
-                        : (totalPeopleCount > 6 ? '14-Seater Van (more than 6 guests)' : 'Private Car (up to 6 guests)')}
+                    <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">
+                      +{formatPrice(calculatedTransferPrice)}
                     </span>
                   </div>
-                  <span className="text-xs font-bold text-stone-900">
-                    +{formatPrice(calculatedTransferPrice)}
-                  </span>
                 </label>
 
                 {/* 2. Photo & Video Package */}
                 <label
-                  className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                  className={`flex flex-col justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[56px] ${
                     photoVideo
                       ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
                       : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={photoVideo}
-                      onChange={(e) => setPhotoVideo(e.target.checked)}
-                      className="w-4 h-4 accent-[#0284C7] rounded"
-                    />
-                    <span className="text-xs font-semibold text-stone-800">{getLabel('photoPackage')}</span>
+                  <div className="flex items-start justify-between gap-1.5">
+                    <div className="flex items-start gap-1.5">
+                      <input
+                        type="checkbox"
+                        checked={photoVideo}
+                        onChange={(e) => setPhotoVideo(e.target.checked)}
+                        className="mt-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0"
+                      />
+                      <div>
+                        <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight block">
+                          {getLabel('photoPackage')}
+                        </span>
+                        <span className="text-[9px] sm:text-[10px] text-slate-400 block mt-0.5 leading-none">
+                          {isAr ? 'تصوير فوتو وفيديو' : 'HD Photo & Video'}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">
+                      +{formatPrice(photoVideoPrice)}
+                    </span>
                   </div>
-                  <span className="text-xs font-bold text-stone-900">+{formatPrice(photoVideoPrice)}</span>
                 </label>
               </div>
 
-              {/* Any currently checked extras outside top 2 are kept visible even when collapsed */}
+              {/* Any currently checked extras outside top 2 are kept visible in 2-Column Grid */}
               {!showAllExtras && (
-                <div className="space-y-1.5">
+                <div className="grid grid-cols-2 gap-2">
                   {bedouinScarf && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={bedouinScarf} onChange={(e) => setBedouinScarf(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
-                        <span className="text-xs font-semibold text-stone-800">{getLabel('bedouinScarf')}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={bedouinScarf} onChange={(e) => setBedouinScarf(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('bedouinScarf')}</span>
                       </div>
-                      <span className="text-xs font-bold text-stone-900">+{formatPrice(bedouinScarfPrice)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(bedouinScarfPrice)}</span>
                     </label>
                   )}
                   {desertGoggles && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={desertGoggles} onChange={(e) => setDesertGoggles(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
-                        <span className="text-xs font-semibold text-stone-800">{getLabel('desertGoggles')}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={desertGoggles} onChange={(e) => setDesertGoggles(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('desertGoggles')}</span>
                       </div>
-                      <span className="text-xs font-bold text-stone-900">+{formatPrice(desertGogglesPrice)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(desertGogglesPrice)}</span>
                     </label>
                   )}
                   {privateSafari && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={privateSafari} onChange={(e) => setPrivateSafari(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
-                        <span className="text-xs font-semibold text-stone-800">{getLabel('privateSafari')}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={privateSafari} onChange={(e) => setPrivateSafari(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('privateSafari')}</span>
                       </div>
-                      <span className="text-xs font-bold text-stone-900">+{formatPrice(15)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(15)}</span>
                     </label>
                   )}
                   {camelRide30min && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={camelRide30min} onChange={(e) => setCamelRide30min(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
-                        <span className="text-xs font-semibold text-stone-800">{getLabel('camelRideLabel')}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={camelRide30min} onChange={(e) => setCamelRide30min(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('camelRideLabel')}</span>
                       </div>
-                      <span className="text-xs font-bold text-stone-900">+{formatPrice(camelExtra)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(camelExtra)}</span>
                     </label>
                   )}
                   {horseRide1hr && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={horseRide1hr} onChange={(e) => setHorseRide1hr(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
-                        <span className="text-xs font-semibold text-stone-800">{getLabel('horseRideLabel')}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={horseRide1hr} onChange={(e) => setHorseRide1hr(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('horseRideLabel')}</span>
                       </div>
-                      <span className="text-xs font-bold text-stone-900">+{formatPrice(horseExtra)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(horseExtra)}</span>
                     </label>
                   )}
                   {telescopeStargazing && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={telescopeStargazing} onChange={(e) => setTelescopeStargazing(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
-                        <span className="text-xs font-semibold text-stone-800">{getLabel('telescopeLabel')}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={telescopeStargazing} onChange={(e) => setTelescopeStargazing(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('telescopeLabel')}</span>
                       </div>
-                      <span className="text-xs font-bold text-stone-900">+{formatPrice(5)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(5)}</span>
                     </label>
                   )}
                   {romanticBedouinUpgrade && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-rose-300 bg-rose-50/80 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={romanticBedouinUpgrade} onChange={(e) => setRomanticBedouinUpgrade(e.target.checked)} className="w-4 h-4 accent-rose-600 rounded" />
-                        <span className="text-xs font-semibold text-rose-950">{isAr ? 'عشاء رومانسي بالشموع لشخصين' : 'Romantic Candlelight Tent for 2'}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-rose-300 bg-rose-50/80 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={romanticBedouinUpgrade} onChange={(e) => setRomanticBedouinUpgrade(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-rose-600 rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-rose-950 leading-tight">{isAr ? 'عشاء رومانسي بالشموع' : 'Romantic Tent'}</span>
                       </div>
-                      <span className="text-xs font-bold text-rose-900">+{formatPrice(65)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-rose-900 shrink-0">+{formatPrice(65)}</span>
                     </label>
                   )}
                   {proposalBedouinUpgrade && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-amber-300 bg-amber-50/80 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={proposalBedouinUpgrade} onChange={(e) => setProposalBedouinUpgrade(e.target.checked)} className="w-4 h-4 accent-amber-600 rounded" />
-                        <span className="text-xs font-semibold text-amber-950">{isAr ? 'باقة طلب الزواج VIP البدوية' : 'VIP Desert Marry Me Proposal'}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-amber-300 bg-amber-50/80 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={proposalBedouinUpgrade} onChange={(e) => setProposalBedouinUpgrade(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-amber-600 rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-amber-950 leading-tight">{isAr ? 'باقة طلب الزواج VIP' : 'Marry Me VIP'}</span>
                       </div>
-                      <span className="text-xs font-bold text-amber-900">+{formatPrice(180)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-amber-900 shrink-0">+{formatPrice(180)}</span>
                     </label>
                   )}
                   {yachtRomanticUpgrade && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-rose-300 bg-rose-50/80 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={yachtRomanticUpgrade} onChange={(e) => setYachtRomanticUpgrade(e.target.checked)} className="w-4 h-4 accent-rose-600 rounded" />
-                        <span className="text-xs font-semibold text-rose-950">{isAr ? 'عشاء يخت رومانسي لشخصين' : 'Romantic VIP Yacht Dinner'}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-rose-300 bg-rose-50/80 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={yachtRomanticUpgrade} onChange={(e) => setYachtRomanticUpgrade(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-rose-600 rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-rose-950 leading-tight">{isAr ? 'عشاء يخت رومانسي' : 'Romantic Yacht'}</span>
                       </div>
-                      <span className="text-xs font-bold text-rose-900">+{formatPrice(95)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-rose-900 shrink-0">+{formatPrice(95)}</span>
                     </label>
                   )}
                   {yachtProposalUpgrade && (
-                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-amber-300 bg-amber-50/80 shadow-xs cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <input type="checkbox" checked={yachtProposalUpgrade} onChange={(e) => setYachtProposalUpgrade(e.target.checked)} className="w-4 h-4 accent-amber-600 rounded" />
-                        <span className="text-xs font-semibold text-amber-950">{isAr ? 'باقة طلب الزواج VIP على اليخت' : 'VIP Yacht Marry Me Proposal'}</span>
+                    <label className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl border border-amber-300 bg-amber-50/80 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-1.5">
+                        <input type="checkbox" checked={yachtProposalUpgrade} onChange={(e) => setYachtProposalUpgrade(e.target.checked)} className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-amber-600 rounded shrink-0" />
+                        <span className="text-[11px] sm:text-xs font-bold text-amber-950 leading-tight">{isAr ? 'طلب الزواج باليخت' : 'Yacht Marry Me'}</span>
                       </div>
-                      <span className="text-xs font-bold text-amber-900">+{formatPrice(220)}</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-amber-900 shrink-0">+{formatPrice(220)}</span>
                     </label>
                   )}
                 </div>
@@ -1230,299 +1243,295 @@ export const BookingWidget = ({ experience }) => {
                 </button>
               )}
 
-              {/* Expanded Categorized Extras */}
+              {/* Expanded Categorized Extras in 2-Column Grids */}
               {showAllExtras && (
                 <div className="space-y-3 pt-1 animate-in fade-in slide-in-from-top-1 duration-200">
                   
-                  {/* Category 1: Gear & Accessories */}
+                  {/* Category 1: Gear & Accessories (2-Column Grid) */}
                   {(isSafari || isHorseCamelTab) && (
                     <div className="space-y-1.5">
                       <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                         {isAr ? 'تجهيزات ومعدات الحماية' : 'Gear & Protection'}
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                      <div className="grid grid-cols-2 gap-2">
                         <label
-                          className={`flex items-center justify-between p-2 rounded-xl border transition-all cursor-pointer ${
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
                             bedouinScarf
                               ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
                               : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
                           }`}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <input
                               type="checkbox"
                               checked={bedouinScarf}
                               onChange={(e) => setBedouinScarf(e.target.checked)}
-                              className="w-4 h-4 accent-[#0284C7] rounded"
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0"
                             />
-                            <span className="text-xs font-semibold text-stone-800">{getLabel('bedouinScarf')}</span>
+                            <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('bedouinScarf')}</span>
                           </div>
-                          <span className="text-xs font-bold text-stone-900">+{formatPrice(bedouinScarfPrice)}</span>
+                          <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(bedouinScarfPrice)}</span>
                         </label>
 
                         <label
-                          className={`flex items-center justify-between p-2 rounded-xl border transition-all cursor-pointer ${
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
                             desertGoggles
                               ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
                               : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
                           }`}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <input
                               type="checkbox"
                               checked={desertGoggles}
                               onChange={(e) => setDesertGoggles(e.target.checked)}
-                              className="w-4 h-4 accent-[#0284C7] rounded"
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0"
                             />
-                            <span className="text-xs font-semibold text-stone-800">{getLabel('desertGoggles')}</span>
+                            <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('desertGoggles')}</span>
                           </div>
-                          <span className="text-xs font-bold text-stone-900">+{formatPrice(desertGogglesPrice)}</span>
+                          <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(desertGogglesPrice)}</span>
                         </label>
                       </div>
                     </div>
                   )}
 
-                  {/* Category 2: Safari Bonus Activities */}
+                  {/* Category 2: Safari Bonus Activities (2-Column Grid) */}
                   {isSafari && (
                     <div className="space-y-1.5">
                       <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                         {isAr ? 'أنشطة وترقيات صحراوية' : 'Bonus Safari Activities'}
                       </div>
                       
-                      <div className="space-y-1.5">
+                      <div className="grid grid-cols-2 gap-2">
                         <label
-                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
                             privateSafari
                               ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
                               : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
                           }`}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <input
                               type="checkbox"
                               checked={privateSafari}
                               onChange={(e) => setPrivateSafari(e.target.checked)}
-                              className="w-4 h-4 accent-[#0284C7] rounded"
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0"
                             />
-                            <span className="text-xs font-semibold text-stone-800">{getLabel('privateSafari')}</span>
+                            <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('privateSafari')}</span>
                           </div>
-                          <span className="text-xs font-bold text-stone-900">+{formatPrice(15)}</span>
+                          <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(15)}</span>
                         </label>
 
                         <label
-                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
-                            camelRide30min
-                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
-                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              checked={camelRide30min}
-                              onChange={(e) => setCamelRide30min(e.target.checked)}
-                              className="w-4 h-4 accent-[#0284C7] rounded"
-                            />
-                            <span className="text-xs font-semibold text-stone-800">{getLabel('camelRideLabel')}</span>
-                          </div>
-                          <span className="text-xs font-bold text-stone-900">+{formatPrice(camelExtra)}</span>
-                        </label>
-
-                        <label
-                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
-                            horseRide1hr
-                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
-                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              checked={horseRide1hr}
-                              onChange={(e) => setHorseRide1hr(e.target.checked)}
-                              className="w-4 h-4 accent-[#0284C7] rounded"
-                            />
-                            <span className="text-xs font-semibold text-stone-800">{getLabel('horseRideLabel')}</span>
-                          </div>
-                          <span className="text-xs font-bold text-stone-900">+{formatPrice(horseExtra)}</span>
-                        </label>
-
-                        <label
-                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
                             telescopeStargazing
                               ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
                               : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
                           }`}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <input
                               type="checkbox"
                               checked={telescopeStargazing}
                               onChange={(e) => setTelescopeStargazing(e.target.checked)}
-                              className="w-4 h-4 accent-[#0284C7] rounded"
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0"
                             />
-                            <span className="text-xs font-semibold text-stone-800">{getLabel('telescopeLabel')}</span>
+                            <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('telescopeLabel')}</span>
                           </div>
-                          <span className="text-xs font-bold text-stone-900">+{formatPrice(5)}</span>
+                          <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(5)}</span>
+                        </label>
+
+                        <label
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
+                            camelRide30min
+                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-1.5">
+                            <input
+                              type="checkbox"
+                              checked={camelRide30min}
+                              onChange={(e) => setCamelRide30min(e.target.checked)}
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0"
+                            />
+                            <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('camelRideLabel')}</span>
+                          </div>
+                          <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(camelExtra)}</span>
+                        </label>
+
+                        <label
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
+                            horseRide1hr
+                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-1.5">
+                            <input
+                              type="checkbox"
+                              checked={horseRide1hr}
+                              onChange={(e) => setHorseRide1hr(e.target.checked)}
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-[#0284C7] rounded shrink-0"
+                            />
+                            <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{getLabel('horseRideLabel')}</span>
+                          </div>
+                          <span className="text-[11px] sm:text-xs font-bold text-stone-900 shrink-0">+{formatPrice(horseExtra)}</span>
                         </label>
                       </div>
                     </div>
                   )}
 
-                  {/* Camel + Horse add-ons on Bedouin dinner tab */}
+                  {/* Camel + Horse add-ons on Bedouin dinner tab (2-Column Grid) */}
                   {(isBedouinStandaloneExp || experience?.activeTab === 'bedouin') && (
                     <div className="space-y-1.5">
-                      <label
-                        className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
-                          camelRide30min
-                            ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
-                            : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={camelRide30min}
-                            onChange={(e) => setCamelRide30min(e.target.checked)}
-                            className="w-4 h-4 accent-amber-600 rounded"
-                          />
-                          <div>
-                            <span className="text-xs font-semibold text-stone-800">{isAr ? 'أضف جولة جمال قبل العشاء' : 'Add Camel Ride before Dinner'}</span>
-                            <div className="text-[10px] text-amber-700 font-medium">{isAr ? 'حجز مدمج مع العشاء البدوي' : 'Combined with Bedouin dinner booking'}</div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <label
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
+                            camelRide30min
+                              ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
+                              : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-1.5">
+                            <input
+                              type="checkbox"
+                              checked={camelRide30min}
+                              onChange={(e) => setCamelRide30min(e.target.checked)}
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-amber-600 rounded shrink-0"
+                            />
+                            <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{isAr ? 'جولة جمال قبل العشاء' : 'Camel Ride'}</span>
                           </div>
-                        </div>
-                        <span className="text-xs font-bold text-amber-800">+{formatPrice(camelExtra)}/{isAr ? 'فرد' : 'pax'}</span>
-                      </label>
+                          <span className="text-[11px] sm:text-xs font-bold text-amber-800 shrink-0">+{formatPrice(camelExtra)}</span>
+                        </label>
 
-                      <label
-                        className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
-                          horseRide1hr
-                            ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
-                            : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={horseRide1hr}
-                            onChange={(e) => setHorseRide1hr(e.target.checked)}
-                            className="w-4 h-4 accent-amber-600 rounded"
-                          />
-                          <div>
-                            <span className="text-xs font-semibold text-stone-800">{isAr ? 'أضف جولة خيل قبل العشاء' : 'Add Horse Ride before Dinner'}</span>
-                            <div className="text-[10px] text-amber-700 font-medium">{isAr ? 'حجز مدمج مع العشاء البدوي' : 'Combined with Bedouin dinner booking'}</div>
+                        <label
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
+                            horseRide1hr
+                              ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
+                              : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-1.5">
+                            <input
+                              type="checkbox"
+                              checked={horseRide1hr}
+                              onChange={(e) => setHorseRide1hr(e.target.checked)}
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-amber-600 rounded shrink-0"
+                            />
+                            <span className="text-[11px] sm:text-xs font-bold text-stone-900 leading-tight">{isAr ? 'جولة خيل قبل العشاء' : 'Horse Ride'}</span>
                           </div>
-                        </div>
-                        <span className="text-xs font-bold text-amber-800">+{formatPrice(horseExtra)}/{isAr ? 'فرد' : 'pax'}</span>
-                      </label>
+                          <span className="text-[11px] sm:text-xs font-bold text-amber-800 shrink-0">+{formatPrice(horseExtra)}</span>
+                        </label>
+                      </div>
                     </div>
                   )}
 
-                  {/* Category 3: Romantic & Proposal VIP Setups */}
+                  {/* Category 3: Romantic & Proposal VIP Setups (2-Column Grid) */}
                   {isSafari && (
                     <div className="space-y-1.5">
                       <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                         {isAr ? 'باقات المناسبات الخاصة وVIP' : 'Romantic & VIP Packages'}
                       </div>
 
-                      <div className="space-y-1.5">
+                      <div className="grid grid-cols-2 gap-2">
                         <label
-                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
                             romanticBedouinUpgrade
                               ? 'border-rose-400 bg-rose-50 shadow-xs ring-1 ring-rose-300/40'
                               : 'border-rose-200 bg-rose-50/70 hover:bg-rose-100/70'
                           }`}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <input
                               type="checkbox"
                               checked={romanticBedouinUpgrade}
                               onChange={(e) => setRomanticBedouinUpgrade(e.target.checked)}
-                              className="w-4 h-4 accent-rose-600 rounded"
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-rose-600 rounded shrink-0"
                             />
                             <div>
-                              <span className="text-xs font-semibold text-rose-950 block">{isAr ? 'عشاء رومانسي خاص بالشموع لشخصين في خيمة بدوية' : 'Romantic Candlelight Bedouin Tent for 2'}</span>
-                              <span className="text-[10px] text-rose-700">{isAr ? 'خيمة خاصة معزولة مزينة بالشموع والورود وعشاء مشويات' : 'Private secluded tent with candles, roses & BBQ'}</span>
+                              <span className="text-[11px] sm:text-xs font-bold text-rose-950 leading-tight block">{isAr ? 'عشاء رومانسي بالشموع' : 'Romantic Tent'}</span>
+                              <span className="text-[9px] text-rose-700 block">{isAr ? 'لشخصين بخيمة خاصة' : 'For 2 Guests'}</span>
                             </div>
                           </div>
-                          <span className="text-xs font-bold text-rose-900">+{formatPrice(65)}</span>
+                          <span className="text-[11px] sm:text-xs font-bold text-rose-900 shrink-0">+{formatPrice(65)}</span>
                         </label>
 
                         <label
-                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
                             proposalBedouinUpgrade
                               ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
                               : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
                           }`}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <input
                               type="checkbox"
                               checked={proposalBedouinUpgrade}
                               onChange={(e) => setProposalBedouinUpgrade(e.target.checked)}
-                              className="w-4 h-4 accent-amber-600 rounded"
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-amber-600 rounded shrink-0"
                             />
                             <div>
-                              <span className="text-xs font-semibold text-amber-950 block">{isAr ? 'باقة طلب الزواج VIP البدوية (Marry Me)' : 'VIP Desert Marry Me Proposal Setup'}</span>
-                              <span className="text-[10px] text-amber-700">{isAr ? 'حروف MARRY ME المضيئة وألعاب نارية وورود وتصوير' : 'Illuminated letters, fireworks, roses & drone shoot'}</span>
+                              <span className="text-[11px] sm:text-xs font-bold text-amber-950 leading-tight block">{isAr ? 'باقة طلب الزواج VIP' : 'Marry Me VIP'}</span>
+                              <span className="text-[9px] text-amber-700 block">{isAr ? 'حروف مضيئة وألعاب نارية' : 'Letters & fireworks'}</span>
                             </div>
                           </div>
-                          <span className="text-xs font-bold text-amber-900">+{formatPrice(180)}</span>
+                          <span className="text-[11px] sm:text-xs font-bold text-amber-900 shrink-0">+{formatPrice(180)}</span>
                         </label>
                       </div>
                     </div>
                   )}
 
-                  {/* Sea / Yacht Romantic & Marry Me Addons */}
+                  {/* Sea / Yacht Romantic & Marry Me Addons (2-Column Grid) */}
                   {(!isSafari && (experience?.category === 'yacht' || experience?.category === 'sea' || experience?.activeTab === 'yacht' || experience?.slug?.includes('yacht'))) && (
                     <div className="space-y-1.5">
                       <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                         {isAr ? 'باقات اليخت الخاصة وVIP' : 'Yacht VIP & Romantic Setups'}
                       </div>
 
-                      <div className="space-y-1.5">
+                      <div className="grid grid-cols-2 gap-2">
                         <label
-                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
                             yachtRomanticUpgrade
                               ? 'border-rose-400 bg-rose-50 shadow-xs ring-1 ring-rose-300/40'
                               : 'border-rose-200 bg-rose-50/70 hover:bg-rose-100/70'
                           }`}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <input
                               type="checkbox"
                               checked={yachtRomanticUpgrade}
                               onChange={(e) => setYachtRomanticUpgrade(e.target.checked)}
-                              className="w-4 h-4 accent-rose-600 rounded"
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-rose-600 rounded shrink-0"
                             />
                             <div>
-                              <span className="text-xs font-semibold text-rose-950 block">{isAr ? 'ترقية لعشاء يخت رومانسي خاص لشخصين بالشموع' : 'Romantic VIP Yacht Candlelight Seafood Dinner for 2'}</span>
-                              <span className="text-[10px] text-rose-700">{isAr ? 'يخت VIP خاص بالغروب، سي فود فاخر، ورود، وعزف كمان' : 'Private sunset yacht deck, seafood, roses & live violin'}</span>
+                              <span className="text-[11px] sm:text-xs font-bold text-rose-950 leading-tight block">{isAr ? 'عشاء يخت رومانسي' : 'Romantic Yacht'}</span>
+                              <span className="text-[9px] text-rose-700 block">{isAr ? 'لشخصين بالشموع' : 'Dinner for 2'}</span>
                             </div>
                           </div>
-                          <span className="text-xs font-bold text-rose-900">+{formatPrice(95)}</span>
+                          <span className="text-[11px] sm:text-xs font-bold text-rose-900 shrink-0">+{formatPrice(95)}</span>
                         </label>
 
                         <label
-                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer min-h-[50px] ${
                             yachtProposalUpgrade
                               ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
                               : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
                           }`}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <input
                               type="checkbox"
                               checked={yachtProposalUpgrade}
                               onChange={(e) => setYachtProposalUpgrade(e.target.checked)}
-                              className="w-4 h-4 accent-amber-600 rounded"
+                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 accent-amber-600 rounded shrink-0"
                             />
                             <div>
-                              <span className="text-xs font-semibold text-amber-950 block">{isAr ? 'باقة طلب الزواج VIP على سطح اليخت (Marry Me)' : 'VIP Yacht Marry Me Proposal Package'}</span>
-                              <span className="text-[10px] text-amber-700">{isAr ? 'حروف MARRY ME المضيئة وألعاب نارية فوق البحر وتصوير احترافي' : 'Illuminated letters on deck, fireworks, roses & drone shoot'}</span>
+                              <span className="text-[11px] sm:text-xs font-bold text-amber-950 leading-tight block">{isAr ? 'طلب الزواج باليخت' : 'Yacht Marry Me'}</span>
+                              <span className="text-[9px] text-amber-700 block">{isAr ? 'VIP Marry Me Package' : 'VIP Package'}</span>
                             </div>
                           </div>
-                          <span className="text-xs font-bold text-amber-900">+{formatPrice(220)}</span>
+                          <span className="text-[11px] sm:text-xs font-bold text-amber-900 shrink-0">+{formatPrice(220)}</span>
                         </label>
                       </div>
                     </div>
