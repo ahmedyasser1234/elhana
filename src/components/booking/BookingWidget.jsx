@@ -219,10 +219,14 @@ export const BookingWidget = ({ experience }) => {
   const camelExtra = 10;
   const horseExtra = 15;
 
+  // Safe numeric counts for calculations
+  const validAdults = Math.max(1, Number(adults) || 1);
+  const validChildren = Math.max(0, Number(childrenCount) || 0);
+
   // Calculate total riders / passengers from selected vehicles
   const vehicleCapacity = (singleQuads * 1) + (doubleQuads * 2) + (buggy2Seater * 2) + (buggy4Seater * 4);
   // Total people count considers both guests dropdown and riders in vehicles
-  const totalPeopleCount = Math.max(adults + childrenCount, vehicleCapacity);
+  const totalPeopleCount = Math.max(validAdults + validChildren, vehicleCapacity);
   const isLargeGroup = totalPeopleCount > 6;
   const calculatedTransferPrice = isLargeGroup ? privateVanPrice : privateCarPrice;
 
@@ -236,13 +240,13 @@ export const BookingWidget = ({ experience }) => {
     } else if (bedouinPartySubOption === 'dinner_romantic') {
       partyFee = 65;
     } else if (bedouinPartySubOption === 'dinner_vip_stargazing') {
-      partyFee = (adults * 35) + (childrenCount * 20);
+      partyFee = (validAdults * 35) + (validChildren * 20);
     } else if (bedouinPartySubOption === 'dinner_vip') {
-      partyFee = (adults * 30) + (childrenCount * 18);
+      partyFee = (validAdults * 30) + (validChildren * 18);
     } else if (bedouinPartySubOption === 'dinner_stargazing') {
-      partyFee = (adults * 25) + (childrenCount * 15);
+      partyFee = (validAdults * 25) + (validChildren * 15);
     } else {
-      partyFee = (adults * 20) + (childrenCount * 12);
+      partyFee = (validAdults * 20) + (validChildren * 12);
     }
   } else {
     vehiclesPrice = (singleQuads * quadSinglePrice) +
@@ -254,9 +258,9 @@ export const BookingWidget = ({ experience }) => {
     } else if (bedouinPartyOption === 'romantic_dinner') {
       partyFee = 65;
     } else if (bedouinPartyOption === 'vip_dinner') {
-      partyFee = (adults * 18) + (childrenCount * 10);
+      partyFee = (validAdults * 18) + (validChildren * 10);
     } else if (bedouinPartyOption === 'standard_dinner' || bedouinPartyOption === 'with_safari') {
-      partyFee = (adults * 10) + (childrenCount * 5);
+      partyFee = (validAdults * 10) + (validChildren * 5);
     }
   }
 
@@ -293,11 +297,11 @@ export const BookingWidget = ({ experience }) => {
   const horseCamelRate = experience?.activeTab === 'camel'
     ? (experience?.activeSubTab === 'extended' ? 15 : 10)
     : (experience?.activeSubTab === 'extended' ? 25 : 15);
-  const horseCamelTotal = isHorseCamelTab ? (adults + childrenCount) * horseCamelRate : 0;
+  const horseCamelTotal = isHorseCamelTab ? (validAdults + validChildren) * horseCamelRate : 0;
 
   const isExcursionOrGeneral = !isSafari;
   const excursionTotal = isExcursionOrGeneral
-    ? (adults * (experience?.startingPrice || 30)) + (childrenCount * Math.round((experience?.startingPrice || 30) * 0.5))
+    ? (validAdults * (experience?.startingPrice || 30)) + (validChildren * Math.round((experience?.startingPrice || 30) * 0.5))
     : 0;
 
   const grandTotal = Math.round(
@@ -551,37 +555,69 @@ export const BookingWidget = ({ experience }) => {
           </div>
         )}
 
-        {/* Guests Counter */}
+        {/* Guests Counter (Standard Clean Input Boxes) */}
         <div className="grid grid-cols-2 gap-3 pt-2">
+          {/* Adults Input */}
           <div className="space-y-1">
             <label className="text-xs font-bold text-stone-700 block">
               {getLabel('adultsLabel')}
             </label>
-            <select
-              value={adults}
-              onChange={(e) => {
-                setAdults(Number(e.target.value));
-                setAdultsManuallyEdited(true);
-              }}
-              className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-semibold text-stone-900"
-            >
-              {Array.from({ length: 30 }, (_, i) => i + 1).map(num => (
-                <option key={num} value={num}>{num} {isAr ? 'بالغ' : 'Adult'}</option>
-              ))}
-            </select>
+            <div className="relative">
+              <input
+                type="number"
+                min="1"
+                max="999"
+                value={adults}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '') {
+                    setAdults('');
+                  } else {
+                    const parsed = parseInt(val, 10);
+                    setAdults(isNaN(parsed) ? 1 : Math.max(1, parsed));
+                    setAdultsManuallyEdited(true);
+                  }
+                }}
+                onBlur={() => {
+                  if (!adults || Number(adults) < 1) {
+                    setAdults(1);
+                  }
+                }}
+                className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-900 focus:outline-none focus:border-[#0284C7] focus:bg-white transition"
+                placeholder="1"
+              />
+            </div>
           </div>
 
+          {/* Children Input */}
           <div className="space-y-1">
-            <label className="text-xs font-bold text-stone-700">{getLabel('childrenLabel')}</label>
-            <select
-              value={childrenCount}
-              onChange={(e) => setChildrenCount(Number(e.target.value))}
-              className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-semibold text-stone-900"
-            >
-              {Array.from({ length: 16 }, (_, i) => i).map(num => (
-                <option key={num} value={num}>{num} {isAr ? 'طفل' : 'Child'}</option>
-              ))}
-            </select>
+            <label className="text-xs font-bold text-stone-700 block">
+              {getLabel('childrenLabel')}
+            </label>
+            <div className="relative">
+              <input
+                type="number"
+                min="0"
+                max="999"
+                value={childrenCount}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '') {
+                    setChildrenCount('');
+                  } else {
+                    const parsed = parseInt(val, 10);
+                    setChildrenCount(isNaN(parsed) ? 0 : Math.max(0, parsed));
+                  }
+                }}
+                onBlur={() => {
+                  if (childrenCount === '' || Number(childrenCount) < 0) {
+                    setChildrenCount(0);
+                  }
+                }}
+                className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-900 focus:outline-none focus:border-[#0284C7] focus:bg-white transition"
+                placeholder="0"
+              />
+            </div>
           </div>
         </div>
 

@@ -1103,158 +1103,7 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
           </div>
         </div>
 
-        {/* 4. Daily Departure Slots & Verified Media Showcase (الشروق، الصباح 9، الغروب، العشاء البدوي) */}
-        <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-md space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#F97316] animate-pulse"></span>
-                <h3 className="text-base sm:text-lg font-black text-slate-900 font-heading">
-                  {isAr ? 'مواعيد انطلاق الرحلات اليومية ومعرض الصور والفيديوهات' : 'Daily Departure Slots & Live Media Showcase'}
-                </h3>
-              </div>
-              <p className="text-xs text-slate-500 mt-0.5">
-                {isAr
-                  ? 'اضغط على أي موعد لاستعراض صور وفيديوهات حقيقية وحصرية من جولاتنا السابقة في هذا التوقيت تحديداً'
-                  : 'Click on any slot to view verified real tour photos & live videos taken specifically at that time'}
-              </p>
-            </div>
-
-            <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#0284C7] bg-sky-50 px-3 py-1 rounded-full border border-sky-200 shrink-0 self-start sm:self-center">
-              <Camera className="w-3.5 h-3.5" />
-              <span>{isAr ? 'صور وفيديوهات حقيقية 100%' : '100% Real Tour Footage'}</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 pt-1">
-            
-            {/* 1. Sunrise Slot (04:30 AM) */}
-            <div className="bg-gradient-to-b from-amber-50/70 to-white rounded-2xl p-4 border border-amber-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 text-white flex items-center justify-center shadow-xs">
-                    <Sunrise className="w-5 h-5" />
-                  </div>
-                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
-                    04:30 AM
-                  </span>
-                </div>
-                <div>
-                  <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-[#F97316] transition">
-                    {isAr ? 'رحلة الشروق (الفجر)' : 'Sunrise Safari'}
-                  </h4>
-                  <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
-                    {isAr ? 'هدوء نسيم الفجر وبزوغ الشمس الذهبية بين جبال سيناء والوديان' : 'Cool morning breeze and the magical golden sunrise over Sinai mountains'}
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => openSlotMedia('sunrise')}
-                className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-orange-500 hover:text-white border border-amber-300 text-amber-800 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-orange-500"
-              >
-                <Camera className="w-3.5 h-3.5 text-amber-600 group-hover:text-white" />
-                <span>{isAr ? '📸 صور وفيديوهات الشروق' : '📸 Sunrise Gallery'}</span>
-              </button>
-            </div>
-
-            {/* 2. Morning Slot (09:00 AM) */}
-            <div className="bg-gradient-to-b from-sky-50/70 to-white rounded-2xl p-4 border border-sky-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0284C7] to-blue-600 text-white flex items-center justify-center shadow-xs">
-                    <Sun className="w-5 h-5" />
-                  </div>
-                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-200">
-                    09:00 AM
-                  </span>
-                </div>
-                <div>
-                  <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-[#0284C7] transition">
-                    {isAr ? 'رحلة الصباح (الساعة 9)' : 'Morning Safari'}
-                  </h4>
-                  <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
-                    {isAr ? 'وضوح الرؤية النهارية العالية والانطلاق السريع بالمسارات المفتوحة' : 'Bright daylight visibility and thrilling rides across open desert tracks'}
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => openSlotMedia('morning')}
-                className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-[#0284C7] hover:text-white border border-sky-300 text-sky-800 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-[#0284C7]"
-              >
-                <Camera className="w-3.5 h-3.5 text-sky-600 group-hover:text-white" />
-                <span>{isAr ? '📸 صور وفيديوهات الـ 9 ص' : '📸 9 AM Gallery'}</span>
-              </button>
-            </div>
-
-            {/* 3. Sunset Slot (04:00 PM) - Most Popular */}
-            <div className="bg-gradient-to-b from-orange-50/80 to-white rounded-2xl p-4 border-2 border-orange-400/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative group scale-[1.01]">
-              <div className="absolute -top-2.5 right-4 rtl:left-4 rtl:right-auto bg-gradient-to-r from-[#F97316] to-rose-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-xs tracking-wider">
-                {isAr ? 'الأكثر طلباً ⭐' : 'MOST POPULAR ⭐'}
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#F97316] via-[#EA580C] to-rose-600 text-white flex items-center justify-center shadow-xs">
-                    <Sunset className="w-5 h-5" />
-                  </div>
-                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
-                    04:00 PM
-                  </span>
-                </div>
-                <div>
-                  <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-[#F97316] transition">
-                    {isAr ? 'رحلة الغروب الذهبية' : 'Sunset Safari'}
-                  </h4>
-                  <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
-                    {isAr ? 'الساعة الذهبية الأشهر عالمياً لالتقاط أروع الصور التذكارية مع الغروب' : 'The prime golden hour for photography and magnificent desert sunset views'}
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => openSlotMedia('sunset')}
-                className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#F97316] to-amber-500 hover:from-[#EA580C] hover:to-amber-600 text-white text-xs font-black transition flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/25 cursor-pointer"
-              >
-                <Camera className="w-3.5 h-3.5 text-white" />
-                <span>{isAr ? '📸 صور وفيديوهات الغروب' : '📸 Sunset Gallery'}</span>
-              </button>
-            </div>
-
-            {/* 4. Bedouin Dinner Slot (05:30 / 06:30 PM) */}
-            <div className="bg-gradient-to-b from-purple-50/70 to-white rounded-2xl p-4 border border-purple-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-800 text-white flex items-center justify-center shadow-xs">
-                    <Moon className="w-5 h-5" />
-                  </div>
-                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">
-                    06:30 PM
-                  </span>
-                </div>
-                <div>
-                  <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-purple-700 transition">
-                    {isAr ? 'سهرة العشاء البدوي' : 'Bedouin Dinner & Show'}
-                  </h4>
-                  <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
-                    {isAr ? 'نار المخيم، بوفيه المشاوي الفاخر، حفلة الفلكلور، ورصد النجوم' : 'Campfire BBQ dinner, folklore show, music and starry night atmosphere'}
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => openSlotMedia('dinner')}
-                className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-purple-700 hover:text-white border border-purple-300 text-purple-800 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-purple-700"
-              >
-                <Camera className="w-3.5 h-3.5 text-purple-600 group-hover:text-white" />
-                <span>{isAr ? '📸 صور وفيديوهات العشاء' : '📸 Dinner Gallery'}</span>
-              </button>
-            </div>
-
-          </div>
-        </div>
-
-        {/* 5. Two Columns Layout: Content Right vs Booking Widget Left */}
+        {/* 4. Two Columns Layout: Content Right vs Booking Widget Left */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-2">
           
           {/* Main Details (Right Column) */}
@@ -1370,6 +1219,158 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* Daily Departure Slots & Verified Media Showcase (4 Cards Grid in Empty Space beside Widget) */}
+            <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-sm space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#F97316] animate-pulse"></span>
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 font-heading">
+                      {isAr ? 'مواعيد انطلاق الرحلات اليومية ومعرض الصور والفيديوهات' : 'Daily Departure Slots & Live Media Showcase'}
+                    </h3>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {isAr
+                      ? 'اضغط على أي موعد لاستعراض صور وفيديوهات حقيقية وحصرية من جولاتنا السابقة في هذا التوقيت تحديداً'
+                      : 'Click on any slot to view verified real tour photos & live videos taken specifically at that time'}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#0284C7] bg-sky-50 px-3 py-1 rounded-full border border-sky-200 shrink-0 self-start sm:self-center">
+                  <Camera className="w-3.5 h-3.5" />
+                  <span>{isAr ? 'صور وفيديوهات حقيقية 100%' : '100% Real Tour Footage'}</span>
+                </div>
+              </div>
+
+              {/* 4 Cards Grid (2x2 Grid) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 pt-1">
+                
+                {/* 1. Sunrise Slot (04:30 AM) */}
+                <div className="bg-gradient-to-b from-amber-50/70 to-white rounded-2xl p-4 border border-amber-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 text-white flex items-center justify-center shadow-xs">
+                        <Sunrise className="w-5 h-5" />
+                      </div>
+                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+                        04:30 AM
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-[#F97316] transition">
+                        {isAr ? 'رحلة الشروق (الفجر)' : 'Sunrise Safari'}
+                      </h4>
+                      <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
+                        {isAr ? 'هدوء نسيم الفجر وبزوغ الشمس الذهبية بين جبال سيناء والوديان' : 'Cool morning breeze and golden sunrise over Sinai mountains'}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => openSlotMedia('sunrise')}
+                    className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-orange-500 hover:text-white border border-amber-300 text-amber-800 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-orange-500"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-amber-600 group-hover:text-white" />
+                    <span>{isAr ? '📸 صور وفيديوهات الشروق' : '📸 Sunrise Gallery'}</span>
+                  </button>
+                </div>
+
+                {/* 2. Morning Slot (09:00 AM) */}
+                <div className="bg-gradient-to-b from-sky-50/70 to-white rounded-2xl p-4 border border-sky-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0284C7] to-blue-600 text-white flex items-center justify-center shadow-xs">
+                        <Sun className="w-5 h-5" />
+                      </div>
+                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-200">
+                        09:00 AM
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-[#0284C7] transition">
+                        {isAr ? 'رحلة الصباح (الساعة 9)' : 'Morning Safari'}
+                      </h4>
+                      <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
+                        {isAr ? 'وضوح الرؤية النهارية العالية والانطلاق السريع بالمسارات المفتوحة' : 'Bright daylight visibility and thrilling rides across open desert tracks'}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => openSlotMedia('morning')}
+                    className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-[#0284C7] hover:text-white border border-sky-300 text-sky-800 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-[#0284C7]"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-sky-600 group-hover:text-white" />
+                    <span>{isAr ? '📸 صور وفيديوهات الـ 9 ص' : '📸 9 AM Gallery'}</span>
+                  </button>
+                </div>
+
+                {/* 3. Sunset Slot (04:00 PM) - Most Popular */}
+                <div className="bg-gradient-to-b from-orange-50/80 to-white rounded-2xl p-4 border-2 border-orange-400/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative group scale-[1.01]">
+                  <div className="absolute -top-2.5 right-4 rtl:left-4 rtl:right-auto bg-gradient-to-r from-[#F97316] to-rose-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-xs tracking-wider">
+                    {isAr ? 'الأكثر طلباً ⭐' : 'MOST POPULAR ⭐'}
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#F97316] via-[#EA580C] to-rose-600 text-white flex items-center justify-center shadow-xs">
+                        <Sunset className="w-5 h-5" />
+                      </div>
+                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
+                        04:00 PM
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-[#F97316] transition">
+                        {isAr ? 'رحلة الغروب الذهبية' : 'Sunset Safari'}
+                      </h4>
+                      <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
+                        {isAr ? 'الساعة الذهبية الأشهر عالمياً لالتقاط أروع الصور التذكارية مع الغروب' : 'The prime golden hour for photography and magnificent desert sunset views'}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => openSlotMedia('sunset')}
+                    className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#F97316] to-amber-500 hover:from-[#EA580C] hover:to-amber-600 text-white text-xs font-black transition flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/25 cursor-pointer"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-white" />
+                    <span>{isAr ? '📸 صور وفيديوهات الغروب' : '📸 Sunset Gallery'}</span>
+                  </button>
+                </div>
+
+                {/* 4. Bedouin Dinner Slot (05:30 / 06:30 PM) */}
+                <div className="bg-gradient-to-b from-purple-50/70 to-white rounded-2xl p-4 border border-purple-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-800 text-white flex items-center justify-center shadow-xs">
+                        <Moon className="w-5 h-5" />
+                      </div>
+                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">
+                        06:30 PM
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-purple-700 transition">
+                        {isAr ? 'سهرة العشاء البدوي' : 'Bedouin Dinner & Show'}
+                      </h4>
+                      <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
+                        {isAr ? 'نار المخيم، بوفيه المشاوي الفاخر، حفلة الفلكلور، ورصد النجوم' : 'Campfire BBQ dinner, folklore show, music and starry night atmosphere'}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => openSlotMedia('dinner')}
+                    className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-purple-700 hover:text-white border border-purple-300 text-purple-800 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-purple-700"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-purple-600 group-hover:text-white" />
+                    <span>{isAr ? '📸 صور وفيديوهات العشاء' : '📸 Dinner Gallery'}</span>
+                  </button>
+                </div>
+
               </div>
             </div>
 
