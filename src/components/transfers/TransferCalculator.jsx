@@ -105,7 +105,7 @@ export const TransferCalculator = () => {
               return (
                 <optgroup
                   key={zone.id}
-                  label={isAr ? `📍 ${zone.nameAr}` : `📍 ${zone.nameEn}`}
+                  label={isAr ? zone.nameAr : zone.nameEn}
                 >
                   {zoneHotels.map((loc) => (
                     <option key={loc.id} value={loc.id}>
@@ -135,7 +135,7 @@ export const TransferCalculator = () => {
               return (
                 <optgroup
                   key={zone.id}
-                  label={isAr ? `📍 ${zone.nameAr}` : `📍 ${zone.nameEn}`}
+                  label={isAr ? zone.nameAr : zone.nameEn}
                 >
                   {zoneHotels.map((loc) => (
                     <option key={loc.id} value={loc.id}>

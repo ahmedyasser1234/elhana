@@ -41,16 +41,16 @@ export const FloatingSearchWidget = () => {
       
       {/* 1. Hotel / Location in Sharm El Sheikh */}
       <div className="space-y-1.5">
-        <label className="text-[11px] uppercase font-extrabold text-[#0284C7] tracking-wider block">
+        <label className="text-[11px] md:text-xs uppercase font-bold text-sky-700 tracking-wider block">
           {t('search.whereStaying', isAr ? 'مكان الإقامة بـ شرم الشيخ' : 'Staying in Sharm El Sheikh')}
         </label>
         <select
           value={hotelZone}
           onChange={(e) => setHotelZone(e.target.value)}
-          className="w-full bg-slate-50 text-slate-900 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold focus:border-[#0284C7] focus:outline-none transition cursor-pointer"
+          className="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-xl px-3 py-2.5 text-xs sm:text-[13px] font-semibold focus:border-[#0284C7] focus:bg-white focus:outline-none transition cursor-pointer"
         >
           <option value="">
-            {isAr ? '🏨 جميع فنادق ومنتجعات شرم الشيخ (100% تغطية)' : '🏨 All Sharm Hotels & Resorts (100% Pickup)'}
+            {isAr ? 'جميع فنادق ومناطق شرم الشيخ' : 'All Sharm Hotels & Resorts'}
           </option>
 
           {SHARM_ZONES.map((zone) => {
@@ -59,7 +59,7 @@ export const FloatingSearchWidget = () => {
             return (
               <optgroup
                 key={zone.id}
-                label={isAr ? `📍 ${zone.nameAr}` : `📍 ${zone.nameEn}`}
+                label={isAr ? zone.nameAr : zone.nameEn}
                 className="font-bold text-slate-700 bg-slate-100"
               >
                 {zoneHotels.map((h) => {
@@ -82,16 +82,16 @@ export const FloatingSearchWidget = () => {
 
       {/* 2. Activity Type */}
       <div className="space-y-1.5">
-        <label className="text-[11px] uppercase font-extrabold text-[#0284C7] tracking-wider block">
+        <label className="text-[11px] md:text-xs uppercase font-bold text-sky-700 tracking-wider block">
           {t('search.chooseExperience', isAr ? 'اختر نوع التجربة' : 'Select Experience')}
         </label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full bg-slate-50 text-slate-900 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold focus:border-[#0284C7] focus:outline-none transition cursor-pointer"
+          className="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-xl px-3 py-2.5 text-xs sm:text-[13px] font-semibold focus:border-[#0284C7] focus:bg-white focus:outline-none transition cursor-pointer"
         >
           <option value="all">
-            {isAr ? '✨ كل التجارب والرحلات' : '✨ All Tours & Activities'}
+            {isAr ? 'كل التجارب والرحلات' : 'All Tours & Activities'}
           </option>
           {CATEGORIES.map((cat) => (
             <option key={cat.id} value={cat.id}>
@@ -104,7 +104,7 @@ export const FloatingSearchWidget = () => {
       {/* 3. Date & Guests */}
       <div className="grid grid-cols-2 gap-2">
         <div className="space-y-1.5">
-          <label className="text-[11px] uppercase font-extrabold text-[#0284C7] tracking-wider block">
+          <label className="text-[11px] md:text-xs uppercase font-bold text-sky-700 tracking-wider block">
             {t('search.selectDate', isAr ? 'التاريخ' : 'Date')}
           </label>
           <input
@@ -112,23 +112,23 @@ export const FloatingSearchWidget = () => {
             value={date}
             min={new Date().toISOString().split('T')[0]}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full bg-slate-50 text-slate-900 border border-slate-200 rounded-xl px-2.5 py-2 text-xs font-bold focus:border-[#0284C7] focus:outline-none"
+            className="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-xl px-2.5 py-2.5 text-xs sm:text-[13px] font-semibold focus:border-[#0284C7] focus:bg-white focus:outline-none"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-[11px] uppercase font-extrabold text-[#0284C7] tracking-wider block">
+          <label className="text-[11px] md:text-xs uppercase font-bold text-sky-700 tracking-wider block">
             {t('search.guests', isAr ? 'عدد الأفراد' : 'Guests')}
           </label>
           <select
             value={guests}
             onChange={(e) => setGuests(Number(e.target.value))}
-            className="w-full bg-slate-50 text-slate-900 border border-slate-200 rounded-xl px-2.5 py-2 text-xs font-bold focus:border-[#0284C7] focus:outline-none cursor-pointer"
+            className="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-xl px-2.5 py-2.5 text-xs sm:text-[13px] font-semibold focus:border-[#0284C7] focus:bg-white focus:outline-none cursor-pointer"
           >
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20].map((num) => (
               <option key={num} value={num}>
                 {isAr 
-                  ? `${num} ${num === 1 ? 'فرد واحد' : num === 2 ? 'فردين' : num <= 10 ? 'أفراد' : 'فرد'}`
+                  ? `${num} ${num === 1 ? 'فرد' : num === 2 ? 'فردين' : num <= 10 ? 'أفراد' : 'فرد'}`
                   : `${num} ${num === 1 ? 'Guest' : 'Guests'}`}
               </option>
             ))}
