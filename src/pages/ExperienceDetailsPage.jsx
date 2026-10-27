@@ -417,7 +417,7 @@ export const ExperienceDetailsPage = ({ slugOverride }) => {
       {/* Dedicated Step Photo Gallery Lightbox Modal */}
       {activeStepGallery && (
         <div
-          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-xl flex items-center justify-center p-4"
+          className="fixed inset-0 z-[99999] bg-slate-950/90 backdrop-blur-2xl flex items-center justify-center p-4"
           onClick={() => setActiveStepGallery(null)}
         >
           <div

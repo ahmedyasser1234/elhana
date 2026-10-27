@@ -509,6 +509,26 @@ export const SeaUnifiedPage = ({ defaultTab = 'yacht' }) => {
     images: currentSubDetails.images
   };
 
+  // Keyboard navigation & body scroll lock for Lightbox
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsLightboxOpen(false);
+      } else if (e.key === 'ArrowLeft') {
+        setActiveGalleryIdx((prev) => (prev > 0 ? prev - 1 : currentTabInfo.images.length - 1));
+      } else if (e.key === 'ArrowRight') {
+        setActiveGalleryIdx((prev) => (prev < currentTabInfo.images.length - 1 ? prev + 1 : 0));
+      }
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isLightboxOpen, currentTabInfo.images]);
+
   const rawExperience = EXPERIENCES.find(e => e.slug === currentTabInfo.experienceSlug) || EXPERIENCES[5];
   const experience = getLocalizedExperience(rawExperience, i18n.language);
 
@@ -1154,44 +1174,105 @@ export const SeaUnifiedPage = ({ defaultTab = 'yacht' }) => {
 
       {/* Lightbox Modal */}
       {isLightboxOpen && (
-        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
-          <button
-            onClick={() => setIsLightboxOpen(false)}
-            className="absolute top-5 right-5 text-white/80 hover:text-white p-2.5 rounded-full bg-white/10 hover:bg-white/20 transition cursor-pointer z-50"
-            aria-label="Close Lightbox"
+        <div
+          className="fixed inset-0 z-[99999] bg-slate-950/95 backdrop-blur-2xl flex flex-col justify-between p-3 sm:p-6 overflow-hidden select-none"
+          onClick={() => setIsLightboxOpen(false)}
+        >
+          {/* Header Bar */}
+          <div
+            className="flex items-center justify-between pb-3 border-b border-white/10 shrink-0 z-10"
+            onClick={(e) => e.stopPropagation()}
           >
-            <X className="w-6 h-6" />
-          </button>
-
-          <button
-            onClick={() => setActiveGalleryIdx((prev) => (prev > 0 ? prev - 1 : currentTabInfo.images.length - 1))}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full bg-white/10 hover:bg-white/20 transition cursor-pointer z-50"
-            aria-label="Previous Image"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-
-          <div className="max-w-4xl max-h-[85vh] flex flex-col items-center justify-center space-y-3">
-            <img
-              src={currentTabInfo.images[activeGalleryIdx] || currentTabInfo.images[0]}
-              alt={currentTabInfo.heroTitle}
-              className="max-h-[70vh] max-w-full rounded-2xl object-contain shadow-2xl"
-            />
-            <div className="text-center text-white space-y-1">
-              <h4 className="text-base font-bold font-heading">{currentTabInfo.heroTitle}</h4>
-              <p className="text-xs text-slate-400 font-medium">
+            <div className="flex items-center gap-3">
+              <h3 className="text-sm sm:text-base font-bold text-white font-heading truncate max-w-[200px] sm:max-w-md">
+                {currentTabInfo.galleryTitle || currentTabInfo.heroTitle}
+              </h3>
+              <span className="text-[11px] font-semibold text-slate-300 bg-white/10 px-2.5 py-1 rounded-full border border-white/10">
                 {activeGalleryIdx + 1} / {currentTabInfo.images.length}
-              </p>
+              </span>
             </div>
+
+            <button
+              onClick={() => setIsLightboxOpen(false)}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all cursor-pointer border border-white/10 hover:scale-105 active:scale-95"
+            >
+              <X className="w-4 h-4" />
+              <span>{isAr ? 'إغلاق' : 'Close'}</span>
+            </button>
           </div>
 
-          <button
-            onClick={() => setActiveGalleryIdx((prev) => (prev < currentTabInfo.images.length - 1 ? prev + 1 : 0))}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full bg-white/10 hover:bg-white/20 transition cursor-pointer z-50"
-            aria-label="Next Image"
+          {/* Main Photo Stage */}
+          <div
+            className="flex-1 flex items-center justify-center relative min-h-0 w-full px-2 sm:px-12 py-3"
+            onClick={(e) => e.stopPropagation()}
           >
-            <ChevronRight className="w-6 h-6" />
-          </button>
+            {/* Previous Button */}
+            {currentTabInfo.images.length > 1 && (
+              <button
+                onClick={() =>
+                  setActiveGalleryIdx((prev) =>
+                    prev > 0 ? prev - 1 : currentTabInfo.images.length - 1
+                  )
+                }
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-3 sm:p-3.5 rounded-full bg-slate-900/80 hover:bg-white hover:text-slate-900 text-white transition-all backdrop-blur-md shadow-2xl border border-white/15 z-20 cursor-pointer hover:scale-110 active:scale-95"
+                aria-label="Previous"
+              >
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+            )}
+
+            {/* Displayed Image */}
+            <div className="relative max-h-full max-w-full flex items-center justify-center">
+              <img
+                src={currentTabInfo.images[activeGalleryIdx] || currentTabInfo.images[0]}
+                alt="Enlarged gallery view"
+                className="max-h-[66vh] sm:max-h-[72vh] max-w-full object-contain rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-white/10"
+              />
+            </div>
+
+            {/* Next Button */}
+            {currentTabInfo.images.length > 1 && (
+              <button
+                onClick={() =>
+                  setActiveGalleryIdx((prev) =>
+                    prev < currentTabInfo.images.length - 1 ? prev + 1 : 0
+                  )
+                }
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-3 sm:p-3.5 rounded-full bg-slate-900/80 hover:bg-white hover:text-slate-900 text-white transition-all backdrop-blur-md shadow-2xl border border-white/15 z-20 cursor-pointer hover:scale-110 active:scale-95"
+                aria-label="Next"
+              >
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+            )}
+          </div>
+
+          {/* Bottom Thumbnails Strip */}
+          {currentTabInfo.images.length > 1 && (
+            <div
+              className="pt-2 border-t border-white/10 shrink-0 z-10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-center gap-2 overflow-x-auto py-1 max-w-3xl mx-auto custom-scrollbar">
+                {currentTabInfo.images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveGalleryIdx(idx)}
+                    className={`w-12 h-12 sm:w-16 sm:h-14 rounded-xl overflow-hidden border-2 transition-all shrink-0 cursor-pointer ${
+                      activeGalleryIdx === idx
+                        ? 'border-[#0284C7] scale-105 shadow-lg opacity-100 ring-2 ring-[#0284C7]/50'
+                        : 'border-transparent opacity-50 hover:opacity-90'
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`Thumbnail ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

@@ -166,7 +166,7 @@ export const GalleryPage = () => {
       {/* 4. LIGHTBOX MODAL VIEWER */}
       {selectedMedia && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/95 backdrop-blur-2xl p-4 sm:p-6 lg:p-8 animate-in fade-in duration-300"
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-slate-950/95 backdrop-blur-2xl p-4 sm:p-6 lg:p-8 animate-in fade-in duration-300"
           onClick={() => setSelectedMedia(null)}
         >
           <div
