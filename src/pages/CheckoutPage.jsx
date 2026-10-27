@@ -11,6 +11,7 @@ import { Button } from '../components/common/Button';
 import { ShieldCheck, Calendar, Users, DollarSign, Sparkles, Check, Clock, Compass } from 'lucide-react';
 import { getLocalizedExperience } from '../data/experiences';
 import { useCurrency } from '../context/CurrencyContext';
+import { SHARM_HOTELS } from '../data/sharmHotels';
 
 export const CheckoutPage = () => {
   const { t, i18n } = useTranslation();
@@ -209,10 +210,16 @@ export const CheckoutPage = () => {
                     <label className="text-xs font-bold text-slate-700">{t('checkout.hotelName')} *</label>
                     <input
                       type="text"
+                      list="sharm-hotels-datalist"
                       {...register('hotelName', { required: true })}
-                      placeholder={isAr ? "مثال: فندق ريكسوس، الباتروس" : "e.g. Rixos Seagate, Sultan Gardens"}
+                      placeholder={isAr ? "مثال: فندق ريكسوس، الباتروس، سلطان جاردنز..." : "e.g. Rixos Seagate, Sultan Gardens..."}
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-900 focus:border-[#0284C7]"
                     />
+                    <datalist id="sharm-hotels-datalist">
+                      {SHARM_HOTELS.map((h) => (
+                        <option key={h.id} value={isAr ? h.nameAr : h.name} />
+                      ))}
+                    </datalist>
                     {errors.hotelName && <p className="text-[10px] text-red-500">{isAr ? 'اسم الفندق مطلوب للتوصيل' : 'Hotel name is required for pickup'}</p>}
                   </div>
                 </div>

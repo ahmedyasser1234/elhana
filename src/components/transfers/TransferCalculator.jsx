@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Car, MapPin, Calendar, Clock, Users, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
 import { SHARM_LOCATIONS, VEHICLE_TYPES } from '../../data/transfers';
+import { SHARM_ZONES } from '../../data/sharmHotels';
 import { Button } from '../common/Button';
 import { useToast } from '../../context/ToastContext';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -26,9 +27,9 @@ export const TransferCalculator = () => {
   const vehicle = VEHICLE_TYPES.find(v => v.id === selectedVehicle) || VEHICLE_TYPES[0];
 
   let distanceMultiplier = 1.0;
-  if (pickupObj.name.includes('Dahab') || dropoffObj.name.includes('Dahab')) {
+  if (pickupObj?.zoneId === 'dahab' || dropoffObj?.zoneId === 'dahab' || pickupObj?.name?.includes('Dahab') || dropoffObj?.name?.includes('Dahab')) {
     distanceMultiplier = 2.8;
-  } else if (pickupObj.name.includes('Airport') && dropoffObj.name.includes('Nabq')) {
+  } else if ((pickupObj?.id === 'ssh-airport' || dropoffObj?.id === 'ssh-airport') && (pickupObj?.zoneId === 'nabq' || dropoffObj?.zoneId === 'nabq')) {
     distanceMultiplier = 1.2;
   }
 
@@ -98,11 +99,22 @@ export const TransferCalculator = () => {
             onChange={(e) => setPickup(e.target.value)}
             className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-900 focus:border-[#D4AF37]"
           >
-            {SHARM_LOCATIONS.map((loc) => (
-              <option key={loc.id} value={loc.id}>
-                {isAr ? loc.nameAr : loc.name} ({isAr ? loc.categoryAr : loc.category})
-              </option>
-            ))}
+            {SHARM_ZONES.map((zone) => {
+              const zoneHotels = SHARM_LOCATIONS.filter((h) => h.zoneId === zone.id);
+              if (zoneHotels.length === 0) return null;
+              return (
+                <optgroup
+                  key={zone.id}
+                  label={isAr ? `📍 ${zone.nameAr}` : `📍 ${zone.nameEn}`}
+                >
+                  {zoneHotels.map((loc) => (
+                    <option key={loc.id} value={loc.id}>
+                      {isAr ? loc.nameAr : loc.name} ({isAr ? loc.categoryAr : loc.category})
+                    </option>
+                  ))}
+                </optgroup>
+              );
+            })}
           </select>
         </div>
 
@@ -117,11 +129,22 @@ export const TransferCalculator = () => {
             onChange={(e) => setDropoff(e.target.value)}
             className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-900 focus:border-[#00A896]"
           >
-            {SHARM_LOCATIONS.map((loc) => (
-              <option key={loc.id} value={loc.id}>
-                {isAr ? loc.nameAr : loc.name} ({isAr ? loc.categoryAr : loc.category})
-              </option>
-            ))}
+            {SHARM_ZONES.map((zone) => {
+              const zoneHotels = SHARM_LOCATIONS.filter((h) => h.zoneId === zone.id);
+              if (zoneHotels.length === 0) return null;
+              return (
+                <optgroup
+                  key={zone.id}
+                  label={isAr ? `📍 ${zone.nameAr}` : `📍 ${zone.nameEn}`}
+                >
+                  {zoneHotels.map((loc) => (
+                    <option key={loc.id} value={loc.id}>
+                      {isAr ? loc.nameAr : loc.name} ({isAr ? loc.categoryAr : loc.category})
+                    </option>
+                  ))}
+                </optgroup>
+              );
+            })}
           </select>
         </div>
 
