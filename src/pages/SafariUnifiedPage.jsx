@@ -1222,7 +1222,7 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
               </div>
             </div>
 
-            {/* Daily Departure Slots & Verified Media Showcase (4 Cards Grid in Empty Space beside Widget) */}
+            {/* Daily Departure Slots & Live Media Showcase (Redesigned 4-Card Luxury Matrix) */}
             <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-sm space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
                 <div>
@@ -1245,132 +1245,291 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
                 </div>
               </div>
 
-              {/* 4 Cards Grid (2x2 Grid) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 pt-1">
+              {/* 4 Luxury Slot Cards (2x2 Grid) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
                 
                 {/* 1. Sunrise Slot (04:30 AM) */}
-                <div className="bg-gradient-to-b from-amber-50/70 to-white rounded-2xl p-4 border border-amber-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                  <div className="space-y-2">
+                <div className="bg-gradient-to-b from-amber-50/60 via-white to-white rounded-2xl p-4 sm:p-5 border border-amber-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 text-white flex items-center justify-center shadow-xs">
-                        <Sunrise className="w-5 h-5" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 text-white flex items-center justify-center shadow-xs">
+                          <Sunrise className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200 inline-block">
+                            04:30 AM
+                          </span>
+                        </div>
                       </div>
-                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
-                        04:30 AM
+                      <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60">
+                        {isAr ? 'نسيم الفجر' : 'Dawn Breeze'}
                       </span>
                     </div>
+
                     <div>
                       <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-[#F97316] transition">
                         {isAr ? 'رحلة الشروق (الفجر)' : 'Sunrise Safari'}
                       </h4>
-                      <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
-                        {isAr ? 'هدوء نسيم الفجر وبزوغ الشمس الذهبية بين جبال سيناء والوديان' : 'Cool morning breeze and golden sunrise over Sinai mountains'}
+                      <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                        {isAr ? 'شروق الشمس الذهبي الساحر بين قمم جبال سيناء والوديان' : 'Golden sunrise emerging behind rugged Sinai mountain peaks'}
                       </p>
                     </div>
+
+                    <div className="space-y-1.5 pt-1 border-t border-slate-100">
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                        <span>{isAr ? 'أجواء هادئة ودرجات حرارة منعشة' : 'Cool refreshing desert climate'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                        <span>{isAr ? 'شاي بالحبق البدوي في الخيمة' : 'Bedouin herbal tea in authentic tent'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                        <span>{isAr ? 'أفضل إضاءة لبداية اليوم والتصوير' : 'Crisp morning light for photos'}</span>
+                      </div>
+                    </div>
                   </div>
+
                   <button
                     type="button"
                     onClick={() => openSlotMedia('sunrise')}
-                    className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-orange-500 hover:text-white border border-amber-300 text-amber-800 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-orange-500"
+                    className="mt-4 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-orange-500 hover:text-white border border-amber-300 text-amber-800 text-xs font-extrabold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-orange-500"
                   >
                     <Camera className="w-3.5 h-3.5 text-amber-600 group-hover:text-white" />
-                    <span>{isAr ? '📸 صور وفيديوهات الشروق' : '📸 Sunrise Gallery'}</span>
+                    <span>{isAr ? '📸 معرض صور وفيديوهات الشروق' : '📸 Sunrise Gallery'}</span>
                   </button>
                 </div>
 
                 {/* 2. Morning Slot (09:00 AM) */}
-                <div className="bg-gradient-to-b from-sky-50/70 to-white rounded-2xl p-4 border border-sky-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                  <div className="space-y-2">
+                <div className="bg-gradient-to-b from-sky-50/60 via-white to-white rounded-2xl p-4 sm:p-5 border border-sky-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0284C7] to-blue-600 text-white flex items-center justify-center shadow-xs">
-                        <Sun className="w-5 h-5" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0284C7] to-blue-600 text-white flex items-center justify-center shadow-xs">
+                          <Sun className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-200 inline-block">
+                            09:00 AM
+                          </span>
+                        </div>
                       </div>
-                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-200">
-                        09:00 AM
+                      <span className="text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200/60">
+                        {isAr ? 'وضوح وسرعة' : 'Daylight Thrill'}
                       </span>
                     </div>
+
                     <div>
                       <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-[#0284C7] transition">
                         {isAr ? 'رحلة الصباح (الساعة 9)' : 'Morning Safari'}
                       </h4>
-                      <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
-                        {isAr ? 'وضوح الرؤية النهارية العالية والانطلاق السريع بالمسارات المفتوحة' : 'Bright daylight visibility and thrilling rides across open desert tracks'}
+                      <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                        {isAr ? 'وضوح الرؤية النهارية العالية والانطلاق السريع بالمسارات المفتوحة' : 'Bright daylight visibility and fast rides across open desert tracks'}
                       </p>
                     </div>
+
+                    <div className="space-y-1.5 pt-1 border-t border-slate-100">
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+                        <span>{isAr ? 'مسارات رملية واسعة وحرية قيادة' : 'Wide tracks & riding freedom'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+                        <span>{isAr ? 'توقف بصدى الصوت والواحة' : 'Echo mountain stop & Bedouin camp'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+                        <span>{isAr ? 'صور تذكارية بوضوح أشعة الشمس' : 'Vibrant sunny vacation photos'}</span>
+                      </div>
+                    </div>
                   </div>
+
                   <button
                     type="button"
                     onClick={() => openSlotMedia('morning')}
-                    className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-[#0284C7] hover:text-white border border-sky-300 text-sky-800 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-[#0284C7]"
+                    className="mt-4 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-[#0284C7] hover:text-white border border-sky-300 text-sky-800 text-xs font-extrabold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-[#0284C7]"
                   >
                     <Camera className="w-3.5 h-3.5 text-sky-600 group-hover:text-white" />
-                    <span>{isAr ? '📸 صور وفيديوهات الـ 9 ص' : '📸 9 AM Gallery'}</span>
+                    <span>{isAr ? '📸 معرض صور وفيديوهات الـ 9 ص' : '📸 9 AM Gallery'}</span>
                   </button>
                 </div>
 
                 {/* 3. Sunset Slot (04:00 PM) - Most Popular */}
-                <div className="bg-gradient-to-b from-orange-50/80 to-white rounded-2xl p-4 border-2 border-orange-400/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative group scale-[1.01]">
-                  <div className="absolute -top-2.5 right-4 rtl:left-4 rtl:right-auto bg-gradient-to-r from-[#F97316] to-rose-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-xs tracking-wider">
-                    {isAr ? 'الأكثر طلباً ⭐' : 'MOST POPULAR ⭐'}
+                <div className="bg-gradient-to-b from-orange-50/70 via-white to-white rounded-2xl p-4 sm:p-5 border-2 border-orange-400/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative group scale-[1.01]">
+                  <div className="absolute -top-2.5 right-4 rtl:left-4 rtl:right-auto bg-gradient-to-r from-[#F97316] to-rose-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xs tracking-wider">
+                    {isAr ? '⭐ الأكثر طلباً وحجزاً' : '⭐ MOST POPULAR'}
                   </div>
-                  <div className="space-y-2">
+
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#F97316] via-[#EA580C] to-rose-600 text-white flex items-center justify-center shadow-xs">
-                        <Sunset className="w-5 h-5" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#F97316] via-[#EA580C] to-rose-600 text-white flex items-center justify-center shadow-xs">
+                          <Sunset className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200 inline-block">
+                            04:00 PM
+                          </span>
+                        </div>
                       </div>
-                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
-                        04:00 PM
+                      <span className="text-[10px] font-bold text-orange-800 bg-orange-100/70 px-2 py-0.5 rounded-md border border-orange-200">
+                        {isAr ? 'الساعة الذهبية' : 'Golden Hour'}
                       </span>
                     </div>
+
                     <div>
                       <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-[#F97316] transition">
                         {isAr ? 'رحلة الغروب الذهبية' : 'Sunset Safari'}
                       </h4>
-                      <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
-                        {isAr ? 'الساعة الذهبية الأشهر عالمياً لالتقاط أروع الصور التذكارية مع الغروب' : 'The prime golden hour for photography and magnificent desert sunset views'}
+                      <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                        {isAr ? 'الساعة الذهبية الأشهر عالمياً لالتقاط أروع الصور التذكارية مع الغروب' : 'Prime golden hour for photography & breathtaking desert sunset views'}
                       </p>
                     </div>
+
+                    <div className="space-y-1.5 pt-1 border-t border-slate-100">
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-[#F97316] shrink-0" />
+                        <span>{isAr ? 'فوتوسيشن احترافي عند مغيب الشمس' : 'Signature sunset photo shoot'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-[#F97316] shrink-0" />
+                        <span>{isAr ? 'ألوان سماء خيالية وظلال الجبال' : 'Dramatic evening sky colors'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-[#F97316] shrink-0" />
+                        <span>{isAr ? 'استراحة في الخيمة مع شاي ساخن' : 'Cozy tea break as twilight falls'}</span>
+                      </div>
+                    </div>
                   </div>
+
                   <button
                     type="button"
                     onClick={() => openSlotMedia('sunset')}
-                    className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#F97316] to-amber-500 hover:from-[#EA580C] hover:to-amber-600 text-white text-xs font-black transition flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/25 cursor-pointer"
+                    className="mt-4 w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#F97316] to-amber-500 hover:from-[#EA580C] hover:to-amber-600 text-white text-xs font-black transition flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/25 cursor-pointer"
                   >
                     <Camera className="w-3.5 h-3.5 text-white" />
-                    <span>{isAr ? '📸 صور وفيديوهات الغروب' : '📸 Sunset Gallery'}</span>
+                    <span>{isAr ? '📸 معرض صور وفيديوهات الغروب' : '📸 Sunset Gallery'}</span>
                   </button>
                 </div>
 
                 {/* 4. Bedouin Dinner Slot (05:30 / 06:30 PM) */}
-                <div className="bg-gradient-to-b from-purple-50/70 to-white rounded-2xl p-4 border border-purple-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                  <div className="space-y-2">
+                <div className="bg-gradient-to-b from-purple-50/60 via-white to-white rounded-2xl p-4 sm:p-5 border border-purple-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-800 text-white flex items-center justify-center shadow-xs">
-                        <Moon className="w-5 h-5" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-800 text-white flex items-center justify-center shadow-xs">
+                          <Moon className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200 inline-block">
+                            06:30 PM
+                          </span>
+                        </div>
                       </div>
-                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">
-                        06:30 PM
+                      <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200/60">
+                        {isAr ? 'سهرة وحفلة' : 'Dinner & Show'}
                       </span>
                     </div>
+
                     <div>
                       <h4 className="text-sm font-extrabold text-slate-900 font-heading group-hover:text-purple-700 transition">
-                        {isAr ? 'سهرة العشاء البدوي' : 'Bedouin Dinner & Show'}
+                        {isAr ? 'سهرة العشاء البدوي والحفلة' : 'Bedouin Dinner & Show'}
                       </h4>
-                      <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
+                      <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
                         {isAr ? 'نار المخيم، بوفيه المشاوي الفاخر، حفلة الفلكلور، ورصد النجوم' : 'Campfire BBQ dinner, folklore show, music and starry night atmosphere'}
                       </p>
                     </div>
+
+                    <div className="space-y-1.5 pt-1 border-t border-slate-100">
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <span>{isAr ? 'بوفيه مشاوي فاخر وأكلات بدوية طازجة' : 'Open BBQ buffet & authentic cuisine'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <span>{isAr ? 'عروض التنورة والرقص الشرقي الحية' : 'Live folklore & Tanoura show'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <Check className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <span>{isAr ? 'رصد النجوم والمجرات بالتليسكوب' : 'Stargazing with telescope'}</span>
+                      </div>
+                    </div>
                   </div>
+
                   <button
                     type="button"
                     onClick={() => openSlotMedia('dinner')}
-                    className="mt-3.5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-purple-700 hover:text-white border border-purple-300 text-purple-800 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-purple-700"
+                    className="mt-4 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-purple-700 hover:text-white border border-purple-300 text-purple-800 text-xs font-extrabold transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer group-hover:border-purple-700"
                   >
                     <Camera className="w-3.5 h-3.5 text-purple-600 group-hover:text-white" />
-                    <span>{isAr ? '📸 صور وفيديوهات العشاء' : '📸 Dinner Gallery'}</span>
+                    <span>{isAr ? '📸 معرض صور وفيديوهات العشاء' : '📸 Dinner Gallery'}</span>
                   </button>
                 </div>
 
+              </div>
+            </div>
+
+            {/* Exclusive Safari Guarantees & Safety Standards (Aligns Right Column with Booking Widget) */}
+            <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 text-white rounded-3xl p-5 sm:p-6 border border-slate-800 shadow-xl space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
+                  <div>
+                    <h4 className="text-sm sm:text-base font-black font-heading text-white">
+                      {isAr ? 'معايير الأمان والضمانات الحصرية لمغامرتك' : 'Exclusive VIP Safety & Booking Guarantees'}
+                    </h4>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      {isAr ? 'نلتزم بأعلى معايير السلامة والجودة بدون أي تكاليف خفية' : 'Committed to global safety standards & direct operator excellence'}
+                    </p>
+                  </div>
+                </div>
+                <span className="hidden sm:inline-block text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                  {isAr ? 'معتمد 100%' : '100% Certified'}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/5">
+                  <div className="w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0">
+                    <Compass className="w-3.5 h-3.5" />
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold text-white">{isAr ? 'مركبات حديثة وصيانة دورية' : 'Modern Maintained Fleet'}</h5>
+                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">{isAr ? 'فحص ميكانيكي يومي لجميع البيتش باجي والكار باجي قبل الانطلاق' : 'Daily inspection before every desert departure'}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/5">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                    <Sparkles className="w-3.5 h-3.5" />
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold text-white">{isAr ? 'معدات وخوذ أمان معقمة' : 'Sterilized Helmets & Gear'}</h5>
+                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">{isAr ? 'خوذ ونظارات حماية معقمة مجاناً لكل راكب لسلامتك التامة' : 'Free sanitized helmets and goggles for every rider'}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/5">
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+                    <Tent className="w-3.5 h-3.5" />
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold text-white">{isAr ? 'مرشدين بدو خبراء محليين' : 'Licensed Bedouin Guides'}</h5>
+                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">{isAr ? 'مرافقة مرشدين محترفين لحمايتك وإرشادك طوال مسار الجولة' : 'Professional local guides navigating secret desert paths'}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/5">
+                  <div className="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
+                    <Car className="w-3.5 h-3.5" />
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold text-white">{isAr ? 'انتقالات خاصة ومكيفة مجاناً' : 'Direct Hotel Transfers'}</h5>
+                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">{isAr ? 'استقبال وتوصيل مباشر من وإلى فندقك بشرم الشيخ' : 'Door-to-door air-conditioned transfers included'}</p>
+                  </div>
+                </div>
               </div>
             </div>
 
