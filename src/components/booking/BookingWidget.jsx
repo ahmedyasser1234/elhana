@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Check, Plus, Minus, ShieldCheck, Camera, Sparkles } from 'lucide-react';
+import { Check, Plus, Minus, ShieldCheck, Camera, Sparkles, ChevronDown } from 'lucide-react';
 import { useBooking } from '../../context/BookingContext';
 import { Button } from '../common/Button';
 import { getWhatsAppLink, WhatsAppIcon } from '../common/WhatsAppButton';
@@ -144,6 +144,7 @@ export const BookingWidget = ({ experience }) => {
   const [proposalBedouinUpgrade, setProposalBedouinUpgrade] = useState(false);
   const [yachtRomanticUpgrade, setYachtRomanticUpgrade] = useState(false);
   const [yachtProposalUpgrade, setYachtProposalUpgrade] = useState(false);
+  const [showAllExtras, setShowAllExtras] = useState(false);
 
   if (!experience) return null;
 
@@ -261,6 +262,21 @@ export const BookingWidget = ({ experience }) => {
                       (proposalBedouinUpgrade ? 180 : 0) +
                       (yachtRomanticUpgrade ? 95 : 0) +
                       (yachtProposalUpgrade ? 220 : 0);
+
+  const selectedExtrasCount = [
+    privateTransfer,
+    photoVideo,
+    bedouinScarf,
+    desertGoggles,
+    privateSafari,
+    camelRide30min,
+    horseRide1hr,
+    telescopeStargazing,
+    romanticBedouinUpgrade,
+    proposalBedouinUpgrade,
+    yachtRomanticUpgrade,
+    yachtProposalUpgrade
+  ].filter(Boolean).length;
 
   // isHorseCamelTab — defined near top for time slots, repeated here for clarity
   const isHorseCamelTab = isHorseCamelTabEarly;
@@ -1010,250 +1026,513 @@ export const BookingWidget = ({ experience }) => {
         </div>
 
         {/* Optional Add-ons */}
-        <div className="space-y-2 pt-2 border-t border-stone-100">
-          <label className="text-xs font-bold text-stone-700 uppercase tracking-wider block">{getLabel('optionalExtras')}</label>
+        {(() => {
+          const availableMoreCount = (isSafari ? 6 : 0) + ((isSafari || isHorseCamelTab) ? 2 : 0) + (isBedouinStandaloneExp ? 2 : 0) + ((!isSafari && (experience?.category === 'yacht' || experience?.category === 'sea' || experience?.activeTab === 'yacht' || experience?.slug?.includes('yacht'))) ? 2 : 0);
 
-          {/* Private Transfer — dynamically switches to 14-seater van if > 6 pax */}
-          <label className="flex items-center justify-between p-2.5 rounded-xl border border-stone-200 bg-stone-50 cursor-pointer hover:bg-stone-100 transition">
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={privateTransfer}
-                  onChange={(e) => setPrivateTransfer(e.target.checked)}
-                  className="w-4 h-4 accent-[#0284C7] rounded"
-                />
-                <span className="text-xs font-semibold text-stone-800">
-                  {totalPeopleCount > 6
-                    ? (isAr ? 'سيارة فان 14 راكب' : '14-Seater Van Transfer')
-                    : (isAr ? 'سيارة خاصة VIP' : 'Private VIP Car Transfer')}
-                </span>
+          return (
+            <div className="space-y-2.5 pt-3 border-t border-stone-100">
+              {/* Header with Title & Selected Badge */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <label className="text-xs font-bold text-stone-700 uppercase tracking-wider block">
+                    {getLabel('optionalExtras')}
+                  </label>
+                  {selectedExtrasCount > 0 && (
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-100 text-[#0284C7]">
+                      {selectedExtrasCount} {isAr ? 'مختارة' : 'Selected'}
+                    </span>
+                  )}
+                </div>
+                {selectedExtrasCount > 0 && (
+                  <span className="text-xs font-extrabold text-[#0284C7]">
+                    +{formatPrice(extrasTotal)}
+                  </span>
+                )}
               </div>
-              <span className="text-[10px] text-slate-400 mt-0.5 pl-6">
-                {isAr
-                  ? (totalPeopleCount > 6 ? 'سيارة فان 14 راكب (لأكثر من 6 أفراد)' : 'سيارة خاصة (حتى 6 أفراد)')
-                  : (totalPeopleCount > 6 ? '14-Seater Van (more than 6 guests)' : 'Private Car (up to 6 guests)')}
-              </span>
+
+              {/* Primary Essentials (Always Compact & Visible) */}
+              <div className="space-y-1.5">
+                {/* 1. Private Transfer */}
+                <label
+                  className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                    privateTransfer
+                      ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                      : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                  }`}
+                >
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={privateTransfer}
+                        onChange={(e) => setPrivateTransfer(e.target.checked)}
+                        className="w-4 h-4 accent-[#0284C7] rounded"
+                      />
+                      <span className="text-xs font-semibold text-stone-800">
+                        {totalPeopleCount > 6
+                          ? (isAr ? 'سيارة فان خاصة 14 راكب' : '14-Seater Private Van')
+                          : (isAr ? 'سيارة خاصة VIP' : 'Private VIP Car Transfer')}
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-slate-400 mt-0.5 pl-6 rtl:pl-0 rtl:pr-6">
+                      {isAr
+                        ? (totalPeopleCount > 6 ? 'سيارة فان 14 راكب (لأكثر من 6 أفراد)' : 'سيارة خاصة (حتى 6 أفراد)')
+                        : (totalPeopleCount > 6 ? '14-Seater Van (more than 6 guests)' : 'Private Car (up to 6 guests)')}
+                    </span>
+                  </div>
+                  <span className="text-xs font-bold text-stone-900">
+                    +{formatPrice(calculatedTransferPrice)}
+                  </span>
+                </label>
+
+                {/* 2. Photo & Video Package */}
+                <label
+                  className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                    photoVideo
+                      ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                      : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={photoVideo}
+                      onChange={(e) => setPhotoVideo(e.target.checked)}
+                      className="w-4 h-4 accent-[#0284C7] rounded"
+                    />
+                    <span className="text-xs font-semibold text-stone-800">{getLabel('photoPackage')}</span>
+                  </div>
+                  <span className="text-xs font-bold text-stone-900">+{formatPrice(photoVideoPrice)}</span>
+                </label>
+              </div>
+
+              {/* Any currently checked extras outside top 2 are kept visible even when collapsed */}
+              {!showAllExtras && (
+                <div className="space-y-1.5">
+                  {bedouinScarf && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={bedouinScarf} onChange={(e) => setBedouinScarf(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
+                        <span className="text-xs font-semibold text-stone-800">{getLabel('bedouinScarf')}</span>
+                      </div>
+                      <span className="text-xs font-bold text-stone-900">+{formatPrice(bedouinScarfPrice)}</span>
+                    </label>
+                  )}
+                  {desertGoggles && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={desertGoggles} onChange={(e) => setDesertGoggles(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
+                        <span className="text-xs font-semibold text-stone-800">{getLabel('desertGoggles')}</span>
+                      </div>
+                      <span className="text-xs font-bold text-stone-900">+{formatPrice(desertGogglesPrice)}</span>
+                    </label>
+                  )}
+                  {privateSafari && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={privateSafari} onChange={(e) => setPrivateSafari(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
+                        <span className="text-xs font-semibold text-stone-800">{getLabel('privateSafari')}</span>
+                      </div>
+                      <span className="text-xs font-bold text-stone-900">+{formatPrice(15)}</span>
+                    </label>
+                  )}
+                  {camelRide30min && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={camelRide30min} onChange={(e) => setCamelRide30min(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
+                        <span className="text-xs font-semibold text-stone-800">{getLabel('camelRideLabel')}</span>
+                      </div>
+                      <span className="text-xs font-bold text-stone-900">+{formatPrice(camelExtra)}</span>
+                    </label>
+                  )}
+                  {horseRide1hr && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={horseRide1hr} onChange={(e) => setHorseRide1hr(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
+                        <span className="text-xs font-semibold text-stone-800">{getLabel('horseRideLabel')}</span>
+                      </div>
+                      <span className="text-xs font-bold text-stone-900">+{formatPrice(horseExtra)}</span>
+                    </label>
+                  )}
+                  {telescopeStargazing && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-[#0284C7] bg-sky-50/70 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={telescopeStargazing} onChange={(e) => setTelescopeStargazing(e.target.checked)} className="w-4 h-4 accent-[#0284C7] rounded" />
+                        <span className="text-xs font-semibold text-stone-800">{getLabel('telescopeLabel')}</span>
+                      </div>
+                      <span className="text-xs font-bold text-stone-900">+{formatPrice(5)}</span>
+                    </label>
+                  )}
+                  {romanticBedouinUpgrade && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-rose-300 bg-rose-50/80 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={romanticBedouinUpgrade} onChange={(e) => setRomanticBedouinUpgrade(e.target.checked)} className="w-4 h-4 accent-rose-600 rounded" />
+                        <span className="text-xs font-semibold text-rose-950">{isAr ? 'عشاء رومانسي بالشموع لشخصين' : 'Romantic Candlelight Tent for 2'}</span>
+                      </div>
+                      <span className="text-xs font-bold text-rose-900">+{formatPrice(65)}</span>
+                    </label>
+                  )}
+                  {proposalBedouinUpgrade && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-amber-300 bg-amber-50/80 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={proposalBedouinUpgrade} onChange={(e) => setProposalBedouinUpgrade(e.target.checked)} className="w-4 h-4 accent-amber-600 rounded" />
+                        <span className="text-xs font-semibold text-amber-950">{isAr ? 'باقة طلب الزواج VIP البدوية' : 'VIP Desert Marry Me Proposal'}</span>
+                      </div>
+                      <span className="text-xs font-bold text-amber-900">+{formatPrice(180)}</span>
+                    </label>
+                  )}
+                  {yachtRomanticUpgrade && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-rose-300 bg-rose-50/80 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={yachtRomanticUpgrade} onChange={(e) => setYachtRomanticUpgrade(e.target.checked)} className="w-4 h-4 accent-rose-600 rounded" />
+                        <span className="text-xs font-semibold text-rose-950">{isAr ? 'عشاء يخت رومانسي لشخصين' : 'Romantic VIP Yacht Dinner'}</span>
+                      </div>
+                      <span className="text-xs font-bold text-rose-900">+{formatPrice(95)}</span>
+                    </label>
+                  )}
+                  {yachtProposalUpgrade && (
+                    <label className="flex items-center justify-between p-2.5 rounded-xl border border-amber-300 bg-amber-50/80 shadow-xs cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={yachtProposalUpgrade} onChange={(e) => setYachtProposalUpgrade(e.target.checked)} className="w-4 h-4 accent-amber-600 rounded" />
+                        <span className="text-xs font-semibold text-amber-950">{isAr ? 'باقة طلب الزواج VIP على اليخت' : 'VIP Yacht Marry Me Proposal'}</span>
+                      </div>
+                      <span className="text-xs font-bold text-amber-900">+{formatPrice(220)}</span>
+                    </label>
+                  )}
+                </div>
+              )}
+
+              {/* Toggle Expand / Collapse Button */}
+              {availableMoreCount > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setShowAllExtras(!showAllExtras)}
+                  className="w-full py-2 px-3 rounded-xl bg-slate-100/90 hover:bg-slate-200/90 text-slate-700 text-xs font-bold transition-all flex items-center justify-between cursor-pointer border border-slate-200/80"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#F97316]" />
+                    <span>
+                      {showAllExtras
+                        ? (isAr ? 'عرض إضافات أقل' : 'Show Fewer Extras')
+                        : (isAr ? 'المزيد من الإضافات والأنشطة الاختيارية' : 'More Optional Extras & Activities')}
+                    </span>
+                    {!showAllExtras && (
+                      <span className="text-[10px] bg-white text-slate-700 px-1.5 py-0.5 rounded-md font-extrabold shadow-xs border border-slate-200">
+                        +{availableMoreCount}
+                      </span>
+                    )}
+                  </div>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${
+                      showAllExtras ? 'rotate-180 text-[#0284C7]' : ''
+                    }`}
+                  />
+                </button>
+              )}
+
+              {/* Expanded Categorized Extras */}
+              {showAllExtras && (
+                <div className="space-y-3 pt-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                  
+                  {/* Category 1: Gear & Accessories */}
+                  {(isSafari || isHorseCamelTab) && (
+                    <div className="space-y-1.5">
+                      <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        {isAr ? 'تجهيزات ومعدات الحماية' : 'Gear & Protection'}
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                        <label
+                          className={`flex items-center justify-between p-2 rounded-xl border transition-all cursor-pointer ${
+                            bedouinScarf
+                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={bedouinScarf}
+                              onChange={(e) => setBedouinScarf(e.target.checked)}
+                              className="w-4 h-4 accent-[#0284C7] rounded"
+                            />
+                            <span className="text-xs font-semibold text-stone-800">{getLabel('bedouinScarf')}</span>
+                          </div>
+                          <span className="text-xs font-bold text-stone-900">+{formatPrice(bedouinScarfPrice)}</span>
+                        </label>
+
+                        <label
+                          className={`flex items-center justify-between p-2 rounded-xl border transition-all cursor-pointer ${
+                            desertGoggles
+                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={desertGoggles}
+                              onChange={(e) => setDesertGoggles(e.target.checked)}
+                              className="w-4 h-4 accent-[#0284C7] rounded"
+                            />
+                            <span className="text-xs font-semibold text-stone-800">{getLabel('desertGoggles')}</span>
+                          </div>
+                          <span className="text-xs font-bold text-stone-900">+{formatPrice(desertGogglesPrice)}</span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Category 2: Safari Bonus Activities */}
+                  {isSafari && (
+                    <div className="space-y-1.5">
+                      <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        {isAr ? 'أنشطة وترقيات صحراوية' : 'Bonus Safari Activities'}
+                      </div>
+                      
+                      <div className="space-y-1.5">
+                        <label
+                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                            privateSafari
+                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={privateSafari}
+                              onChange={(e) => setPrivateSafari(e.target.checked)}
+                              className="w-4 h-4 accent-[#0284C7] rounded"
+                            />
+                            <span className="text-xs font-semibold text-stone-800">{getLabel('privateSafari')}</span>
+                          </div>
+                          <span className="text-xs font-bold text-stone-900">+{formatPrice(15)}</span>
+                        </label>
+
+                        <label
+                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                            camelRide30min
+                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={camelRide30min}
+                              onChange={(e) => setCamelRide30min(e.target.checked)}
+                              className="w-4 h-4 accent-[#0284C7] rounded"
+                            />
+                            <span className="text-xs font-semibold text-stone-800">{getLabel('camelRideLabel')}</span>
+                          </div>
+                          <span className="text-xs font-bold text-stone-900">+{formatPrice(camelExtra)}</span>
+                        </label>
+
+                        <label
+                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                            horseRide1hr
+                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={horseRide1hr}
+                              onChange={(e) => setHorseRide1hr(e.target.checked)}
+                              className="w-4 h-4 accent-[#0284C7] rounded"
+                            />
+                            <span className="text-xs font-semibold text-stone-800">{getLabel('horseRideLabel')}</span>
+                          </div>
+                          <span className="text-xs font-bold text-stone-900">+{formatPrice(horseExtra)}</span>
+                        </label>
+
+                        <label
+                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                            telescopeStargazing
+                              ? 'border-[#0284C7] bg-sky-50/70 shadow-xs ring-1 ring-sky-300/40'
+                              : 'border-stone-200 bg-stone-50/80 hover:bg-stone-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={telescopeStargazing}
+                              onChange={(e) => setTelescopeStargazing(e.target.checked)}
+                              className="w-4 h-4 accent-[#0284C7] rounded"
+                            />
+                            <span className="text-xs font-semibold text-stone-800">{getLabel('telescopeLabel')}</span>
+                          </div>
+                          <span className="text-xs font-bold text-stone-900">+{formatPrice(5)}</span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Camel + Horse add-ons on Bedouin dinner tab */}
+                  {(isBedouinStandaloneExp || experience?.activeTab === 'bedouin') && (
+                    <div className="space-y-1.5">
+                      <label
+                        className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                          camelRide30min
+                            ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
+                            : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={camelRide30min}
+                            onChange={(e) => setCamelRide30min(e.target.checked)}
+                            className="w-4 h-4 accent-amber-600 rounded"
+                          />
+                          <div>
+                            <span className="text-xs font-semibold text-stone-800">{isAr ? 'أضف جولة جمال قبل العشاء' : 'Add Camel Ride before Dinner'}</span>
+                            <div className="text-[10px] text-amber-700 font-medium">{isAr ? 'حجز مدمج مع العشاء البدوي' : 'Combined with Bedouin dinner booking'}</div>
+                          </div>
+                        </div>
+                        <span className="text-xs font-bold text-amber-800">+{formatPrice(camelExtra)}/{isAr ? 'فرد' : 'pax'}</span>
+                      </label>
+
+                      <label
+                        className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                          horseRide1hr
+                            ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
+                            : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={horseRide1hr}
+                            onChange={(e) => setHorseRide1hr(e.target.checked)}
+                            className="w-4 h-4 accent-amber-600 rounded"
+                          />
+                          <div>
+                            <span className="text-xs font-semibold text-stone-800">{isAr ? 'أضف جولة خيل قبل العشاء' : 'Add Horse Ride before Dinner'}</span>
+                            <div className="text-[10px] text-amber-700 font-medium">{isAr ? 'حجز مدمج مع العشاء البدوي' : 'Combined with Bedouin dinner booking'}</div>
+                          </div>
+                        </div>
+                        <span className="text-xs font-bold text-amber-800">+{formatPrice(horseExtra)}/{isAr ? 'فرد' : 'pax'}</span>
+                      </label>
+                    </div>
+                  )}
+
+                  {/* Category 3: Romantic & Proposal VIP Setups */}
+                  {isSafari && (
+                    <div className="space-y-1.5">
+                      <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        {isAr ? 'باقات المناسبات الخاصة وVIP' : 'Romantic & VIP Packages'}
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label
+                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                            romanticBedouinUpgrade
+                              ? 'border-rose-400 bg-rose-50 shadow-xs ring-1 ring-rose-300/40'
+                              : 'border-rose-200 bg-rose-50/70 hover:bg-rose-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={romanticBedouinUpgrade}
+                              onChange={(e) => setRomanticBedouinUpgrade(e.target.checked)}
+                              className="w-4 h-4 accent-rose-600 rounded"
+                            />
+                            <div>
+                              <span className="text-xs font-semibold text-rose-950 block">{isAr ? 'عشاء رومانسي خاص بالشموع لشخصين في خيمة بدوية' : 'Romantic Candlelight Bedouin Tent for 2'}</span>
+                              <span className="text-[10px] text-rose-700">{isAr ? 'خيمة خاصة معزولة مزينة بالشموع والورود وعشاء مشويات' : 'Private secluded tent with candles, roses & BBQ'}</span>
+                            </div>
+                          </div>
+                          <span className="text-xs font-bold text-rose-900">+{formatPrice(65)}</span>
+                        </label>
+
+                        <label
+                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                            proposalBedouinUpgrade
+                              ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
+                              : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={proposalBedouinUpgrade}
+                              onChange={(e) => setProposalBedouinUpgrade(e.target.checked)}
+                              className="w-4 h-4 accent-amber-600 rounded"
+                            />
+                            <div>
+                              <span className="text-xs font-semibold text-amber-950 block">{isAr ? 'باقة طلب الزواج VIP البدوية (Marry Me)' : 'VIP Desert Marry Me Proposal Setup'}</span>
+                              <span className="text-[10px] text-amber-700">{isAr ? 'حروف MARRY ME المضيئة وألعاب نارية وورود وتصوير' : 'Illuminated letters, fireworks, roses & drone shoot'}</span>
+                            </div>
+                          </div>
+                          <span className="text-xs font-bold text-amber-900">+{formatPrice(180)}</span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Sea / Yacht Romantic & Marry Me Addons */}
+                  {(!isSafari && (experience?.category === 'yacht' || experience?.category === 'sea' || experience?.activeTab === 'yacht' || experience?.slug?.includes('yacht'))) && (
+                    <div className="space-y-1.5">
+                      <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        {isAr ? 'باقات اليخت الخاصة وVIP' : 'Yacht VIP & Romantic Setups'}
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label
+                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                            yachtRomanticUpgrade
+                              ? 'border-rose-400 bg-rose-50 shadow-xs ring-1 ring-rose-300/40'
+                              : 'border-rose-200 bg-rose-50/70 hover:bg-rose-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={yachtRomanticUpgrade}
+                              onChange={(e) => setYachtRomanticUpgrade(e.target.checked)}
+                              className="w-4 h-4 accent-rose-600 rounded"
+                            />
+                            <div>
+                              <span className="text-xs font-semibold text-rose-950 block">{isAr ? 'ترقية لعشاء يخت رومانسي خاص لشخصين بالشموع' : 'Romantic VIP Yacht Candlelight Seafood Dinner for 2'}</span>
+                              <span className="text-[10px] text-rose-700">{isAr ? 'يخت VIP خاص بالغروب، سي فود فاخر، ورود، وعزف كمان' : 'Private sunset yacht deck, seafood, roses & live violin'}</span>
+                            </div>
+                          </div>
+                          <span className="text-xs font-bold text-rose-900">+{formatPrice(95)}</span>
+                        </label>
+
+                        <label
+                          className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                            yachtProposalUpgrade
+                              ? 'border-amber-400 bg-amber-50 shadow-xs ring-1 ring-amber-300/40'
+                              : 'border-amber-200 bg-amber-50/70 hover:bg-amber-100/70'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={yachtProposalUpgrade}
+                              onChange={(e) => setYachtProposalUpgrade(e.target.checked)}
+                              className="w-4 h-4 accent-amber-600 rounded"
+                            />
+                            <div>
+                              <span className="text-xs font-semibold text-amber-950 block">{isAr ? 'باقة طلب الزواج VIP على سطح اليخت (Marry Me)' : 'VIP Yacht Marry Me Proposal Package'}</span>
+                              <span className="text-[10px] text-amber-700">{isAr ? 'حروف MARRY ME المضيئة وألعاب نارية فوق البحر وتصوير احترافي' : 'Illuminated letters on deck, fireworks, roses & drone shoot'}</span>
+                            </div>
+                          </div>
+                          <span className="text-xs font-bold text-amber-900">+{formatPrice(220)}</span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              )}
             </div>
-            <span className="text-xs font-bold text-stone-900">
-              +€{totalPeopleCount > 6 ? 30 : 20}
-            </span>
-          </label>
-
-          {/* Photo & Video Package — always shown */}
-          <label className="flex items-center justify-between p-2.5 rounded-xl border border-stone-200 bg-stone-50 cursor-pointer hover:bg-stone-100 transition">
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={photoVideo}
-                onChange={(e) => setPhotoVideo(e.target.checked)}
-                className="w-4 h-4 accent-[#0284C7] rounded"
-              />
-              <span className="text-xs font-semibold text-stone-800">{getLabel('photoPackage')}</span>
-            </div>
-            <span className="text-xs font-bold text-stone-900">+€25</span>
-          </label>
-
-          {/* Bedouin Scarf — shown on safari & horse/camel tabs */}
-          {(isSafari || isHorseCamelTab) && (
-            <>
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-stone-200 bg-stone-50 cursor-pointer hover:bg-stone-100 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={bedouinScarf}
-                    onChange={(e) => setBedouinScarf(e.target.checked)}
-                    className="w-4 h-4 accent-[#0284C7] rounded"
-                  />
-                  <span className="text-xs font-semibold text-stone-800">{getLabel('bedouinScarf')}</span>
-                </div>
-                <span className="text-xs font-bold text-stone-900">+€{bedouinScarfPrice}</span>
-              </label>
-
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-stone-200 bg-stone-50 cursor-pointer hover:bg-stone-100 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={desertGoggles}
-                    onChange={(e) => setDesertGoggles(e.target.checked)}
-                    className="w-4 h-4 accent-[#0284C7] rounded"
-                  />
-                  <span className="text-xs font-semibold text-stone-800">{getLabel('desertGoggles')}</span>
-                </div>
-                <span className="text-xs font-bold text-stone-900">+€{desertGogglesPrice}</span>
-              </label>
-            </>
-          )}
-
-          {/* Safari-specific extras */}
-          {isSafari && (
-            <>
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-stone-200 bg-stone-50 cursor-pointer hover:bg-stone-100 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={privateSafari}
-                    onChange={(e) => setPrivateSafari(e.target.checked)}
-                    className="w-4 h-4 accent-[#0284C7] rounded"
-                  />
-                  <span className="text-xs font-semibold text-stone-800">{getLabel('privateSafari')}</span>
-                </div>
-                <span className="text-xs font-bold text-stone-900">+{formatPrice(15)}</span>
-              </label>
-
-              {/* Camel / Horse add-on for safari or bedouin tabs */}
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-stone-200 bg-stone-50 cursor-pointer hover:bg-stone-100 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={camelRide30min}
-                    onChange={(e) => setCamelRide30min(e.target.checked)}
-                    className="w-4 h-4 accent-[#0284C7] rounded"
-                  />
-                  <span className="text-xs font-semibold text-stone-800">{getLabel('camelRideLabel')}</span>
-                </div>
-                <span className="text-xs font-bold text-stone-900">+{formatPrice(camelExtra)}</span>
-              </label>
-
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-stone-200 bg-stone-50 cursor-pointer hover:bg-stone-100 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={horseRide1hr}
-                    onChange={(e) => setHorseRide1hr(e.target.checked)}
-                    className="w-4 h-4 accent-[#0284C7] rounded"
-                  />
-                  <span className="text-xs font-semibold text-stone-800">{getLabel('horseRideLabel')}</span>
-                </div>
-                <span className="text-xs font-bold text-stone-900">+{formatPrice(horseExtra)}</span>
-              </label>
-
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-stone-200 bg-stone-50 cursor-pointer hover:bg-stone-100 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={telescopeStargazing}
-                    onChange={(e) => setTelescopeStargazing(e.target.checked)}
-                    className="w-4 h-4 accent-[#0284C7] rounded"
-                  />
-                  <span className="text-xs font-semibold text-stone-800">{getLabel('telescopeLabel')}</span>
-                </div>
-                <span className="text-xs font-bold text-stone-900">+{formatPrice(5)}</span>
-              </label>
-            </>
-          )}
-
-          {/* Camel + Horse add-ons shown on Bedouin dinner tab (combo option) */}
-          {(isBedouinStandaloneExp || experience?.activeTab === 'bedouin') && (
-            <>
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-amber-100 bg-amber-50 cursor-pointer hover:bg-amber-100 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={camelRide30min}
-                    onChange={(e) => setCamelRide30min(e.target.checked)}
-                    className="w-4 h-4 accent-amber-600 rounded"
-                  />
-                  <div>
-                    <span className="text-xs font-semibold text-stone-800">{isAr ? 'أضف جولة جمال قبل العشاء' : 'Add Camel Ride before Dinner'}</span>
-                    <div className="text-[10px] text-amber-700 font-medium">{isAr ? 'حجز مدمج مع العشاء البدوي' : 'Combined with Bedouin dinner booking'}</div>
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-amber-800">+{formatPrice(camelExtra)}/{isAr ? 'فرد' : 'pax'}</span>
-              </label>
-
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-amber-100 bg-amber-50 cursor-pointer hover:bg-amber-100 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={horseRide1hr}
-                    onChange={(e) => setHorseRide1hr(e.target.checked)}
-                    className="w-4 h-4 accent-amber-600 rounded"
-                  />
-                  <div>
-                    <span className="text-xs font-semibold text-stone-800">{isAr ? 'أضف جولة خيل قبل العشاء' : 'Add Horse Ride before Dinner'}</span>
-                    <div className="text-[10px] text-amber-700 font-medium">{isAr ? 'حجز مدمج مع العشاء البدوي' : 'Combined with Bedouin dinner booking'}</div>
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-amber-800">+{formatPrice(horseExtra)}/{isAr ? 'فرد' : 'pax'}</span>
-              </label>
-            </>
-          )}
-
-          {/* Safari Romantic & Marry Me Addons */}
-          {isSafari && (
-            <>
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-rose-200 bg-rose-50/70 cursor-pointer hover:bg-rose-100/70 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={romanticBedouinUpgrade}
-                    onChange={(e) => setRomanticBedouinUpgrade(e.target.checked)}
-                    className="w-4 h-4 accent-rose-600 rounded"
-                  />
-                  <div>
-                    <span className="text-xs font-semibold text-rose-950 block">{isAr ? 'عشاء رومانسي خاص بالشموع لشخصين في خيمة بدوية' : 'Romantic Candlelight Bedouin Tent for 2'}</span>
-                    <span className="text-[10px] text-rose-700">{isAr ? 'خيمة خاصة معزولة مزينة بالشموع والورود وعشاء مشويات' : 'Private secluded tent with candles, roses & BBQ'}</span>
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-rose-900">+${65}</span>
-              </label>
-
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-amber-200 bg-amber-50/70 cursor-pointer hover:bg-amber-100/70 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={proposalBedouinUpgrade}
-                    onChange={(e) => setProposalBedouinUpgrade(e.target.checked)}
-                    className="w-4 h-4 accent-amber-600 rounded"
-                  />
-                  <div>
-                    <span className="text-xs font-semibold text-amber-950 block">{isAr ? 'باقة طلب الزواج VIP البدوية (Marry Me)' : 'VIP Desert Marry Me Proposal Setup'}</span>
-                    <span className="text-[10px] text-amber-700">{isAr ? 'حروف MARRY ME المضيئة وألعاب نارية وورود وتصوير دروب' : 'Illuminated letters, fireworks, roses & drone shoot'}</span>
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-amber-900">+${180}</span>
-              </label>
-            </>
-          )}
-
-          {/* Sea / Yacht Romantic & Marry Me Addons */}
-          {(!isSafari && (experience?.category === 'yacht' || experience?.category === 'sea' || experience?.activeTab === 'yacht' || experience?.slug?.includes('yacht'))) && (
-            <>
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-rose-200 bg-rose-50/70 cursor-pointer hover:bg-rose-100/70 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={yachtRomanticUpgrade}
-                    onChange={(e) => setYachtRomanticUpgrade(e.target.checked)}
-                    className="w-4 h-4 accent-rose-600 rounded"
-                  />
-                  <div>
-                    <span className="text-xs font-semibold text-rose-950 block">{isAr ? 'ترقية لعشاء يخت رومانسي خاص لشخصين بالشموع' : 'Romantic VIP Yacht Candlelight Seafood Dinner for 2'}</span>
-                    <span className="text-[10px] text-rose-700">{isAr ? 'يخت VIP خاص بالغروب، سي فود فاخر، ورود، وعزف كمان' : 'Private sunset yacht deck, seafood, roses & live violin'}</span>
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-rose-900">+${95}</span>
-              </label>
-
-              <label className="flex items-center justify-between p-2.5 rounded-xl border border-amber-200 bg-amber-50/70 cursor-pointer hover:bg-amber-100/70 transition">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={yachtProposalUpgrade}
-                    onChange={(e) => setYachtProposalUpgrade(e.target.checked)}
-                    className="w-4 h-4 accent-amber-600 rounded"
-                  />
-                  <div>
-                    <span className="text-xs font-semibold text-amber-950 block">{isAr ? 'باقة طلب الزواج VIP على سطح اليخت (Marry Me)' : 'VIP Yacht Marry Me Proposal Package'}</span>
-                    <span className="text-[10px] text-amber-700">{isAr ? 'حروف MARRY ME المضيئة وألعاب نارية فوق البحر وتصوير احترافي' : 'Illuminated letters on deck, fireworks, roses & drone shoot'}</span>
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-amber-900">+${220}</span>
-              </label>
-            </>
-          )}
-        </div>
+          );
+        })()}
 
       </div>
 
