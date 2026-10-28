@@ -208,14 +208,6 @@ const GalleryShowcase = ({ galleryTitle, images, isAr, onOpenLightbox }) => {
                         <div className="absolute inset-0 rounded-full border-2 border-[#0284C7] bg-[#0284C7]/15 pointer-events-none" />
                       )}
                     </div>
-
-                    {/* Active Floating Badge */}
-                    {isActive && (
-                      <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 z-30 px-2 py-0.5 rounded-full bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white text-[9px] font-black shadow-md flex items-center gap-1 border border-white/40 whitespace-nowrap">
-                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                        <span>{isAr ? 'النشطة' : 'Active'}</span>
-                      </span>
-                    )}
                   </motion.button>
                 </div>
               );
