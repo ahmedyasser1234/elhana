@@ -146,12 +146,12 @@ const GalleryShowcase = ({ galleryTitle, images, isAr, onOpenLightbox }) => {
         </div>
 
         {/* ── Desktop 3D Vertical Reel Strip (visible ONLY on md: and up) ── */}
-        <div className="hidden md:flex relative flex-col items-center justify-center h-[460px] overflow-hidden px-2 py-4 [perspective:1000px] w-full">
-          {images.length > 3 && (
+        <div className="hidden md:flex relative flex-col items-center justify-start h-[460px] overflow-hidden px-2 [perspective:1000px] w-full">
+          {images.length > 1 && (
             <button
               type="button"
               onClick={() => setActiveIdx((prev) => (prev > 0 ? prev - 1 : images.length - 1))}
-              className="absolute top-1 z-20 p-2 rounded-full bg-slate-900/85 hover:bg-slate-900 text-white backdrop-blur-md border border-white/20 transition hover:scale-110 shadow-lg cursor-pointer"
+              className="absolute top-2 z-30 p-2 rounded-full bg-slate-900/85 hover:bg-slate-900 text-white backdrop-blur-md border border-white/20 transition hover:scale-110 shadow-xl cursor-pointer"
               aria-label="Previous image"
             >
               <ChevronUp className="w-4 h-4 text-[#F97316]" />
@@ -160,72 +160,73 @@ const GalleryShowcase = ({ galleryTitle, images, isAr, onOpenLightbox }) => {
 
           <motion.div
             animate={{
-              y: N > 1 ? -((activeIdx + N) * 128) + 178 : 0
+              y: N > 1 ? -((activeIdx + N) * 120) + 170 : 0
             }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col items-center justify-center gap-6 py-6"
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col items-center w-full"
+            style={{ position: 'relative' }}
           >
             {loopedImages.map((img, loopIdx) => {
               const realIdx = loopIdx % N;
               const isActive = activeIdx === realIdx;
               return (
-                <motion.button
+                <div
                   key={loopIdx}
-                  type="button"
-                  onClick={() => setActiveIdx(realIdx)}
-                  whileHover={{ rotateY: 30, rotateX: -15, scale: 1.15, z: 20 }}
-                  whileTap={{ scale: 0.9, rotateY: 180 }}
-                  animate={{
-                    y: isActive ? [0, -6, 0] : 0,
-                    rotateY: isActive ? [0, 15, -15, 0] : 0,
-                  }}
-                  transition={{
-                    y: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
-                    rotateY: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-                    type: 'spring',
-                    stiffness: 250,
-                    damping: 20
-                  }}
-                  className={`relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden transition-all duration-500 group/thumb shrink-0 shadow-2xl cursor-pointer ${
-                    isActive
-                      ? 'ring-4 ring-[#0284C7] ring-offset-2 ring-offset-white scale-110 shadow-[0_12px_32px_-2px_rgba(2,132,199,0.65)] z-10'
-                      : 'ring-2 ring-slate-200/90 opacity-60 hover:opacity-100 scale-95'
-                  }`}
-                  style={{ transformStyle: 'preserve-3d' }}
+                  className="h-[120px] w-full flex items-center justify-center shrink-0 relative"
                 >
-                  {isActive && (
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-                      className="absolute -inset-1 rounded-full bg-gradient-to-tr from-[#0284C7] via-[#38BDF8] to-[#F97316] opacity-75 blur-[5px] pointer-events-none"
-                    />
-                  )}
+                  <motion.button
+                    type="button"
+                    onClick={() => setActiveIdx(realIdx)}
+                    whileHover={{ scale: isActive ? 1.12 : 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`relative rounded-full overflow-visible transition-all duration-300 group/thumb flex items-center justify-center cursor-pointer ${
+                      isActive
+                        ? 'w-24 h-24 sm:w-26 sm:h-26 ring-4 ring-[#0284C7] ring-offset-2 ring-offset-white shadow-[0_0_24px_rgba(2,132,199,0.5)] z-20'
+                        : 'w-20 h-20 sm:w-22 sm:h-22 ring-2 ring-slate-200/90 opacity-60 hover:opacity-100 hover:ring-[#0284C7]/60 hover:shadow-md z-10'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.div
+                        animate={{ scale: [1, 1.06, 1], opacity: [0.6, 0.9, 0.6] }}
+                        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                        className="absolute -inset-1 rounded-full bg-gradient-to-tr from-[#0284C7] via-[#38BDF8] to-[#F97316] blur-[5px] pointer-events-none"
+                      />
+                    )}
 
-                  <img
-                    src={img}
-                    alt={`Thumbnail ${(realIdx) + 1}`}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = images[0] || '/images/real/atv-quad.jpg';
-                    }}
-                    className="w-full h-full object-cover rounded-full group-hover/thumb:scale-110 transition-transform duration-700"
-                  />
+                    <div className="w-full h-full rounded-full overflow-hidden relative">
+                      <img
+                        src={img}
+                        alt={`Thumbnail ${realIdx + 1}`}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = images[0] || '/images/real/atv-quad.jpg';
+                        }}
+                        className="w-full h-full object-cover rounded-full group-hover/thumb:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/30 via-transparent to-black/50 pointer-events-none" />
+                      {isActive && (
+                        <div className="absolute inset-0 rounded-full border-2 border-[#0284C7] bg-[#0284C7]/15 pointer-events-none" />
+                      )}
+                    </div>
 
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/60 via-transparent to-black/75 pointer-events-none shadow-[inset_0_-8px_16px_rgba(0,0,0,0.7),inset_0_4px_8px_rgba(255,255,255,0.4)]" />
-
-                  {isActive && (
-                    <div className="absolute inset-0 rounded-full border-2 border-[#0284C7] bg-[#0284C7]/15 pointer-events-none" />
-                  )}
-                </motion.button>
+                    {/* Active Floating Badge */}
+                    {isActive && (
+                      <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 z-30 px-2 py-0.5 rounded-full bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white text-[9px] font-black shadow-md flex items-center gap-1 border border-white/40 whitespace-nowrap">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                        <span>{isAr ? 'النشطة' : 'Active'}</span>
+                      </span>
+                    )}
+                  </motion.button>
+                </div>
               );
             })}
           </motion.div>
 
-          {images.length > 3 && (
+          {images.length > 1 && (
             <button
               type="button"
               onClick={() => setActiveIdx((prev) => (prev < images.length - 1 ? prev + 1 : 0))}
-              className="absolute bottom-1 z-20 p-2 rounded-full bg-slate-900/85 hover:bg-slate-900 text-white backdrop-blur-md border border-white/20 transition hover:scale-110 shadow-lg cursor-pointer"
+              className="absolute bottom-2 z-30 p-2 rounded-full bg-slate-900/85 hover:bg-slate-900 text-white backdrop-blur-md border border-white/20 transition hover:scale-110 shadow-xl cursor-pointer"
               aria-label="Next image"
             >
               <ChevronDown className="w-4 h-4 text-[#F97316]" />
