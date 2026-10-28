@@ -656,61 +656,56 @@ export const AdminBookingsPage = () => {
   const PHOTO_FOLDERS = [
     {
       id: 'all',
-      nameAr: '📁 جميع الرحلات',
-      nameEn: '📁 All Tours',
-      icon: '📁',
+      nameAr: 'جميع الرحلات',
+      nameEn: 'All Tours',
       color: 'sky',
       filter: () => true
     },
     {
       id: 'safari',
-      nameAr: '🏜️ فولدر رحلات السفاري والصحراء',
-      nameEn: '🏜️ Desert Safari Folder',
-      icon: '🏜️',
-      color: 'amber',
+      nameAr: 'رحلات السفاري والصحراء',
+      nameEn: 'Desert Safari',
+      color: 'sky',
       filter: (e) => ['atv', 'buggy', 'bedouin', 'camel', 'horse', 'safari'].includes(e.category) || e.slug.includes('desert') || e.slug.includes('safari')
     },
     {
       id: 'sea',
-      nameAr: '⛵ فولدر الرحلات البحرية واليخوت',
-      nameEn: '⛵ Red Sea & Yacht Folder',
-      icon: '⛵',
+      nameAr: 'الرحلات البحرية واليخوت',
+      nameEn: 'Red Sea & Yacht',
       color: 'sky',
       filter: (e) => ['yacht', 'snorkeling', 'diving', 'parasailing', 'banana', 'sea'].includes(e.category) || e.slug.includes('yacht') || e.slug.includes('sea')
     },
     {
       id: 'sinai',
-      nameAr: '⛰️ فولدر رحلات جنوب سيناء (دهب، كاترين، نويبع، طابا)',
-      nameEn: '⛰️ South Sinai Excursions Folder',
-      icon: '⛰️',
-      color: 'emerald',
+      nameAr: 'رحلات جنوب سيناء (دهب، كاترين، طابا)',
+      nameEn: 'South Sinai Excursions',
+      color: 'sky',
       filter: (e) => ['dahab', 'catherine', 'nuweiba', 'taba', 'excursions'].includes(e.category)
     },
     {
       id: 'transfers',
-      nameAr: '🚗 فولدر خدمات التوصيل والانتقالات',
-      nameEn: '🚗 Transfers & VIP Folder',
-      icon: '🚗',
-      color: 'purple',
+      nameAr: 'خدمات التوصيل والانتقالات VIP',
+      nameEn: 'Transfers & VIP',
+      color: 'sky',
       filter: (e) => ['transfer'].includes(e.category) || e.slug.includes('transfer') || e.slug.includes('airport')
     }
   ];
 
   const getTourFolder = (tour) => {
-    if (!tour) return { id: 'all', nameAr: 'فولدر عام', nameEn: 'General Folder', icon: '📁' };
+    if (!tour) return { id: 'all', nameAr: 'فولدر عام', nameEn: 'General Folder' };
     if (['atv', 'buggy', 'bedouin', 'camel', 'horse', 'safari'].includes(tour.category) || tour.slug.includes('desert') || tour.slug.includes('safari')) {
-      return { id: 'safari', nameAr: 'فولدر رحلات السفاري والصحراء', nameEn: 'Desert Safari Folder', icon: '🏜️' };
+      return { id: 'safari', nameAr: 'رحلات السفاري والصحراء', nameEn: 'Desert Safari Folder' };
     }
     if (['yacht', 'snorkeling', 'diving', 'parasailing', 'banana', 'sea'].includes(tour.category) || tour.slug.includes('yacht') || tour.slug.includes('sea')) {
-      return { id: 'sea', nameAr: 'فولدر الرحلات البحرية واليخوت', nameEn: 'Red Sea & Yacht Folder', icon: '⛵' };
+      return { id: 'sea', nameAr: 'الرحلات البحرية واليخوت', nameEn: 'Red Sea & Yacht Folder' };
     }
     if (['dahab', 'catherine', 'nuweiba', 'taba', 'excursions'].includes(tour.category)) {
-      return { id: 'sinai', nameAr: 'فولدر رحلات جنوب سيناء (دهب، كاترين، نويبع، طابا)', nameEn: 'South Sinai Excursions Folder', icon: '⛰️' };
+      return { id: 'sinai', nameAr: 'رحلات جنوب سيناء', nameEn: 'South Sinai Excursions Folder' };
     }
     if (['transfer'].includes(tour.category) || tour.slug.includes('transfer') || tour.slug.includes('airport')) {
-      return { id: 'transfers', nameAr: 'فولدر خدمات التوصيل والانتقالات', nameEn: 'Transfers & VIP Folder', icon: '🚗' };
+      return { id: 'transfers', nameAr: 'خدمات التوصيل والانتقالات', nameEn: 'Transfers & VIP Folder' };
     }
-    return { id: 'all', nameAr: 'فولدر عام', nameEn: 'General Folder', icon: '📁' };
+    return { id: 'all', nameAr: 'فولدر عام', nameEn: 'General Folder' };
   };
 
   const currentPhotoFolderObj = PHOTO_FOLDERS.find(f => f.id === photoFolderFilter) || PHOTO_FOLDERS[0];
@@ -736,9 +731,7 @@ export const AdminBookingsPage = () => {
       subCategory: '2seater',
       titleAr: 'معرض صور الكار باجي الثنائي (مقعدين)',
       titleEn: '2-Seater Dune Buggy Photo Gallery',
-      icon: '🏎️',
-      tagAr: 'كار باجي 2 مقعد',
-      badgeColor: 'bg-amber-100 text-amber-800',
+      tagAr: 'كار باجي ثنائي (2 مقعد)',
       webLink: '/safari?tab=buggy&option=2seater',
       defaultImages: [
         '/images/real/polaris-buggy-white.jpg',
@@ -753,9 +746,7 @@ export const AdminBookingsPage = () => {
       subCategory: '4seater',
       titleAr: 'معرض صور الكار باجي العائلي (4 مقاعد)',
       titleEn: '4-Seater Family Buggy Photo Gallery',
-      icon: '🚙',
-      tagAr: 'كار باجي 4 مقاعد',
-      badgeColor: 'bg-orange-100 text-orange-800',
+      tagAr: 'كار باجي عائلي (4 مقاعد)',
       webLink: '/safari?tab=buggy&option=4seater',
       defaultImages: [
         '/images/real/polaris-buggy-family.jpg',
@@ -770,9 +761,7 @@ export const AdminBookingsPage = () => {
       subCategory: 'polaris1000',
       titleAr: 'معرض صور كار باجي بولاريس 1000 تيربو VIP',
       titleEn: 'Polaris 1000 Turbo Buggy Gallery',
-      icon: '🚀',
-      tagAr: 'بولاريس 1000 تيربو',
-      badgeColor: 'bg-purple-100 text-purple-800',
+      tagAr: 'كار باجي بولاريس 1000 تيربو',
       webLink: '/safari?tab=buggy&option=polaris1000',
       defaultImages: [
         '/images/real/polaris-buggy-white.jpg',
@@ -787,9 +776,7 @@ export const AdminBookingsPage = () => {
       subCategory: 'single',
       titleAr: 'معرض صور البيتش باجي السنجل (فردي)',
       titleEn: 'Single ATV Quad Photo Gallery',
-      icon: '🏍️',
-      tagAr: 'بيتش باجي سنجل',
-      badgeColor: 'bg-sky-100 text-sky-800',
+      tagAr: 'بيتش باجي سنجل (فردي)',
       webLink: '/safari?tab=atv&option=single',
       defaultImages: [
         '/images/real/atv-quad-hero.png',
@@ -804,9 +791,7 @@ export const AdminBookingsPage = () => {
       subCategory: 'double',
       titleAr: 'معرض صور البيتش باجي الدبل (مزدوج لراكبين)',
       titleEn: 'Double ATV Quad Photo Gallery',
-      icon: '🏍️',
-      tagAr: 'بيتش باجي دبل',
-      badgeColor: 'bg-blue-100 text-blue-800',
+      tagAr: 'بيتش باجي دبل (مزدوج)',
       webLink: '/safari?tab=atv&option=double',
       defaultImages: [
         '/images/real/atv-quad.jpg',
@@ -821,9 +806,7 @@ export const AdminBookingsPage = () => {
       subCategory: 'all',
       titleAr: 'معرض صور جولات ركوب الجمال البدوية',
       titleEn: 'Bedouin Camel Riding Photo Gallery',
-      icon: '🐪',
-      tagAr: 'ركوب الجمال',
-      badgeColor: 'bg-emerald-100 text-emerald-800',
+      tagAr: 'ركوب الجمال البدوية',
       webLink: '/safari?tab=camel',
       defaultImages: [
         '/images/real/camel-riding-hero.jpg',
@@ -838,9 +821,7 @@ export const AdminBookingsPage = () => {
       subCategory: 'all',
       titleAr: 'معرض صور ركوب الخيول العربية الأصيلة',
       titleEn: 'Arabian Horse Riding Photo Gallery',
-      icon: '🐎',
-      tagAr: 'ركوب الخيل',
-      badgeColor: 'bg-rose-100 text-rose-800',
+      tagAr: 'ركوب الخيل العربي الأصيل',
       webLink: '/safari?tab=horse',
       defaultImages: [
         '/images/real/horse-riding-hero.jpg',
@@ -855,9 +836,7 @@ export const AdminBookingsPage = () => {
       subCategory: 'all',
       titleAr: 'معرض صور العشاء والسهرة البدوية ورصد النجوم',
       titleEn: 'Bedouin Dinner & Stargazing Photo Gallery',
-      icon: '🎪',
-      tagAr: 'العشاء البدوي',
-      badgeColor: 'bg-indigo-100 text-indigo-800',
+      tagAr: 'العشاء البدوي وسهرة النجوم',
       webLink: '/safari?tab=bedouin',
       defaultImages: [
         '/images/real/camel-caravan.jpg',
@@ -871,48 +850,38 @@ export const AdminBookingsPage = () => {
   const TIME_SLOTS = [
     {
       id: 'all',
-      titleAr: 'المعرض الكامل (جميع الصور)',
-      titleEn: 'Full Gallery (All Photos)',
+      titleAr: 'جميع الصور',
+      titleEn: 'All Photos',
       time: 'الكل',
-      icon: ImageIcon,
-      color: 'slate',
-      badgeColor: 'bg-slate-100 text-slate-800 border-slate-300'
+      icon: ImageIcon
     },
     {
       id: 'sunrise',
-      titleAr: 'رحلة الشروق (الفجر)',
-      titleEn: 'Sunrise Safari (Dawn)',
+      titleAr: 'رحلة الشروق',
+      titleEn: 'Sunrise Slot',
       time: '04:30 AM',
-      icon: Sunrise,
-      color: 'amber',
-      badgeColor: 'bg-amber-100 text-amber-800 border-amber-300'
+      icon: Sunrise
     },
     {
       id: 'morning',
       titleAr: 'رحلة الصباح',
-      titleEn: 'Morning Safari',
+      titleEn: 'Morning Slot',
       time: '09:00 AM',
-      icon: Sun,
-      color: 'sky',
-      badgeColor: 'bg-sky-100 text-sky-800 border-sky-300'
+      icon: Sun
     },
     {
       id: 'sunset',
-      titleAr: 'رحلة الغروب الذهبي',
-      titleEn: 'Sunset Safari (Most Popular)',
+      titleAr: 'رحلة الغروب',
+      titleEn: 'Sunset Slot',
       time: '04:00 PM',
-      icon: Sunset,
-      color: 'orange',
-      badgeColor: 'bg-orange-100 text-orange-800 border-orange-300'
+      icon: Sunset
     },
     {
       id: 'dinner',
-      titleAr: 'سهرة العشاء البدوي',
-      titleEn: 'Bedouin Dinner & Stars',
+      titleAr: 'سهرة العشاء',
+      titleEn: 'Dinner Slot',
       time: '06:30 PM',
-      icon: Moon,
-      color: 'purple',
-      badgeColor: 'bg-purple-100 text-purple-800 border-purple-300'
+      icon: Moon
     }
   ];
 
@@ -1028,7 +997,7 @@ export const AdminBookingsPage = () => {
       title: isAr ? 'إدارة ورفع صور الموقع' : 'Photos & Media Manager',
       desc: isAr ? 'استبدال وتحديث صور المعارض' : 'Manage & replace gallery photos',
       icon: ImageIcon,
-      badgeColor: 'bg-purple-100 text-purple-800'
+      badgeColor: 'bg-sky-100 text-sky-800'
     },
     {
       id: 'team',
@@ -2119,44 +2088,44 @@ export const AdminBookingsPage = () => {
         {activeTab === 'photos' && (
           <div className="space-y-6">
             {/* Main Tab Header with Section Switcher */}
-            <div className="bg-gradient-to-r from-purple-50 via-white to-sky-50 border border-purple-200/80 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-800 font-bold text-xs">
-                  <FolderOpen className="w-3.5 h-3.5 text-purple-600" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 border border-sky-100 text-[#0284C7] font-bold text-xs">
+                  <FolderOpen className="w-3.5 h-3.5 text-[#0284C7]" />
                   <span>{isAr ? "معارض الصور الحية وتوقيتات الرحلات" : "Live Galleries & Time Slots System"}</span>
                 </div>
                 <h2 className="text-xl md:text-2xl font-black font-heading text-slate-900 flex items-center gap-2">
-                  <ImageIcon className="w-6 h-6 text-purple-600" />
+                  <ImageIcon className="w-6 h-6 text-[#0284C7]" />
                   {isAr ? "إدارة وتعديل صور الموقع ومعارض التوقيتات" : "Live Photos & Gallery Time Slots Manager"}
                 </h2>
                 <p className="text-xs text-slate-500">
                   {isAr 
-                    ? "تحكم كامل في إضافة وحذف صور معارض السفاري (12 صورة) مقسمين حسب رحلات الشروق، الصبح، الغروب، والعشاء، وصور باقي الرحلات."
-                    : "Add and delete photos for Safari galleries (12 photos) divided by Sunrise, Morning, Sunset, and Dinner time slots."}
+                    ? "تحكم كامل في إضافة وحذف صور معارض السفاري مقسمين حسب رحلات الشروق، الصباح، الغروب، والعشاء، وصور غلاف كافة رحلات الموقع."
+                    : "Add and delete photos for Safari galleries divided by Sunrise, Morning, Sunset, and Dinner time slots, plus tour hero photos."}
                 </p>
               </div>
 
-              {/* View Switcher Pills */}
-              <div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 shrink-0">
+              {/* View Switcher Segmented Control */}
+              <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shrink-0">
                 <button
                   type="button"
                   onClick={() => setGalleryActiveSection('safari_slots')}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
                     galleryActiveSection === 'safari_slots'
-                      ? 'bg-purple-600 text-white font-black shadow-sm'
-                      : 'text-slate-600 hover:text-purple-700 hover:bg-white/60'
+                      ? 'bg-[#0284C7] text-white shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                   }`}
                 >
                   <Sunrise className="w-4 h-4" />
-                  <span>{isAr ? "معارض السفاري والتوقيتات الأربعة" : "Safari Slots Galleries"}</span>
+                  <span>{isAr ? "معارض السفاري وتوقيتات الرحلات" : "Safari Slots Galleries"}</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setGalleryActiveSection('catalogue_hero')}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
                     galleryActiveSection === 'catalogue_hero'
-                      ? 'bg-purple-600 text-white font-black shadow-sm'
-                      : 'text-slate-600 hover:text-purple-700 hover:bg-white/60'
+                      ? 'bg-[#0284C7] text-white shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                   }`}
                 >
                   <Folder className="w-4 h-4" />
@@ -2165,22 +2134,22 @@ export const AdminBookingsPage = () => {
               </div>
             </div>
 
-            {/* SECTION 1: SAFARI VEHICLES & 4 TIME SLOTS GALLERIES */}
+            {/* SECTION 1: SAFARI VEHICLES & 4 TIME SLOTS GALLERIES (MASTER-DETAIL LAYOUT) */}
             {galleryActiveSection === 'safari_slots' && (
-              <div className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 
-                {/* 1. Vehicles / Safari Tours Selector Bar */}
-                <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-3">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                {/* 1. MASTER SIDEBAR LIST (lg:col-span-4 xl:col-span-3): Safari Vehicles / Options */}
+                <div className="lg:col-span-4 xl:col-span-3 bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                     <span className="text-xs font-black uppercase text-slate-400 font-heading">
-                      {isAr ? "1. اختر المعرض أو وسيلة السفاري المراد تعديل صورها:" : "1. Select Safari Vehicle Gallery:"}
+                      {isAr ? "وسيلة السفاري" : "Safari Vehicle"}
                     </span>
-                    <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">
-                      {activeSafariGalleryObj.titleAr}
+                    <span className="text-[11px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100">
+                      {SAFARI_GALLERIES.length} {isAr ? "معارض" : "Galleries"}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                  <div className="space-y-1.5">
                     {SAFARI_GALLERIES.map((opt) => {
                       const isSelected = selectedSafariGallery === opt.id;
                       const totalOptImgs = getImagesForGallerySelection(opt, 'all').length;
@@ -2193,16 +2162,15 @@ export const AdminBookingsPage = () => {
                             setNewGalleryPhotoUrl('');
                             setNewGalleryPhotoPreview('');
                           }}
-                          className={`flex items-center gap-2 px-3.5 py-2.5 rounded-2xl font-bold text-xs transition whitespace-nowrap border shrink-0 cursor-pointer ${
+                          className={`w-full text-right rtl:text-right ltr:text-left px-3.5 py-3 rounded-2xl font-bold text-xs transition flex items-center justify-between gap-2 border cursor-pointer ${
                             isSelected
-                              ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/20 ring-2 ring-purple-300'
-                              : 'bg-white text-slate-700 hover:bg-purple-50 hover:text-purple-700 border-slate-200 shadow-2xs'
+                              ? 'bg-sky-50 text-[#0284C7] border-sky-400 ring-2 ring-sky-300/30 shadow-xs'
+                              : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200/90'
                           }`}
                         >
-                          <span className="text-base">{opt.icon}</span>
-                          <span>{isAr ? opt.tagAr : opt.titleEn}</span>
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
-                            isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+                          <span className="truncate">{isAr ? opt.tagAr : opt.titleEn}</span>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono shrink-0 ${
+                            isSelected ? 'bg-[#0284C7] text-white' : 'bg-slate-100 text-slate-500'
                           }`}>
                             {totalOptImgs}
                           </span>
@@ -2212,108 +2180,81 @@ export const AdminBookingsPage = () => {
                   </div>
                 </div>
 
-                {/* 2. The 4 Time Slots Tabs Row */}
-                <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                    <div>
-                      <span className="text-xs font-black uppercase text-slate-400 font-heading block">
-                        {isAr ? "2. اختر توقيت الرحلة (الشروق، الصبح، الغروب، العشا، أو المعرض الكامل):" : "2. Select Time Slot to View/Edit Photos:"}
-                      </span>
-                      <span className="text-xs text-slate-500 font-normal">
-                        {isAr ? "كل توقيت يمتلك صوره الخاصة التي تظهر للعميل في نافذة تفاصيل التوقيت وفي معرض الصور الرئيسي." : "Each slot contains photos shown in the departure slot modal and gallery showcase."}
-                      </span>
-                    </div>
-
-                    <a
-                      href={activeSafariGalleryObj.webLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-bold transition w-fit shrink-0"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      <span>{isAr ? "معاينة المعرض على الموقع مباشرة" : "Preview Live on Website"}</span>
-                    </a>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
-                    {TIME_SLOTS.map((slot) => {
-                      const isCurrent = selectedTimeSlot === slot.id;
-                      const SlotIcon = slot.icon;
-                      const count = getImagesForGallerySelection(activeSafariGalleryObj, slot.id).length;
-                      return (
-                        <button
-                          key={slot.id}
-                          type="button"
-                          onClick={() => {
-                            setSelectedTimeSlot(slot.id);
-                            setNewGalleryPhotoUrl('');
-                            setNewGalleryPhotoPreview('');
-                          }}
-                          className={`p-3 rounded-2xl border text-right rtl:text-right ltr:text-left transition flex flex-col justify-between gap-2 cursor-pointer ${
-                            isCurrent
-                              ? 'bg-gradient-to-br from-purple-600 via-indigo-600 to-purple-700 text-white border-purple-600 shadow-lg shadow-purple-600/25 ring-2 ring-purple-300'
-                              : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200 shadow-2xs'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between w-full">
-                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-                              isCurrent ? 'bg-white/20 text-white' : 'bg-purple-50 text-purple-600'
-                            }`}>
-                              <SlotIcon className="w-4 h-4" />
-                            </div>
-                            <span className={`text-[11px] font-black px-2 py-0.5 rounded-full ${
-                              isCurrent ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-700'
-                            }`}>
-                              {count} {isAr ? "صور" : "photos"}
-                            </span>
-                          </div>
-
-                          <div>
-                            <span className={`font-bold text-xs block truncate ${isCurrent ? 'text-white' : 'text-slate-900'}`}>
-                              {isAr ? slot.titleAr : slot.titleEn}
-                            </span>
-                            <span className={`text-[10px] block font-mono ${isCurrent ? 'text-purple-100' : 'text-slate-400'}`}>
-                              {slot.time}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* 3. Photos Showcase Grid & Management Controls */}
-                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+                {/* 2. DETAIL CANVAS (lg:col-span-8 xl:col-span-9): Slot Controls + Photo Grid + Add Form */}
+                <div className="lg:col-span-8 xl:col-span-9 space-y-5">
                   
-                  {/* Gallery Subheader */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-base">{activeSafariGalleryObj.icon}</span>
+                  {/* Top Bar for Selected Vehicle with Time Slot Segmented Control */}
+                  <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                      <div>
                         <h3 className="text-base sm:text-lg font-black font-heading text-slate-900">
                           {isAr ? activeSafariGalleryObj.titleAr : activeSafariGalleryObj.titleEn}
                         </h3>
-                        <span className="text-xs px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 font-bold border border-purple-200">
-                          {TIME_SLOTS.find(s => s.id === selectedTimeSlot)?.titleAr}
-                        </span>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          {isAr
+                            ? "اختر التوقيت لعرض الصور التابعة له أو إضافة صور جديدة وحذف القديمة:"
+                            : "Select time slot to view or edit images for this vehicle:"}
+                        </p>
                       </div>
-                      <p className="text-xs text-slate-500">
-                        {isAr 
-                          ? `إجمالي الصور المعروضة حالياً: (${activeSlotImages.length} صورة). يمكنك حذف أي صورة أو رفع صورة جديدة بالأسفل.`
-                          : `Total active photos in this gallery: (${activeSlotImages.length} photos). You can add or delete photos below.`}
-                      </p>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <a
+                          href={activeSafariGalleryObj.webLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-[#0284C7] border border-sky-200 text-xs font-bold transition"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>{isAr ? "معاينة على الموقع" : "Preview on Site"}</span>
+                        </a>
+
+                        <button
+                          type="button"
+                          onClick={handleResetCurrentGallery}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 hover:border-rose-200 text-xs font-bold transition cursor-pointer"
+                          title={isAr ? "استعادة صور هذا المعرض الأصلية" : "Reset Slot Photos"}
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span className="hidden sm:inline">{isAr ? "استعادة الأصل" : "Reset"}</span>
+                        </button>
+                      </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleResetCurrentGallery}
-                        className="bg-white hover:bg-rose-50 border-rose-200 text-rose-600 text-xs shadow-xs"
-                        icon={RefreshCw}
-                      >
-                        {isAr ? "استعادة صور هذا المعرض الأصلية" : "Reset Slot Photos"}
-                      </Button>
+                    {/* Single-row Apple-style Segmented Control for Time Slots */}
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                      {TIME_SLOTS.map((slot) => {
+                        const isCurrent = selectedTimeSlot === slot.id;
+                        const SlotIcon = slot.icon;
+                        const count = getImagesForGallerySelection(activeSafariGalleryObj, slot.id).length;
+                        return (
+                          <button
+                            key={slot.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedTimeSlot(slot.id);
+                              setNewGalleryPhotoUrl('');
+                              setNewGalleryPhotoPreview('');
+                            }}
+                            className={`p-2.5 rounded-2xl border text-center transition flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                              isCurrent
+                                ? 'bg-[#0284C7] text-white border-[#0284C7] shadow-sm'
+                                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+                            }`}
+                          >
+                            <div className="flex items-center gap-1.5">
+                              <SlotIcon className="w-3.5 h-3.5 shrink-0" />
+                              <span className="font-bold text-xs truncate">
+                                {isAr ? slot.titleAr : slot.titleEn}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1.5 text-[10px] font-mono opacity-80">
+                              <span>{slot.time}</span>
+                              <span>•</span>
+                              <span>{count} {isAr ? "صور" : "imgs"}</span>
+                            </div>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
 
@@ -2329,141 +2270,149 @@ export const AdminBookingsPage = () => {
                     </div>
                   )}
 
-                  {/* Active Photos Gallery Cards Grid */}
-                  {activeSlotImages.length === 0 ? (
-                    <div className="p-12 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 space-y-3">
-                      <ImageIcon className="w-12 h-12 text-slate-300 mx-auto" />
-                      <div className="space-y-1">
-                        <h4 className="text-sm font-bold text-slate-700">
-                          {isAr ? "لا توجد صور مضافة لهذا التوقيت بعد" : "No photos added to this slot yet"}
-                        </h4>
-                        <p className="text-xs text-slate-400">
-                          {isAr ? "يمكنك استخدام نموذج الإضافة بالأسفل لرفع صورة من جهازك أو وضع رابط لصورة." : "Use the form below to upload or paste a direct image URL."}
-                        </p>
+                  {/* Photos Grid Box */}
+                  <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-6">
+                    <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                      <div className="flex items-center gap-2">
+                        <ImageIcon className="w-4 h-4 text-[#0284C7]" />
+                        <span className="font-bold text-xs text-slate-800">
+                          {isAr ? "الصور الحالية المعروضة في هذا التوقيت:" : "Current Active Photos in this slot:"}
+                        </span>
+                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-mono font-bold">
+                          {activeSlotImages.length}
+                        </span>
                       </div>
                     </div>
-                  ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                      {activeSlotImages.map((imgUrl, idx) => (
-                        <div
-                          key={idx}
-                          className="group relative bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between"
-                        >
-                          {/* Image preview */}
-                          <div className="aspect-square w-full overflow-hidden bg-slate-200 relative">
-                            <img
-                              src={imgUrl}
-                              alt=""
-                              className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
-                            />
 
-                            {/* Photo Index Badge */}
-                            <div className="absolute top-2 right-2 px-2 py-0.5 rounded-lg bg-black/60 backdrop-blur-md text-white font-mono text-[10px] font-bold">
-                              #{idx + 1}
+                    {activeSlotImages.length === 0 ? (
+                      <div className="p-12 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 space-y-3">
+                        <ImageIcon className="w-10 h-10 text-slate-300 mx-auto" />
+                        <div className="space-y-1">
+                          <h4 className="text-sm font-bold text-slate-700">
+                            {isAr ? "لا توجد صور مضافة لهذا التوقيت بعد" : "No photos added to this slot yet"}
+                          </h4>
+                          <p className="text-xs text-slate-400">
+                            {isAr ? "يمكنك استخدام نموذج الإضافة بالأسفل لرفع صورة أو وضع رابط." : "Use the form below to upload or paste a direct image URL."}
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5">
+                        {activeSlotImages.map((imgUrl, idx) => (
+                          <div
+                            key={idx}
+                            className="group relative bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-md transition flex flex-col justify-between"
+                          >
+                            <div className="aspect-square w-full overflow-hidden bg-slate-200 relative">
+                              <img
+                                src={imgUrl}
+                                alt=""
+                                className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
+                              />
+                              <div className="absolute top-2 right-2 px-2 py-0.5 rounded-lg bg-black/60 backdrop-blur-md text-white font-mono text-[10px] font-bold">
+                                #{idx + 1}
+                              </div>
+                              {idx === 0 && (
+                                <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-emerald-600 text-white text-[10px] font-bold shadow">
+                                  {isAr ? "الغلاف الرئيسي" : "Cover"}
+                                </div>
+                              )}
                             </div>
 
-                            {idx === 0 && (
-                              <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-emerald-600 text-white text-[10px] font-bold shadow">
-                                {isAr ? "الغلاف الرئيسي" : "Cover"}
-                              </div>
-                            )}
+                            <div className="p-2 bg-white border-t border-slate-100 flex items-center justify-between gap-1">
+                              <span className="text-[10px] text-slate-400 font-mono truncate max-w-[90px]" title={imgUrl}>
+                                {imgUrl.split('/').pop()}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleDeletePhotoFromGallery(idx)}
+                                className="px-2 py-1 rounded-xl bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition font-bold text-[11px] flex items-center gap-1 cursor-pointer border border-rose-200 hover:border-rose-600"
+                                title={isAr ? "حذف هذه الصورة من المعرض" : "Delete photo"}
+                              >
+                                <Trash2 className="w-3 h-3" />
+                                <span>{isAr ? "حذف" : "Delete"}</span>
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Add New Photo Card */}
+                    <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                      <div className="flex items-center gap-2 border-b border-slate-200/80 pb-2.5">
+                        <Plus className="w-4 h-4 text-[#0284C7]" />
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-900">
+                          {isAr 
+                            ? `إضافة صورة جديدة إلى (${activeSafariGalleryObj.titleAr} • ${TIME_SLOTS.find(s => s.id === selectedTimeSlot)?.titleAr}):`
+                            : "Add New Photo to Active Gallery:"}
+                        </h4>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <div className="md:col-span-2 space-y-3">
+                          <div className="flex flex-col sm:flex-row items-center gap-2.5">
+                            <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white font-bold text-xs transition shadow-xs shrink-0">
+                              <Upload className="w-4 h-4" />
+                              <span>{isAr ? "رفع صورة من جهازك" : "Upload File"}</span>
+                              <input 
+                                type="file" 
+                                accept="image/*" 
+                                onChange={handleGalleryFileUpload} 
+                                className="hidden" 
+                              />
+                            </label>
+
+                            <span className="text-xs text-slate-400 font-bold">{isAr ? "أو" : "or"}</span>
+
+                            <div className="relative flex-1 w-full">
+                              <LinkIcon className="w-3.5 h-3.5 absolute top-1/2 -translate-y-1/2 right-3 text-slate-400" />
+                              <input
+                                type="url"
+                                placeholder={isAr ? "الصق رابط صورة مباشر https://..." : "Paste image URL https://..."}
+                                value={newGalleryPhotoUrl}
+                                onChange={(e) => setNewGalleryPhotoUrl(e.target.value)}
+                                className="w-full bg-white border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 font-mono shadow-xs"
+                              />
+                            </div>
                           </div>
 
-                          {/* Footer with Delete Action */}
-                          <div className="p-2.5 bg-white border-t border-slate-100 flex items-center justify-between gap-1">
-                            <span className="text-[10px] text-slate-400 font-mono truncate max-w-[100px]" title={imgUrl}>
-                              {imgUrl.split('/').pop()}
-                            </span>
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1">
+                            <p className="text-[11px] text-slate-400">
+                              {isAr ? "تدعم جميع صيغ الصور (JPG, PNG, WebP). تُحفظ الصورة فوراً وتظهر في الموقع." : "Supports JPG, PNG, WebP with instant live sync."}
+                            </p>
 
-                            <button
+                            <Button
                               type="button"
-                              onClick={() => handleDeletePhotoFromGallery(idx)}
-                              className="px-2.5 py-1 rounded-xl bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition font-bold text-[11px] flex items-center gap-1 cursor-pointer border border-rose-200 hover:border-rose-600 shadow-2xs"
-                              title={isAr ? "حذف هذه الصورة من المعرض" : "Delete photo"}
+                              variant="primary"
+                              size="sm"
+                              onClick={handleAddPhotoToGallery}
+                              icon={CheckCircle2}
+                              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold cursor-pointer shrink-0"
                             >
-                              <Trash2 className="w-3 h-3" />
-                              <span>{isAr ? "حذف" : "Delete"}</span>
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* 4. Add New Photo To This Gallery Card */}
-                  <div className="mt-6 p-5 rounded-3xl bg-slate-50 border border-slate-200 space-y-4">
-                    <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
-                      <Plus className="w-4 h-4 text-purple-600" />
-                      <h4 className="text-xs sm:text-sm font-bold text-slate-900">
-                        {isAr 
-                          ? `إضافة صورة جديدة إلى (${activeSafariGalleryObj.titleAr} • ${TIME_SLOTS.find(s => s.id === selectedTimeSlot)?.titleAr}):`
-                          : "Add New Photo to Active Gallery:"}
-                      </h4>
-                    </div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-center">
-                      {/* Left: Input controls */}
-                      <div className="lg:col-span-2 space-y-3">
-                        <div className="flex flex-col sm:flex-row items-center gap-3">
-                          <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition shadow-md shadow-purple-600/20 shrink-0">
-                            <Upload className="w-4 h-4" />
-                            <span>{isAr ? "رفع صورة من جهازك (ملف)" : "Upload From Computer"}</span>
-                            <input 
-                              type="file" 
-                              accept="image/*" 
-                              onChange={handleGalleryFileUpload} 
-                              className="hidden" 
-                            />
-                          </label>
-
-                          <span className="text-xs text-slate-400 font-bold">{isAr ? "أو" : "or"}</span>
-
-                          <div className="relative flex-1 w-full">
-                            <LinkIcon className="w-3.5 h-3.5 absolute top-1/2 -translate-y-1/2 right-3 text-slate-400" />
-                            <input
-                              type="url"
-                              placeholder={isAr ? "الصق رابط صورة مباشر https://..." : "Paste image URL https://..."}
-                              value={newGalleryPhotoUrl}
-                              onChange={(e) => setNewGalleryPhotoUrl(e.target.value)}
-                              className="w-full bg-white border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-purple-500 font-mono shadow-xs"
-                            />
+                              {isAr ? "إضافة للمعرض الآن" : "Add to Gallery Now"}
+                            </Button>
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between pt-1">
-                          <p className="text-[11px] text-slate-400">
-                            {isAr ? "تدعم جميع صيغ الصور (JPG, PNG, WebP). تُحفظ الصورة فوراً وتظهر في الموقع." : "Supports JPG, PNG, WebP with instant live sync."}
-                          </p>
-
-                          <Button
-                            type="button"
-                            variant="primary"
-                            size="sm"
-                            onClick={handleAddPhotoToGallery}
-                            icon={CheckCircle2}
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20 font-bold cursor-pointer"
-                          >
-                            {isAr ? "إضافة للمعرض وتحديث الموقع" : "Add to Gallery Now"}
-                          </Button>
+                        {/* Preview box */}
+                        <div className="aspect-video w-full max-w-[200px] mx-auto rounded-xl border-2 border-dashed border-slate-300 bg-white flex items-center justify-center overflow-hidden relative">
+                          {newGalleryPhotoPreview || newGalleryPhotoUrl ? (
+                            <img
+                              src={newGalleryPhotoPreview || newGalleryPhotoUrl}
+                              alt="Preview"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="text-center p-2 text-slate-400 space-y-1">
+                              <ImageIcon className="w-5 h-5 mx-auto text-slate-300" />
+                              <span className="text-[10px] block">{isAr ? "معاينة الصورة" : "Preview"}</span>
+                            </div>
+                          )}
                         </div>
                       </div>
-
-                      {/* Right: Preview box */}
-                      <div className="aspect-video w-full max-w-[220px] mx-auto rounded-2xl border-2 border-dashed border-purple-200 bg-white flex items-center justify-center overflow-hidden relative">
-                        {newGalleryPhotoPreview || newGalleryPhotoUrl ? (
-                          <img
-                            src={newGalleryPhotoPreview || newGalleryPhotoUrl}
-                            alt="Preview"
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="text-center p-2 text-slate-400 space-y-1">
-                            <ImageIcon className="w-6 h-6 mx-auto text-slate-300" />
-                            <span className="text-[10px] block">{isAr ? "معاينة الصورة المحددة" : "Image Preview"}</span>
-                          </div>
-                        )}
-                      </div>
                     </div>
+
                   </div>
 
                 </div>
@@ -2494,11 +2443,10 @@ export const AdminBookingsPage = () => {
                         }}
                         className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition whitespace-nowrap border cursor-pointer ${
                           isCurrent
-                            ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/20 ring-2 ring-purple-400/30'
-                            : 'bg-white text-slate-700 hover:bg-purple-50 hover:text-purple-700 border-slate-200 shadow-xs'
+                            ? 'bg-[#0284C7] text-white border-[#0284C7] shadow-sm'
+                            : 'bg-white text-slate-700 hover:bg-slate-50 border-slate-200 shadow-2xs'
                         }`}
                       >
-                        <span className="text-base">{folder.icon}</span>
                         <span>{isAr ? folder.nameAr : folder.nameEn}</span>
                         <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
                           isCurrent ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
@@ -2516,9 +2464,9 @@ export const AdminBookingsPage = () => {
                   <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
                     <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
                       <h3 className="text-xs font-bold text-slate-800 flex items-center gap-2">
-                        <Folder className="w-4 h-4 text-purple-600" />
+                        <Folder className="w-4 h-4 text-[#0284C7]" />
                         <span>{isAr ? currentPhotoFolderObj.nameAr : currentPhotoFolderObj.nameEn}</span>
-                        <span className="px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 text-[11px] font-mono">
+                        <span className="px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 text-[11px] font-mono">
                           ({photoFilteredExperiences.length})
                         </span>
                       </h3>
@@ -2526,20 +2474,20 @@ export const AdminBookingsPage = () => {
 
                     {/* Quick Search inside folder */}
                     <div className="relative">
-                      <Search className="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-3 text-slate-600" />
+                      <Search className="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-3 text-slate-400" />
                       <input
                         type="text"
                         value={photoSearchQuery}
                         onChange={(e) => setPhotoSearchQuery(e.target.value)}
                         placeholder={isAr ? "ابحث باسم الرحلة داخل الفولدر..." : "Search inside folder..."}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-600 focus:outline-none focus:border-purple-500 focus:bg-white transition"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white transition"
                       />
                     </div>
 
                     {/* Tours List inside this folder */}
                     <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
                       {photoFilteredExperiences.length === 0 ? (
-                        <div className="p-6 text-center text-xs text-slate-600">
+                        <div className="p-6 text-center text-xs text-slate-400">
                           {isAr ? "لا توجد رحلات مطابقة في هذا الفولدر" : "No tours match in this folder"}
                         </div>
                       ) : (
@@ -2558,7 +2506,7 @@ export const AdminBookingsPage = () => {
                               }}
                               className={`w-full text-right p-3 rounded-2xl flex items-center gap-3 transition border cursor-pointer ${
                                 isSelected
-                                  ? 'bg-purple-50 border-purple-500 text-purple-950 ring-2 ring-purple-400/20 shadow-xs'
+                                  ? 'bg-sky-50 border-sky-400 text-sky-950 ring-2 ring-sky-300/30 shadow-2xs'
                                   : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-800 shadow-2xs'
                               }`}
                             >
@@ -2576,7 +2524,7 @@ export const AdminBookingsPage = () => {
                                     {getCategoryName(tour.category)}
                                   </span>
                                   {hasCustom && (
-                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 font-bold">
+                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-sky-100 text-sky-700 font-bold">
                                       {isAr ? "صورة مخصصة" : "Custom"}
                                     </span>
                                   )}
@@ -2592,14 +2540,14 @@ export const AdminBookingsPage = () => {
                   {/* Right Preview and Upload Controls */}
                   <div className="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
                     {/* Visual Breadcrumb Location Tracker */}
-                    <div className="p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 via-sky-50 to-white border border-purple-200 flex items-center justify-between flex-wrap gap-2">
-                      <div className="flex items-center gap-2 text-xs font-bold text-purple-900">
-                        <FolderOpen className="w-4 h-4 text-purple-600 shrink-0" />
-                        <span className="text-slate-600">{isAr ? "مسار الرفع المحدد:" : "Upload Location:"}</span>
-                        <span className="px-2.5 py-1 rounded-xl bg-white border border-purple-200 text-purple-700 shadow-xs">
-                          {activeSelectedFolder.icon} {isAr ? activeSelectedFolder.nameAr : activeSelectedFolder.nameEn}
+                    <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
+                        <FolderOpen className="w-4 h-4 text-[#0284C7] shrink-0" />
+                        <span className="text-slate-400">{isAr ? "مسار الرفع المحدد:" : "Upload Location:"}</span>
+                        <span className="px-2.5 py-1 rounded-xl bg-white border border-slate-200 text-[#0284C7] shadow-xs">
+                          {isAr ? activeSelectedFolder.nameAr : activeSelectedFolder.nameEn}
                         </span>
-                        <span className="text-slate-600">&larr;</span>
+                        <span className="text-slate-400">&larr;</span>
                         <span className="text-slate-900 font-black">{activeSelectedLocalized?.title}</span>
                       </div>
                       <span className="text-[11px] text-slate-500 font-mono bg-white px-2 py-0.5 rounded-md border border-slate-200">
@@ -2628,7 +2576,7 @@ export const AdminBookingsPage = () => {
                             className="w-full h-full object-cover"
                           />
                           {customImages[activeSelectedTour?.slug] && (
-                            <div className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-purple-600 text-white font-bold text-[10px] shadow">
+                            <div className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-[#0284C7] text-white font-bold text-[10px] shadow">
                               {isAr ? "صورة مخصصة" : "Custom Photo"}
                             </div>
                           )}
@@ -2637,10 +2585,10 @@ export const AdminBookingsPage = () => {
 
                       {/* New Upload / URL Preview */}
                       <div className="space-y-2">
-                        <span className="text-xs font-bold text-purple-700 block">
+                        <span className="text-xs font-bold text-slate-700 block">
                           {isAr ? "معاينة الصورة الجديدة قبل الحفظ:" : "New Image Preview:"}
                         </span>
-                        <div className="aspect-video rounded-2xl overflow-hidden bg-purple-50/40 border-2 border-dashed border-purple-300 flex items-center justify-center relative">
+                        <div className="aspect-video rounded-2xl overflow-hidden bg-slate-50 border-2 border-dashed border-slate-300 flex items-center justify-center relative">
                           {photoPreviewUrl || photoInputUrl ? (
                             <img 
                               src={photoPreviewUrl || photoInputUrl} 
@@ -2648,8 +2596,8 @@ export const AdminBookingsPage = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="text-center p-4 space-y-2 text-slate-600">
-                              <Upload className="w-8 h-8 mx-auto text-purple-400" />
+                            <div className="text-center p-4 space-y-2 text-slate-400">
+                              <Upload className="w-8 h-8 mx-auto text-slate-300" />
                               <span className="text-xs font-medium block">{isAr ? "اختر صورة أو الصق رابطاً للمعاينة هنا" : "Upload or paste URL to preview"}</span>
                             </div>
                           )}
@@ -2660,7 +2608,7 @@ export const AdminBookingsPage = () => {
                     {/* Upload & Link Controls */}
                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
                       <div className="flex flex-col sm:flex-row items-center gap-3">
-                        <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition shadow-md shadow-purple-600/20">
+                        <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white font-bold text-xs transition shadow-xs">
                           <Upload className="w-4 h-4" />
                           <span>{isAr ? "اختر صورة من جهازك (ملف)" : "Upload File From Computer"}</span>
                           <input 
@@ -2670,15 +2618,15 @@ export const AdminBookingsPage = () => {
                             className="hidden" 
                           />
                         </label>
-                        <span className="text-xs text-slate-600 font-bold">{isAr ? "أو" : "or"}</span>
+                        <span className="text-xs text-slate-400 font-bold">{isAr ? "أو" : "or"}</span>
                         <div className="relative flex-1 w-full">
-                          <LinkIcon className="w-3.5 h-3.5 absolute top-1/2 -translate-y-1/2 right-3 text-slate-600" />
+                          <LinkIcon className="w-3.5 h-3.5 absolute top-1/2 -translate-y-1/2 right-3 text-slate-400" />
                           <input
                             type="url"
                             placeholder={isAr ? "الصق رابط صورة مباشر https://..." : "Paste image URL https://..."}
                             value={photoInputUrl}
                             onChange={(e) => setPhotoInputUrl(e.target.value)}
-                            className="w-full bg-white border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-600 focus:outline-none focus:border-purple-500 font-mono shadow-xs"
+                            className="w-full bg-white border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 font-mono shadow-xs"
                           />
                         </div>
                       </div>
