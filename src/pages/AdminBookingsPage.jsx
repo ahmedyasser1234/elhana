@@ -20,8 +20,15 @@ import {
   resetCustomPrices,
   getCustomImages,
   saveCustomImage,
-  resetCustomImages
+  resetCustomImages,
+  getCustomGalleries,
+  getCustomGalleryImages,
+  saveCustomGalleryImages,
+  addImageToCustomGallery,
+  removeImageFromCustomGallery,
+  resetCustomGallery
 } from '../services/adminCustomStore';
+import { getDefaultManifestImages, getFolderImages } from '../utils/mediaScanner';
 import { EXPERIENCES, getLocalizedExperience } from '../data/experiences';
 import { 
   ClipboardList, 
@@ -64,7 +71,11 @@ import {
   ChevronRight,
   ChevronLeft,
   Globe,
-  Compass
+  Compass,
+  Sunrise,
+  Sunset,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { 
   getAdminUsers, 
@@ -137,9 +148,17 @@ export const AdminBookingsPage = () => {
   const [tourCategoryFilter, setTourCategoryFilter] = useState('ALL');
 
   // ==========================================
-  // TAB 5: WEBSITE PHOTOS MANAGER STATE (NO BACKEND)
+  // TAB 5: WEBSITE PHOTOS & TIME SLOTS GALLERIES
   // ==========================================
   const [customImages, setCustomImagesState] = useState({});
+  const [customGalleries, setCustomGalleriesState] = useState(() => getCustomGalleries());
+  const [galleryActiveSection, setGalleryActiveSection] = useState('safari_slots'); // 'safari_slots' | 'catalogue_hero'
+  const [selectedSafariGallery, setSelectedSafariGallery] = useState('buggy_2seater');
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState('all'); // 'all' | 'sunrise' | 'morning' | 'sunset' | 'dinner'
+  const [newGalleryPhotoUrl, setNewGalleryPhotoUrl] = useState('');
+  const [newGalleryPhotoPreview, setNewGalleryPhotoPreview] = useState('');
+  const [galleryFeedbackMsg, setGalleryFeedbackMsg] = useState({ text: '', type: '' });
+
   const [selectedTourForPhoto, setSelectedTourForPhoto] = useState('');
   const [photoInputUrl, setPhotoInputUrl] = useState('');
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState('');
@@ -355,6 +374,8 @@ export const AdminBookingsPage = () => {
   const refreshImagesData = () => {
     const images = getCustomImages();
     setCustomImagesState(images);
+    const galleries = getCustomGalleries();
+    setCustomGalleriesState(galleries);
   };
 
   // ==========================================
@@ -704,6 +725,270 @@ export const AdminBookingsPage = () => {
   const activeSelectedTour = EXPERIENCES.find(e => e.slug === selectedTourForPhoto) || photoFilteredExperiences[0] || EXPERIENCES[0];
   const activeSelectedLocalized = getLocalizedExperience(activeSelectedTour, isAr ? 'ar' : 'en');
   const activeSelectedFolder = getTourFolder(activeSelectedTour);
+
+  // ==========================================
+  // SAFARI TIME SLOTS & 3D REEL GALLERIES CONFIG
+  // ==========================================
+  const SAFARI_GALLERIES = [
+    {
+      id: 'buggy_2seater',
+      category: 'buggy',
+      subCategory: '2seater',
+      titleAr: 'معرض صور الكار باجي الثنائي (مقعدين)',
+      titleEn: '2-Seater Dune Buggy Photo Gallery',
+      icon: '🏎️',
+      tagAr: 'كار باجي 2 مقعد',
+      badgeColor: 'bg-amber-100 text-amber-800',
+      webLink: '/safari?tab=buggy&option=2seater',
+      defaultImages: [
+        '/images/real/polaris-buggy-white.jpg',
+        '/images/real/family-buggy-ride.jpg',
+        '/images/real/polaris-buggy-family.jpg',
+        '/images/real/IMG-20260722-WA0368.jpg'
+      ]
+    },
+    {
+      id: 'buggy_4seater',
+      category: 'buggy',
+      subCategory: '4seater',
+      titleAr: 'معرض صور الكار باجي العائلي (4 مقاعد)',
+      titleEn: '4-Seater Family Buggy Photo Gallery',
+      icon: '🚙',
+      tagAr: 'كار باجي 4 مقاعد',
+      badgeColor: 'bg-orange-100 text-orange-800',
+      webLink: '/safari?tab=buggy&option=4seater',
+      defaultImages: [
+        '/images/real/polaris-buggy-family.jpg',
+        '/images/real/family-buggy-ride.jpg',
+        '/images/real/polaris-buggy-white.jpg',
+        '/images/real/IMG-20260722-WA0360.jpg'
+      ]
+    },
+    {
+      id: 'buggy_polaris1000',
+      category: 'buggy',
+      subCategory: 'polaris1000',
+      titleAr: 'معرض صور كار باجي بولاريس 1000 تيربو VIP',
+      titleEn: 'Polaris 1000 Turbo Buggy Gallery',
+      icon: '🚀',
+      tagAr: 'بولاريس 1000 تيربو',
+      badgeColor: 'bg-purple-100 text-purple-800',
+      webLink: '/safari?tab=buggy&option=polaris1000',
+      defaultImages: [
+        '/images/real/polaris-buggy-white.jpg',
+        '/images/real/polaris-buggy-family.jpg',
+        '/images/real/family-buggy-ride.jpg',
+        '/images/real/IMG-20260722-WA0344.jpg'
+      ]
+    },
+    {
+      id: 'atv_single',
+      category: 'atv',
+      subCategory: 'single',
+      titleAr: 'معرض صور البيتش باجي السنجل (فردي)',
+      titleEn: 'Single ATV Quad Photo Gallery',
+      icon: '🏍️',
+      tagAr: 'بيتش باجي سنجل',
+      badgeColor: 'bg-sky-100 text-sky-800',
+      webLink: '/safari?tab=atv&option=single',
+      defaultImages: [
+        '/images/real/atv-quad-hero.png',
+        '/images/real/atv-quad.jpg',
+        '/images/real/IMG-20260731-WA0021.jpg',
+        '/images/real/IMG-20260728-WA0105.jpg'
+      ]
+    },
+    {
+      id: 'atv_double',
+      category: 'atv',
+      subCategory: 'double',
+      titleAr: 'معرض صور البيتش باجي الدبل (مزدوج لراكبين)',
+      titleEn: 'Double ATV Quad Photo Gallery',
+      icon: '🏍️',
+      tagAr: 'بيتش باجي دبل',
+      badgeColor: 'bg-blue-100 text-blue-800',
+      webLink: '/safari?tab=atv&option=double',
+      defaultImages: [
+        '/images/real/atv-quad.jpg',
+        '/images/real/atv-quad-hero.png',
+        '/images/real/IMG-20260722-WA0376.jpg',
+        '/images/real/IMG-20260731-WA0004.jpg'
+      ]
+    },
+    {
+      id: 'camel_standard',
+      category: 'camel',
+      subCategory: 'all',
+      titleAr: 'معرض صور جولات ركوب الجمال البدوية',
+      titleEn: 'Bedouin Camel Riding Photo Gallery',
+      icon: '🐪',
+      tagAr: 'ركوب الجمال',
+      badgeColor: 'bg-emerald-100 text-emerald-800',
+      webLink: '/safari?tab=camel',
+      defaultImages: [
+        '/images/real/camel-riding-hero.jpg',
+        '/images/real/camel-caravan.jpg',
+        '/images/real/bedouin-hero.jpg',
+        '/images/real/safari-sunset-tea.jpg'
+      ]
+    },
+    {
+      id: 'horse_standard',
+      category: 'horse',
+      subCategory: 'all',
+      titleAr: 'معرض صور ركوب الخيول العربية الأصيلة',
+      titleEn: 'Arabian Horse Riding Photo Gallery',
+      icon: '🐎',
+      tagAr: 'ركوب الخيل',
+      badgeColor: 'bg-rose-100 text-rose-800',
+      webLink: '/safari?tab=horse',
+      defaultImages: [
+        '/images/real/horse-riding-hero.jpg',
+        '/images/real/family-buggy-ride.jpg',
+        '/images/real/camel-caravan.jpg',
+        '/images/real/atv-quad-hero.png'
+      ]
+    },
+    {
+      id: 'bedouin_standard',
+      category: 'bedouin',
+      subCategory: 'all',
+      titleAr: 'معرض صور العشاء والسهرة البدوية ورصد النجوم',
+      titleEn: 'Bedouin Dinner & Stargazing Photo Gallery',
+      icon: '🎪',
+      tagAr: 'العشاء البدوي',
+      badgeColor: 'bg-indigo-100 text-indigo-800',
+      webLink: '/safari?tab=bedouin',
+      defaultImages: [
+        '/images/real/camel-caravan.jpg',
+        '/images/real/IMG-20260722-WA0380.jpg',
+        '/images/real/IMG-20260722-WA0370.jpg',
+        '/images/real/IMG-20260728-WA0106.jpg'
+      ]
+    }
+  ];
+
+  const TIME_SLOTS = [
+    {
+      id: 'all',
+      titleAr: 'المعرض الكامل (جميع الصور)',
+      titleEn: 'Full Gallery (All Photos)',
+      time: 'الكل',
+      icon: ImageIcon,
+      color: 'slate',
+      badgeColor: 'bg-slate-100 text-slate-800 border-slate-300'
+    },
+    {
+      id: 'sunrise',
+      titleAr: 'رحلة الشروق (الفجر)',
+      titleEn: 'Sunrise Safari (Dawn)',
+      time: '04:30 AM',
+      icon: Sunrise,
+      color: 'amber',
+      badgeColor: 'bg-amber-100 text-amber-800 border-amber-300'
+    },
+    {
+      id: 'morning',
+      titleAr: 'رحلة الصباح',
+      titleEn: 'Morning Safari',
+      time: '09:00 AM',
+      icon: Sun,
+      color: 'sky',
+      badgeColor: 'bg-sky-100 text-sky-800 border-sky-300'
+    },
+    {
+      id: 'sunset',
+      titleAr: 'رحلة الغروب الذهبي',
+      titleEn: 'Sunset Safari (Most Popular)',
+      time: '04:00 PM',
+      icon: Sunset,
+      color: 'orange',
+      badgeColor: 'bg-orange-100 text-orange-800 border-orange-300'
+    },
+    {
+      id: 'dinner',
+      titleAr: 'سهرة العشاء البدوي',
+      titleEn: 'Bedouin Dinner & Stars',
+      time: '06:30 PM',
+      icon: Moon,
+      color: 'purple',
+      badgeColor: 'bg-purple-100 text-purple-800 border-purple-300'
+    }
+  ];
+
+  const activeSafariGalleryObj = SAFARI_GALLERIES.find(g => g.id === selectedSafariGallery) || SAFARI_GALLERIES[0];
+  const galleryStorageKey = `${activeSafariGalleryObj.category}_${activeSafariGalleryObj.subCategory}_${selectedTimeSlot}`;
+
+  const getImagesForGallerySelection = (optionObj, slotId) => {
+    const key = `${optionObj.category}_${optionObj.subCategory}_${slotId}`;
+    if (customGalleries[key] && Array.isArray(customGalleries[key])) {
+      return customGalleries[key];
+    }
+    // Try reading from manifest
+    const manifestImgs = getDefaultManifestImages(
+      optionObj.category,
+      optionObj.subCategory,
+      slotId === 'all' ? null : slotId
+    );
+    if (manifestImgs && manifestImgs.length > 0) {
+      return manifestImgs;
+    }
+    return optionObj.defaultImages || [];
+  };
+
+  const activeSlotImages = getImagesForGallerySelection(activeSafariGalleryObj, selectedTimeSlot);
+
+  const handleAddPhotoToGallery = () => {
+    const urlToAdd = newGalleryPhotoPreview || newGalleryPhotoUrl.trim();
+    if (!urlToAdd) {
+      alert(isAr ? 'يرجى رفع صورة من جهازك أو لصق رابط صورة مباشر' : 'Please upload a file or paste an image URL');
+      return;
+    }
+    addImageToCustomGallery(galleryStorageKey, urlToAdd, activeSlotImages);
+    setCustomGalleriesState(getCustomGalleries());
+    setNewGalleryPhotoUrl('');
+    setNewGalleryPhotoPreview('');
+    setGalleryFeedbackMsg({
+      text: isAr ? 'تمت إضافة الصورة بنجاح إلى المعرض وتحديث الموقع فوراً!' : 'Photo added successfully to gallery and live site!',
+      type: 'success'
+    });
+    setTimeout(() => setGalleryFeedbackMsg({ text: '', type: '' }), 4000);
+  };
+
+  const handleDeletePhotoFromGallery = (indexToDelete) => {
+    if (confirm(isAr ? 'هل أنت متأكد من حذف هذه الصورة من المعرض؟' : 'Are you sure you want to delete this photo from the gallery?')) {
+      removeImageFromCustomGallery(galleryStorageKey, indexToDelete, activeSlotImages);
+      setCustomGalleriesState(getCustomGalleries());
+      setGalleryFeedbackMsg({
+        text: isAr ? 'تم حذف الصورة من المعرض وتحديث الموقع!' : 'Photo deleted from gallery and updated on live site!',
+        type: 'success'
+      });
+      setTimeout(() => setGalleryFeedbackMsg({ text: '', type: '' }), 4000);
+    }
+  };
+
+  const handleResetCurrentGallery = () => {
+    if (confirm(isAr ? 'هل تريد استعادة الصور الافتراضية الأصلية لهذا المعرض؟' : 'Restore original default photos for this gallery?')) {
+      resetCustomGallery(galleryStorageKey);
+      setCustomGalleriesState(getCustomGalleries());
+      setGalleryFeedbackMsg({
+        text: isAr ? 'تمت استعادة الصور الأصلية لهذا المعرض بنجاح!' : 'Original gallery restored successfully!',
+        type: 'success'
+      });
+      setTimeout(() => setGalleryFeedbackMsg({ text: '', type: '' }), 4000);
+    }
+  };
+
+  const handleGalleryFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setNewGalleryPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // Modern Admin Dashboard Sidebar Navigation Items
   const adminNavItems = [
@@ -1829,277 +2114,608 @@ export const AdminBookingsPage = () => {
         )}
 
         {/* ======================================================== */}
-        {/* TAB 5: WEBSITE PHOTOS MANAGER (FOLDER SYSTEM)            */}
+        {/* TAB 5: WEBSITE PHOTOS & TIME SLOTS GALLERIES MANAGER    */}
         {/* ======================================================== */}
         {activeTab === 'photos' && (
           <div className="space-y-6">
-            {/* Folder Manager Header */}
-            <div className="bg-gradient-to-r from-purple-50 via-white to-pink-50 border border-purple-200/80 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+            {/* Main Tab Header with Section Switcher */}
+            <div className="bg-gradient-to-r from-purple-50 via-white to-sky-50 border border-purple-200/80 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
               <div className="space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-800 font-bold text-xs">
                   <FolderOpen className="w-3.5 h-3.5 text-purple-600" />
-                  <span>{isAr ? "نظام الفولدرات والأقسام المباشرة" : "Live Folder Categories System"}</span>
+                  <span>{isAr ? "معارض الصور الحية وتوقيتات الرحلات" : "Live Galleries & Time Slots System"}</span>
                 </div>
                 <h2 className="text-xl md:text-2xl font-black font-heading text-slate-900 flex items-center gap-2">
                   <ImageIcon className="w-6 h-6 text-purple-600" />
-                  {isAr ? "إدارة ورفع صور الموقع المباشرة" : "Live Website Photos Manager"}
+                  {isAr ? "إدارة وتعديل صور الموقع ومعارض التوقيتات" : "Live Photos & Gallery Time Slots Manager"}
                 </h2>
                 <p className="text-xs text-slate-500">
                   {isAr 
-                    ? "اختر الفولدر المناسب (سفاري، بحر، سيناء، تنقلات) ثم اضغط على الرحلة المطلوبة وارفع صورتها فوراً لتظهر في الموقع مباشرة."
-                    : "Select a category folder (Safari, Sea, Sinai, Transfers), choose a tour, and upload or paste photos to update the site instantly."}
+                    ? "تحكم كامل في إضافة وحذف صور معارض السفاري (12 صورة) مقسمين حسب رحلات الشروق، الصبح، الغروب، والعشاء، وصور باقي الرحلات."
+                    : "Add and delete photos for Safari galleries (12 photos) divided by Sunrise, Morning, Sunset, and Dinner time slots."}
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={handleResetAllTourPhotos}
-                  className="bg-white hover:bg-rose-50 border-rose-200 text-rose-600 shadow-xs"
-                  icon={RefreshCw}
+              {/* View Switcher Pills */}
+              <div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setGalleryActiveSection('safari_slots')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                    galleryActiveSection === 'safari_slots'
+                      ? 'bg-purple-600 text-white font-black shadow-sm'
+                      : 'text-slate-600 hover:text-purple-700 hover:bg-white/60'
+                  }`}
                 >
-                  {isAr ? "استعادة كافة الصور الأصلية" : "Reset All Photos"}
-                </Button>
+                  <Sunrise className="w-4 h-4" />
+                  <span>{isAr ? "معارض السفاري والتوقيتات الأربعة" : "Safari Slots Galleries"}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setGalleryActiveSection('catalogue_hero')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                    galleryActiveSection === 'catalogue_hero'
+                      ? 'bg-purple-600 text-white font-black shadow-sm'
+                      : 'text-slate-600 hover:text-purple-700 hover:bg-white/60'
+                  }`}
+                >
+                  <Folder className="w-4 h-4" />
+                  <span>{isAr ? "صور غلاف كافة رحلات الموقع" : "All Tours Hero Photos"}</span>
+                </button>
               </div>
             </div>
 
-            {/* Folder Selector Navigation Bar */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-              {PHOTO_FOLDERS.map((folder) => {
-                const isCurrent = photoFolderFilter === folder.id;
-                const folderToursCount = localizedExperiences.filter(folder.filter).length;
-                return (
-                  <button
-                    key={folder.id}
-                    onClick={() => {
-                      setPhotoFolderFilter(folder.id);
-                      const firstInFolder = localizedExperiences.find(folder.filter);
-                      if (firstInFolder) {
-                        setSelectedTourForPhoto(firstInFolder.slug);
-                        setPhotoInputUrl('');
-                        setPhotoPreviewUrl('');
-                      }
-                    }}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition whitespace-nowrap border ${
-                      isCurrent
-                        ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/20 ring-2 ring-purple-400/30'
-                        : 'bg-white text-slate-700 hover:bg-purple-50 hover:text-purple-700 border-slate-200 shadow-xs'
-                    }`}
-                  >
-                    <span className="text-base">{folder.icon}</span>
-                    <span>{isAr ? folder.nameAr : folder.nameEn}</span>
-                    <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
-                      isCurrent ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
-                    }`}>
-                      {folderToursCount}
+            {/* SECTION 1: SAFARI VEHICLES & 4 TIME SLOTS GALLERIES */}
+            {galleryActiveSection === 'safari_slots' && (
+              <div className="space-y-6">
+                
+                {/* 1. Vehicles / Safari Tours Selector Bar */}
+                <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                    <span className="text-xs font-black uppercase text-slate-400 font-heading">
+                      {isAr ? "1. اختر المعرض أو وسيلة السفاري المراد تعديل صورها:" : "1. Select Safari Vehicle Gallery:"}
                     </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Photo Editor Interface */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Left Selector Column (Tours inside selected folder) */}
-              <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
-                <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                  <h3 className="text-xs font-bold text-slate-800 flex items-center gap-2">
-                    <Folder className="w-4 h-4 text-purple-600" />
-                    <span>{isAr ? currentPhotoFolderObj.nameAr : currentPhotoFolderObj.nameEn}</span>
-                    <span className="px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 text-[11px] font-mono">
-                      ({photoFilteredExperiences.length})
+                    <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">
+                      {activeSafariGalleryObj.titleAr}
                     </span>
-                  </h3>
-                </div>
+                  </div>
 
-                {/* Quick Search inside folder */}
-                <div className="relative">
-                  <Search className="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-3 text-slate-600" />
-                  <input
-                    type="text"
-                    value={photoSearchQuery}
-                    onChange={(e) => setPhotoSearchQuery(e.target.value)}
-                    placeholder={isAr ? "ابحث باسم الرحلة داخل الفولدر..." : "Search inside folder..."}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-600 focus:outline-none focus:border-purple-500 focus:bg-white transition"
-                  />
-                </div>
-
-                {/* Tours List inside this folder */}
-                <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
-                  {photoFilteredExperiences.length === 0 ? (
-                    <div className="p-6 text-center text-xs text-slate-600">
-                      {isAr ? "لا توجد رحلات مطابقة في هذا الفولدر" : "No tours match in this folder"}
-                    </div>
-                  ) : (
-                    photoFilteredExperiences.map((tour) => {
-                      const isSelected = activeSelectedTour?.slug === tour.slug;
-                      const hasCustom = Boolean(customImages[tour.slug]);
-
+                  <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                    {SAFARI_GALLERIES.map((opt) => {
+                      const isSelected = selectedSafariGallery === opt.id;
+                      const totalOptImgs = getImagesForGallerySelection(opt, 'all').length;
                       return (
                         <button
-                          key={tour.slug}
+                          key={opt.id}
+                          type="button"
                           onClick={() => {
-                            setSelectedTourForPhoto(tour.slug);
-                            setPhotoInputUrl('');
-                            setPhotoPreviewUrl('');
+                            setSelectedSafariGallery(opt.id);
+                            setNewGalleryPhotoUrl('');
+                            setNewGalleryPhotoPreview('');
                           }}
-                          className={`w-full text-right p-3 rounded-2xl flex items-center gap-3 transition border ${
+                          className={`flex items-center gap-2 px-3.5 py-2.5 rounded-2xl font-bold text-xs transition whitespace-nowrap border shrink-0 cursor-pointer ${
                             isSelected
-                              ? 'bg-purple-50 border-purple-500 text-purple-950 ring-2 ring-purple-400/20 shadow-xs'
-                              : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-800 shadow-2xs'
+                              ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/20 ring-2 ring-purple-300'
+                              : 'bg-white text-slate-700 hover:bg-purple-50 hover:text-purple-700 border-slate-200 shadow-2xs'
                           }`}
                         >
-                          <img 
-                            src={tour.images?.[0] || '/images/default.jpg'} 
-                            alt="" 
-                            className="w-12 h-12 rounded-xl object-cover ring-1 ring-slate-200 flex-shrink-0 shadow-xs"
-                          />
-                          <div className="min-w-0 flex-1">
-                            <span className="font-bold text-xs text-slate-900 block leading-snug">
-                              {tour.title}
-                            </span>
-                            <div className="flex items-center gap-2 mt-1">
-                              <span className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-semibold">
-                                {getCategoryName(tour.category)}
-                              </span>
-                              {hasCustom && (
-                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 font-bold">
-                                  {isAr ? "صورة مخصصة" : "Custom"}
-                                </span>
-                              )}
+                          <span className="text-base">{opt.icon}</span>
+                          <span>{isAr ? opt.tagAr : opt.titleEn}</span>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
+                            isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+                          }`}>
+                            {totalOptImgs}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 2. The 4 Time Slots Tabs Row */}
+                <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                    <div>
+                      <span className="text-xs font-black uppercase text-slate-400 font-heading block">
+                        {isAr ? "2. اختر توقيت الرحلة (الشروق، الصبح، الغروب، العشا، أو المعرض الكامل):" : "2. Select Time Slot to View/Edit Photos:"}
+                      </span>
+                      <span className="text-xs text-slate-500 font-normal">
+                        {isAr ? "كل توقيت يمتلك صوره الخاصة التي تظهر للعميل في نافذة تفاصيل التوقيت وفي معرض الصور الرئيسي." : "Each slot contains photos shown in the departure slot modal and gallery showcase."}
+                      </span>
+                    </div>
+
+                    <a
+                      href={activeSafariGalleryObj.webLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-bold transition w-fit shrink-0"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>{isAr ? "معاينة المعرض على الموقع مباشرة" : "Preview Live on Website"}</span>
+                    </a>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+                    {TIME_SLOTS.map((slot) => {
+                      const isCurrent = selectedTimeSlot === slot.id;
+                      const SlotIcon = slot.icon;
+                      const count = getImagesForGallerySelection(activeSafariGalleryObj, slot.id).length;
+                      return (
+                        <button
+                          key={slot.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedTimeSlot(slot.id);
+                            setNewGalleryPhotoUrl('');
+                            setNewGalleryPhotoPreview('');
+                          }}
+                          className={`p-3 rounded-2xl border text-right rtl:text-right ltr:text-left transition flex flex-col justify-between gap-2 cursor-pointer ${
+                            isCurrent
+                              ? 'bg-gradient-to-br from-purple-600 via-indigo-600 to-purple-700 text-white border-purple-600 shadow-lg shadow-purple-600/25 ring-2 ring-purple-300'
+                              : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200 shadow-2xs'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between w-full">
+                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                              isCurrent ? 'bg-white/20 text-white' : 'bg-purple-50 text-purple-600'
+                            }`}>
+                              <SlotIcon className="w-4 h-4" />
                             </div>
+                            <span className={`text-[11px] font-black px-2 py-0.5 rounded-full ${
+                              isCurrent ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-700'
+                            }`}>
+                              {count} {isAr ? "صور" : "photos"}
+                            </span>
+                          </div>
+
+                          <div>
+                            <span className={`font-bold text-xs block truncate ${isCurrent ? 'text-white' : 'text-slate-900'}`}>
+                              {isAr ? slot.titleAr : slot.titleEn}
+                            </span>
+                            <span className={`text-[10px] block font-mono ${isCurrent ? 'text-purple-100' : 'text-slate-400'}`}>
+                              {slot.time}
+                            </span>
                           </div>
                         </button>
                       );
-                    })
-                  )}
-                </div>
-              </div>
-
-              {/* Right Preview and Upload Controls */}
-              <div className="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
-                {/* Visual Breadcrumb Location Tracker */}
-                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 via-sky-50 to-white border border-purple-200 flex items-center justify-between flex-wrap gap-2">
-                  <div className="flex items-center gap-2 text-xs font-bold text-purple-900">
-                    <FolderOpen className="w-4 h-4 text-purple-600 shrink-0" />
-                    <span className="text-slate-600">{isAr ? "مسار الرفع المحدد:" : "Upload Location:"}</span>
-                    <span className="px-2.5 py-1 rounded-xl bg-white border border-purple-200 text-purple-700 shadow-xs">
-                      {activeSelectedFolder.icon} {isAr ? activeSelectedFolder.nameAr : activeSelectedFolder.nameEn}
-                    </span>
-                    <span className="text-slate-600">&larr;</span>
-                    <span className="text-slate-900 font-black">{activeSelectedLocalized?.title}</span>
-                  </div>
-                  <span className="text-[11px] text-slate-500 font-mono bg-white px-2 py-0.5 rounded-md border border-slate-200">
-                    ID: {activeSelectedTour?.slug}
-                  </span>
-                </div>
-
-                {photoSaveSuccess && (
-                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    {isAr ? "تم تحديث وحفظ صورة الرحلة بنجاح في كل الموقع!" : "Tour image updated successfully across the entire site!"}
-                  </div>
-                )}
-
-                {/* Side-by-Side Photo Previews */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Current Active Image */}
-                  <div className="space-y-2">
-                    <span className="text-xs font-bold text-slate-600 block">
-                      {isAr ? "الصورة الحالية الفعالة في الموقع:" : "Currently Active on Site:"}
-                    </span>
-                    <div className="aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 relative group shadow-inner">
-                      <img 
-                        src={activeSelectedTour?.images?.[0] || '/images/default.jpg'} 
-                        alt="Current" 
-                        className="w-full h-full object-cover"
-                      />
-                      {customImages[activeSelectedTour?.slug] && (
-                        <div className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-purple-600 text-white font-bold text-[10px] shadow">
-                          {isAr ? "صورة مخصصة" : "Custom Photo"}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* New Upload / URL Preview */}
-                  <div className="space-y-2">
-                    <span className="text-xs font-bold text-purple-700 block">
-                      {isAr ? "معاينة الصورة الجديدة قبل الحفظ:" : "New Image Preview:"}
-                    </span>
-                    <div className="aspect-video rounded-2xl overflow-hidden bg-purple-50/40 border-2 border-dashed border-purple-300 flex items-center justify-center relative">
-                      {photoPreviewUrl || photoInputUrl ? (
-                        <img 
-                          src={photoPreviewUrl || photoInputUrl} 
-                          alt="New Preview" 
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="text-center p-4 space-y-2 text-slate-600">
-                          <Upload className="w-8 h-8 mx-auto text-purple-400" />
-                          <span className="text-xs font-medium block">{isAr ? "اختر صورة أو الصق رابطاً للمعاينة هنا" : "Upload or paste URL to preview"}</span>
-                        </div>
-                      )}
-                    </div>
+                    })}
                   </div>
                 </div>
 
-                {/* Upload & Link Controls */}
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
-                  <div className="flex flex-col sm:flex-row items-center gap-3">
-                    <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition shadow-md shadow-purple-600/20">
-                      <Upload className="w-4 h-4" />
-                      <span>{isAr ? "اختر صورة من جهازك (ملف)" : "Upload File From Computer"}</span>
-                      <input 
-                        type="file" 
-                        accept="image/*" 
-                        onChange={handlePhotoUploadForTour} 
-                        className="hidden" 
-                      />
-                    </label>
-                    <span className="text-xs text-slate-600 font-bold">{isAr ? "أو" : "or"}</span>
-                    <div className="relative flex-1 w-full">
-                      <LinkIcon className="w-3.5 h-3.5 absolute top-1/2 -translate-y-1/2 right-3 text-slate-600" />
-                      <input
-                        type="url"
-                        placeholder={isAr ? "الصق رابط صورة مباشر https://..." : "Paste image URL https://..."}
-                        value={photoInputUrl}
-                        onChange={(e) => setPhotoInputUrl(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-600 focus:outline-none focus:border-purple-500 font-mono shadow-xs"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-3 border-t border-slate-200">
-                    <div className="text-[11px] text-slate-500">
-                      {isAr ? "يتم حفظ الصورة بصيغة بيانات مشفرة في التخزين المحلي للمتصفح مباشرة." : "Stored securely in client state with real-time site reactivity."}
+                {/* 3. Photos Showcase Grid & Management Controls */}
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+                  
+                  {/* Gallery Subheader */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-base">{activeSafariGalleryObj.icon}</span>
+                        <h3 className="text-base sm:text-lg font-black font-heading text-slate-900">
+                          {isAr ? activeSafariGalleryObj.titleAr : activeSafariGalleryObj.titleEn}
+                        </h3>
+                        <span className="text-xs px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 font-bold border border-purple-200">
+                          {TIME_SLOTS.find(s => s.id === selectedTimeSlot)?.titleAr}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500">
+                        {isAr 
+                          ? `إجمالي الصور المعروضة حالياً: (${activeSlotImages.length} صورة). يمكنك حذف أي صورة أو رفع صورة جديدة بالأسفل.`
+                          : `Total active photos in this gallery: (${activeSlotImages.length} photos). You can add or delete photos below.`}
+                      </p>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      {customImages[activeSelectedTour?.slug] && (
-                        <button
-                          onClick={() => handleResetTourPhoto(activeSelectedTour?.slug)}
-                          className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition border border-slate-200"
-                        >
-                          {isAr ? "استعادة الصورة الأصلية" : "Reset Original"}
-                        </button>
-                      )}
                       <Button
-                        variant="primary"
+                        variant="outline"
                         size="sm"
-                        onClick={handleSaveTourPhoto}
-                        icon={CheckCircle2}
-                        className="bg-[#0284C7] hover:bg-[#0369A1] text-white shadow-md shadow-sky-600/20"
+                        onClick={handleResetCurrentGallery}
+                        className="bg-white hover:bg-rose-50 border-rose-200 text-rose-600 text-xs shadow-xs"
+                        icon={RefreshCw}
                       >
-                        {isAr ? "تطبيق وحفظ الصورة للرحلة" : "Apply & Save Photo"}
+                        {isAr ? "استعادة صور هذا المعرض الأصلية" : "Reset Slot Photos"}
                       </Button>
                     </div>
                   </div>
+
+                  {/* Feedback Notification Banner */}
+                  {galleryFeedbackMsg.text && (
+                    <div className={`p-3.5 rounded-2xl text-xs font-bold flex items-center gap-2.5 shadow-xs ${
+                      galleryFeedbackMsg.type === 'success'
+                        ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                        : 'bg-rose-50 border border-rose-200 text-rose-700'
+                    }`}>
+                      <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+                      <span>{galleryFeedbackMsg.text}</span>
+                    </div>
+                  )}
+
+                  {/* Active Photos Gallery Cards Grid */}
+                  {activeSlotImages.length === 0 ? (
+                    <div className="p-12 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 space-y-3">
+                      <ImageIcon className="w-12 h-12 text-slate-300 mx-auto" />
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-bold text-slate-700">
+                          {isAr ? "لا توجد صور مضافة لهذا التوقيت بعد" : "No photos added to this slot yet"}
+                        </h4>
+                        <p className="text-xs text-slate-400">
+                          {isAr ? "يمكنك استخدام نموذج الإضافة بالأسفل لرفع صورة من جهازك أو وضع رابط لصورة." : "Use the form below to upload or paste a direct image URL."}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                      {activeSlotImages.map((imgUrl, idx) => (
+                        <div
+                          key={idx}
+                          className="group relative bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between"
+                        >
+                          {/* Image preview */}
+                          <div className="aspect-square w-full overflow-hidden bg-slate-200 relative">
+                            <img
+                              src={imgUrl}
+                              alt=""
+                              className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
+                            />
+
+                            {/* Photo Index Badge */}
+                            <div className="absolute top-2 right-2 px-2 py-0.5 rounded-lg bg-black/60 backdrop-blur-md text-white font-mono text-[10px] font-bold">
+                              #{idx + 1}
+                            </div>
+
+                            {idx === 0 && (
+                              <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-emerald-600 text-white text-[10px] font-bold shadow">
+                                {isAr ? "الغلاف الرئيسي" : "Cover"}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Footer with Delete Action */}
+                          <div className="p-2.5 bg-white border-t border-slate-100 flex items-center justify-between gap-1">
+                            <span className="text-[10px] text-slate-400 font-mono truncate max-w-[100px]" title={imgUrl}>
+                              {imgUrl.split('/').pop()}
+                            </span>
+
+                            <button
+                              type="button"
+                              onClick={() => handleDeletePhotoFromGallery(idx)}
+                              className="px-2.5 py-1 rounded-xl bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition font-bold text-[11px] flex items-center gap-1 cursor-pointer border border-rose-200 hover:border-rose-600 shadow-2xs"
+                              title={isAr ? "حذف هذه الصورة من المعرض" : "Delete photo"}
+                            >
+                              <Trash2 className="w-3 h-3" />
+                              <span>{isAr ? "حذف" : "Delete"}</span>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* 4. Add New Photo To This Gallery Card */}
+                  <div className="mt-6 p-5 rounded-3xl bg-slate-50 border border-slate-200 space-y-4">
+                    <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
+                      <Plus className="w-4 h-4 text-purple-600" />
+                      <h4 className="text-xs sm:text-sm font-bold text-slate-900">
+                        {isAr 
+                          ? `إضافة صورة جديدة إلى (${activeSafariGalleryObj.titleAr} • ${TIME_SLOTS.find(s => s.id === selectedTimeSlot)?.titleAr}):`
+                          : "Add New Photo to Active Gallery:"}
+                      </h4>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-center">
+                      {/* Left: Input controls */}
+                      <div className="lg:col-span-2 space-y-3">
+                        <div className="flex flex-col sm:flex-row items-center gap-3">
+                          <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition shadow-md shadow-purple-600/20 shrink-0">
+                            <Upload className="w-4 h-4" />
+                            <span>{isAr ? "رفع صورة من جهازك (ملف)" : "Upload From Computer"}</span>
+                            <input 
+                              type="file" 
+                              accept="image/*" 
+                              onChange={handleGalleryFileUpload} 
+                              className="hidden" 
+                            />
+                          </label>
+
+                          <span className="text-xs text-slate-400 font-bold">{isAr ? "أو" : "or"}</span>
+
+                          <div className="relative flex-1 w-full">
+                            <LinkIcon className="w-3.5 h-3.5 absolute top-1/2 -translate-y-1/2 right-3 text-slate-400" />
+                            <input
+                              type="url"
+                              placeholder={isAr ? "الصق رابط صورة مباشر https://..." : "Paste image URL https://..."}
+                              value={newGalleryPhotoUrl}
+                              onChange={(e) => setNewGalleryPhotoUrl(e.target.value)}
+                              className="w-full bg-white border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-purple-500 font-mono shadow-xs"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-1">
+                          <p className="text-[11px] text-slate-400">
+                            {isAr ? "تدعم جميع صيغ الصور (JPG, PNG, WebP). تُحفظ الصورة فوراً وتظهر في الموقع." : "Supports JPG, PNG, WebP with instant live sync."}
+                          </p>
+
+                          <Button
+                            type="button"
+                            variant="primary"
+                            size="sm"
+                            onClick={handleAddPhotoToGallery}
+                            icon={CheckCircle2}
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20 font-bold cursor-pointer"
+                          >
+                            {isAr ? "إضافة للمعرض وتحديث الموقع" : "Add to Gallery Now"}
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Right: Preview box */}
+                      <div className="aspect-video w-full max-w-[220px] mx-auto rounded-2xl border-2 border-dashed border-purple-200 bg-white flex items-center justify-center overflow-hidden relative">
+                        {newGalleryPhotoPreview || newGalleryPhotoUrl ? (
+                          <img
+                            src={newGalleryPhotoPreview || newGalleryPhotoUrl}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="text-center p-2 text-slate-400 space-y-1">
+                            <ImageIcon className="w-6 h-6 mx-auto text-slate-300" />
+                            <span className="text-[10px] block">{isAr ? "معاينة الصورة المحددة" : "Image Preview"}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
 
               </div>
-            </div>
+            )}
+
+            {/* SECTION 2: ALL CATALOGUE HERO PHOTOS (FOLDER SYSTEM) */}
+            {galleryActiveSection === 'catalogue_hero' && (
+              <div className="space-y-6">
+                {/* Folder Selector Navigation Bar */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                  {PHOTO_FOLDERS.map((folder) => {
+                    const isCurrent = photoFolderFilter === folder.id;
+                    const folderToursCount = localizedExperiences.filter(folder.filter).length;
+                    return (
+                      <button
+                        key={folder.id}
+                        type="button"
+                        onClick={() => {
+                          setPhotoFolderFilter(folder.id);
+                          const firstInFolder = localizedExperiences.find(folder.filter);
+                          if (firstInFolder) {
+                            setSelectedTourForPhoto(firstInFolder.slug);
+                            setPhotoInputUrl('');
+                            setPhotoPreviewUrl('');
+                          }
+                        }}
+                        className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition whitespace-nowrap border cursor-pointer ${
+                          isCurrent
+                            ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/20 ring-2 ring-purple-400/30'
+                            : 'bg-white text-slate-700 hover:bg-purple-50 hover:text-purple-700 border-slate-200 shadow-xs'
+                        }`}
+                      >
+                        <span className="text-base">{folder.icon}</span>
+                        <span>{isAr ? folder.nameAr : folder.nameEn}</span>
+                        <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                          isCurrent ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+                        }`}>
+                          {folderToursCount}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Photo Editor Interface */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Left Selector Column (Tours inside selected folder) */}
+                  <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                      <h3 className="text-xs font-bold text-slate-800 flex items-center gap-2">
+                        <Folder className="w-4 h-4 text-purple-600" />
+                        <span>{isAr ? currentPhotoFolderObj.nameAr : currentPhotoFolderObj.nameEn}</span>
+                        <span className="px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 text-[11px] font-mono">
+                          ({photoFilteredExperiences.length})
+                        </span>
+                      </h3>
+                    </div>
+
+                    {/* Quick Search inside folder */}
+                    <div className="relative">
+                      <Search className="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-3 text-slate-600" />
+                      <input
+                        type="text"
+                        value={photoSearchQuery}
+                        onChange={(e) => setPhotoSearchQuery(e.target.value)}
+                        placeholder={isAr ? "ابحث باسم الرحلة داخل الفولدر..." : "Search inside folder..."}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-600 focus:outline-none focus:border-purple-500 focus:bg-white transition"
+                      />
+                    </div>
+
+                    {/* Tours List inside this folder */}
+                    <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
+                      {photoFilteredExperiences.length === 0 ? (
+                        <div className="p-6 text-center text-xs text-slate-600">
+                          {isAr ? "لا توجد رحلات مطابقة في هذا الفولدر" : "No tours match in this folder"}
+                        </div>
+                      ) : (
+                        photoFilteredExperiences.map((tour) => {
+                          const isSelected = activeSelectedTour?.slug === tour.slug;
+                          const hasCustom = Boolean(customImages[tour.slug]);
+
+                          return (
+                            <button
+                              key={tour.slug}
+                              type="button"
+                              onClick={() => {
+                                setSelectedTourForPhoto(tour.slug);
+                                setPhotoInputUrl('');
+                                setPhotoPreviewUrl('');
+                              }}
+                              className={`w-full text-right p-3 rounded-2xl flex items-center gap-3 transition border cursor-pointer ${
+                                isSelected
+                                  ? 'bg-purple-50 border-purple-500 text-purple-950 ring-2 ring-purple-400/20 shadow-xs'
+                                  : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-800 shadow-2xs'
+                              }`}
+                            >
+                              <img 
+                                src={tour.images?.[0] || '/images/default.jpg'} 
+                                alt="" 
+                                className="w-12 h-12 rounded-xl object-cover ring-1 ring-slate-200 flex-shrink-0 shadow-xs"
+                              />
+                              <div className="min-w-0 flex-1">
+                                <span className="font-bold text-xs text-slate-900 block leading-snug">
+                                  {tour.title}
+                                </span>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-semibold">
+                                    {getCategoryName(tour.category)}
+                                  </span>
+                                  {hasCustom && (
+                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 font-bold">
+                                      {isAr ? "صورة مخصصة" : "Custom"}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </button>
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Right Preview and Upload Controls */}
+                  <div className="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+                    {/* Visual Breadcrumb Location Tracker */}
+                    <div className="p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 via-sky-50 to-white border border-purple-200 flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2 text-xs font-bold text-purple-900">
+                        <FolderOpen className="w-4 h-4 text-purple-600 shrink-0" />
+                        <span className="text-slate-600">{isAr ? "مسار الرفع المحدد:" : "Upload Location:"}</span>
+                        <span className="px-2.5 py-1 rounded-xl bg-white border border-purple-200 text-purple-700 shadow-xs">
+                          {activeSelectedFolder.icon} {isAr ? activeSelectedFolder.nameAr : activeSelectedFolder.nameEn}
+                        </span>
+                        <span className="text-slate-600">&larr;</span>
+                        <span className="text-slate-900 font-black">{activeSelectedLocalized?.title}</span>
+                      </div>
+                      <span className="text-[11px] text-slate-500 font-mono bg-white px-2 py-0.5 rounded-md border border-slate-200">
+                        ID: {activeSelectedTour?.slug}
+                      </span>
+                    </div>
+
+                    {photoSaveSuccess && (
+                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                        {isAr ? "تم تحديث وحفظ صورة الرحلة بنجاح في كل الموقع!" : "Tour image updated successfully across the entire site!"}
+                      </div>
+                    )}
+
+                    {/* Side-by-Side Photo Previews */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Current Active Image */}
+                      <div className="space-y-2">
+                        <span className="text-xs font-bold text-slate-600 block">
+                          {isAr ? "الصورة الحالية الفعالة في الموقع:" : "Currently Active on Site:"}
+                        </span>
+                        <div className="aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 relative group shadow-inner">
+                          <img 
+                            src={activeSelectedTour?.images?.[0] || '/images/default.jpg'} 
+                            alt="Current" 
+                            className="w-full h-full object-cover"
+                          />
+                          {customImages[activeSelectedTour?.slug] && (
+                            <div className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-purple-600 text-white font-bold text-[10px] shadow">
+                              {isAr ? "صورة مخصصة" : "Custom Photo"}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* New Upload / URL Preview */}
+                      <div className="space-y-2">
+                        <span className="text-xs font-bold text-purple-700 block">
+                          {isAr ? "معاينة الصورة الجديدة قبل الحفظ:" : "New Image Preview:"}
+                        </span>
+                        <div className="aspect-video rounded-2xl overflow-hidden bg-purple-50/40 border-2 border-dashed border-purple-300 flex items-center justify-center relative">
+                          {photoPreviewUrl || photoInputUrl ? (
+                            <img 
+                              src={photoPreviewUrl || photoInputUrl} 
+                              alt="New Preview" 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="text-center p-4 space-y-2 text-slate-600">
+                              <Upload className="w-8 h-8 mx-auto text-purple-400" />
+                              <span className="text-xs font-medium block">{isAr ? "اختر صورة أو الصق رابطاً للمعاينة هنا" : "Upload or paste URL to preview"}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Upload & Link Controls */}
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+                      <div className="flex flex-col sm:flex-row items-center gap-3">
+                        <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition shadow-md shadow-purple-600/20">
+                          <Upload className="w-4 h-4" />
+                          <span>{isAr ? "اختر صورة من جهازك (ملف)" : "Upload File From Computer"}</span>
+                          <input 
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handlePhotoUploadForTour} 
+                            className="hidden" 
+                          />
+                        </label>
+                        <span className="text-xs text-slate-600 font-bold">{isAr ? "أو" : "or"}</span>
+                        <div className="relative flex-1 w-full">
+                          <LinkIcon className="w-3.5 h-3.5 absolute top-1/2 -translate-y-1/2 right-3 text-slate-600" />
+                          <input
+                            type="url"
+                            placeholder={isAr ? "الصق رابط صورة مباشر https://..." : "Paste image URL https://..."}
+                            value={photoInputUrl}
+                            onChange={(e) => setPhotoInputUrl(e.target.value)}
+                            className="w-full bg-white border border-slate-200 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-800 placeholder:text-slate-600 focus:outline-none focus:border-purple-500 font-mono shadow-xs"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-3 border-t border-slate-200">
+                        <div className="text-[11px] text-slate-500">
+                          {isAr ? "يتم حفظ الصورة بصيغة بيانات مشفرة في التخزين المحلي للمتصفح مباشرة." : "Stored securely in client state with real-time site reactivity."}
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          {customImages[activeSelectedTour?.slug] && (
+                            <button
+                              type="button"
+                              onClick={() => handleResetTourPhoto(activeSelectedTour?.slug)}
+                              className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition border border-slate-200 cursor-pointer"
+                            >
+                              {isAr ? "استعادة الصورة الأصلية" : "Reset Original"}
+                            </button>
+                          )}
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={handleSaveTourPhoto}
+                            icon={CheckCircle2}
+                            className="bg-[#0284C7] hover:bg-[#0369A1] text-white shadow-md shadow-sky-600/20"
+                          >
+                            {isAr ? "تطبيق وحفظ الصورة للرحلة" : "Apply & Save Photo"}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            )}
+
           </div>
         )}
 

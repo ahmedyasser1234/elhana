@@ -515,9 +515,17 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
   const currentTabBase = tabConfig[activeTab] || tabConfig.atv;
   const currentSubDetails = subTabDetails[activeTab]?.[activeSubTab] || subTabDetails.atv.single;
 
-  // Dynamically load images from manifest (re-evaluated once manifest finishes loading)
+  // Track real-time admin gallery updates
+  const [galleryVersion, setGalleryVersion] = useState(0);
+  useEffect(() => {
+    const handleUpdate = () => setGalleryVersion(v => v + 1);
+    window.addEventListener('elhana_content_updated', handleUpdate);
+    return () => window.removeEventListener('elhana_content_updated', handleUpdate);
+  }, []);
+
+  // Dynamically load images from manifest or custom admin store
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const folderImages = !mediaLoading ? getFolderImages(activeTab, activeSubTab) : [];
+  const folderImages = (!mediaLoading || galleryVersion >= 0) ? getFolderImages(activeTab, activeSubTab) : [];
   const resolvedImages = folderImages.length > 0 ? folderImages : currentSubDetails.images;
 
 

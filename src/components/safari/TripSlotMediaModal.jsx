@@ -20,6 +20,14 @@ export const TripSlotMediaModal = ({
   const [activeSlot, setActiveSlot] = useState(initialSlot || 'sunset');
   const [mediaFilter, setMediaFilter] = useState('all'); // 'all' | 'image' | 'video'
   const [activeMediaItem, setActiveMediaItem] = useState(null); // for fullscreen lightbox/video player
+  const [galleryVersion, setGalleryVersion] = useState(0);
+
+  // Listen to live gallery updates from admin
+  useEffect(() => {
+    const handleUpdate = () => setGalleryVersion(v => v + 1);
+    window.addEventListener('elhana_content_updated', handleUpdate);
+    return () => window.removeEventListener('elhana_content_updated', handleUpdate);
+  }, []);
 
   // Ensure manifest is loaded before rendering media
   useMediaManifest();

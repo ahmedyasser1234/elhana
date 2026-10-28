@@ -193,7 +193,7 @@ export function useMediaManifest() {
 // ── Synchronous getters (work after manifest is loaded) ───────
 // These are used by components that render AFTER the manifest loads.
 
-export function getFolderImages(category, subCategory = 'all') {
+export function getDefaultManifestImages(category, subCategory = 'all', timeSlot = null) {
   if (!_cache) return [];
   let pool = _cache.images.filter(img => img.category === category);
   if (pool.length === 0) return [];
@@ -201,34 +201,79 @@ export function getFolderImages(category, subCategory = 'all') {
     const sub = pool.filter(img => img.subCategory === subCategory);
     if (sub.length > 0) pool = sub;
   }
+  if (timeSlot && timeSlot !== 'all') {
+    const slotted = pool.filter(img => img.timeSlots && img.timeSlots.includes(timeSlot));
+    if (slotted.length > 0) pool = slotted;
+  }
   return pool.map(img => img.url);
+}
+
+export function getFolderImages(category, subCategory = 'all', timeSlot = null) {
+  // Check localStorage for custom gallery overrides first
+  try {
+    const rawGalleries = localStorage.getItem('elhana_custom_galleries');
+    if (rawGalleries) {
+      const parsed = JSON.parse(rawGalleries);
+      const slotKey = `${category}_${subCategory}_${timeSlot || 'all'}`;
+      if (parsed[slotKey] && Array.isArray(parsed[slotKey])) {
+        return parsed[slotKey];
+      }
+      const allKey = `${category}_${subCategory}_all`;
+      if (!timeSlot && parsed[allKey] && Array.isArray(parsed[allKey])) {
+        return parsed[allKey];
+      }
+    }
+  } catch {}
+
+  return getDefaultManifestImages(category, subCategory, timeSlot);
 }
 
 export function getMediaForCategory(category, subCategory = 'all', timeSlot = null) {
   const src = _cache || { images: [], videos: [] };
 
-  // Filter images
-  let images = src.images.filter(img => img.category === category);
-  // Filter videos — also accept 'real' category videos as fallback
+  // Check localStorage for custom gallery overrides
+  let customImgs = null;
+  try {
+    const rawGalleries = localStorage.getItem('elhana_custom_galleries');
+    if (rawGalleries) {
+      const parsed = JSON.parse(rawGalleries);
+      const slotKey = `${category}_${subCategory}_${timeSlot || 'all'}`;
+      if (parsed[slotKey] && Array.isArray(parsed[slotKey])) {
+        customImgs = parsed[slotKey];
+      }
+    }
+  } catch {}
+
+  let images = customImgs !== null ? customImgs.map(url => ({
+    url,
+    type: 'image',
+    category,
+    subCategory,
+    timeSlots: [timeSlot || 'sunset'],
+    title: { ar: arabicTitle(category, subCategory), en: englishTitle(category, subCategory) }
+  })) : src.images.filter(img => img.category === category);
+
   let videos = src.videos.filter(v => v.category === category);
   if (videos.length === 0) {
     videos = src.videos; // global fallback
   }
 
-  // SubCategory filter
-  if (subCategory && subCategory !== 'all') {
-    const si = images.filter(img => img.subCategory === subCategory);
-    if (si.length > 0) images = si;
-    const sv = videos.filter(v => v.subCategory === subCategory);
-    if (sv.length > 0) videos = sv;
-  }
+  if (customImgs === null) {
+    // SubCategory filter
+    if (subCategory && subCategory !== 'all') {
+      const si = images.filter(img => img.subCategory === subCategory);
+      if (si.length > 0) images = si;
+      const sv = videos.filter(v => v.subCategory === subCategory);
+      if (sv.length > 0) videos = sv;
+    }
 
-  // Time slot filter
-  if (timeSlot) {
-    const ti = images.filter(img => img.timeSlots.includes(timeSlot));
-    if (ti.length > 0) images = ti;
-    const tv = videos.filter(v => v.timeSlots.includes(timeSlot));
-    if (tv.length > 0) videos = tv;
+    // Time slot filter
+    if (timeSlot) {
+      const ti = images.filter(img => img.timeSlots.includes(timeSlot));
+      if (ti.length > 0) images = ti;
+      const tv = videos.filter(v => v.timeSlots.includes(timeSlot));
+      if (tv.length > 0) videos = tv;
+    }
   }
 
   return { images, videos, all: [...videos, ...images] };
