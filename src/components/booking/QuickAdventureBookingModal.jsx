@@ -905,37 +905,37 @@ export const QuickAdventureBookingModal = () => {
 
                 {/* Right Summary & Checkout Action Column */}
                 <div className="space-y-4">
-                  <div className="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-white rounded-2xl p-5 border border-slate-800 shadow-xl space-y-4 sticky top-4">
-                    <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                      <h4 className="text-xs uppercase font-extrabold text-sky-400 tracking-wider">
+                  <div className="bg-gradient-to-br from-sky-50/90 via-white to-sky-50/60 text-slate-900 rounded-2xl p-5 border-2 border-sky-200/90 shadow-sm space-y-4 sticky top-4">
+                    <div className="flex items-center justify-between border-b border-sky-100 pb-3">
+                      <h4 className="text-xs uppercase font-black text-[#0284C7] tracking-wider font-heading">
                         {isAr ? 'ملخص الحساب والإجمالي' : 'Calculation & Total'}
                       </h4>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                         {isAr ? 'تأكيد فوري' : 'Instant Confirm'}
                       </span>
                     </div>
 
                     <div className="space-y-2 text-xs">
-                      <div className="flex justify-between text-slate-300">
+                      <div className="flex justify-between text-slate-600">
                         <span>{isAr ? 'المغامرة:' : 'Tour:'}</span>
-                        <span className="font-bold text-white text-right max-w-[150px] truncate">
+                        <span className="font-bold text-slate-900 text-right max-w-[150px] truncate">
                           {locSelectedExp?.title || selectedExp.title}
                         </span>
                       </div>
 
-                      <div className="flex justify-between text-slate-300">
+                      <div className="flex justify-between text-slate-600">
                         <span>{isAr ? 'التاريخ:' : 'Date:'}</span>
-                        <span className="font-bold text-white">{bookingDate}</span>
+                        <span className="font-bold text-slate-900">{bookingDate}</span>
                       </div>
 
-                      <div className="flex justify-between text-slate-300">
+                      <div className="flex justify-between text-slate-600">
                         <span>{isAr ? 'الموعد:' : 'Time:'}</span>
-                        <span className="font-bold text-sky-400">{selectedTimeSlot}</span>
+                        <span className="font-extrabold text-[#0284C7]">{selectedTimeSlot}</span>
                       </div>
 
-                      <div className="flex justify-between text-slate-300">
+                      <div className="flex justify-between text-slate-600">
                         <span>{isAr ? 'العدد:' : 'Travelers:'}</span>
-                        <span className="font-bold text-white">
+                        <span className="font-bold text-slate-900">
                           {isSafariType
                             ? `${singleQuads > 0 ? `${singleQuads} سنجل ` : ''}${doubleQuads > 0 ? `${doubleQuads} دبل ` : ''}${buggy2Seater > 0 ? `${buggy2Seater} باجي2 ` : ''}${buggy4Seater > 0 ? `${buggy4Seater} باجي4 ` : ''}` || `${adults} أفراد`
                             : `${adults} بالغ${children > 0 ? ` ، ${children} طفل` : ''}`}
@@ -943,28 +943,28 @@ export const QuickAdventureBookingModal = () => {
                       </div>
 
                       {/* Total Box */}
-                      <div className="pt-3 border-t border-slate-800 flex items-baseline justify-between">
+                      <div className="pt-3 border-t border-sky-100 flex items-baseline justify-between">
                         <div>
-                          <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                          <span className="text-[10px] uppercase font-bold text-slate-500 block">
                             {isAr ? 'إجمالي المبلغ المستحق' : 'Total Price'}
                           </span>
-                          <span className="text-[10px] text-emerald-400">
+                          <span className="text-[10px] text-emerald-700 font-bold">
                             {isAr ? 'الدفع عند الوصول' : 'Pay upon pickup'}
                           </span>
                         </div>
-                        <span className="text-2xl sm:text-3xl font-black text-white font-heading">
+                        <span className="text-2xl sm:text-3xl font-black text-[#0284C7] font-heading">
                           {formatPrice(liveTotal)}
                         </span>
                       </div>
                     </div>
 
                     {/* Guarantees */}
-                    <div className="pt-2 border-t border-slate-800/80 space-y-1 text-[11px] text-slate-400 font-medium">
-                      <div className="flex items-center gap-1.5 text-emerald-400">
+                    <div className="pt-2 border-t border-sky-100 space-y-1 text-[11px] text-slate-600 font-medium">
+                      <div className="flex items-center gap-1.5 text-emerald-700 font-bold">
                         <Check className="w-3.5 h-3.5" />
                         <span>{isAr ? 'توصيل واستقبال مجاني من الفندق' : 'Free hotel pickup & return'}</span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-emerald-400">
+                      <div className="flex items-center gap-1.5 text-emerald-700 font-bold">
                         <Check className="w-3.5 h-3.5" />
                         <span>{isAr ? 'بدون أي عربون أو تكاليف خفية' : 'Zero booking deposit'}</span>
                       </div>

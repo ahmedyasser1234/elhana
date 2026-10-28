@@ -1767,60 +1767,63 @@ export const BookingWidget = ({ experience }) => {
 
       </div>
 
-      {/* Calculation Total Box */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 text-white space-y-2.5 border border-slate-800 shadow-xl">
+      {/* Calculation Total Box (Brand Sky & Clean Styling) */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-sky-50/90 via-white to-sky-50/60 text-slate-900 space-y-2.5 border-2 border-sky-200/90 shadow-sm">
         {isSafari && grandTotal === 0 && (
-          <div className="text-[11px] text-amber-300/90 font-medium pb-1.5 border-b border-slate-800">
-            {isAr
-              ? 'لم يتم اختيار مركبات أو عشاء بعد (اضغط + لإضافة مركبة)'
-              : 'No vehicles or dinner selected yet (Click + to add)'}
+          <div className="text-[11px] text-amber-900 font-bold bg-amber-50/90 border border-amber-200/80 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+            <Info className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+            <span>
+              {isAr
+                ? 'لم يتم اختيار مركبات أو عشاء بعد (اضغط + لإضافة مركبة)'
+                : 'No vehicles or dinner selected yet (Click + to add)'}
+            </span>
           </div>
         )}
         {!isSafari && excursionTotal > 0 && (
-          <div className="flex justify-between items-center text-xs text-slate-300">
+          <div className="flex justify-between items-center text-xs text-slate-600">
             <span>{isAr ? `تكلفة الرحلة (${adults} بالغين${childrenCount > 0 ? ` + ${childrenCount} أطفال` : ''})` : `Tour Price (${adults} Adults${childrenCount > 0 ? ` + ${childrenCount} Kids` : ''})`}</span>
-            <span className="font-bold text-white">{formatPrice(excursionTotal)}</span>
+            <span className="font-extrabold text-slate-900">{formatPrice(excursionTotal)}</span>
           </div>
         )}
         {isHorseCamelTab && horseCamelTotal > 0 && (
-          <div className="flex justify-between items-center text-xs text-slate-300">
+          <div className="flex justify-between items-center text-xs text-slate-600">
             <span>{isAr ? `تكلفة جولة الركوب (${adults + childrenCount} أفراد)` : `Riding Cost (${adults + childrenCount} guests)`}</span>
-            <span className="font-bold text-white">{formatPrice(horseCamelTotal)}</span>
+            <span className="font-extrabold text-slate-900">{formatPrice(horseCamelTotal)}</span>
           </div>
         )}
         {vehiclesPrice > 0 && (
-          <div className="flex justify-between items-center text-xs text-slate-300">
+          <div className="flex justify-between items-center text-xs text-slate-600">
             <span>{isAr ? 'تكلفة المركبات' : 'Vehicles Total'}</span>
-            <span className="font-bold text-white">{formatPrice(vehiclesPrice)}</span>
+            <span className="font-extrabold text-slate-900">{formatPrice(vehiclesPrice)}</span>
           </div>
         )}
         {partyFee > 0 && (
-          <div className="flex justify-between items-center text-xs text-slate-300">
+          <div className="flex justify-between items-center text-xs text-slate-600">
             <span>{isAr ? 'رسوم الحفلة والعشاء البدوي' : 'Bedouin Dinner & Show Fee'}</span>
-            <span className="font-bold text-amber-300">+{formatPrice(partyFee)}</span>
+            <span className="font-extrabold text-amber-700">+{formatPrice(partyFee)}</span>
           </div>
         )}
         {extrasTotal > 0 && (
-          <div className="flex justify-between items-center text-xs text-slate-300">
+          <div className="flex justify-between items-center text-xs text-slate-600">
             <span>{isAr ? 'الإضافات الاختيارية' : 'Selected Extras'}</span>
-            <span className="font-bold text-amber-300">+{formatPrice(extrasTotal)}</span>
+            <span className="font-extrabold text-amber-700">+{formatPrice(extrasTotal)}</span>
           </div>
         )}
-        <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
+        <div className="pt-3 border-t border-sky-100 flex items-center justify-between gap-2">
           <div>
-            <span className="text-xs uppercase font-extrabold text-[#38BDF8] block">
+            <span className="text-xs uppercase font-black text-[#0284C7] block font-heading">
               {t('checkout.total')}
             </span>
-            <span className="text-[10px] text-slate-400 font-medium">
+            <span className="text-[10px] text-slate-500 font-medium">
               {isAr ? 'شامل الانتقالات والضريبة' : 'Transfers & taxes included'}
             </span>
           </div>
           <div className="text-end rtl:text-left ltr:text-right">
-            <span className="text-2xl sm:text-3xl font-black text-amber-400 font-heading">
+            <span className="text-2xl sm:text-3xl font-black text-[#0284C7] font-heading">
               {formatPrice(grandTotal)}
             </span>
             {grandTotal > 0 && (
-              <div className="text-[11px] font-bold text-emerald-300 mt-0.5">
+              <div className="text-[11px] font-extrabold text-emerald-700 mt-0.5">
                 ≈ {Math.round(grandTotal * 52.39)} {isAr ? 'ج.م' : 'EGP'}
               </div>
             )}
