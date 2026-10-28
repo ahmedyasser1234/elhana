@@ -669,6 +669,56 @@ export const AdminBookingsPage = () => {
   const activeSelectedLocalized = getLocalizedExperience(activeSelectedTour, isAr ? 'ar' : 'en');
   const activeSelectedFolder = getTourFolder(activeSelectedTour);
 
+  // Modern Admin Dashboard Sidebar Navigation Items
+  const adminNavItems = [
+    {
+      id: 'bookings',
+      title: isAr ? 'سجل الحجوزات والإشعارات' : 'Bookings & Alerts',
+      desc: isAr ? 'إدارة الطلبات وقنوات التنبيه' : 'Orders & notification channels',
+      icon: ClipboardList,
+      count: bookings.length,
+      badgeColor: 'bg-sky-100 text-sky-800'
+    },
+    {
+      id: 'guides',
+      title: isAr ? 'إدارة المرشدين السياحيين' : 'Guides Management',
+      desc: isAr ? 'الملفات الشخصية ورموز QR' : 'Guide profiles & QR codes',
+      icon: Users,
+      count: guides.length,
+      badgeColor: 'bg-emerald-100 text-emerald-800'
+    },
+    {
+      id: 'reviews',
+      title: isAr ? 'تقييمات المرشدين (سري)' : 'Confidential Reviews',
+      desc: isAr ? 'تقييمات العملاء لمرشدي الجولات' : 'Client feedback & ratings',
+      icon: Star,
+      count: guideReviews.length,
+      badgeColor: 'bg-amber-100 text-amber-800'
+    },
+    {
+      id: 'prices',
+      title: isAr ? 'تعديل الأسعار الفوري' : 'Live Price Editor',
+      desc: isAr ? 'تحديث فوري لأسعار جميع الرحلات' : 'Update tour rates instantly',
+      icon: DollarSign,
+      badgeColor: 'bg-teal-100 text-teal-800'
+    },
+    {
+      id: 'photos',
+      title: isAr ? 'إدارة ورفع صور الموقع' : 'Photos & Media Manager',
+      desc: isAr ? 'استبدال وتحديث صور المعارض' : 'Manage & replace gallery photos',
+      icon: ImageIcon,
+      badgeColor: 'bg-purple-100 text-purple-800'
+    },
+    {
+      id: 'team',
+      title: isAr ? 'فريق الإدارة والمشرفين' : 'Admin & Moderators',
+      desc: isAr ? 'صلاحيات الحسابات وكلمات المرور' : 'Account access & passwords',
+      icon: ShieldCheck,
+      count: adminUsers.length,
+      badgeColor: 'bg-indigo-100 text-indigo-800'
+    }
+  ];
+
   return (
     <div className="pt-28 pb-20 bg-[#F8FAFC] text-slate-800 min-h-screen relative overflow-hidden" dir={isAr ? 'rtl' : 'ltr'}>
       <SEOHead 
@@ -679,7 +729,7 @@ export const AdminBookingsPage = () => {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-100/50 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-purple-100/40 rounded-full blur-[140px] pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
         
         {/* Top Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-6">
@@ -704,145 +754,159 @@ export const AdminBookingsPage = () => {
               <span className="font-bold text-slate-900">{currentAdmin?.name || PRIMARY_ADMIN.name}</span>
               <span className="text-slate-600 font-mono text-[11px] hidden sm:inline">({currentAdmin?.email || PRIMARY_ADMIN.email})</span>
             </div>
-
-            <a 
-              href="/qr" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 border border-sky-300 text-sky-800 font-bold text-xs transition shadow-xs"
-            >
-              <QrCode className="w-4 h-4 text-sky-600" />
-              <span>{isAr ? "مركز QR" : "QR Center"}</span>
-              <ExternalLink className="w-3 h-3 text-sky-500" />
-            </a>
-
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => {
-                loadBookings();
-                refreshGuidesData();
-                refreshPricingData();
-                refreshImagesData();
-              }} 
-              icon={RefreshCw}
-              className="bg-white hover:bg-slate-50 border-slate-200 text-slate-700 shadow-xs"
-            >
-              {isAr ? "تحديث الكل" : "Refresh All"}
-            </Button>
-
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setShowChangePassModal(true)}
-              className="bg-white hover:bg-amber-50 border-amber-300 text-amber-800 shadow-xs"
-              icon={KeyRound}
-            >
-              {isAr ? "تغيير الرمز" : "Change Password"}
-            </Button>
-
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={handleAdminLogout}
-              className="bg-white hover:bg-rose-50 border-rose-300 text-rose-700 shadow-xs"
-              icon={LogOut}
-            >
-              {isAr ? "تسجيل الخروج" : "Logout"}
-            </Button>
           </div>
         </div>
 
-        {/* Master Admin Navigation Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200/80 scrollbar-none">
-          <button
-            onClick={() => setActiveTab('bookings')}
-            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
-              activeTab === 'bookings'
-                ? 'bg-[#0284C7] text-white shadow-md shadow-sky-600/30 ring-2 ring-sky-400/40'
-                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
-            }`}
-          >
-            <ClipboardList className="w-4 h-4" />
-            <span>{isAr ? "سجل الحجوزات والإشعارات" : "Bookings & Alerts"}</span>
-            {bookings.length > 0 && (
-              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'bookings' ? 'bg-black/20 text-white' : 'bg-sky-100 text-sky-800'}`}>
-                {bookings.length}
-              </span>
-            )}
-          </button>
+        {/* Master Admin Dashboard: Sidebar + Main Content Layout */}
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
+          
+          {/* Dashboard Sticky Sidebar */}
+          <aside className="w-full lg:w-72 xl:w-80 shrink-0 bg-white rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-sm space-y-5 lg:sticky lg:top-28">
+            
+            {/* Admin Profile Mini Card */}
+            <div className="p-3.5 rounded-2xl bg-gradient-to-br from-sky-50 via-white to-blue-50/50 border border-sky-100 flex items-center gap-3">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0284C7] to-[#0369A1] text-white flex items-center justify-center font-black text-base shadow-md shadow-[#0284C7]/20 shrink-0">
+                <Crown className="w-6 h-6 text-amber-300" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-black text-slate-900 truncate">
+                    {currentAdmin?.name || PRIMARY_ADMIN.name}
+                  </span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                </div>
+                <span className="text-[10px] font-bold text-[#0284C7] block truncate">
+                  {isAr ? 'المدير التنفيذي • تحكم كامل' : 'Primary Admin • Full Access'}
+                </span>
+                <span className="text-[10px] text-slate-400 font-mono block truncate">
+                  {currentAdmin?.email || PRIMARY_ADMIN.email}
+                </span>
+              </div>
+            </div>
 
-          <button
-            onClick={() => setActiveTab('guides')}
-            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
-              activeTab === 'guides'
-                ? 'bg-[#0284C7] text-white shadow-md shadow-sky-600/30 ring-2 ring-sky-400/40'
-                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
-            }`}
-          >
-            <Users className="w-4 h-4" />
-            <span>{isAr ? "إدارة المرشدين السياحيين" : "Guides Management"}</span>
-            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'guides' ? 'bg-black/20 text-white' : 'bg-sky-100 text-sky-800'}`}>
-              {guides.length}
-            </span>
-          </button>
+            {/* Sidebar Navigation Items */}
+            <div className="space-y-1.5">
+              <div className="px-2 pb-1 text-[11px] font-black uppercase tracking-wider text-slate-400 font-heading">
+                {isAr ? 'أقسام لوحة الإدارة' : 'Dashboard Sections'}
+              </div>
 
-          <button
-            onClick={() => setActiveTab('reviews')}
-            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
-              activeTab === 'reviews'
-                ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30 ring-2 ring-amber-400/40'
-                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
-            }`}
-          >
-            <Star className="w-4 h-4 text-amber-300" />
-            <span>{isAr ? "تقييمات المرشدين (سري للأدمن)" : "Secret Guide Reviews"}</span>
-            {guideReviews.length > 0 && (
-              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'reviews' ? 'bg-black/20 text-white' : 'bg-amber-100 text-amber-800'}`}>
-                {guideReviews.length}
-              </span>
-            )}
-          </button>
+              <nav className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-1.5">
+                {adminNavItems.map((item) => {
+                  const isActive = activeTab === item.id;
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => setActiveTab(item.id)}
+                      className={`w-full p-3 rounded-2xl font-bold text-xs sm:text-sm transition flex items-center justify-between text-right rtl:text-right ltr:text-left cursor-pointer group ${
+                        isActive
+                          ? 'bg-gradient-to-r from-[#0284C7] via-[#0369A1] to-[#075985] text-white shadow-lg shadow-[#0284C7]/25 ring-2 ring-sky-300/30'
+                          : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/80 hover:border-sky-300 shadow-2xs'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div
+                          className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition ${
+                            isActive
+                              ? 'bg-white/20 text-white'
+                              : 'bg-slate-100 text-slate-600 group-hover:bg-sky-50 group-hover:text-[#0284C7]'
+                          }`}
+                        >
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <div className="min-w-0">
+                          <span className={`block font-extrabold truncate ${isActive ? 'text-white' : 'text-slate-900'}`}>
+                            {item.title}
+                          </span>
+                          <span className={`text-[10px] block truncate font-normal ${isActive ? 'text-sky-100' : 'text-slate-400'}`}>
+                            {item.desc}
+                          </span>
+                        </div>
+                      </div>
 
-          <button
-            onClick={() => setActiveTab('prices')}
-            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
-              activeTab === 'prices'
-                ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 ring-2 ring-emerald-400/40'
-                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
-            }`}
-          >
-            <DollarSign className="w-4 h-4 text-emerald-300" />
-            <span>{isAr ? "تعديل الأسعار الفوري" : "Live Price Editor"}</span>
-          </button>
+                      {item.count !== undefined && item.count > 0 && (
+                        <span
+                          className={`text-[11px] font-black px-2.5 py-0.5 rounded-full shrink-0 ${
+                            isActive ? 'bg-white/20 text-white' : item.badgeColor
+                          }`}
+                        >
+                          {item.count}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
 
-          <button
-            onClick={() => setActiveTab('photos')}
-            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
-              activeTab === 'photos'
-                ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30 ring-2 ring-purple-400/40'
-                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
-            }`}
-          >
-            <ImageIcon className="w-4 h-4 text-purple-300" />
-            <span>{isAr ? "إدارة ورفع صور الموقع" : "Photos & Media"}</span>
-          </button>
+            {/* Quick Tools & Session Bar */}
+            <div className="pt-3 border-t border-slate-100 space-y-2">
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <a
+                  href="/qr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 font-bold border border-sky-200 flex items-center justify-center gap-1.5 transition text-[11px]"
+                >
+                  <QrCode className="w-3.5 h-3.5 text-sky-600" />
+                  <span>{isAr ? 'مركز QR' : 'QR Center'}</span>
+                </a>
 
-          <button
-            onClick={() => setActiveTab('team')}
-            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl font-bold text-sm transition whitespace-nowrap ${
-              activeTab === 'team'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 ring-2 ring-indigo-400/40'
-                : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-xs'
-            }`}
-          >
-            <ShieldCheck className="w-4 h-4 text-indigo-300" />
-            <span>{isAr ? "فريق الإدارة والمشرفين" : "Admin & Moderators"}</span>
-            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'team' ? 'bg-black/20 text-white' : 'bg-indigo-100 text-indigo-800'}`}>
-              {adminUsers.length}
-            </span>
-          </button>
-        </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    loadBookings();
+                    refreshGuidesData();
+                    refreshPricingData();
+                    refreshImagesData();
+                  }}
+                  className="p-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold border border-slate-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
+                >
+                  <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
+                  <span>{isAr ? 'تحديث الكل' : 'Refresh'}</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setShowChangePassModal(true)}
+                  className="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold border border-amber-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
+                >
+                  <KeyRound className="w-3.5 h-3.5 text-amber-600" />
+                  <span>{isAr ? 'تغيير الرمز' : 'Password'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleAdminLogout}
+                  className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold border border-rose-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
+                >
+                  <LogOut className="w-3.5 h-3.5 text-rose-600" />
+                  <span>{isAr ? 'خروج' : 'Logout'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Storage System Status Indicator */}
+            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-[10px] text-slate-500 space-y-1">
+              <div className="flex items-center justify-between font-bold text-slate-700">
+                <span>{isAr ? 'نظام الحفظ المباشر' : 'Live Sync'}</span>
+                <span className="text-emerald-600 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  {isAr ? 'نشط 100%' : 'Active'}
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-400 leading-relaxed">
+                {isAr ? 'تعديلات الأسعار والصور وتنبيهات الحجز تُحفظ فوراً في المتصفح' : 'Prices, images and alert configs are saved instantly in local storage'}
+              </p>
+            </div>
+
+          </aside>
+
+          {/* Main Dashboard Content Area */}
+          <main className="flex-1 min-w-0 w-full space-y-6">
 
         {/* ======================================================== */}
         {/* TAB 1: BOOKINGS & NOTIFICATIONS                          */}
@@ -2130,6 +2194,9 @@ export const AdminBookingsPage = () => {
             </div>
           </div>
         )}
+
+          </main>
+        </div>
 
         {/* Add Moderator Modal */}
         {showAddModModal && (
