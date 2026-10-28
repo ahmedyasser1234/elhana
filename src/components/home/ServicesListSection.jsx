@@ -13,51 +13,51 @@ export const ServicesListSection = () => {
   const services = [
     {
       num: "01",
-      title: isAr ? "رحلات بيتش باجي وبوجي سفاري الصحراء." : "ATV Quad & Dune Buggy Desert Safaris.",
+      title: isAr ? "رحلات سفاري الصحراء والبيتش باجي." : "Desert Safari & Quad Buggy Adventures.",
       desc: isAr
-        ? "خوض تجربة القيادة الحرة في صحراء سيناء الساحرة بسيارات البوجي والبيتش باجي 250cc مع مرشدين محترفين."
-        : "Experience thrilling dune driving across the Sinai Desert with 250cc quad bikes and Polaris dune buggies guided by local pros.",
-      link: "/atv-tours"
+        ? "مغامرات قيادة البيتش باجي وسيارات البوجي في قلب صحراء سيناء ووادي الماندال، وركوب الجمال وحفلات العشاء البدوي الفاخرة تحت النجوم."
+        : "Thrilling quad bike and dune buggy adventures across Sinai desert valleys, sunset camel rides, and authentic Bedouin dinners under the stars.",
+      link: "/safari"
     },
     {
       num: "02",
-      title: isAr ? "إبحار ويخوت فاخرة إلى الجزيرة البيضاء." : "VIP Yacht Cruises & White Island Expeditions.",
+      title: isAr ? "الرحلات والأنشطة البحرية واليخوت." : "Red Sea Cruises & Marine Adventures.",
       desc: isAr
-        ? "رحلات يخوت VIP ممتازة إلى محمية رأس محمد والجزيرة البيضاء شاملة الغداء والمشروبات ومعدات السنوركلينج."
-        : "Exclusive VIP yacht trips to Ras Mohammed and White Island including gourmet lunch, open buffet drinks, and snorkeling gear.",
-      link: "/yacht-trips"
+        ? "إبحار بيخوت VIP فاخرة إلى محمية رأس محمد والجزيرة البيضاء وجزيرة تيران، مع تجارب السنوركلينج والغوص الاحترافي والألعاب المائية."
+        : "Exclusive VIP yacht cruises to Ras Mohammed, White Island, and Tiran Island featuring world-class snorkeling, scuba diving, and water sports.",
+      link: "/sea-trips"
     },
     {
       num: "03",
-      title: isAr ? "سهرات عشاء بدوي وعروض فلكلورية تحت النجوم." : "Bedouin Sunset Dinners & Stargazing Shows.",
+      title: isAr ? "رحلات سانت كاترين وجبل موسى." : "Saint Catherine & Mount Sinai Tours.",
       desc: isAr
-        ? "استمتع بغروب الشمس الصحراوي والعشاء البدوي اللذيذ مع العروض الفلكلورية وركوب الجمال ورصد النجوم بالتليسكوب."
-        : "Immerse in Bedouin hospitality with sunset camel rides, open-fire BBQ dinner, folklore shows, and telescope stargazing.",
-      link: "/bedouin-experience"
+        ? "صعود قمة جبل موسى التاريخي لمشاهدة شروق الشمس الساحر فوق بحر الغيوم، مع جولة إرشادية داخل دير سانت كاترين وشجرة العليقة المقدسة."
+        : "Climb the historic Mount Sinai summit to witness the magical sunrise over rolling clouds, followed by a guided tour of Saint Catherine Monastery.",
+      link: "/excursions?tab=catherine"
     },
     {
       num: "04",
-      title: isAr ? "رحلات غوص واستكشاف شعب جزيرة تيران." : "Scuba Diving & Tiran Island Coral Reefs.",
+      title: isAr ? "رحلات دهب ومحمية البلو هول." : "Dahab Day Trips & Blue Hole Excursions.",
       desc: isAr
-        ? "اكتشف الحياة البحرية في البحر الأحمر مع غطسات التعارف للمبتدئين والغوص الاحترافي مع مدربي PADI."
-        : "Explore vibrant coral reefs with intro scuba dives for beginners and certified guided dives with certified PADI instructors.",
-      link: "/diving"
+        ? "استكشاف سحر دهب والغوص والسنوركلينج في الثقب الأزرق العالمي (Blue Hole)، ومغامرات الكانيون مع ركوب الجمال وغداء بدوي شهي على البحر."
+        : "Experience Dahab's bohemian charm with snorkeling in the world-famous Blue Hole, canyon off-road safari, beach camel trekking, and seaside lunch.",
+      link: "/excursions?tab=dahab"
     },
     {
       num: "05",
-      title: isAr ? "مغامرات باراسيلينج وألعاب مائية حماسية." : "Parasailing & High-Speed Water Sports.",
+      title: isAr ? "رحلات طابا وخليج فيورد باي." : "Taba & Fjord Bay Scenic Excursions.",
       desc: isAr
-        ? "حلق فوق خليج نعمة بالطيران الشراعي واستمتع بركوب البنانة والقارب السريع مع أقصى معايير الأمان."
-        : "Fly high over Naama Bay with parasailing and speed through the waves on banana boats and speedboats with total safety.",
-      link: "/parasailing"
+        ? "جولة بانورامية إلى خليج فيورد باي بمياهه الفيروزية الصافية المحاطة بسلاسل جبال سيناء، وزيارة قلعة صلاح الدين التاريخية على جزيرة فرعون."
+        : "Discover the breathtaking turquoise waters of Fjord Bay nestled between rugged mountains, and visit the historic Salah El-Din Citadel on Pharaoh's Island.",
+      link: "/excursions?tab=taba"
     },
     {
       num: "06",
-      title: isAr ? "انتقالات فندقية ومطار شرم الشيخ VIP." : "VIP Airport & Hotel Private Transfers.",
+      title: isAr ? "رحلات نويبع ومخيمات رأس شيطان." : "Nuweiba, Ras Shitan & Wishwashi Canyon.",
       desc: isAr
-        ? "خدمات استقبال وانتقالات بسيارات حديثة ومكيفة بأسعار ثابتة بدون رسوم خفية بين المطار وجميع فنادق شرم الشيخ."
-        : "Fixed-price private transfers in modern air-conditioned vehicles connecting Sharm El Sheikh Airport with all resort hotels.",
-      link: "/transfers"
+        ? "أجواء الاسترخاء والهدوء على شواطئ رأس شيطان البدوية الساحرة، ومغامرة المشي والسباحة في مسبح وادي الوشواشي الطبيعي العذب وسط الجبال."
+        : "Relax in serene Bedouin eco-camps on Ras Shitan beach, and trek to the hidden freshwater emerald natural pool in Wadi El-Wishwashi Canyon.",
+      link: "/excursions?tab=nuweiba"
     }
   ];
 
@@ -73,14 +73,14 @@ export const ServicesListSection = () => {
         <div className="space-y-4 max-w-3xl">
           <TextMaskReveal>
             <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/90 border border-orange-200 text-[#F97316] text-xs font-bold uppercase tracking-wider shadow-sm">
-              <span>{isAr ? "خدماتنا وتجاربنا الاستثنائية" : "Our Premium Services & Experiences"}</span>
+              <span>{isAr ? "وجهات وتجارب رحلاتنا" : "Our Tour Destinations & Experiences"}</span>
             </div>
           </TextMaskReveal>
 
           <TextMaskReveal delay={0.15}>
             <h2 className="text-3xl md:text-5xl font-black font-heading tracking-tight text-slate-900 leading-tight">
-              {isAr ? "نصنع تجارب سياحية بأعلى معايير " : "We Build Experiences With "}
-              <span className="text-[#F97316]">{isAr ? "الاحترافية والرفاهية." : "Excellence & Precision."}</span>
+              {isAr ? "رحلات سيناء وشرم الشيخ بأعلى معايير " : "Sinai & Sharm El Sheikh Tours With "}
+              <span className="text-[#F97316]">{isAr ? "الاحترافية والأمان." : "Excellence & Safety."}</span>
             </h2>
           </TextMaskReveal>
         </div>
