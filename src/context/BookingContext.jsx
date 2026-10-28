@@ -1,8 +1,21 @@
-﻿import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const BookingContext = createContext();
 
 export const BookingProvider = ({ children }) => {
+  const [isAdventureModalOpen, setIsAdventureModalOpen] = useState(false);
+  const [modalInitialExperience, setModalInitialExperience] = useState(null);
+
+  const openAdventureModal = (exp = null) => {
+    if (exp) setModalInitialExperience(exp);
+    setIsAdventureModalOpen(true);
+  };
+
+  const closeAdventureModal = () => {
+    setIsAdventureModalOpen(false);
+    setModalInitialExperience(null);
+  };
+
   const [bookingDraft, setBookingDraft] = useState({
     experience: null,
     date: new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo' }).format(new Date()),
@@ -100,7 +113,16 @@ export const BookingProvider = ({ children }) => {
   };
 
   return (
-    <BookingContext.Provider value={{ bookingDraft, setBookingDraft, updateBooking, calculateTotal }}>
+    <BookingContext.Provider value={{
+      bookingDraft,
+      setBookingDraft,
+      updateBooking,
+      calculateTotal,
+      isAdventureModalOpen,
+      modalInitialExperience,
+      openAdventureModal,
+      closeAdventureModal
+    }}>
       {children}
     </BookingContext.Provider>
   );

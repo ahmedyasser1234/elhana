@@ -20,7 +20,7 @@ export const CheckoutPage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { bookingDraft, calculateTotal } = useBooking();
+  const { bookingDraft, calculateTotal, openAdventureModal } = useBooking();
   const { showToast } = useToast();
 
   const isTransfer = location.state?.isTransferBooking;
@@ -308,11 +308,30 @@ export const CheckoutPage = () => {
               <div className="space-y-3 text-xs">
                 <div>
                   <span className="text-slate-400 font-bold block text-[10px] uppercase">{isAr ? "الخدمة / المغامرة" : "Activity / Service"}</span>
-                  <span className="font-extrabold text-white text-sm">
+                  <span className="font-extrabold text-white text-sm block">
                     {isTransfer
                       ? `Transfer: ${transferData?.pickup} → ${transferData?.dropoff}`
-                      : (experience?.title || (bookingDraft.camelDuration ? (isAr ? 'جولة ركوب الجمال في الصحراء' : 'Desert Camel Riding') : (bookingDraft.horseDuration ? (isAr ? 'جولة ركوب الخيل العربي في سيناء' : 'Sinai Horse Riding') : 'ATV Quad Safari')))}
+                      : (experience?.title || (bookingDraft.camelDuration ? (isAr ? 'جولة ركوب الجمال في الصحراء' : 'Desert Camel Riding') : (bookingDraft.horseDuration ? (isAr ? 'جولة ركوب الخيل العربي في سيناء' : 'Sinai Horse Riding') : (isAr ? 'لم يتم تحديد مغامرة بعد' : 'No adventure selected yet'))))}
                   </span>
+                  {!isTransfer && !experience && !bookingDraft.camelDuration && !bookingDraft.horseDuration && (
+                    <button
+                      type="button"
+                      onClick={() => openAdventureModal()}
+                      className="mt-2 w-full py-2 px-3 rounded-xl bg-gradient-to-r from-[#0284C7] to-sky-500 hover:from-[#0369A1] hover:to-sky-600 text-white font-extrabold text-xs transition flex items-center justify-center gap-1.5 shadow-md cursor-pointer animate-pulse"
+                    >
+                      <Compass className="w-4 h-4" />
+                      <span>{isAr ? '👈 اضغط هنا لاختيار المغامرة وحساب التوتال' : '👈 Select tour & calculate total'}</span>
+                    </button>
+                  )}
+                  {!isTransfer && experience && (
+                    <button
+                      type="button"
+                      onClick={() => openAdventureModal(rawExperience)}
+                      className="text-[11px] text-sky-400 hover:text-sky-300 font-bold underline inline-block mt-1 cursor-pointer"
+                    >
+                      {isAr ? '🔄 تغيير المغامرة أو تعديل التفاصيل' : '🔄 Change tour or edit details'}
+                    </button>
+                  )}
                   {bookingDraft.camelDuration && (
                     <span className="text-[11px] text-amber-300 font-bold block mt-0.5">
                       {isAr ? `🐪 المدة: ${bookingDraft.camelDuration === '30min' ? '30 دقيقة ($10/شخص)' : 'ساعة كاملة ($20/شخص)'}` : `🐪 Duration: ${bookingDraft.camelDuration === '30min' ? '30 Mins ($10/person)' : '1 Hour ($20/person)'}`}

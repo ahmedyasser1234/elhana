@@ -5,11 +5,13 @@ import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { CurrencySwitcher } from './CurrencySwitcher';
 import { getWhatsAppLink } from './WhatsAppButton';
+import { useBooking } from '../../context/BookingContext';
 
 export const Navbar = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const isAr = i18n.language === 'ar';
+  const { openAdventureModal } = useBooking();
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileNavVisible, setMobileNavVisible] = useState(true);
@@ -265,12 +267,13 @@ export const Navbar = () => {
             <div className="hidden lg:flex items-center gap-2.5 shrink-0">
               <CurrencySwitcher />
               <LanguageSwitcher />
-              <Link
-                to="/checkout"
-                className="bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white font-extrabold px-5 py-2.5 text-xs md:text-sm tracking-wide rounded-xl shadow-lg shadow-[#0284C7]/25 hover:scale-[1.03] transition duration-300 whitespace-nowrap"
+              <button
+                type="button"
+                onClick={() => openAdventureModal()}
+                className="bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white font-extrabold px-5 py-2.5 text-xs md:text-sm tracking-wide rounded-xl shadow-lg shadow-[#0284C7]/25 hover:scale-[1.03] transition duration-300 whitespace-nowrap cursor-pointer"
               >
                 <span>{t('nav.bookAdventure')}</span>
-              </Link>
+              </button>
             </div>
 
             {/* Mobile header controls (switchers + burger) */}
@@ -425,13 +428,16 @@ export const Navbar = () => {
 
             {/* CTA buttons */}
             <div className="space-y-3 pt-5 pb-8">
-              <Link
-                to="/checkout"
-                onClick={() => setMobileMenuOpen(false)}
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openAdventureModal();
+                }}
                 className="w-full py-4 bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white font-extrabold rounded-2xl flex items-center justify-center shadow-xl shadow-[#0284C7]/20 transition text-sm cursor-pointer"
               >
                 {t('nav.bookAdventure')}
-              </Link>
+              </button>
               <a
                 href={getWhatsAppLink()}
                 target="_blank"

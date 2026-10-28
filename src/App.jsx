@@ -47,6 +47,7 @@ import AdminAccess from './components/common/AdminAccess';
 import { CurrencyProvider } from './context/CurrencyContext';
 import AirportVIPPage from './pages/AirportVIPPage';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import { QuickAdventureBookingModal } from './components/booking/QuickAdventureBookingModal';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -114,6 +115,7 @@ export function App() {
                   </main>
                   <Footer />
                   <WhatsAppButton />
+                  <QuickAdventureBookingModal />
                   <Toast />
                 </div>
               </ToastProvider>
