@@ -75,13 +75,37 @@ export const QuickAdventureBookingModal = () => {
     }
   }, [isAdventureModalOpen, modalInitialExperience]);
 
-  // Categories list
+  // Categories list (Clean dashboard style - no icons or emojis)
   const categories = useMemo(() => [
-    { id: 'all', label: isAr ? 'جميع الرحلات (20+)' : 'All Trips (20+)', icon: '✨' },
-    { id: 'safari', label: isAr ? '🏜️ سفاري الصحراء والبيتش باجي' : '🏜️ Desert Safari & Buggy', filter: ['atv', 'buggy', 'safari', 'camel', 'horse'] },
-    { id: 'sea', label: isAr ? '🛥️ رحلات البحر الأحمر واليخوت' : '🛥️ Red Sea & Yacht Trips', filter: ['yacht', 'snorkeling', 'diving', 'parasailing', 'banana', 'sea'] },
-    { id: 'excursions', label: isAr ? '🏖️ رحلات سيناء (دهب، كاترين، طابا)' : '🏖️ Sinai Excursions (Dahab, Taba)', filter: ['dahab', 'excursions'] },
-    { id: 'romantic', label: isAr ? '💍 عروض المناسبات والرومانسية' : '💍 Special Events & Proposals', filter: ['yacht', 'bedouin'] },
+    {
+      id: 'all',
+      label: isAr ? 'جميع الرحلات' : 'All Tours',
+      count: EXPERIENCES.length
+    },
+    {
+      id: 'safari',
+      label: isAr ? 'سفاري الصحراء والبيتش باجي' : 'Desert Safari & Quad',
+      filter: ['atv', 'buggy', 'safari', 'camel', 'horse'],
+      count: EXPERIENCES.filter(e => ['atv', 'buggy', 'safari', 'camel', 'horse'].includes(e.category)).length
+    },
+    {
+      id: 'sea',
+      label: isAr ? 'رحلات البحر الأحمر واليخوت' : 'Red Sea & Yacht Cruises',
+      filter: ['yacht', 'snorkeling', 'diving', 'parasailing', 'banana', 'sea'],
+      count: EXPERIENCES.filter(e => ['yacht', 'snorkeling', 'diving', 'parasailing', 'banana', 'sea'].includes(e.category) && !e.slug.includes('marry-me')).length
+    },
+    {
+      id: 'excursions',
+      label: isAr ? 'رحلات سيناء (دهب، كاترين، طابا)' : 'Sinai Excursions (Dahab, Taba)',
+      filter: ['dahab', 'excursions'],
+      count: EXPERIENCES.filter(e => ['dahab', 'excursions'].includes(e.category)).length
+    },
+    {
+      id: 'romantic',
+      label: isAr ? 'باقات المناسبات الخاصة والرومانسية' : 'VIP Events & Proposals',
+      filter: ['yacht', 'bedouin'],
+      count: EXPERIENCES.filter(e => e.slug.includes('marry-me') || e.slug.includes('romantic')).length
+    },
   ], [isAr]);
 
   // Filtered experiences
@@ -235,7 +259,7 @@ export const QuickAdventureBookingModal = () => {
       onClick={closeAdventureModal}
     >
       <div
-        className="w-full max-w-4xl max-h-[92vh] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200"
+        className="w-full max-w-5xl lg:max-w-6xl max-h-[92vh] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Top Header */}
@@ -285,34 +309,22 @@ export const QuickAdventureBookingModal = () => {
         {/* Modal Body Container */}
         <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 bg-slate-50/60">
           
-          {/* STEP 1: CHOOSE ADVENTURE */}
+          {/* STEP 1: CHOOSE ADVENTURE WITH DASHBOARD SIDEBAR */}
           {step === 1 && (
-            <div className="space-y-4">
-              {/* Search & Categories Filter Bar */}
-              <div className="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200/90 shadow-2xs space-y-3">
-                {/* Search Input */}
-                <div className="relative">
-                  <Search className="w-4 h-4 text-slate-400 absolute top-1/2 -translate-y-1/2 right-3 rtl:right-3 rtl:left-auto ltr:left-3 ltr:right-auto pointer-events-none" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={isAr ? 'ابحث عن أي رحلة (سفاري، يخت رأس محمد، دهب، غوص، براشيل...)' : 'Search tours (safari, yacht, dahab, diving...)'}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-9 text-xs sm:text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:bg-white transition"
-                  />
-                  {searchQuery && (
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery('')}
-                      className="absolute top-1/2 -translate-y-1/2 left-3 rtl:left-3 rtl:right-auto ltr:right-3 ltr:left-auto text-slate-400 hover:text-slate-600 text-xs p-1"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  )}
+            <div className="flex flex-col md:flex-row gap-4 sm:gap-5 min-h-[520px]">
+              
+              {/* DASHBOARD SIDEBAR FOR CATEGORIES (NO ICONS, CLEAN DASHBOARD STYLE) */}
+              <aside className="w-full md:w-60 lg:w-64 shrink-0 bg-white rounded-2xl p-3 sm:p-4 border border-slate-200/90 shadow-2xs space-y-3 self-start md:sticky md:top-0">
+                <div className="border-b border-slate-100 pb-2.5 px-1 flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-500 font-heading">
+                    {isAr ? 'تصنيفات الرحلات' : 'Tour Categories'}
+                  </span>
+                  <span className="text-[10px] font-black text-sky-800 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">
+                    {EXPERIENCES.length} {isAr ? 'رحلة' : 'tours'}
+                  </span>
                 </div>
 
-                {/* Category Pills */}
-                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                <nav className="flex md:flex-col gap-1.5 overflow-x-auto md:overflow-visible pb-1 md:pb-0 scrollbar-none">
                   {categories.map((cat) => {
                     const isActive = selectedCategory === cat.id;
                     return (
@@ -320,113 +332,155 @@ export const QuickAdventureBookingModal = () => {
                         key={cat.id}
                         type="button"
                         onClick={() => setSelectedCategory(cat.id)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer shrink-0 ${
+                        className={`w-full text-right rtl:text-right ltr:text-left px-3 py-2.5 rounded-xl text-xs font-extrabold transition flex items-center justify-between cursor-pointer whitespace-nowrap md:whitespace-normal group ${
                           isActive
                             ? 'bg-[#0284C7] text-white shadow-xs'
-                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200/80'
+                            : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100/90'
                         }`}
                       >
-                        {cat.label}
+                        <span className="truncate">{cat.label}</span>
+                        <span
+                          className={`text-[10px] font-black px-2 py-0.5 rounded-md ml-2 rtl:ml-0 rtl:mr-2 shrink-0 ${
+                            isActive
+                              ? 'bg-white/20 text-white'
+                              : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200 group-hover:text-slate-800'
+                          }`}
+                        >
+                          {cat.count}
+                        </span>
                       </button>
                     );
                   })}
+                </nav>
+              </aside>
+
+              {/* MAIN CONTENT AREA */}
+              <div className="flex-1 space-y-3.5">
+                {/* Search Bar & Result Counter */}
+                <div className="bg-white rounded-2xl p-3 sm:p-3.5 border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                  <div className="relative flex-1">
+                    <Search className="w-4 h-4 text-slate-400 absolute top-1/2 -translate-y-1/2 right-3 rtl:right-3 rtl:left-auto ltr:left-3 ltr:right-auto pointer-events-none" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={isAr ? 'ابحث عن أي رحلة بالاسم (سفاري، يخت، دهب، غوص...)' : 'Search tours by name...'}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-9 text-xs sm:text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:bg-white transition"
+                    />
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery('')}
+                        className="absolute top-1/2 -translate-y-1/2 left-3 rtl:left-3 rtl:right-auto ltr:right-3 ltr:left-auto text-slate-400 hover:text-slate-600 text-xs p-1"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="text-[11px] font-extrabold text-slate-500 shrink-0 px-1">
+                    {isAr
+                      ? `عرض ${filteredExperiences.length} رحلة`
+                      : `Showing ${filteredExperiences.length} tours`}
+                  </div>
                 </div>
-              </div>
 
-              {/* Grid of Tours */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                {filteredExperiences.map((exp) => {
-                  const locExp = getLocalizedExperience(exp, i18n.language);
-                  const title = locExp?.title || exp.title;
-                  const image = exp.images?.[0] || '/images/hero-safari.jpg';
-                  const isSelected = selectedExp?.slug === exp.slug;
+                {/* Grid of Tours */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-3.5">
+                  {filteredExperiences.map((exp) => {
+                    const locExp = getLocalizedExperience(exp, i18n.language);
+                    const title = locExp?.title || exp.title;
+                    const image = exp.images?.[0] || '/images/hero-safari.jpg';
+                    const isSelected = selectedExp?.slug === exp.slug;
 
-                  return (
-                    <div
-                      key={exp.id || exp.slug}
-                      onClick={() => {
-                        setSelectedExp(exp);
-                        setStep(2);
-                      }}
-                      className={`group bg-white rounded-2xl overflow-hidden border transition-all duration-200 flex flex-col justify-between hover:shadow-lg cursor-pointer ${
-                        isSelected
-                          ? 'border-[#0284C7] ring-2 ring-[#0284C7]/20 shadow-md'
-                          : 'border-slate-200 hover:border-[#0284C7]/60'
-                      }`}
-                    >
-                      {/* Image Thumbnail */}
-                      <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                        <img
-                          src={image}
-                          alt={title}
-                          loading="lazy"
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                    return (
+                      <div
+                        key={exp.id || exp.slug}
+                        onClick={() => {
+                          setSelectedExp(exp);
+                          setStep(2);
+                        }}
+                        className={`group bg-white rounded-2xl overflow-hidden border transition-all duration-200 flex flex-col justify-between hover:shadow-lg cursor-pointer ${
+                          isSelected
+                            ? 'border-[#0284C7] ring-2 ring-[#0284C7]/20 shadow-md'
+                            : 'border-slate-200 hover:border-[#0284C7]/60'
+                        }`}
+                      >
+                        {/* Image Thumbnail */}
+                        <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                          <img
+                            src={image}
+                            alt={title}
+                            loading="lazy"
+                            className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
 
-                        {/* Badges */}
-                        <div className="absolute top-2.5 right-2.5 rtl:left-2.5 rtl:right-auto flex items-center gap-1.5">
-                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-900/80 text-white backdrop-blur-xs">
-                            {locExp?.duration || exp.duration || '3 Hours'}
-                          </span>
-                        </div>
-
-                        <div className="absolute bottom-2.5 right-2.5 rtl:right-2.5 rtl:left-auto left-2.5 text-white flex items-center justify-between">
-                          <span className="text-xs font-black text-amber-300 flex items-center gap-1">
-                            <Star className="w-3.5 h-3.5 fill-amber-300" />
-                            {exp.rating || 4.9}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-3.5 flex-1 flex flex-col justify-between space-y-2.5">
-                        <div>
-                          <span className="text-[10px] font-bold uppercase text-[#0284C7] tracking-wider block">
-                            {locExp?.categoryLabel || exp.categoryLabel || exp.category}
-                          </span>
-                          <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-[#0284C7] transition font-heading line-clamp-2 mt-0.5">
-                            {title}
-                          </h3>
-                        </div>
-
-                        <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
-                          <div>
-                            <span className="text-[10px] text-slate-400 block">{isAr ? 'ابتداءً من' : 'From'}</span>
-                            <span className="text-sm sm:text-base font-black text-slate-900 font-heading">
-                              {formatPrice(exp.startingPrice || 15)}
+                          {/* Badges */}
+                          <div className="absolute top-2.5 right-2.5 rtl:left-2.5 rtl:right-auto flex items-center gap-1.5">
+                            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-900/80 text-white backdrop-blur-xs">
+                              {locExp?.duration || exp.duration || '3 Hours'}
                             </span>
                           </div>
 
-                          <button
-                            type="button"
-                            className="py-1.5 px-3 rounded-xl bg-sky-50 text-[#0284C7] group-hover:bg-[#0284C7] group-hover:text-white font-extrabold text-xs transition flex items-center gap-1"
-                          >
-                            <span>{isAr ? 'اختيار' : 'Select'}</span>
-                            {isAr ? <ChevronLeft className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
-                          </button>
+                          <div className="absolute bottom-2.5 right-2.5 rtl:right-2.5 rtl:left-auto left-2.5 text-white flex items-center justify-between">
+                            <span className="text-xs font-black text-amber-300 flex items-center gap-1">
+                              <Star className="w-3.5 h-3.5 fill-amber-300" />
+                              {exp.rating || 4.9}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-3.5 flex-1 flex flex-col justify-between space-y-2.5">
+                          <div>
+                            <span className="text-[10px] font-bold uppercase text-[#0284C7] tracking-wider block">
+                              {locExp?.categoryLabel || exp.categoryLabel || exp.category}
+                            </span>
+                            <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-[#0284C7] transition font-heading line-clamp-2 mt-0.5">
+                              {title}
+                            </h3>
+                          </div>
+
+                          <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                              <span className="text-[10px] text-slate-400 block">{isAr ? 'ابتداءً من' : 'From'}</span>
+                              <span className="text-sm sm:text-base font-black text-slate-900 font-heading">
+                                {formatPrice(exp.startingPrice || 15)}
+                              </span>
+                            </div>
+
+                            <button
+                              type="button"
+                              className="py-1.5 px-3 rounded-xl bg-sky-50 text-[#0284C7] group-hover:bg-[#0284C7] group-hover:text-white font-extrabold text-xs transition flex items-center gap-1"
+                            >
+                              <span>{isAr ? 'اختيار' : 'Select'}</span>
+                              {isAr ? <ChevronLeft className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
+
+                {filteredExperiences.length === 0 && (
+                  <div className="text-center py-12 bg-white rounded-2xl border border-slate-200 space-y-3">
+                    <Compass className="w-10 h-10 text-slate-300 mx-auto" />
+                    <p className="text-sm font-bold text-slate-600">
+                      {isAr ? 'لم نعثر على رحلات تطابق بحثك' : 'No tours matched your search'}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}
+                      className="text-xs font-bold text-[#0284C7] hover:underline"
+                    >
+                      {isAr ? 'إعادة ضبط كل الفلاتر' : 'Reset all filters'}
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {filteredExperiences.length === 0 && (
-                <div className="text-center py-12 bg-white rounded-2xl border border-slate-200 space-y-3">
-                  <Compass className="w-10 h-10 text-slate-300 mx-auto" />
-                  <p className="text-sm font-bold text-slate-600">
-                    {isAr ? 'لم نعثر على رحلات تطابق بحثك' : 'No tours matched your search'}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}
-                    className="text-xs font-bold text-[#0284C7] hover:underline"
-                  >
-                    {isAr ? 'إعادة ضبط كل الفلاتر' : 'Reset all filters'}
-                  </button>
-                </div>
-              )}
             </div>
           )}
 
