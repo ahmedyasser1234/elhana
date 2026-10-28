@@ -65,6 +65,44 @@ function mediaManifestPlugin() {
     configureServer(server) {
       buildManifest(server.config.root);
 
+      // Dev middleware for sending Telegram messages without CORS issues
+      server.middlewares.use('/api/telegram/send', async (req, res) => {
+        if (req.method !== 'POST') {
+          res.statusCode = 405;
+          res.setHeader('Content-Type', 'application/json');
+          return res.end(JSON.stringify({ error: 'Method Not Allowed' }));
+        }
+        let rawBody = '';
+        req.on('data', chunk => { rawBody += chunk; });
+        req.on('end', async () => {
+          try {
+            const { token, chat_id, text, parse_mode } = JSON.parse(rawBody || '{}');
+            if (!token || !chat_id || !text) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json');
+              return res.end(JSON.stringify({ error: 'token, chat_id, and text are required' }));
+            }
+            const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                chat_id,
+                text,
+                parse_mode: parse_mode || 'HTML'
+              })
+            });
+            const data = await tgRes.json();
+            res.statusCode = tgRes.ok ? 200 : (tgRes.status || 500);
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(data));
+          } catch (err) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: err.message }));
+          }
+        });
+      });
+
       // Re-generate whenever files inside public/images/safari, sea, or excursions change
       server.watcher.add([
         path.join(server.config.root, 'public', 'images', 'safari'),

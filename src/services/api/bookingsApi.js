@@ -1,4 +1,5 @@
 import apiClient from './client';
+import { sendBookingTelegramNotification } from '../telegramService';
 
 export const bookingsApi = {
   async createBooking(bookingData) {
@@ -8,6 +9,7 @@ export const bookingsApi = {
       if (response && response.data && response.data.success) {
         // Also sync copy locally so admin dashboard always has it
         saveBookingLocally(response.data.data);
+        sendBookingTelegramNotification(response.data.data).catch(() => {});
         return response.data;
       }
     } catch {
@@ -26,6 +28,9 @@ export const bookingsApi = {
     };
 
     saveBookingLocally(fullBookingRecord);
+
+    // Send instant Telegram notification to admin
+    sendBookingTelegramNotification(fullBookingRecord).catch(() => {});
 
     return {
       success: true,

@@ -30,6 +30,7 @@ import {
 } from '../services/adminCustomStore';
 import { getDefaultManifestImages, getFolderImages } from '../utils/mediaScanner';
 import { EXPERIENCES, getLocalizedExperience } from '../data/experiences';
+import { testTelegramConnection } from '../services/telegramService';
 import { 
   ClipboardList, 
   Send, 
@@ -104,6 +105,8 @@ export const AdminBookingsPage = () => {
   const [enableTelegram, setEnableTelegram] = useState(true);
   const [telegramToken, setTelegramToken] = useState('');
   const [telegramChatId, setTelegramChatId] = useState('');
+  const [telegramTestStatus, setTelegramTestStatus] = useState({ text: '', type: '' });
+  const [isTestingTelegram, setIsTestingTelegram] = useState(false);
   const [enableEmail, setEnableEmail] = useState(true);
   const [adminEmail, setAdminEmail] = useState('info@elhanagroup.com');
   const [emailjsServiceId, setEmailjsServiceId] = useState('');
@@ -308,8 +311,8 @@ export const AdminBookingsPage = () => {
     try {
       const settings = JSON.parse(localStorage.getItem('admin_notification_settings') || '{}');
       setEnableTelegram(settings.enableTelegram !== false);
-      setTelegramToken('');
-      setTelegramChatId(settings.telegramChatId || '');
+      setTelegramToken(settings.telegramToken || import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '');
+      setTelegramChatId(settings.telegramChatId || import.meta.env.VITE_TELEGRAM_CHAT_ID || '');
       setEnableEmail(settings.enableEmail !== false);
       setAdminEmail(settings.adminEmail || 'info@elhanagroup.com');
       setEmailjsServiceId(settings.emailjsServiceId || import.meta.env.VITE_EMAILJS_SERVICE_ID || '');
@@ -329,8 +332,8 @@ export const AdminBookingsPage = () => {
   const saveSettings = () => {
     const settings = {
       enableTelegram,
-      telegramToken: undefined,
-      telegramChatId,
+      telegramToken: telegramToken.trim(),
+      telegramChatId: telegramChatId.trim(),
       enableEmail,
       adminEmail,
       emailjsServiceId,
@@ -346,6 +349,43 @@ export const AdminBookingsPage = () => {
     localStorage.setItem('admin_notification_settings', JSON.stringify(settings));
     setSaveStatus(isAr ? 'تم حفظ إعدادات جميع القنوات بنجاح!' : 'All channel notification settings saved successfully!');
     setTimeout(() => setSaveStatus(''), 4000);
+  };
+
+  const handleTestTelegram = async () => {
+    if (!telegramToken.trim() || !telegramChatId.trim()) {
+      setTelegramTestStatus({
+        text: isAr ? 'يرجى إدخال رمز البوت (Bot Token) ومعرف الشات (Chat ID) أولاً' : 'Please enter Bot Token and Chat ID first',
+        type: 'error'
+      });
+      return;
+    }
+    setIsTestingTelegram(true);
+    setTelegramTestStatus({
+      text: isAr ? 'جاري إرسال رسالة تجريبية إلى تليجرام...' : 'Sending test message to Telegram...',
+      type: 'info'
+    });
+    try {
+      const res = await testTelegramConnection(telegramToken.trim(), telegramChatId.trim());
+      if (res.success) {
+        setTelegramTestStatus({
+          text: isAr ? 'وصلت الرسالة بنجاح! البوت يعمل ومربوط 100%' : 'Message delivered successfully! Bot is connected.',
+          type: 'success'
+        });
+      } else {
+        setTelegramTestStatus({
+          text: (isAr ? 'فشل الإرسال: ' : 'Failed: ') + (res.message || 'Error connecting to Telegram'),
+          type: 'error'
+        });
+      }
+    } catch (err) {
+      setTelegramTestStatus({
+        text: (isAr ? 'حدث خطأ: ' : 'Error: ') + (err.message || 'Network error'),
+        type: 'error'
+      });
+    } finally {
+      setIsTestingTelegram(false);
+      setTimeout(() => setTelegramTestStatus({ text: '', type: '' }), 8000);
+    }
   };
 
   const clearLogs = async () => {
@@ -1380,26 +1420,71 @@ export const AdminBookingsPage = () => {
                 {/* Telegram Channel */}
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-blue-700 flex items-center gap-2">
-                      <Bell className="w-4 h-4" /> {isAr ? "قناة تليجرام (Telegram)" : "Telegram Bot"}
+                    <span className="font-bold text-sm text-sky-700 flex items-center gap-2">
+                      <Bell className="w-4 h-4 text-sky-600" /> {isAr ? "إشعارات تليجرام (Telegram Bot)" : "Telegram Bot"}
                     </span>
                     <input 
                       type="checkbox" 
                       checked={enableTelegram} 
                       onChange={(e) => setEnableTelegram(e.target.checked)} 
-                      className="w-4 h-4 accent-blue-500 cursor-pointer"
+                      className="w-4 h-4 accent-sky-600 cursor-pointer"
                     />
                   </div>
+
                   <div>
-                    <label className="text-[11px] text-slate-600 block mb-1">{isAr ? "Chat ID" : "Telegram Chat ID"}</label>
+                    <label className="text-[11px] text-slate-600 block mb-1">
+                      {isAr ? "رمز البوت (Bot Token من @BotFather) *" : "Bot Token (from @BotFather) *"}
+                    </label>
+                    <input 
+                      type="password"
+                      value={telegramToken} 
+                      onChange={(e) => setTelegramToken(e.target.value)} 
+                      placeholder="123456789:ABCdefGhIJKlmNoPQRstuVWXyz..."
+                      className="w-full bg-white border border-slate-300 text-slate-900 rounded-xl px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-sky-500" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] text-slate-600 block mb-1">
+                      {isAr ? "معرف الشات أو القناة (Chat ID) *" : "Chat ID or Channel Username *"}
+                    </label>
                     <input 
                       type="text" 
                       value={telegramChatId} 
                       onChange={(e) => setTelegramChatId(e.target.value)} 
-                      placeholder="@channel_or_id"
-                      className="w-full bg-white border border-slate-300 text-slate-900 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500" 
+                      placeholder={isAr ? "مثال: @my_bookings أو 123456789" : "e.g. @my_channel or 123456789"}
+                      className="w-full bg-white border border-slate-300 text-slate-900 rounded-xl px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-sky-500" 
                     />
                   </div>
+
+                  <div className="pt-1">
+                    <button
+                      type="button"
+                      disabled={isTestingTelegram}
+                      onClick={handleTestTelegram}
+                      className="w-full py-1.5 px-3 rounded-xl bg-sky-50 hover:bg-sky-100 text-[#0284C7] font-bold text-xs border border-sky-200 transition flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      <span>{isTestingTelegram ? (isAr ? 'جاري الإرسال...' : 'Sending...') : (isAr ? 'إرسال رسالة تجريبية للبوت' : 'Send Test Notification')}</span>
+                    </button>
+                  </div>
+
+                  {telegramTestStatus.text && (
+                    <div className={`p-2.5 rounded-xl text-[11px] font-bold flex items-center gap-2 ${
+                      telegramTestStatus.type === 'success'
+                        ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                        : telegramTestStatus.type === 'info'
+                        ? 'bg-sky-50 border border-sky-200 text-sky-800'
+                        : 'bg-rose-50 border border-rose-200 text-rose-700'
+                    }`}>
+                      {telegramTestStatus.type === 'success' ? (
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      ) : (
+                        <AlertCircle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                      )}
+                      <span className="leading-tight">{telegramTestStatus.text}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
