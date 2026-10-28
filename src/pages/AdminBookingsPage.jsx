@@ -585,10 +585,43 @@ export const AdminBookingsPage = () => {
     return name.includes(search) || hotel.includes(search) || ref.includes(search) || title.includes(search);
   });
 
+  // Categories Translation Map
+  const CATEGORY_NAMES = {
+    all: { ar: 'الكل', en: 'All' },
+    dahab: { ar: 'رحلات دهب', en: 'Dahab Trips' },
+    yacht: { ar: 'يخوت VIP', en: 'Yacht Cruises' },
+    bedouin: { ar: 'عشاء وتجارب بدوية', en: 'Bedouin Experience' },
+    atv: { ar: 'بيتش باجي (ATV)', en: 'ATV Quad Safari' },
+    buggy: { ar: 'كار باجي (Buggy)', en: 'Buggy Safari' },
+    camel: { ar: 'ركوب الجمال', en: 'Camel Riding' },
+    horse: { ar: 'ركوب الخيل', en: 'Horse Riding' },
+    snorkeling: { ar: 'سنوركلينج', en: 'Snorkeling' },
+    diving: { ar: 'غوص سكوبا', en: 'Scuba Diving' },
+    parasailing: { ar: 'باراشوت مائي', en: 'Parasailing' },
+    banana: { ar: 'ألعاب مائية وبنانا', en: 'Water Fun & Banana' },
+    safari: { ar: 'سفاري صحراوي', en: 'Desert Safari' },
+    sea: { ar: 'رحلات بحرية', en: 'Sea Trips' },
+    excursions: { ar: 'جولات سيناء', en: 'Sinai Excursions' },
+    catherine: { ar: 'سانت كاترين', en: 'St. Catherine' },
+    nuweiba: { ar: 'نويبع والوشواشي', en: 'Nuweiba' },
+    taba: { ar: 'طابا وخليج فيورد', en: 'Taba' },
+    transfer: { ar: 'توصيلات VIP', en: 'VIP Transfers' }
+  };
+
+  const getCategoryName = (cat) => {
+    if (!cat) return '';
+    const key = String(cat).toLowerCase().trim();
+    if (CATEGORY_NAMES[key]) {
+      return isAr ? CATEGORY_NAMES[key].ar : CATEGORY_NAMES[key].en;
+    }
+    return cat;
+  };
+
   // Filter Experiences for Prices
   const localizedExperiences = EXPERIENCES.map(e => getLocalizedExperience(e, isAr ? 'ar' : 'en'));
   const filteredExperiences = localizedExperiences.filter(exp => {
-    const matchesSearch = (exp.title + ' ' + (exp.categoryLabel || '') + ' ' + exp.slug).toLowerCase().includes(tourSearchTerm.toLowerCase());
+    const catName = getCategoryName(exp.category);
+    const matchesSearch = (exp.title + ' ' + (exp.categoryLabel || '') + ' ' + catName + ' ' + exp.slug).toLowerCase().includes(tourSearchTerm.toLowerCase());
     const matchesCategory = tourCategoryFilter === 'ALL' || exp.category === tourCategoryFilter;
     return matchesSearch && matchesCategory;
   });
@@ -1678,13 +1711,13 @@ export const AdminBookingsPage = () => {
                   <button
                     key={cat}
                     onClick={() => setTourCategoryFilter(cat)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
                       tourCategoryFilter === cat
                         ? 'bg-emerald-600 text-white font-black shadow-xs'
                         : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                     }`}
                   >
-                    {cat}
+                    {getCategoryName(cat)}
                   </button>
                 ))}
               </div>
@@ -1732,7 +1765,7 @@ export const AdminBookingsPage = () => {
 
                           <td className="p-4">
                             <span className="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 font-semibold text-[11px] border border-slate-200">
-                              {tour.categoryLabel || tour.category}
+                              {getCategoryName(tour.category)}
                             </span>
                           </td>
 
@@ -1928,7 +1961,7 @@ export const AdminBookingsPage = () => {
                             </span>
                             <div className="flex items-center gap-2 mt-1">
                               <span className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-semibold">
-                                {tour.categoryLabel || tour.category}
+                                {getCategoryName(tour.category)}
                               </span>
                               {hasCustom && (
                                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 font-bold">
