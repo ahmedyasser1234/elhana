@@ -54,6 +54,7 @@ import {
   Plus,
   ShieldCheck,
   Eye,
+  EyeOff,
   QrCode,
   Check,
   ExternalLink,
@@ -105,6 +106,7 @@ export const AdminBookingsPage = () => {
   const [enableTelegram, setEnableTelegram] = useState(true);
   const [telegramToken, setTelegramToken] = useState('');
   const [telegramChatId, setTelegramChatId] = useState('');
+  const [showTgToken, setShowTgToken] = useState(false);
   const [telegramTestStatus, setTelegramTestStatus] = useState({ text: '', type: '' });
   const [isTestingTelegram, setIsTestingTelegram] = useState(false);
   const [enableEmail, setEnableEmail] = useState(true);
@@ -351,6 +353,25 @@ export const AdminBookingsPage = () => {
     setTimeout(() => setSaveStatus(''), 4000);
   };
 
+  const handleSaveTelegramSettings = () => {
+    try {
+      const existingSettings = JSON.parse(localStorage.getItem('admin_notification_settings') || '{}');
+      existingSettings.telegramToken = telegramToken.trim();
+      existingSettings.telegramChatId = telegramChatId.trim();
+      existingSettings.enableTelegram = enableTelegram;
+      localStorage.setItem('admin_notification_settings', JSON.stringify(existingSettings));
+      localStorage.setItem('elhana_tg_bot_token', telegramToken.trim());
+      localStorage.setItem('elhana_tg_chat_id', telegramChatId.trim());
+      setTelegramTestStatus({
+        text: isAr ? 'تم حفظ إعدادات البوت بنجاح في المتصفح' : 'Telegram settings saved successfully',
+        type: 'success'
+      });
+      setTimeout(() => setTelegramTestStatus({ text: '', type: '' }), 4000);
+    } catch {
+      // ignore
+    }
+  };
+
   const handleTestTelegram = async () => {
     if (!telegramToken.trim() || !telegramChatId.trim()) {
       setTelegramTestStatus({
@@ -367,8 +388,10 @@ export const AdminBookingsPage = () => {
     try {
       const res = await testTelegramConnection(telegramToken.trim(), telegramChatId.trim());
       if (res.success) {
+        // Automatically persist valid credentials
+        handleSaveTelegramSettings();
         setTelegramTestStatus({
-          text: isAr ? 'وصلت الرسالة بنجاح! البوت يعمل ومربوط 100%' : 'Message delivered successfully! Bot is connected.',
+          text: isAr ? 'وصلت الرسالة بنجاح! البوت يعمل ومربوط وتم الحفظ 100%' : 'Message delivered successfully! Bot is connected and saved.',
           type: 'success'
         });
       } else {
@@ -1435,13 +1458,23 @@ export const AdminBookingsPage = () => {
                     <label className="text-[11px] text-slate-600 block mb-1">
                       {isAr ? "رمز البوت (Bot Token من @BotFather) *" : "Bot Token (from @BotFather) *"}
                     </label>
-                    <input 
-                      type="password"
-                      value={telegramToken} 
-                      onChange={(e) => setTelegramToken(e.target.value)} 
-                      placeholder="123456789:ABCdefGhIJKlmNoPQRstuVWXyz..."
-                      className="w-full bg-white border border-slate-300 text-slate-900 rounded-xl px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-sky-500" 
-                    />
+                    <div className="relative">
+                      <input 
+                        type={showTgToken ? "text" : "password"}
+                        value={telegramToken} 
+                        onChange={(e) => setTelegramToken(e.target.value)} 
+                        placeholder="123456789:ABCdefGhIJKlmNoPQRstuVWXyz..."
+                        className="w-full bg-white border border-slate-300 text-slate-900 rounded-xl px-3 py-1.5 pl-8 text-xs font-mono focus:outline-none focus:border-sky-500" 
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowTgToken(!showTgToken)}
+                        className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                        title={showTgToken ? "إخفاء" : "إظهار"}
+                      >
+                        {showTgToken ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                      </button>
+                    </div>
                   </div>
 
                   <div>
@@ -1457,15 +1490,23 @@ export const AdminBookingsPage = () => {
                     />
                   </div>
 
-                  <div className="pt-1">
+                  <div className="pt-1 flex gap-2">
                     <button
                       type="button"
                       disabled={isTestingTelegram}
                       onClick={handleTestTelegram}
-                      className="w-full py-1.5 px-3 rounded-xl bg-sky-50 hover:bg-sky-100 text-[#0284C7] font-bold text-xs border border-sky-200 transition flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                      className="flex-1 py-1.5 px-3 rounded-xl bg-sky-50 hover:bg-sky-100 text-[#0284C7] font-bold text-xs border border-sky-200 transition flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                     >
                       <Send className="w-3.5 h-3.5" />
-                      <span>{isTestingTelegram ? (isAr ? 'جاري الإرسال...' : 'Sending...') : (isAr ? 'إرسال رسالة تجريبية للبوت' : 'Send Test Notification')}</span>
+                      <span>{isTestingTelegram ? (isAr ? 'جاري الإرسال...' : 'Sending...') : (isAr ? 'إرسال رسالة تجريبية' : 'Test')}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSaveTelegramSettings}
+                      className="py-1.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center justify-center gap-1 cursor-pointer"
+                    >
+                      <Check className="w-3.5 h-3.5" />
+                      <span>{isAr ? 'حفظ' : 'Save'}</span>
                     </button>
                   </div>
 
