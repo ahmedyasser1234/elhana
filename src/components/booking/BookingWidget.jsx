@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Check, Plus, Minus, ShieldCheck, Camera, Sparkles, ChevronDown } from 'lucide-react';
+import { Check, Plus, Minus, ShieldCheck, Camera, Sparkles, ChevronDown, Info } from 'lucide-react';
 import { useBooking } from '../../context/BookingContext';
 import { Button } from '../common/Button';
 import { getWhatsAppLink, WhatsAppIcon } from '../common/WhatsAppButton';

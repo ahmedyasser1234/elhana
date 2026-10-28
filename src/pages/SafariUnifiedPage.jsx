@@ -37,6 +37,10 @@ const GalleryShowcase = ({ galleryTitle, images, isAr, onOpenLightbox }) => {
 
   if (!images || images.length === 0) return null;
 
+  const N = images.length;
+  // Infinite continuous loop: repeat array so there is never blank space when reaching the end
+  const loopedImages = N <= 3 ? [...images, ...images, ...images, ...images] : [...images, ...images, ...images];
+
   return (
     <div className="bg-white rounded-3xl p-4 sm:p-6 border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
       <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
@@ -156,18 +160,19 @@ const GalleryShowcase = ({ galleryTitle, images, isAr, onOpenLightbox }) => {
 
           <motion.div
             animate={{
-              y: images.length > 3 ? -(activeIdx * 125) + 125 : 0
+              y: N > 1 ? -((activeIdx + N) * 128) + 178 : 0
             }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col items-center justify-center gap-6 py-6"
           >
-            {images.map((img, idx) => {
-              const isActive = activeIdx === idx;
+            {loopedImages.map((img, loopIdx) => {
+              const realIdx = loopIdx % N;
+              const isActive = activeIdx === realIdx;
               return (
                 <motion.button
-                  key={idx}
+                  key={loopIdx}
                   type="button"
-                  onClick={() => setActiveIdx(idx)}
+                  onClick={() => setActiveIdx(realIdx)}
                   whileHover={{ rotateY: 30, rotateX: -15, scale: 1.15, z: 20 }}
                   whileTap={{ scale: 0.9, rotateY: 180 }}
                   animate={{
@@ -198,7 +203,7 @@ const GalleryShowcase = ({ galleryTitle, images, isAr, onOpenLightbox }) => {
 
                   <img
                     src={img}
-                    alt={`Thumbnail ${idx + 1}`}
+                    alt={`Thumbnail ${(realIdx) + 1}`}
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = images[0] || '/images/real/atv-quad.jpg';
