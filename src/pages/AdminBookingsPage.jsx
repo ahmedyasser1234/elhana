@@ -75,7 +75,9 @@ import {
   Sunrise,
   Sunset,
   Sun,
-  Moon
+  Moon,
+  Menu,
+  X
 } from 'lucide-react';
 import { 
   getAdminUsers, 
@@ -92,6 +94,7 @@ export const AdminBookingsPage = () => {
 
   // Admin Top-Level Navigation Tabs
   const [activeTab, setActiveTab] = useState('bookings'); // 'bookings' | 'guides' | 'reviews' | 'prices' | 'photos'
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // ==========================================
   // TAB 1: BOOKINGS & NOTIFICATIONS STATE
@@ -228,10 +231,12 @@ export const AdminBookingsPage = () => {
 
   const loadBookings = async () => {
     try { 
-      const bList = await adminApi.listBookings();
-      if (Array.isArray(bList) && bList.length > 0) {
-        setBookings(bList);
-        return;
+      if (import.meta.env.VITE_API_BASE_URL) {
+        const bList = await adminApi.listBookings();
+        if (Array.isArray(bList) && bList.length > 0) {
+          setBookings(bList);
+          return;
+        }
       }
     } catch { 
       // Client-side fallback without logging out
@@ -1012,15 +1017,27 @@ export const AdminBookingsPage = () => {
   const currentTabObj = adminNavItems.find(item => item.id === activeTab) || adminNavItems[0];
 
   return (
-    <div className="h-screen w-screen flex flex-col lg:flex-row overflow-hidden bg-slate-100 text-slate-800 font-sans antialiased" dir={isAr ? 'rtl' : 'ltr'}>
+    <div className="h-screen w-screen flex overflow-hidden bg-slate-100 text-slate-800 font-sans antialiased relative" dir={isAr ? 'rtl' : 'ltr'}>
       <SEOHead 
         title={isAr ? "لوحة تحكم الأدمن الشاملة | مجموعة الهنا" : "Admin Command Center | El Hana Group"} 
       />
 
+      {/* Mobile Drawer Backdrop Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-xs transition-opacity lg:hidden"
+        />
+      )}
+
       {/* ======================================================== */}
-      {/* FULL-HEIGHT EDGE-TO-EDGE SIDEBAR (FROM TOP TO BOTTOM)    */}
+      {/* SIDEBAR: PERMANENT ON DESKTOP, SLIDE-OVER DRAWER ON MOBILE */}
       {/* ======================================================== */}
-      <aside className="w-full lg:w-72 xl:w-80 h-auto lg:h-screen shrink-0 bg-white border-b lg:border-b-0 rtl:lg:border-l ltr:lg:border-r border-slate-200/90 shadow-sm flex flex-col justify-between z-30 overflow-y-auto">
+      <aside className={`
+        fixed inset-y-0 rtl:right-0 ltr:left-0 z-50 w-80 max-w-[85vw] h-full bg-white shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out border-slate-200/90
+        lg:translate-x-0 lg:static lg:w-72 xl:w-80 lg:h-screen lg:shrink-0 lg:z-30 lg:shadow-sm lg:border-b-0 rtl:lg:border-l ltr:lg:border-r
+        ${isMobileMenuOpen ? 'translate-x-0' : 'rtl:translate-x-full ltr:-translate-x-full lg:translate-x-0'}
+      `}>
         
         {/* Top Section: Brand & Admin Profile */}
         <div className="p-4 sm:p-5 border-b border-slate-100 space-y-4 shrink-0">
@@ -1039,14 +1056,26 @@ export const AdminBookingsPage = () => {
               </div>
             </div>
 
-            <Link
-              to="/"
-              title={isAr ? "الرجوع للموقع" : "Visit Website"}
-              className="p-2 rounded-xl bg-slate-50 hover:bg-sky-50 text-slate-600 hover:text-[#0284C7] border border-slate-200/80 hover:border-sky-200 transition text-xs flex items-center gap-1.5 shrink-0"
-            >
-              <Globe className="w-4 h-4" />
-              <span className="text-[11px] font-bold hidden sm:inline">{isAr ? 'الموقع' : 'Site'}</span>
-            </Link>
+            <div className="flex items-center gap-1">
+              <Link
+                to="/"
+                title={isAr ? "الرجوع للموقع" : "Visit Website"}
+                className="p-2 rounded-xl bg-slate-50 hover:bg-sky-50 text-slate-600 hover:text-[#0284C7] border border-slate-200/80 hover:border-sky-200 transition text-xs flex items-center gap-1.5 shrink-0"
+              >
+                <Globe className="w-4 h-4" />
+                <span className="text-[11px] font-bold hidden sm:inline">{isAr ? 'الموقع' : 'Site'}</span>
+              </Link>
+
+              {/* Close Button inside Mobile Drawer */}
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer"
+                aria-label="Close menu"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
           {/* Admin Profile Mini Card */}
@@ -1085,7 +1114,10 @@ export const AdminBookingsPage = () => {
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    setIsMobileMenuOpen(false);
+                  }}
                   className={`w-full p-2.5 sm:p-3 rounded-2xl font-bold text-xs sm:text-sm transition flex items-center justify-between text-right rtl:text-right ltr:text-left cursor-pointer group ${
                     isActive
                       ? 'bg-gradient-to-r from-[#0284C7] via-[#0369A1] to-[#075985] text-white shadow-lg shadow-[#0284C7]/25 ring-2 ring-sky-300/30'
@@ -1158,7 +1190,10 @@ export const AdminBookingsPage = () => {
           <div className="grid grid-cols-2 gap-2 text-xs">
             <button
               type="button"
-              onClick={() => setShowChangePassModal(true)}
+              onClick={() => {
+                setShowChangePassModal(true);
+                setIsMobileMenuOpen(false);
+              }}
               className="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold border border-amber-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
             >
               <KeyRound className="w-3.5 h-3.5 text-amber-600" />
@@ -1200,30 +1235,42 @@ export const AdminBookingsPage = () => {
       {/* ======================================================== */}
       {/* MAIN DASHBOARD CONTENT AREA                              */}
       {/* ======================================================== */}
-      <main className="flex-1 h-screen overflow-y-auto bg-slate-50 flex flex-col min-w-0">
+      <main className="flex-1 h-screen overflow-y-auto bg-slate-50 flex flex-col min-w-0 pb-20 lg:pb-0">
         
-        {/* Sticky Dashboard Topbar */}
-        <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0 shadow-xs">
-          <div>
-            <div className="flex items-center gap-2 text-xs text-slate-400 mb-0.5">
-              <span>{isAr ? 'لوحة تحكم الهنا' : 'El Hana Dashboard'}</span>
-              <span className="text-slate-300">/</span>
-              <span className="font-bold text-[#0284C7]">{currentTabObj.title}</span>
+        {/* Sticky Dashboard Topbar (Unified Desktop & Mobile) */}
+        <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 shrink-0 shadow-xs">
+          <div className="flex items-center gap-3 min-w-0">
+            {/* Hamburger Button (Mobile only) */}
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-sky-50 text-slate-700 hover:text-[#0284C7] border border-slate-200 transition cursor-pointer shrink-0"
+              aria-label="Open navigation menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-400 mb-0.5">
+                <span className="hidden sm:inline">{isAr ? 'لوحة تحكم الهنا' : 'El Hana Dashboard'}</span>
+                <span className="hidden sm:inline text-slate-300">/</span>
+                <span className="font-bold text-[#0284C7] truncate">{currentTabObj.title}</span>
+              </div>
+              <h1 className="text-base sm:text-xl lg:text-2xl font-black font-heading text-slate-900 tracking-tight truncate">
+                {currentTabObj.title}
+              </h1>
             </div>
-            <h1 className="text-xl sm:text-2xl font-black font-heading text-slate-900 tracking-tight">
-              {currentTabObj.title}
-            </h1>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600">
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600">
               <Clock className="w-3.5 h-3.5 text-slate-400" />
               <span className="font-mono text-[11px]">{new Date().toLocaleDateString(isAr ? 'ar-EG' : 'en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
             </div>
 
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>{isAr ? 'لوحة تحكم الإدارة المركزية' : 'Central Admin Hub'}</span>
+              <span>{isAr ? 'لوحة تحكم مركزية' : 'Admin Hub'}</span>
             </div>
 
             <Link
@@ -1231,13 +1278,13 @@ export const AdminBookingsPage = () => {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition"
             >
               <Globe className="w-3.5 h-3.5 text-slate-500" />
-              <span>{isAr ? 'زيارة الموقع' : 'View Site'}</span>
+              <span className="hidden sm:inline">{isAr ? 'زيارة الموقع' : 'View Site'}</span>
             </Link>
           </div>
         </header>
 
         {/* Tab Body Content */}
-        <div className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 max-w-[1600px] w-full mx-auto">
+        <div className="flex-1 p-3 sm:p-6 lg:p-8 space-y-6 max-w-[1600px] w-full mx-auto">
 
         {/* ======================================================== */}
         {/* TAB 1: BOOKINGS & NOTIFICATIONS                          */}
@@ -1684,8 +1731,8 @@ export const AdminBookingsPage = () => {
 
             {/* QR Modal for Guide */}
             {selectedGuideForQR && (
-              <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-                <div className="bg-white rounded-3xl p-6 border border-slate-200 text-slate-900 max-w-sm w-full text-center space-y-4 shadow-2xl">
+              <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 text-slate-900 max-w-sm w-full text-center space-y-4 shadow-2xl my-auto max-h-[90vh] overflow-y-auto">
                   <div className="flex justify-between items-center border-b border-slate-200 pb-3">
                     <h3 className="font-bold text-slate-900 text-sm">
                       {isAr ? `كيوار كود تقييم: ${selectedGuideForQR.name}` : `QR Review: ${selectedGuideForQR.name}`}
@@ -2149,7 +2196,7 @@ export const AdminBookingsPage = () => {
                     </span>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="flex lg:flex-col overflow-x-auto lg:overflow-visible gap-1.5 pb-2 lg:pb-0 scrollbar-none">
                     {SAFARI_GALLERIES.map((opt) => {
                       const isSelected = selectedSafariGallery === opt.id;
                       const totalOptImgs = getImagesForGallerySelection(opt, 'all').length;
@@ -2162,7 +2209,7 @@ export const AdminBookingsPage = () => {
                             setNewGalleryPhotoUrl('');
                             setNewGalleryPhotoPreview('');
                           }}
-                          className={`w-full text-right rtl:text-right ltr:text-left px-3.5 py-3 rounded-2xl font-bold text-xs transition flex items-center justify-between gap-2 border cursor-pointer ${
+                          className={`px-3.5 py-2.5 sm:py-3 rounded-2xl font-bold text-xs transition flex items-center justify-between gap-2 border cursor-pointer shrink-0 lg:w-full lg:shrink whitespace-nowrap text-right rtl:text-right ltr:text-left ${
                             isSelected
                               ? 'bg-sky-50 text-[#0284C7] border-sky-400 ring-2 ring-sky-300/30 shadow-xs'
                               : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200/90'
@@ -2221,7 +2268,7 @@ export const AdminBookingsPage = () => {
                     </div>
 
                     {/* Single-row Apple-style Segmented Control for Time Slots */}
-                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                    <div className="flex sm:grid sm:grid-cols-5 overflow-x-auto sm:overflow-visible gap-2 pb-1 sm:pb-0 scrollbar-none">
                       {TIME_SLOTS.map((slot) => {
                         const isCurrent = selectedTimeSlot === slot.id;
                         const SlotIcon = slot.icon;
@@ -2235,7 +2282,7 @@ export const AdminBookingsPage = () => {
                               setNewGalleryPhotoUrl('');
                               setNewGalleryPhotoPreview('');
                             }}
-                            className={`p-2.5 rounded-2xl border text-center transition flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                            className={`p-2.5 rounded-2xl border text-center transition flex flex-col items-center justify-center gap-1 cursor-pointer shrink-0 min-w-[120px] sm:min-w-0 sm:w-auto ${
                               isCurrent
                                 ? 'bg-[#0284C7] text-white border-[#0284C7] shadow-sm'
                                 : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -2837,12 +2884,64 @@ export const AdminBookingsPage = () => {
         )}
 
         </div>
+
+        {/* Mobile Sticky Bottom Navigation Bar (Thumb Friendly) */}
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 flex items-center justify-around shadow-lg">
+          <button
+            type="button"
+            onClick={() => { setActiveTab('bookings'); setIsMobileMenuOpen(false); }}
+            className={`flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition cursor-pointer ${
+              activeTab === 'bookings' ? 'text-[#0284C7]' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <ClipboardList className="w-5 h-5 mb-0.5" />
+            <span>{isAr ? 'الحجوزات' : 'Bookings'}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => { setActiveTab('prices'); setIsMobileMenuOpen(false); }}
+            className={`flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition cursor-pointer ${
+              activeTab === 'prices' ? 'text-[#0284C7]' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <DollarSign className="w-5 h-5 mb-0.5" />
+            <span>{isAr ? 'الأسعار' : 'Prices'}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => { setActiveTab('photos'); setIsMobileMenuOpen(false); }}
+            className={`flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition cursor-pointer ${
+              activeTab === 'photos' ? 'text-[#0284C7]' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <ImageIcon className="w-5 h-5 mb-0.5" />
+            <span>{isAr ? 'الصور' : 'Photos'}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => { setActiveTab('guides'); setIsMobileMenuOpen(false); }}
+            className={`flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition cursor-pointer ${
+              activeTab === 'guides' ? 'text-[#0284C7]' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Users className="w-5 h-5 mb-0.5" />
+            <span>{isAr ? 'المرشدين' : 'Guides'}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-bold text-slate-500 hover:text-[#0284C7] transition cursor-pointer"
+          >
+            <Menu className="w-5 h-5 mb-0.5" />
+            <span>{isAr ? 'القائمة' : 'Menu'}</span>
+          </button>
+        </nav>
       </main>
 
         {/* Add Moderator Modal */}
         {showAddModModal && (
-          <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl p-6 border border-slate-200 text-slate-900 max-w-md w-full space-y-4 shadow-2xl">
+          <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 text-slate-900 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4 shadow-2xl my-auto">
               <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                 <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
                   <UserPlus className="w-5 h-5 text-indigo-600" />
@@ -2951,8 +3050,8 @@ export const AdminBookingsPage = () => {
 
         {/* Change Password Modal */}
         {showChangePassModal && (
-          <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl p-6 border border-slate-200 text-slate-900 max-w-md w-full space-y-4 shadow-2xl">
+          <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 text-slate-900 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4 shadow-2xl my-auto">
               <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                 <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
                   <KeyRound className="w-5 h-5 text-amber-500" />
