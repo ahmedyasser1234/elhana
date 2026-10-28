@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { SEOHead } from '../components/common/SEOHead';
 import { Button } from '../components/common/Button';
@@ -61,7 +62,9 @@ import {
   Folder,
   FolderOpen,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  Globe,
+  Compass
 } from 'lucide-react';
 import { 
   getAdminUsers, 
@@ -719,194 +722,235 @@ export const AdminBookingsPage = () => {
     }
   ];
 
+  const currentTabObj = adminNavItems.find(item => item.id === activeTab) || adminNavItems[0];
+
   return (
-    <div className="pt-28 pb-20 bg-[#F8FAFC] text-slate-800 min-h-screen relative overflow-hidden" dir={isAr ? 'rtl' : 'ltr'}>
+    <div className="h-screen w-screen flex flex-col lg:flex-row overflow-hidden bg-slate-100 text-slate-800 font-sans antialiased" dir={isAr ? 'rtl' : 'ltr'}>
       <SEOHead 
         title={isAr ? "لوحة تحكم الأدمن الشاملة | مجموعة الهنا" : "Admin Command Center | El Hana Group"} 
       />
 
-      {/* Soft Light Ambient Glow Accents */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-100/50 rounded-full blur-[140px] pointer-events-none"></div>
-      <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-purple-100/40 rounded-full blur-[140px] pointer-events-none"></div>
-
-      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
+      {/* ======================================================== */}
+      {/* FULL-HEIGHT EDGE-TO-EDGE SIDEBAR (FROM TOP TO BOTTOM)    */}
+      {/* ======================================================== */}
+      <aside className="w-full lg:w-72 xl:w-80 h-auto lg:h-screen shrink-0 bg-white border-b lg:border-b-0 rtl:lg:border-l ltr:lg:border-r border-slate-200/90 shadow-sm flex flex-col justify-between z-30 overflow-y-auto">
         
-        {/* Top Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 font-bold text-xs uppercase tracking-wider mb-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" /> 
-              {isAr ? "لوحة تحكم الإدارة الذاتية (بدون باك إند)" : "Client-Side Master Admin (No Backend)"}
+        {/* Top Section: Brand & Admin Profile */}
+        <div className="p-4 sm:p-5 border-b border-slate-100 space-y-4 shrink-0">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#0284C7] to-[#0369A1] text-white flex items-center justify-center font-black shadow-md shadow-[#0284C7]/20 shrink-0">
+                <Compass className="w-5 h-5 text-white" />
+              </div>
+              <div className="min-w-0">
+                <span className="font-heading font-black text-slate-900 text-sm block leading-tight truncate">
+                  {isAr ? 'مجموعة الهنا' : 'El Hana Group'}
+                </span>
+                <span className="text-[11px] font-bold text-[#0284C7] block truncate">
+                  {isAr ? 'لوحة تحكم الإدارة المركزية' : 'Master Admin Portal'}
+                </span>
+              </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-black font-heading text-slate-900">
-              {isAr ? "مركز إدارة مجموعة الهنا للمغامرات" : "El Hana Group Command Center"}
-            </h1>
-            <p className="text-xs text-slate-500 font-normal">
-              {isAr 
-                ? "إدارة الحجوزات، المرشدين السياحيين، تقييمات العملاء السرية، تعديل الأسعار ورفع الصور مباشرة."
-                : "Manage bookings, guides, confidential reviews, prices, and photo replacements with real-time browser storage."}
-            </p>
+
+            <Link
+              to="/"
+              title={isAr ? "الرجوع للموقع" : "Visit Website"}
+              className="p-2 rounded-xl bg-slate-50 hover:bg-sky-50 text-slate-600 hover:text-[#0284C7] border border-slate-200/80 hover:border-sky-200 transition text-xs flex items-center gap-1.5 shrink-0"
+            >
+              <Globe className="w-4 h-4" />
+              <span className="text-[11px] font-bold hidden sm:inline">{isAr ? 'الموقع' : 'Site'}</span>
+            </Link>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 shadow-xs">
-              <Crown className="w-3.5 h-3.5 text-amber-500" />
-              <span className="font-bold text-slate-900">{currentAdmin?.name || PRIMARY_ADMIN.name}</span>
-              <span className="text-slate-600 font-mono text-[11px] hidden sm:inline">({currentAdmin?.email || PRIMARY_ADMIN.email})</span>
+          {/* Admin Profile Mini Card */}
+          <div className="p-3 rounded-2xl bg-gradient-to-br from-sky-50/80 via-white to-blue-50/40 border border-sky-100 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#0284C7] text-white flex items-center justify-center font-black text-base shadow-sm shrink-0">
+              <Crown className="w-5 h-5 text-amber-300" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-black text-slate-900 truncate">
+                  {currentAdmin?.name || PRIMARY_ADMIN.name}
+                </span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" title="Online"></span>
+              </div>
+              <span className="text-[10px] font-bold text-[#0284C7] block truncate">
+                {isAr ? 'المدير التنفيذي • تحكم كامل' : 'Primary Admin • Full Access'}
+              </span>
+              <span className="text-[10px] text-slate-400 font-mono block truncate">
+                {currentAdmin?.email || PRIMARY_ADMIN.email}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Master Admin Dashboard: Sidebar + Main Content Layout */}
-        <div className="flex flex-col lg:flex-row gap-6 items-start">
-          
-          {/* Dashboard Sticky Sidebar */}
-          <aside className="w-full lg:w-72 xl:w-80 shrink-0 bg-white rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-sm space-y-5 lg:sticky lg:top-28">
-            
-            {/* Admin Profile Mini Card */}
-            <div className="p-3.5 rounded-2xl bg-gradient-to-br from-sky-50 via-white to-blue-50/50 border border-sky-100 flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0284C7] to-[#0369A1] text-white flex items-center justify-center font-black text-base shadow-md shadow-[#0284C7]/20 shrink-0">
-                <Crown className="w-6 h-6 text-amber-300" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-black text-slate-900 truncate">
-                    {currentAdmin?.name || PRIMARY_ADMIN.name}
-                  </span>
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
-                </div>
-                <span className="text-[10px] font-bold text-[#0284C7] block truncate">
-                  {isAr ? 'المدير التنفيذي • تحكم كامل' : 'Primary Admin • Full Access'}
-                </span>
-                <span className="text-[10px] text-slate-400 font-mono block truncate">
-                  {currentAdmin?.email || PRIMARY_ADMIN.email}
-                </span>
-              </div>
-            </div>
+        {/* Sidebar Navigation Items */}
+        <div className="p-3 sm:p-4 flex-1 space-y-1.5 overflow-y-auto">
+          <div className="px-2 pb-1 text-[11px] font-black uppercase tracking-wider text-slate-400 font-heading">
+            {isAr ? 'أقسام لوحة الإدارة' : 'Dashboard Sections'}
+          </div>
 
-            {/* Sidebar Navigation Items */}
-            <div className="space-y-1.5">
-              <div className="px-2 pb-1 text-[11px] font-black uppercase tracking-wider text-slate-400 font-heading">
-                {isAr ? 'أقسام لوحة الإدارة' : 'Dashboard Sections'}
-              </div>
-
-              <nav className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-1.5">
-                {adminNavItems.map((item) => {
-                  const isActive = activeTab === item.id;
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => setActiveTab(item.id)}
-                      className={`w-full p-3 rounded-2xl font-bold text-xs sm:text-sm transition flex items-center justify-between text-right rtl:text-right ltr:text-left cursor-pointer group ${
+          <nav className="space-y-1">
+            {adminNavItems.map((item) => {
+              const isActive = activeTab === item.id;
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setActiveTab(item.id)}
+                  className={`w-full p-2.5 sm:p-3 rounded-2xl font-bold text-xs sm:text-sm transition flex items-center justify-between text-right rtl:text-right ltr:text-left cursor-pointer group ${
+                    isActive
+                      ? 'bg-gradient-to-r from-[#0284C7] via-[#0369A1] to-[#075985] text-white shadow-lg shadow-[#0284C7]/25 ring-2 ring-sky-300/30'
+                      : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/80 hover:border-sky-300 shadow-2xs'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 transition ${
                         isActive
-                          ? 'bg-gradient-to-r from-[#0284C7] via-[#0369A1] to-[#075985] text-white shadow-lg shadow-[#0284C7]/25 ring-2 ring-sky-300/30'
-                          : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/80 hover:border-sky-300 shadow-2xs'
+                          ? 'bg-white/20 text-white'
+                          : 'bg-slate-100 text-slate-600 group-hover:bg-sky-50 group-hover:text-[#0284C7]'
                       }`}
                     >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div
-                          className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition ${
-                            isActive
-                              ? 'bg-white/20 text-white'
-                              : 'bg-slate-100 text-slate-600 group-hover:bg-sky-50 group-hover:text-[#0284C7]'
-                          }`}
-                        >
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0">
-                          <span className={`block font-extrabold truncate ${isActive ? 'text-white' : 'text-slate-900'}`}>
-                            {item.title}
-                          </span>
-                          <span className={`text-[10px] block truncate font-normal ${isActive ? 'text-sky-100' : 'text-slate-400'}`}>
-                            {item.desc}
-                          </span>
-                        </div>
-                      </div>
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <span className={`block font-extrabold truncate ${isActive ? 'text-white' : 'text-slate-900'}`}>
+                        {item.title}
+                      </span>
+                      <span className={`text-[10px] block truncate font-normal ${isActive ? 'text-sky-100' : 'text-slate-400'}`}>
+                        {item.desc}
+                      </span>
+                    </div>
+                  </div>
 
-                      {item.count !== undefined && item.count > 0 && (
-                        <span
-                          className={`text-[11px] font-black px-2.5 py-0.5 rounded-full shrink-0 ${
-                            isActive ? 'bg-white/20 text-white' : item.badgeColor
-                          }`}
-                        >
-                          {item.count}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </nav>
+                  {item.count !== undefined && item.count > 0 && (
+                    <span
+                      className={`text-[11px] font-black px-2.5 py-0.5 rounded-full shrink-0 ${
+                        isActive ? 'bg-white/20 text-white' : item.badgeColor
+                      }`}
+                    >
+                      {item.count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Bottom Section: Quick Tools & Session Bar */}
+        <div className="p-4 sm:p-5 border-t border-slate-100 space-y-2.5 bg-slate-50/70 shrink-0">
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <a
+              href="/qr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 font-bold border border-sky-200 flex items-center justify-center gap-1.5 transition text-[11px]"
+            >
+              <QrCode className="w-3.5 h-3.5 text-sky-600" />
+              <span>{isAr ? 'مركز QR' : 'QR Center'}</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={() => {
+                loadBookings();
+                refreshGuidesData();
+                refreshPricingData();
+                refreshImagesData();
+              }}
+              className="p-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold border border-slate-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
+            >
+              <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
+              <span>{isAr ? 'تحديث الكل' : 'Refresh'}</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <button
+              type="button"
+              onClick={() => setShowChangePassModal(true)}
+              className="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold border border-amber-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-amber-600" />
+              <span>{isAr ? 'تغيير الرمز' : 'Password'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleAdminLogout}
+              className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold border border-rose-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5 text-rose-600" />
+              <span>{isAr ? 'خروج' : 'Logout'}</span>
+            </button>
+          </div>
+
+          {/* Language Switch Button */}
+          <button
+            type="button"
+            onClick={() => i18n.changeLanguage(isAr ? 'en' : 'ar')}
+            className="w-full py-1.5 px-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <Globe className="w-3.5 h-3.5 text-slate-400" />
+            <span>{isAr ? 'Switch to English' : 'التحويل للغة العربية'}</span>
+          </button>
+
+          {/* System Status Indicator */}
+          <div className="p-2 rounded-xl bg-white border border-slate-200/80 text-[10px] text-slate-500 flex items-center justify-between font-bold">
+            <span className="text-slate-600">{isAr ? 'لوحة تحكم مباشرة' : 'Live Dashboard'}</span>
+            <span className="text-emerald-600 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              {isAr ? 'متصل ومؤمن' : 'Connected'}
+            </span>
+          </div>
+        </div>
+
+      </aside>
+
+      {/* ======================================================== */}
+      {/* MAIN DASHBOARD CONTENT AREA                              */}
+      {/* ======================================================== */}
+      <main className="flex-1 h-screen overflow-y-auto bg-slate-50 flex flex-col min-w-0">
+        
+        {/* Sticky Dashboard Topbar */}
+        <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0 shadow-xs">
+          <div>
+            <div className="flex items-center gap-2 text-xs text-slate-400 mb-0.5">
+              <span>{isAr ? 'لوحة تحكم الهنا' : 'El Hana Dashboard'}</span>
+              <span className="text-slate-300">/</span>
+              <span className="font-bold text-[#0284C7]">{currentTabObj.title}</span>
+            </div>
+            <h1 className="text-xl sm:text-2xl font-black font-heading text-slate-900 tracking-tight">
+              {currentTabObj.title}
+            </h1>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600">
+              <Clock className="w-3.5 h-3.5 text-slate-400" />
+              <span className="font-mono text-[11px]">{new Date().toLocaleDateString(isAr ? 'ar-EG' : 'en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
             </div>
 
-            {/* Quick Tools & Session Bar */}
-            <div className="pt-3 border-t border-slate-100 space-y-2">
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <a
-                  href="/qr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 font-bold border border-sky-200 flex items-center justify-center gap-1.5 transition text-[11px]"
-                >
-                  <QrCode className="w-3.5 h-3.5 text-sky-600" />
-                  <span>{isAr ? 'مركز QR' : 'QR Center'}</span>
-                </a>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    loadBookings();
-                    refreshGuidesData();
-                    refreshPricingData();
-                    refreshImagesData();
-                  }}
-                  className="p-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold border border-slate-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
-                >
-                  <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
-                  <span>{isAr ? 'تحديث الكل' : 'Refresh'}</span>
-                </button>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setShowChangePassModal(true)}
-                  className="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold border border-amber-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
-                >
-                  <KeyRound className="w-3.5 h-3.5 text-amber-600" />
-                  <span>{isAr ? 'تغيير الرمز' : 'Password'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleAdminLogout}
-                  className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold border border-rose-200 flex items-center justify-center gap-1.5 transition text-[11px] cursor-pointer"
-                >
-                  <LogOut className="w-3.5 h-3.5 text-rose-600" />
-                  <span>{isAr ? 'خروج' : 'Logout'}</span>
-                </button>
-              </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>{isAr ? 'لوحة تحكم الإدارة المركزية' : 'Central Admin Hub'}</span>
             </div>
 
-            {/* Storage System Status Indicator */}
-            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-[10px] text-slate-500 space-y-1">
-              <div className="flex items-center justify-between font-bold text-slate-700">
-                <span>{isAr ? 'نظام الحفظ المباشر' : 'Live Sync'}</span>
-                <span className="text-emerald-600 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  {isAr ? 'نشط 100%' : 'Active'}
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-400 leading-relaxed">
-                {isAr ? 'تعديلات الأسعار والصور وتنبيهات الحجز تُحفظ فوراً في المتصفح' : 'Prices, images and alert configs are saved instantly in local storage'}
-              </p>
-            </div>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition"
+            >
+              <Globe className="w-3.5 h-3.5 text-slate-500" />
+              <span>{isAr ? 'زيارة الموقع' : 'View Site'}</span>
+            </Link>
+          </div>
+        </header>
 
-          </aside>
-
-          {/* Main Dashboard Content Area */}
-          <main className="flex-1 min-w-0 w-full space-y-6">
+        {/* Tab Body Content */}
+        <div className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 max-w-[1600px] w-full mx-auto">
 
         {/* ======================================================== */}
         {/* TAB 1: BOOKINGS & NOTIFICATIONS                          */}
@@ -1583,12 +1627,12 @@ export const AdminBookingsPage = () => {
               <div>
                 <h2 className="text-xl font-bold font-heading text-slate-900 flex items-center gap-2">
                   <DollarSign className="w-5 h-5 text-emerald-600" />
-                  {isAr ? "تعديل أسعار الرحلات الفوري (بدون باك إند)" : "Live Tour Price Editor (No Backend)"}
+                  {isAr ? "تعديل أسعار الرحلات الفوري" : "Live Tour Price Editor"}
                 </h2>
                 <p className="text-xs text-slate-500">
                   {isAr 
-                    ? "أي سعر تقوم بتعديله هنا يُحفظ مباشرة في متصفح العميل ويظهر في كافة صفحات وتفاصيل الرحلة بدون الحاجة لأي خادم."
-                    : "Prices modified here take effect instantly across all pages and experience details with zero backend needed."}
+                    ? "أي سعر تقوم بتعديله هنا يُحفظ فوراً ويظهر في كافة صفحات وتفاصيل الرحلات وبطاقات الحجز في الموقع مباشرة."
+                    : "Prices modified here take effect instantly across all tour pages, experience details, and direct booking widgets."}
                 </p>
               </div>
 
@@ -1769,8 +1813,8 @@ export const AdminBookingsPage = () => {
                 </h2>
                 <p className="text-xs text-slate-500">
                   {isAr 
-                    ? "اختر الفولدر المناسب (سفاري، بحر، سيناء، تنقلات) ثم اضغط على الرحلة المطلوبة وارفع صورتها فوراً بدون باك إند."
-                    : "Select a folder (Safari, Sea, Sinai, Transfers), choose a tour, and upload or paste photos with real-time website updates."}
+                    ? "اختر الفولدر المناسب (سفاري، بحر، سيناء، تنقلات) ثم اضغط على الرحلة المطلوبة وارفع صورتها فوراً لتظهر في الموقع مباشرة."
+                    : "Select a category folder (Safari, Sea, Sinai, Transfers), choose a tour, and upload or paste photos to update the site instantly."}
                 </p>
               </div>
 
@@ -2044,8 +2088,8 @@ export const AdminBookingsPage = () => {
                   </h2>
                   <p className="text-xs text-slate-500">
                     {isAr
-                      ? "يمكنك تعيين مشرفين إضافيين مع تحديد بيانات الدخول (البريد الإلكتروني وكلمة المرور) وتعيين الصلاحيات الخاصة بهم بدون سيرفر باك إند."
-                      : "Add and manage moderators with their own email, password, and permissions stored safely in your browser."}
+                      ? "يمكنك تعيين مشرفين إضافيين مع تحديد بيانات الدخول (البريد الإلكتروني وكلمة المرور) وتعيين الصلاحيات الخاصة بهم بكل سهولة وأمان."
+                      : "Add and manage moderators with their own email, password, and custom permissions safely and seamlessly."}
                   </p>
                 </div>
 
@@ -2195,8 +2239,8 @@ export const AdminBookingsPage = () => {
           </div>
         )}
 
-          </main>
         </div>
+      </main>
 
         {/* Add Moderator Modal */}
         {showAddModModal && (
@@ -2401,7 +2445,6 @@ export const AdminBookingsPage = () => {
           </div>
         )}
 
-      </div>
     </div>
   );
 };

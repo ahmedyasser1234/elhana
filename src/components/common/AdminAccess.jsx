@@ -94,7 +94,7 @@ export default function AdminAccess({ children }) {
   if (authenticated) return children;
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4 pt-28 pb-16 bg-slate-950 text-slate-100 relative overflow-hidden" dir="rtl">
+    <main className="min-h-screen flex items-center justify-center px-4 py-12 bg-slate-950 text-slate-100 relative overflow-hidden" dir="rtl">
       {/* Ambient background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#0284C7]/10 rounded-full blur-[140px] pointer-events-none"></div>
 

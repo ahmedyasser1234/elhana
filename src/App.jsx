@@ -57,6 +57,67 @@ const ScrollToTop = () => {
   return null;
 };
 
+function AppContent() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/admin-login' || location.pathname === '/login';
+
+  return (
+    <div className={`min-h-screen flex flex-col justify-between bg-slate-50 text-slate-900 font-sans selection:bg-[#0284C7] selection:text-white ${isAdminRoute ? 'h-screen overflow-hidden' : ''}`}>
+      <ScrollToTop />
+      {!isAdminRoute && <Navbar />}
+      <main className={isAdminRoute ? "h-screen w-screen overflow-hidden flex flex-col" : "flex-grow"}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/safari" element={<SafariToursPage />} />
+          <Route path="/atv-tours" element={<ATVToursPage />} />
+          <Route path="/buggy-tours" element={<BuggyToursPage />} />
+          <Route path="/bedouin-experience" element={<BedouinExperiencePage />} />
+          <Route path="/camel-riding" element={<CamelRidingPage />} />
+          <Route path="/horse-riding" element={<HorseRidingPage />} />
+          <Route path="/excursions" element={<ExcursionsPage />} />
+          <Route path="/sea-trips" element={<SeaTripsPage />} />
+          <Route path="/dolphin-experience" element={<DolphinExperiencePage />} />
+          <Route path="/yacht-trips" element={<YachtTripsPage />} />
+          <Route path="/snorkeling" element={<SnorkelingPage />} />
+          <Route path="/diving" element={<DivingPage />} />
+          <Route path="/parasailing" element={<ParasailingPage />} />
+          <Route path="/banana-boat" element={<BananaBoatPage />} />
+          <Route path="/experiences" element={<AllExperiencesPage />} />
+          <Route path="/experience/:slug" element={<ExperienceDetailsPage />} />
+
+          <Route path="/airport-vip" element={<AirportVIPPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/about" element={<AboutUsPage />} />
+          <Route path="/transfers" element={<TransfersPage />} />
+          <Route path="/contact" element={<ContactUsPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/booking-confirmation" element={<BookingConfirmationPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-and-conditions" element={<TermsConditionsPage />} />
+          <Route path="/cancellation-policy" element={<CancellationPolicyPage />} />
+          <Route path="/qr" element={<QRCodePage />} />
+          <Route path="/leave-review" element={<LeaveReviewPage />} />
+          <Route path="/review-guide" element={<GuideReviewPage />} />
+          <Route path="/review/guide" element={<GuideReviewPage />} />
+          <Route path="/admin" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
+          <Route path="/admin/bookings" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
+          <Route path="/admin/login" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
+          <Route path="/admin-login" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
+          <Route path="/login" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
+      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && <WhatsAppButton />}
+      {!isAdminRoute && <QuickAdventureBookingModal />}
+      <Toast />
+    </div>
+  );
+}
+
 export function App() {
   return (
     <ErrorBoundary>
@@ -65,59 +126,7 @@ export function App() {
           <CurrencyProvider>
             <BookingProvider>
               <ToastProvider>
-                <ScrollToTop />
-                <div className="min-h-screen flex flex-col justify-between bg-slate-50 text-slate-900 font-sans selection:bg-[#0284C7] selection:text-white">
-                  <Navbar />
-                  <main className="flex-grow">
-                    <Routes>
-                      <Route path="/" element={<HomePage />} />
-                      <Route path="/safari" element={<SafariToursPage />} />
-                      <Route path="/atv-tours" element={<ATVToursPage />} />
-                      <Route path="/buggy-tours" element={<BuggyToursPage />} />
-                      <Route path="/bedouin-experience" element={<BedouinExperiencePage />} />
-                      <Route path="/camel-riding" element={<CamelRidingPage />} />
-                      <Route path="/horse-riding" element={<HorseRidingPage />} />
-                      <Route path="/excursions" element={<ExcursionsPage />} />
-                      <Route path="/sea-trips" element={<SeaTripsPage />} />
-                      <Route path="/dolphin-experience" element={<DolphinExperiencePage />} />
-                      <Route path="/yacht-trips" element={<YachtTripsPage />} />
-                      <Route path="/snorkeling" element={<SnorkelingPage />} />
-                      <Route path="/diving" element={<DivingPage />} />
-                      <Route path="/parasailing" element={<ParasailingPage />} />
-                      <Route path="/banana-boat" element={<BananaBoatPage />} />
-                      <Route path="/experiences" element={<AllExperiencesPage />} />
-                      <Route path="/experience/:slug" element={<ExperienceDetailsPage />} />
-
-                      <Route path="/airport-vip" element={<AirportVIPPage />} />
-                      <Route path="/gallery" element={<GalleryPage />} />
-                      <Route path="/about" element={<AboutUsPage />} />
-                      <Route path="/transfers" element={<TransfersPage />} />
-                      <Route path="/contact" element={<ContactUsPage />} />
-                      <Route path="/faq" element={<FAQPage />} />
-                      <Route path="/blog" element={<BlogPage />} />
-                      <Route path="/blog/:slug" element={<BlogPostPage />} />
-                      <Route path="/checkout" element={<CheckoutPage />} />
-                      <Route path="/booking-confirmation" element={<BookingConfirmationPage />} />
-                      <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-                      <Route path="/terms-and-conditions" element={<TermsConditionsPage />} />
-                      <Route path="/cancellation-policy" element={<CancellationPolicyPage />} />
-                      <Route path="/qr" element={<QRCodePage />} />
-                      <Route path="/leave-review" element={<LeaveReviewPage />} />
-                      <Route path="/review-guide" element={<GuideReviewPage />} />
-                      <Route path="/review/guide" element={<GuideReviewPage />} />
-                      <Route path="/admin" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
-                      <Route path="/admin/bookings" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
-                      <Route path="/admin/login" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
-                      <Route path="/admin-login" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
-                      <Route path="/login" element={<AdminAccess><AdminBookingsPage /></AdminAccess>} />
-                      <Route path="*" element={<NotFoundPage />} />
-                    </Routes>
-                  </main>
-                  <Footer />
-                  <WhatsAppButton />
-                  <QuickAdventureBookingModal />
-                  <Toast />
-                </div>
+                <AppContent />
               </ToastProvider>
             </BookingProvider>
           </CurrencyProvider>
