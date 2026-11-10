@@ -161,7 +161,7 @@ export const HeroSection = () => {
           <div className="lg:col-span-5 relative w-full flex flex-col items-center">
             
             {/* 1. Real Image Frame */}
-            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] lg:h-[400px] xl:h-[440px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-2 sm:border-4 border-white/20 bg-slate-950 group z-20">
+            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[16/10] sm:aspect-[16/10] lg:aspect-[4/3] lg:h-[400px] xl:h-[440px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-2 sm:border-4 border-white/20 bg-slate-950 group z-20">
               <img
                 src="/images/real/polaris-buggy-white.jpg"
                 alt="El Hana Group Buggy Safari Sharm El Sheikh"
@@ -198,7 +198,7 @@ export const HeroSection = () => {
             </div>
 
             {/* Floating Cards (Desktop Only: lg and above, where space allows elegant hovering around image) */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:block max-lg:!hidden">
               {cardsData.map((card) => {
                 const Icon = card.icon;
                 return (

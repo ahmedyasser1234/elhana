@@ -151,7 +151,12 @@ export const Navbar = () => {
               <img
                 src="/logo.png"
                 alt="El Hana Group Logo"
-                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover border-2 border-[#0284C7] shadow-md shadow-[#0284C7]/20 group-hover:scale-105 transition duration-300"
+                onError={(e) => {
+                  if (e.currentTarget.src.endsWith('/logo.png')) {
+                    e.currentTarget.src = '/logo.jpg';
+                  }
+                }}
+                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover border-2 border-[#0284C7] shadow-md shadow-[#0284C7]/20 group-hover:scale-105 transition duration-300 bg-white"
               />
               <span className="font-extrabold text-base md:text-lg tracking-tight text-slate-900 group-hover:text-[#0284C7] transition hidden sm:inline-block font-heading">
                 El Hana Group
@@ -313,7 +318,12 @@ export const Navbar = () => {
               <img
                 src="/logo.png"
                 alt="El Hana Group Logo"
-                className="w-9 h-9 rounded-full border-2 border-[#0284C7] object-cover shadow-xs group-hover:scale-105 transition"
+                onError={(e) => {
+                  if (e.currentTarget.src.endsWith('/logo.png')) {
+                    e.currentTarget.src = '/logo.jpg';
+                  }
+                }}
+                className="w-9 h-9 rounded-full border-2 border-[#0284C7] object-cover shadow-xs group-hover:scale-105 transition bg-white"
               />
               <span className="font-black text-base tracking-tight text-slate-900 group-hover:text-[#0284C7] transition font-heading">
                 El Hana Group
