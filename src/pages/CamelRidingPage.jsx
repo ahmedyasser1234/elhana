@@ -15,7 +15,7 @@ import {
 const CAMEL_IMAGES = [
   '/images/real/camel-riding-hero.jpg',
   '/images/real/camel-caravan.jpg',
-  '/images/real/bedouin-hero.jpg',
+  '/images/romantic/romantic-bedouin-candlelight-dinner.jpg',
 ];
 
 export const CamelRidingPage = () => {

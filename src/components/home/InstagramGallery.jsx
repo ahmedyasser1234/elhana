@@ -12,7 +12,7 @@ export const InstagramGallery = () => {
     { url: "/images/real/camel-caravan.jpg", tag: "#BedouinCamel" },
     { url: "/images/real/family-buggy-ride.jpg", tag: "#FamilyFun" },
     { url: "/images/real/polaris-buggy-white.jpg", tag: "#SinaiBuggy" },
-    { url: "/images/real/yacht-vip.jpg", tag: "#RedSeaDiving" }
+    { url: "/images/sea/ras-mohammed-luxury-yacht.jpg", tag: "#RedSeaDiving" }
   ];
 
   return (

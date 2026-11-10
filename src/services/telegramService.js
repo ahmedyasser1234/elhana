@@ -1,104 +1,29 @@
 /**
  * Telegram Notification Service for El Hana Group Bookings
- * Sends instant notifications to Telegram via Vite dev middleware, Vercel serverless API, or direct fallback.
+ * Dispatches notifications exclusively through secure serverless API routes (/api/telegram).
+ * Never leaks bot tokens or secrets to client bundles.
  */
 
-export function getTelegramSettings() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('admin_notification_settings') || '{}');
-    return {
-      enabled: saved.enableTelegram !== false,
-      token: (saved.telegramToken || import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '').trim(),
-      chatId: (saved.telegramChatId || import.meta.env.VITE_TELEGRAM_CHAT_ID || '').trim()
-    };
-  } catch {
-    return {
-      enabled: true,
-      token: (import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '').trim(),
-      chatId: (import.meta.env.VITE_TELEGRAM_CHAT_ID || '').trim()
-    };
-  }
-}
+import apiClient from './api/client';
 
 /**
- * Send raw text message to Telegram
+ * Send booking notification to Telegram via server API
  */
 export async function sendTelegramMessage(text, options = {}) {
-  const config = getTelegramSettings();
-  const token = (options.token || config.token || '').trim();
-  const chatId = (options.chatId || config.chatId || '').trim();
-
-  if (!token || !chatId) {
-    return {
-      success: false,
-      message: 'Telegram Bot Token or Chat ID is missing.'
+  try {
+    const payload = {
+      text,
+      parse_mode: options.parseMode || 'HTML',
+      isTest: Boolean(options.isTest)
     };
-  }
 
-  // Payload
-  const payload = {
-    token,
-    chat_id: chatId,
-    text,
-    parse_mode: options.parseMode || 'HTML'
-  };
-
-  // 1. Try local Vite dev server / Vercel API proxy
-  try {
-    const proxyRes = await fetch('/api/telegram/send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (proxyRes.ok) {
-      const data = await proxyRes.json();
-      return { success: true, data };
-    }
-  } catch {
-    // Proxy not available or failed, try direct fallback
-  }
-
-  // 2. Try Vercel /api/telegram endpoint
-  try {
-    const vercelRes = await fetch('/api/telegram', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (vercelRes.ok) {
-      const data = await vercelRes.json();
-      return { success: true, data };
-    }
-  } catch {
-    // Continue to direct fallback
-  }
-
-  // 3. Fallback: Direct call to api.telegram.org (e.g. if CORS allowed or Node environment)
-  try {
-    const directRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text,
-        parse_mode: options.parseMode || 'HTML'
-      })
-    });
-
-    const data = await directRes.json();
-    if (data && data.ok) {
-      return { success: true, data };
-    }
-    return {
-      success: false,
-      message: data.description || 'Failed to send message via Telegram API'
-    };
+    const res = await apiClient.post('/telegram', payload);
+    return { success: res.data && !res.data.error, data: res.data };
   } catch (err) {
+    console.warn('Telegram notification request error:', err.message);
     return {
       success: false,
-      message: err.message || 'Network error reaching Telegram API'
+      message: err.response?.data?.error || err.message
     };
   }
 }
@@ -142,27 +67,19 @@ export function formatBookingMessage(booking) {
  * Triggers Telegram notification for a newly placed booking
  */
 export async function sendBookingTelegramNotification(booking) {
-  const config = getTelegramSettings();
-  if (!config.enabled || !config.token || !config.chatId) {
-    return { success: false, reason: 'Telegram notifications disabled or unconfigured' };
-  }
-
   const message = formatBookingMessage(booking);
-  return sendTelegramMessage(message, {
-    token: config.token,
-    chatId: config.chatId
-  });
+  return sendTelegramMessage(message);
 }
 
 /**
- * Sends a test notification to verify credentials
+ * Sends a test notification to verify credentials via server
  */
-export async function testTelegramConnection(token, chatId) {
+export async function testTelegramConnection() {
   const testText = `✅ <b>اختبار ربط بوت تليجرام - مجموعة الهنا</b>
 ━━━━━━━━━━━━━━━━━━━━━
-تم اختبار الاتصال بنجاح!
+تم اختبار الاتصال بنجاح عبر السيرفر الآمن!
 سوف تصلك الآن جميع إشعارات الحجوزات الجديدة مباشرة على هذه المحادثة فور إتمام أي عميل للحجز من الموقع.
 🕒 ${new Date().toLocaleTimeString('ar-EG')}`;
 
-  return sendTelegramMessage(testText, { token, chatId });
+  return sendTelegramMessage(testText, { isTest: true });
 }

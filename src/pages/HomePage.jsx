@@ -3,7 +3,7 @@ import { SEOHead } from '../components/common/SEOHead';
 import { HeroSection } from '../components/home/HeroSection';
 import { WhyChooseUs } from '../components/home/WhyChooseUs';
 import { ServicesListSection } from '../components/home/ServicesListSection';
-import { FeaturedExperiences } from '../components/home/FeaturedExperiences';
+import TripStack from '../components/TripStack';
 import { DesertAdventuresSection } from '../components/home/DesertAdventuresSection';
 import { SeaAdventuresSection } from '../components/home/SeaAdventuresSection';
 import { TransfersSection } from '../components/home/TransfersSection';
@@ -23,7 +23,7 @@ export const HomePage = () => {
       <HeroSection />
       <WhyChooseUs />
       <ServicesListSection />
-      <FeaturedExperiences />
+      <TripStack />
       <DesertAdventuresSection />
       <SeaAdventuresSection />
       <TransfersSection />

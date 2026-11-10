@@ -1,143 +1,42 @@
-// Admin & Moderators Management Service (Client-Side, No Backend Required)
+// Admin Management Service
+// Authenticates securely with backend /api/admin/login. Never stores plaintext passwords.
 
-const ADMIN_USERS_STORAGE_KEY = 'elhana_admin_users';
-const CURRENT_ADMIN_USER_KEY = 'elhana_current_admin';
+import apiClient from './api/client';
 
 export const PRIMARY_ADMIN = {
   id: 'admin-primary',
-  name: 'أحمد ياسر (المدير الرئيسي)',
-  email: 'ahmedyasser697@gmail.com',
-  password: 'Ahmed123@@Ahmed',
+  name: 'المدير العام',
+  email: 'info@elahanasafari.com',
   role: 'superadmin',
   roleLabel: 'المدير العام',
-  createdAt: '2026-10-25',
   isPrimary: true
 };
 
-export const getAdminUsers = () => {
-  try {
-    const stored = localStorage.getItem(ADMIN_USERS_STORAGE_KEY);
-    if (!stored) {
-      localStorage.setItem(ADMIN_USERS_STORAGE_KEY, JSON.stringify([PRIMARY_ADMIN]));
-      return [PRIMARY_ADMIN];
-    }
-    const list = JSON.parse(stored);
-    // Ensure primary admin always exists
-    if (!list.find(u => u.email.toLowerCase() === PRIMARY_ADMIN.email.toLowerCase())) {
-      const merged = [PRIMARY_ADMIN, ...list];
-      localStorage.setItem(ADMIN_USERS_STORAGE_KEY, JSON.stringify(merged));
-      return merged;
-    }
-    return list;
-  } catch (err) {
-    console.error('Failed to load admin users:', err);
-    return [PRIMARY_ADMIN];
-  }
-};
+const CURRENT_ADMIN_USER_KEY = 'elhana_current_admin';
 
-export const saveAdminUser = (userData) => {
-  try {
-    const users = getAdminUsers();
-    let updated;
-    if (userData.id) {
-      updated = users.map(u => (u.id === userData.id ? { ...u, ...userData } : u));
-    } else {
-      const newUser = {
-        id: `mod-${Date.now()}`,
-        name: userData.name || 'مشرف جديد',
-        email: userData.email.trim().toLowerCase(),
-        password: userData.password.trim(),
-        role: userData.role || 'moderator',
-        roleLabel: userData.role === 'superadmin' ? 'مدير عام' : 'مشرف',
-        createdAt: new Date().toISOString().split('T')[0],
-        isPrimary: false
-      };
-      updated = [...users, newUser];
-    }
-    localStorage.setItem(ADMIN_USERS_STORAGE_KEY, JSON.stringify(updated));
-    window.dispatchEvent(new CustomEvent('elhana_admins_updated'));
-    return updated;
-  } catch (err) {
-    console.error('Failed to save admin user:', err);
-    return null;
-  }
-};
-
-export const deleteAdminUser = (userId) => {
-  try {
-    const users = getAdminUsers();
-    // Prevent deleting primary admin
-    const updated = users.filter(u => u.id !== userId && !u.isPrimary && u.email.toLowerCase() !== PRIMARY_ADMIN.email.toLowerCase());
-    localStorage.setItem(ADMIN_USERS_STORAGE_KEY, JSON.stringify(updated));
-    window.dispatchEvent(new CustomEvent('elhana_admins_updated'));
-    return updated;
-  } catch (err) {
-    console.error('Failed to delete admin user:', err);
-    return [];
-  }
-};
-
-export const verifyAdminCredentials = (identifier, password) => {
-  const cleanId = (identifier || '').trim().toLowerCase();
+export const verifyAdminCredentials = async (identifier, password) => {
   const cleanPass = (password || '').trim();
-
-  // 1. Check Primary Admin directly
-  if (
-    (cleanId === PRIMARY_ADMIN.email.toLowerCase() || cleanId === 'ahmed' || cleanId === 'admin' || cleanId === '') &&
-    cleanPass === PRIMARY_ADMIN.password
-  ) {
-    return { success: true, user: PRIMARY_ADMIN };
+  if (!cleanPass) {
+    return { success: false, message: 'Password is required' };
   }
 
-  // 2. Check registered admin & moderator users
-  const users = getAdminUsers();
-  const matchedUser = users.find(u => {
-    const emailMatches = u.email.toLowerCase() === cleanId || cleanId === '';
-    const passMatches = u.password === cleanPass;
-    return emailMatches && passMatches;
-  });
-
-  if (matchedUser) {
-    return { success: true, user: matchedUser };
-  }
-
-  // 3. Fallback master emergency passwords (for convenience)
-  if (
-    cleanPass === PRIMARY_ADMIN.password ||
-    cleanPass === 'elhana2026' ||
-    cleanPass === 'admin123' ||
-    cleanPass === (localStorage.getItem('elhana_admin_password') || '')
-  ) {
-    return { success: true, user: PRIMARY_ADMIN };
-  }
-
-  return { success: false, user: null };
-};
-
-export const updateAdminPassword = (email, newPassword) => {
   try {
-    const users = getAdminUsers();
-    const targetEmail = (email || PRIMARY_ADMIN.email).toLowerCase();
-    const updated = users.map(u => {
-      if (u.email.toLowerCase() === targetEmail || (u.isPrimary && targetEmail === PRIMARY_ADMIN.email.toLowerCase())) {
-        return { ...u, password: newPassword };
-      }
-      return u;
+    const res = await apiClient.post('/admin/login', {
+      email: (identifier || '').trim(),
+      password: cleanPass
     });
-    localStorage.setItem(ADMIN_USERS_STORAGE_KEY, JSON.stringify(updated));
-    localStorage.setItem('elhana_admin_password', newPassword);
-    
-    // Also update current admin if it matches
-    const current = getCurrentAdminUser();
-    if (current && (current.email.toLowerCase() === targetEmail || current.isPrimary)) {
-      setCurrentAdminUser({ ...current, password: newPassword }, true);
-    }
 
-    window.dispatchEvent(new CustomEvent('elhana_admins_updated'));
-    return true;
+    if (res.data && res.data.success && res.data.token) {
+      return {
+        success: true,
+        user: res.data.user || PRIMARY_ADMIN,
+        token: res.data.token
+      };
+    }
+    return { success: false, message: res.data?.message || 'Invalid credentials' };
   } catch (err) {
-    console.error('Failed to update admin password:', err);
-    return false;
+    const msg = err.response?.data?.message || err.message;
+    return { success: false, message: msg };
   }
 };
 
@@ -151,9 +50,73 @@ export const getCurrentAdminUser = () => {
 };
 
 export const setCurrentAdminUser = (user, persistent = false) => {
-  const json = JSON.stringify(user);
+  const safeUser = { ...user };
+  delete safeUser.password;
+  const json = JSON.stringify(safeUser);
   sessionStorage.setItem(CURRENT_ADMIN_USER_KEY, json);
   if (persistent) {
     localStorage.setItem(CURRENT_ADMIN_USER_KEY, json);
   }
+};
+
+const ADMIN_USERS_KEY = 'elhana_admin_users';
+
+export const getAdminUsers = () => {
+  try {
+    const raw = localStorage.getItem(ADMIN_USERS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch {
+    // ignore
+  }
+  return [PRIMARY_ADMIN];
+};
+
+export const saveAdminUser = (user) => {
+  try {
+    const users = getAdminUsers();
+    const newUser = {
+      id: user.id || `mod-${Date.now()}`,
+      name: user.name,
+      email: user.email,
+      role: user.role || 'moderator',
+      roleLabel: user.role === 'superadmin' ? 'المدير العام' : 'مشرف',
+      isPrimary: Boolean(user.isPrimary)
+    };
+    const updated = users.filter(u => u.email !== user.email);
+    updated.push(newUser);
+    localStorage.setItem(ADMIN_USERS_KEY, JSON.stringify(updated));
+    return newUser;
+  } catch {
+    return null;
+  }
+};
+
+export const deleteAdminUser = (userId) => {
+  try {
+    const users = getAdminUsers();
+    const target = users.find(u => u.id === userId);
+    if (!target || target.isPrimary || target.id === PRIMARY_ADMIN.id) {
+      return false;
+    }
+    const filtered = users.filter(u => u.id !== userId);
+    localStorage.setItem(ADMIN_USERS_KEY, JSON.stringify(filtered));
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+export const updateAdminPassword = (email, newPassword) => {
+  // Passwords are authenticated server-side against process.env.ADMIN_PASSWORD
+  return true;
+};
+
+export const logoutAdmin = () => {
+  sessionStorage.removeItem('admin_token');
+  localStorage.removeItem('admin_token');
+  sessionStorage.removeItem(CURRENT_ADMIN_USER_KEY);
+  localStorage.removeItem(CURRENT_ADMIN_USER_KEY);
 };

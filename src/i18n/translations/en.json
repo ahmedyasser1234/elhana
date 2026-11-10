@@ -1,4 +1,9 @@
 {
+  "trips": {
+    "stackLabel": "Our trips",
+    "view": "View trip",
+    "viewAll": "View all trips"
+  },
   "nav": {
     "home": "Home",
     "safari": "Safari Tours",

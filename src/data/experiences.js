@@ -1003,7 +1003,7 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
             title: "الانتقال المريح من الفندق",
             desc: "الانتقال بسيارات حديثة ومكيفة من استقبال الفندق بشرم الشيخ مباشرة إلى مقر مركز السفاري.",
             images: [
-              "/images/real/limousine-transfer.jpg",
+              "/images/real/atv-quad.jpg",
               "/images/real/atv-quad-hero.png"
             ]
           },
@@ -1030,8 +1030,8 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
             title: "استراحة الخيمة والشاي البدوي",
             desc: "الاستراحة داخل خيمة بدوية أصيلة وتناول الشاي البدوي بالأعشاب الطبيعية وسط أجواء الهدوء.",
             images: [
-              "/images/real/bedouin-dinner.jpg",
-              "/images/real/stargazing-telescope.jpg"
+              "/images/romantic/romantic-bedouin-candlelight-dinner.jpg",
+              "/images/safari/bedouin/standard/camel-caravan.jpg"
             ]
           },
           {
@@ -1039,7 +1039,7 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
             title: "رحلة العودة للفندق",
             desc: "العودة لمقر المركز بالبيتش باجي ثم الانتقال مريحاً في سيارات التوصيل المكيفة إلى فندقك.",
             images: [
-              "/images/real/limousine-transfer.jpg"
+              "/images/real/atv-quad-hero.png"
             ]
           }
         ]

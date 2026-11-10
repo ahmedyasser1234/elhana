@@ -17,7 +17,8 @@ export const HeroSection = () => {
       icon: Compass,
       tag: isAr ? "سفاري الصحراء" : "DESERT SAFARI",
       title: isAr ? "إثارة وتشويق بلا حدود" : "Pure Adrenaline",
-      positionClass: "-top-5 ltr:-right-3 ltr:sm:-right-6 rtl:-left-3 rtl:sm:-left-6",
+      link: "/safari",
+      positionClass: "-top-5 ltr:-right-4 ltr:xl:-right-8 rtl:-left-4 rtl:xl:-left-8",
       accentBg: "bg-sky-500/20 text-sky-300",
     },
     {
@@ -25,7 +26,8 @@ export const HeroSection = () => {
       icon: Anchor,
       tag: isAr ? "اليخوت الفاخرة" : "VIP YACHTS",
       title: isAr ? "إبحار ملوكي VIP" : "Royal Sailing VIP",
-      positionClass: "top-20 ltr:-left-4 ltr:sm:-left-8 rtl:-right-4 rtl:sm:-right-8",
+      link: "/sea-trips",
+      positionClass: "top-20 ltr:-left-4 ltr:xl:-left-8 rtl:-right-4 rtl:xl:-right-8",
       accentBg: "bg-amber-500/20 text-amber-300",
     },
     {
@@ -33,7 +35,8 @@ export const HeroSection = () => {
       icon: Waves,
       tag: isAr ? "الغوص والسنوركلينج" : "DIVING & REEFS",
       title: isAr ? "عالم المرجان والأعماق" : "Underwater Reefs",
-      positionClass: "bottom-24 ltr:-right-3 ltr:sm:-right-6 rtl:-left-3 rtl:sm:-left-6",
+      link: "/diving",
+      positionClass: "bottom-20 ltr:-right-4 ltr:xl:-right-8 rtl:-left-4 rtl:xl:-left-8",
       accentBg: "bg-emerald-500/20 text-emerald-300",
     },
     {
@@ -41,13 +44,14 @@ export const HeroSection = () => {
       icon: Car,
       tag: isAr ? "الانتقالات الخاصة" : "VIP TRANSFERS",
       title: isAr ? "توصيل 24/7 للمطار والفندق" : "24/7 Airport Shuttles",
-      positionClass: "-bottom-6 ltr:left-4 ltr:sm:left-6 rtl:right-4 rtl:sm:right-6",
+      link: "/transfers",
+      positionClass: "-bottom-5 ltr:left-4 ltr:xl:left-8 rtl:right-4 rtl:xl:right-8",
       accentBg: "bg-orange-500/20 text-orange-300",
     },
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-between pt-28 sm:pt-32 md:pt-36 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-slate-900">
+    <section className="relative min-h-[calc(100svh-var(--header-h))] flex flex-col justify-between py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-slate-900">
       {/* 1. REAL PHOTO BACKGROUND - SOFT DARK SLATE SHADOW FOR ULTRA READABILITY */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
@@ -60,15 +64,16 @@ export const HeroSection = () => {
           className="w-full h-full object-cover object-center filter brightness-100 contrast-105 saturate-105 scale-100"
         />
         
-        {/* Soft Dark Vignette */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/65 via-slate-950/40 to-slate-950/15 rtl:bg-gradient-to-l"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/45 via-transparent to-slate-950/65"></div>
+        {/* Soft Dark Vignette for maximum text readability */}
+        <div className="absolute inset-0 bg-slate-950/65 lg:bg-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/60 to-slate-950/40 rtl:bg-gradient-to-l"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950/80"></div>
       </div>
 
       {/* 2. Main Content Container */}
-      <div className="relative z-20 max-w-7xl mx-auto w-full flex-1 flex flex-col justify-center gap-10">
+      <div className="relative z-20 max-w-7xl mx-auto w-full flex-1 flex flex-col justify-center gap-6 sm:gap-8 lg:gap-10">
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           
           {/* TEXT CONTENT COLUMN */}
           <div className="lg:col-span-7 space-y-5 text-left rtl:text-right">
@@ -138,7 +143,7 @@ export const HeroSection = () => {
               </Link>
 
               <button
-                onClick={() => setShowVideoModal(false)}
+                onClick={() => setShowVideoModal(true)}
                 className="flex items-center gap-2.5 group cursor-pointer py-2 px-4 rounded-full bg-slate-900/70 backdrop-blur-md border border-slate-700 hover:border-sky-400 shadow-md transition duration-300"
               >
                 <div className="w-8 h-8 rounded-full bg-[#0284C7] text-white flex items-center justify-center shadow-sm">
@@ -152,11 +157,11 @@ export const HeroSection = () => {
 
           </div>
 
-          {/* IMAGE SHOWCASE COLUMN */}
-          <div className="lg:col-span-5 relative w-full h-[380px] sm:h-[440px] flex items-center justify-center">
+          {/* IMAGE SHOWCASE COLUMN - 100% RESPONSIVE (Zero Overlap on Mobile) */}
+          <div className="lg:col-span-5 relative w-full flex flex-col items-center">
             
-            {/* Real Image Frame */}
-            <div className="relative w-[88%] h-[88%] rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.5)] border-4 border-white/20 bg-slate-900 group cursor-pointer z-20">
+            {/* 1. Real Image Frame */}
+            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] lg:h-[400px] xl:h-[440px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-2 sm:border-4 border-white/20 bg-slate-950 group z-20">
               <img
                 src="/images/real/polaris-buggy-white.jpg"
                 alt="El Hana Group Buggy Safari Sharm El Sheikh"
@@ -164,53 +169,87 @@ export const HeroSection = () => {
                   e.target.onerror = null;
                   e.target.src = '/images/real/atv-quad.jpg';
                 }}
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
               />
               
               {/* Soft Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent"></div>
 
-              {/* Real Photo Floating Badge Overlay */}
-              <div className="absolute bottom-4 right-4 left-4 bg-slate-900/85 backdrop-blur-md p-3 px-4 rounded-2xl border border-white/20 flex items-center justify-between shadow-xl">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-sky-400" />
-                  <span className="text-xs font-semibold text-white">
+              {/* Top VIP Pill Badge */}
+              <div className="absolute top-3.5 right-3.5 rtl:right-auto rtl:left-3.5 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-bold text-sky-300 shadow-md flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>{isAr ? "مغامرات شرم الحصرية" : "Exclusive Experiences"}</span>
+              </div>
+
+              {/* Real Photo Floating Bottom Badge Overlay */}
+              <div className="absolute bottom-3 sm:bottom-4 inset-x-3 sm:inset-x-4 bg-slate-900/90 backdrop-blur-md p-2.5 sm:p-3 px-3.5 sm:px-4 rounded-2xl border border-white/20 flex items-center justify-between shadow-xl">
+                <div className="flex items-center gap-2 min-w-0">
+                  <MapPin className="w-4 h-4 text-sky-400 shrink-0" />
+                  <span className="text-xs font-semibold text-white truncate">
                     {isAr ? "صحراء شرم الشيخ • سيناء" : "Sharm El Sheikh Desert • Sinai"}
                   </span>
                 </div>
-                <div className="flex items-center gap-1 text-amber-400 text-xs font-bold">
+                <div className="flex items-center gap-1 text-amber-400 text-xs font-bold shrink-0">
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   <span>4.9</span>
+                  <span className="text-[10px] text-slate-400 hidden sm:inline">(1,280+)</span>
                 </div>
               </div>
             </div>
 
-            {/* Floating Cards */}
-            {cardsData.map((card) => {
-              const Icon = card.icon;
-              return (
-                <div
-                  key={card.id}
-                  className={`absolute z-30 ${card.positionClass}`}
-                >
-                  <div className="group cursor-pointer">
-                    <div className="p-3 px-4 rounded-2xl bg-slate-900/85 backdrop-blur-2xl border border-slate-700/60 shadow-[0_15px_35px_rgba(0,0,0,0.4)] hover:border-sky-400/60 hover:shadow-[0_20px_40px_rgba(2,132,199,0.3)] flex items-center gap-3 min-w-[210px] max-w-[250px] group-hover:scale-105 transition duration-300">
+            {/* Floating Cards (Desktop Only: lg and above, where space allows elegant hovering around image) */}
+            <div className="hidden lg:block">
+              {cardsData.map((card) => {
+                const Icon = card.icon;
+                return (
+                  <Link
+                    key={card.id}
+                    to={card.link}
+                    className={`absolute z-30 ${card.positionClass} group cursor-pointer block`}
+                  >
+                    <div className="p-3 px-4 rounded-2xl bg-slate-900/90 backdrop-blur-2xl border border-slate-700/70 shadow-[0_15px_35px_rgba(0,0,0,0.5)] hover:border-sky-400/80 hover:shadow-[0_20px_40px_rgba(2,132,199,0.35)] flex items-center gap-3 min-w-[200px] max-w-[240px] group-hover:scale-105 transition duration-300">
                       <div className={`p-2.5 rounded-xl ${card.accentBg} shrink-0`}>
                         <Icon className="w-4 h-4" />
                       </div>
-                      <div className="space-y-0.5">
+                      <div className="space-y-0.5 min-w-0">
                         <span className="text-[10px] font-bold tracking-wider uppercase block text-sky-400">
                           {card.tag}
                         </span>
-                        <h4 className="text-xs font-semibold text-white font-heading leading-snug whitespace-normal">
+                        <h4 className="text-xs font-bold text-white font-heading leading-snug truncate">
                           {card.title}
                         </h4>
                       </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Mobile / Tablet Interactive Category Grid (2x2) - Neat, readable, zero overlap, zero collision */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-2.5 mt-3.5 w-full max-w-sm sm:max-w-md mx-auto lg:hidden">
+              {cardsData.map((card) => {
+                const Icon = card.icon;
+                return (
+                  <Link
+                    key={card.id}
+                    to={card.link}
+                    className="p-2.5 sm:p-3 rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-slate-800/80 hover:border-sky-500/60 shadow-lg flex items-center gap-2.5 active:scale-98 transition group"
+                  >
+                    <div className={`p-2 rounded-xl ${card.accentBg} shrink-0`}>
+                      <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[9px] sm:text-[10px] font-bold text-sky-400 block truncate">
+                        {card.tag}
+                      </span>
+                      <h4 className="text-[11px] sm:text-xs font-bold text-white group-hover:text-sky-300 transition truncate leading-tight">
+                        {card.title}
+                      </h4>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
 
           </div>
 

@@ -4,6 +4,7 @@ import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { calculateBookingPrice } from './pricing.js';
+import { fetchTrips, fetchTripBySlug, updateTripInDb, uploadImageToStorage } from '../api/_db.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const dbDir = process.env.DATA_DIR || path.join(here, 'data');
@@ -74,32 +75,70 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'POST' && url.pathname === '/api/admin/login') {
       const data = await body(req);
-      const supplied = String(data.password || '');
-      if (supplied !== adminPassword) return send(res, 401, { message: 'Invalid credentials' });
-      return send(res, 200, { token: makeToken() });
+      const supplied = Buffer.from(String(data.password || ''));
+      const expected = Buffer.from(adminPassword);
+      if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected)) {
+        return send(res, 401, { message: 'Invalid credentials' });
+      }
+      return send(res, 200, { token: makeToken(), user: { email: process.env.ADMIN_EMAIL || 'admin@elhanasafari.com', role: 'superadmin' } });
     }
 
-    // Direct Telegram Send Proxy
-    if (req.method === 'POST' && url.pathname === '/api/telegram/send') {
+    if (req.method === 'POST' && (url.pathname === '/api/telegram/send' || url.pathname === '/api/telegram')) {
       const data = await body(req);
-      const token = data.token || process.env.TELEGRAM_BOT_TOKEN;
-      const chat = data.chat_id || process.env.TELEGRAM_CHAT_ID;
-      if (!token || !chat || !data.text) {
-        return send(res, 400, { error: 'Missing token, chat_id, or text' });
+      if (data.isTest && !isAdmin(req)) {
+        return send(res, 401, { error: 'Unauthorized test request' });
+      }
+      const token = (data.isTest && data.testToken) ? data.testToken : process.env.TELEGRAM_BOT_TOKEN;
+      const chat = (data.isTest && data.testChatId) ? data.testChatId : process.env.TELEGRAM_CHAT_ID;
+      if (!token || !chat) {
+        return send(res, 200, { skipped: true, message: 'Telegram credentials not configured in server environment.' });
+      }
+      if (!data.text) {
+        return send(res, 400, { error: 'Missing text' });
       }
       const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chat, text: data.text, parse_mode: data.parse_mode || 'HTML' })
+        body: JSON.stringify({ chat_id: chat, text: String(data.text).slice(0, 4000), parse_mode: data.parse_mode || 'HTML' })
       });
       const tgData = await tgRes.json();
       return send(res, tgRes.ok ? 200 : tgRes.status, tgData);
     }
 
+    if (req.method === 'GET' && url.pathname === '/api/trips') {
+      const slug = url.searchParams.get('slug');
+      const category = url.searchParams.get('category');
+      if (slug) {
+        const trip = await fetchTripBySlug(slug);
+        if (!trip) return send(res, 404, { error: 'Trip not found' });
+        return send(res, 200, trip);
+      }
+      const trips = await fetchTrips({ category });
+      return send(res, 200, trips);
+    }
+
+    if (req.method === 'PUT' && url.pathname === '/api/admin/trips') {
+      if (!isAdmin(req)) return send(res, 401, { error: 'Unauthorized' });
+      const data = await body(req);
+      const { slugOrId, updates } = data;
+      if (!slugOrId || !updates) return send(res, 400, { error: 'slugOrId and updates required' });
+      const updated = await updateTripInDb(slugOrId, updates);
+      return send(res, 200, { success: true, trip: updated });
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/admin/upload') {
+      if (!isAdmin(req)) return send(res, 401, { error: 'Unauthorized' });
+      const data = await body(req);
+      const { fileName, base64Data, contentType } = data;
+      if (!fileName || !base64Data) return send(res, 400, { error: 'fileName and base64Data required' });
+      const result = await uploadImageToStorage(fileName, base64Data, contentType);
+      return send(res, 200, { success: true, ...result });
+    }
+
     if (req.method === 'POST' && url.pathname === '/api/bookings') {
       const data = await body(req);
       validateLead(data.leadTraveler);
-      
+
       let totalPrice = data.totalPrice;
       try {
         if (!totalPrice) totalPrice = calculateBookingPrice(data);
@@ -123,7 +162,6 @@ const server = http.createServer(async (req, res) => {
       items.unshift(booking);
       await saveBookings(items);
 
-      // Send to Telegram if configured
       const token = process.env.TELEGRAM_BOT_TOKEN;
       const chat = process.env.TELEGRAM_CHAT_ID;
       if (token && chat) {
@@ -156,6 +194,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && url.pathname === '/api/admin/bookings') {
+      if (!isAdmin(req)) return send(res, 401, { message: 'Unauthorized access' });
       const all = await readBookings();
       const cutoff = Date.now() - retentionDays * 86400000;
       const retained = all.filter(item => Date.parse(item.createdAt) >= cutoff);
@@ -164,6 +203,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'DELETE' && url.pathname === '/api/admin/bookings') {
+      if (!isAdmin(req)) return send(res, 401, { message: 'Unauthorized access' });
       await saveBookings([]);
       return send(res, 200, { success: true });
     }

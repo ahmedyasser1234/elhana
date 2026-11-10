@@ -45,6 +45,12 @@ export const CheckoutPage = () => {
   const totalPrice = isTransfer ? transferData?.price : calculateTotal(rawExperience);
 
   const onSubmitBooking = async (formData) => {
+    if (!isTransfer && !rawExperience && !bookingDraft.camelDuration && !bookingDraft.horseDuration) {
+      showToast(isAr ? 'يرجى اختيار مغامرة أو رحلة أولاً لحساب التكلفة وإتمام الحجز!' : 'Please select an activity or tour first before booking!', 'error');
+      openAdventureModal();
+      return;
+    }
+
     setSubmitting(true);
     try {
       const selectedExtrasDetails = [];

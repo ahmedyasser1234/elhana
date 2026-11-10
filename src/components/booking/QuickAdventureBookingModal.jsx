@@ -390,7 +390,7 @@ export const QuickAdventureBookingModal = () => {
                   {filteredExperiences.map((exp) => {
                     const locExp = getLocalizedExperience(exp, i18n.language);
                     const title = locExp?.title || exp.title;
-                    const image = exp.images?.[0] || '/images/hero-safari.jpg';
+                    const image = exp.images?.[0] || '/images/real/atv-quad.jpg';
                     const isSelected = selectedExp?.slug === exp.slug;
 
                     return (
@@ -492,7 +492,7 @@ export const QuickAdventureBookingModal = () => {
               <div className="bg-white rounded-2xl p-4 border border-sky-200/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <img
-                    src={selectedExp.images?.[0] || '/images/hero-safari.jpg'}
+                    src={selectedExp.images?.[0] || '/images/real/atv-quad.jpg'}
                     alt={locSelectedExp?.title || selectedExp.title}
                     className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover border border-slate-200 shrink-0"
                   />

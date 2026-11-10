@@ -322,7 +322,7 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
       heroSubtitle: isAr
         ? 'استمتع بعشاء المشويات البدوية الفاخرة تحت النجوم مع عروض التنورة، الرقص الشرقي، الشاي البدوي بالأعشاب، ورصد النجوم بالتليسكوب.'
         : 'Enjoy a starlit Bedouin BBQ dinner with authentic Tanoura, belly dance shows, herbal tea, and telescope stargazing.',
-      heroImage: '/images/real/bedouin-hero.jpg',
+      heroImage: '/images/romantic/romantic-bedouin-candlelight-dinner.jpg',
       experienceSlug: 'authentic-bedouin-experience-dinner'
     },
     camel: {
@@ -467,8 +467,8 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
         images: [
           '/images/real/camel-riding-hero.jpg',
           '/images/real/camel-caravan.jpg',
-          '/images/real/bedouin-hero.jpg',
-          '/images/real/safari-sunset-tea.jpg'
+          '/images/romantic/romantic-bedouin-candlelight-dinner.jpg',
+          '/images/real/atv-quad.jpg'
         ]
       },
       extended: {
@@ -479,8 +479,8 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
         images: [
           '/images/real/camel-caravan.jpg',
           '/images/real/camel-riding-hero.jpg',
-          '/images/real/bedouin-hero.jpg',
-          '/images/real/safari-sunset-tea.jpg'
+          '/images/romantic/romantic-bedouin-candlelight-dinner.jpg',
+          '/images/real/atv-quad.jpg'
         ]
       }
     },

@@ -236,12 +236,10 @@ export const AdminBookingsPage = () => {
 
   const loadBookings = async () => {
     try { 
-      if (import.meta.env.VITE_API_BASE_URL) {
-        const bList = await adminApi.listBookings();
-        if (Array.isArray(bList) && bList.length > 0) {
-          setBookings(bList);
-          return;
-        }
+      const bList = await adminApi.listBookings();
+      if (Array.isArray(bList)) {
+        setBookings(bList);
+        return;
       }
     } catch { 
       // Client-side fallback without logging out
@@ -313,19 +311,19 @@ export const AdminBookingsPage = () => {
     try {
       const settings = JSON.parse(localStorage.getItem('admin_notification_settings') || '{}');
       setEnableTelegram(settings.enableTelegram !== false);
-      setTelegramToken(settings.telegramToken || import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '');
-      setTelegramChatId(settings.telegramChatId || import.meta.env.VITE_TELEGRAM_CHAT_ID || '');
+      setTelegramToken(settings.telegramToken || '');
+      setTelegramChatId(settings.telegramChatId || '');
       setEnableEmail(settings.enableEmail !== false);
       setAdminEmail(settings.adminEmail || 'info@elhanagroup.com');
-      setEmailjsServiceId(settings.emailjsServiceId || import.meta.env.VITE_EMAILJS_SERVICE_ID || '');
-      setEmailjsTemplateId(settings.emailjsTemplateId || import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '');
-      setEmailjsPublicKey(settings.emailjsPublicKey || import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '');
+      setEmailjsServiceId(settings.emailjsServiceId || '');
+      setEmailjsTemplateId(settings.emailjsTemplateId || '');
+      setEmailjsPublicKey(settings.emailjsPublicKey || '');
       setEnableWhatsAppApi(settings.enableWhatsAppApi || false);
       setWhatsappAdminPhone(settings.whatsappAdminPhone || '+201044790588');
       setWhatsappApiUrl(settings.whatsappApiUrl || '');
       setWhatsappApiToken(settings.whatsappApiToken || '');
       setEnableWebhook(settings.enableWebhook || false);
-      setWebhookUrl(settings.webhookUrl || import.meta.env.VITE_NOTIFICATION_WEBHOOK_URL || '');
+      setWebhookUrl(settings.webhookUrl || '');
     } catch (e) {
       console.error(e);
     }
@@ -360,10 +358,8 @@ export const AdminBookingsPage = () => {
       existingSettings.telegramChatId = telegramChatId.trim();
       existingSettings.enableTelegram = enableTelegram;
       localStorage.setItem('admin_notification_settings', JSON.stringify(existingSettings));
-      localStorage.setItem('elhana_tg_bot_token', telegramToken.trim());
-      localStorage.setItem('elhana_tg_chat_id', telegramChatId.trim());
       setTelegramTestStatus({
-        text: isAr ? 'تم حفظ إعدادات البوت بنجاح في المتصفح' : 'Telegram settings saved successfully',
+        text: isAr ? 'تم حفظ الإعدادات بنجاح!' : 'Telegram settings saved successfully',
         type: 'success'
       });
       setTimeout(() => setTelegramTestStatus({ text: '', type: '' }), 4000);
@@ -373,30 +369,21 @@ export const AdminBookingsPage = () => {
   };
 
   const handleTestTelegram = async () => {
-    if (!telegramToken.trim() || !telegramChatId.trim()) {
-      setTelegramTestStatus({
-        text: isAr ? 'يرجى إدخال رمز البوت (Bot Token) ومعرف الشات (Chat ID) أولاً' : 'Please enter Bot Token and Chat ID first',
-        type: 'error'
-      });
-      return;
-    }
     setIsTestingTelegram(true);
     setTelegramTestStatus({
-      text: isAr ? 'جاري إرسال رسالة تجريبية إلى تليجرام...' : 'Sending test message to Telegram...',
+      text: isAr ? 'جاري إرسال رسالة تجريبية إلى تليجرام عبر السيرفر الآمن...' : 'Sending test message to Telegram via secure server API...',
       type: 'info'
     });
     try {
-      const res = await testTelegramConnection(telegramToken.trim(), telegramChatId.trim());
+      const res = await testTelegramConnection();
       if (res.success) {
-        // Automatically persist valid credentials
-        handleSaveTelegramSettings();
         setTelegramTestStatus({
-          text: isAr ? 'وصلت الرسالة بنجاح! البوت يعمل ومربوط وتم الحفظ 100%' : 'Message delivered successfully! Bot is connected and saved.',
+          text: isAr ? 'وصلت الرسالة بنجاح! البوت يعمل ومربوط 100%' : 'Message delivered successfully! Bot is connected.',
           type: 'success'
         });
       } else {
         setTelegramTestStatus({
-          text: (isAr ? 'فشل الإرسال: ' : 'Failed: ') + (res.message || 'Error connecting to Telegram'),
+          text: (isAr ? 'فشل الإرسال: ' : 'Failed: ') + (res.message || 'Error connecting to Telegram. Check TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in server env.'),
           type: 'error'
         });
       }
@@ -879,8 +866,8 @@ export const AdminBookingsPage = () => {
       defaultImages: [
         '/images/real/camel-riding-hero.jpg',
         '/images/real/camel-caravan.jpg',
-        '/images/real/bedouin-hero.jpg',
-        '/images/real/safari-sunset-tea.jpg'
+        '/images/romantic/romantic-bedouin-candlelight-dinner.jpg',
+        '/images/real/atv-quad.jpg'
       ]
     },
     {
@@ -2187,7 +2174,7 @@ export const AdminBookingsPage = () => {
                         <tr key={tour.slug} className="hover:bg-slate-50/80 transition">
                           <td className="p-4 flex items-center gap-3">
                             <img 
-                              src={tour.images?.[0] || '/images/default.jpg'} 
+                              src={tour.images?.[0] || '/images/real/atv-quad.jpg'} 
                               alt="" 
                               className="w-12 h-12 rounded-xl object-cover ring-1 ring-slate-200 flex-shrink-0 shadow-xs"
                             />
@@ -2695,7 +2682,7 @@ export const AdminBookingsPage = () => {
                               }`}
                             >
                               <img 
-                                src={tour.images?.[0] || '/images/default.jpg'} 
+                                src={tour.images?.[0] || '/images/real/atv-quad.jpg'} 
                                 alt="" 
                                 className="w-12 h-12 rounded-xl object-cover ring-1 ring-slate-200 flex-shrink-0 shadow-xs"
                               />
@@ -2755,7 +2742,7 @@ export const AdminBookingsPage = () => {
                         </span>
                         <div className="aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 relative group shadow-inner">
                           <img 
-                            src={activeSelectedTour?.images?.[0] || '/images/default.jpg'} 
+                            src={activeSelectedTour?.images?.[0] || '/images/real/atv-quad.jpg'} 
                             alt="Current" 
                             className="w-full h-full object-cover"
                           />

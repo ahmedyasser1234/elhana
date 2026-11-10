@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Lock, ShieldCheck, KeyRound, Eye, EyeOff, CheckCircle2, AlertCircle, RefreshCw, ArrowRight, Mail, UserCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { verifyAdminCredentials, setCurrentAdminUser, updateAdminPassword, PRIMARY_ADMIN } from '../../services/adminUsersService';
+import { verifyAdminCredentials, setCurrentAdminUser } from '../../services/adminUsersService';
 
 export default function AdminAccess({ children }) {
   const [authenticated, setAuthenticated] = useState(() => {
     return Boolean(sessionStorage.getItem('admin_token') || localStorage.getItem('admin_token'));
   });
 
-  const [email, setEmail] = useState('ahmedyasser697@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
@@ -23,72 +23,48 @@ export default function AdminAccess({ children }) {
   const [resetMessage, setResetMessage] = useState({ text: '', type: '' });
 
   // Submit Login
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setError('');
     setLoading(true);
 
-    const verification = verifyAdminCredentials(email, password);
+    try {
+      const verification = await verifyAdminCredentials(email, password);
 
-    if (verification.success && verification.user) {
-      const token = 'local_admin_session_' + Date.now();
-      sessionStorage.setItem('admin_token', token);
-      if (rememberMe) {
-        localStorage.setItem('admin_token', token);
+      if (verification.success && verification.token) {
+        sessionStorage.setItem('admin_token', verification.token);
+        if (rememberMe) {
+          localStorage.setItem('admin_token', verification.token);
+        }
+        setCurrentAdminUser(verification.user, rememberMe);
+        setAuthenticated(true);
+        setLoading(false);
+        return;
       }
-      setCurrentAdminUser(verification.user, rememberMe);
-      setAuthenticated(true);
-      setLoading(false);
-      return;
-    }
 
-    // Invalid credentials
-    setTimeout(() => {
-      setError('بيانات الدخول غير صحيحة. يرجى التحقق من البريد الإلكتروني وكلمة المرور.');
+      setError(verification.message || 'بيانات الدخول غير صحيحة. يرجى التحقق من كلمة المرور.');
+    } catch {
+      setError('تعذر التحقق من البيانات. تأكد من تشغيل السيرفر أو صحة الاتصال.');
+    } finally {
       setLoading(false);
-    }, 300);
+    }
   }
 
-  // Handle Password Change
+  // Handle Password Change Info
   function handleResetPassword(e) {
     e.preventDefault();
-    setResetMessage({ text: '', type: '' });
-
-    const verification = verifyAdminCredentials(email, resetOldPass);
-    if (!verification.success) {
-      setResetMessage({ text: 'كلمة المرور الحالية غير صحيحة!', type: 'error' });
-      return;
-    }
-
-    if (resetNewPass.length < 6) {
-      setResetMessage({ text: 'كلمة المرور الجديدة يجب أن تكون 6 أحرف أو أرقام على الأقل.', type: 'error' });
-      return;
-    }
-
-    if (resetNewPass !== resetConfirmPass) {
-      setResetMessage({ text: 'كلمتا المرور الجديدة غير متطابقتين!', type: 'error' });
-      return;
-    }
-
-    updateAdminPassword(email, resetNewPass.trim());
-    setResetMessage({ text: 'تم تغيير كلمة المرور بنجاح! يمكنك الآن تسجيل الدخول بها.', type: 'success' });
-    setPassword(resetNewPass.trim());
-    setTimeout(() => {
-      setShowResetTab(false);
-      setResetMessage({ text: '', type: '' });
-    }, 2000);
+    setResetMessage({
+      text: 'لحماية الموقع، يتم ضبط وتغيير كلمة مرور الأدمن عبر لوحة تحكم Vercel (متغير ADMIN_PASSWORD).',
+      type: 'success'
+    });
   }
 
   // Restore Default Credentials
   function restoreDefaultCredentials() {
-    localStorage.removeItem('elhana_admin_password');
-    setEmail('ahmedyasser697@gmail.com');
-    setPassword('Ahmed123@@Ahmed');
-    setResetMessage({ text: 'تمت استعادة بيانات الأدمن الأساسي الأصلية بنجاح!', type: 'success' });
-    setTimeout(() => {
-      setShowResetTab(false);
-      setResetMessage({ text: '', type: '' });
-    }, 2000);
+    setEmail('');
+    setPassword('');
+    setShowResetTab(false);
+    setResetMessage({ text: '', type: '' });
   }
 
   if (authenticated) return children;
@@ -204,27 +180,6 @@ export default function AdminAccess({ children }) {
               <Lock className="w-4 h-4" />
               <span>{loading ? 'جارٍ التحقق...' : 'دخول إلى لوحة التحكم'}</span>
             </button>
-
-            {/* Quick Auto-Fill for Primary Admin */}
-            <div className="pt-2 text-center bg-slate-950 p-2.5 rounded-2xl border border-slate-800">
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail('ahmedyasser697@gmail.com');
-                  setPassword('Ahmed123@@Ahmed');
-                }}
-                className="w-full flex items-center justify-between text-[11px] text-slate-400 hover:text-sky-300 transition"
-              >
-                <div className="flex items-center gap-1.5">
-                  <UserCheck className="w-3.5 h-3.5 text-sky-400" />
-                  <span>الأدمن الأساسي:</span>
-                  <span className="font-mono text-sky-400 font-bold">ahmedyasser697@gmail.com</span>
-                </div>
-                <span className="text-[10px] text-sky-500 font-bold bg-sky-500/10 px-2 py-0.5 rounded-md">
-                  تعبئة تلقائية
-                </span>
-              </button>
-            </div>
 
             {/* Back to Home Link */}
             <div className="pt-3 border-t border-slate-800/80 text-center">

@@ -1,4 +1,8 @@
-// Client-side Custom Store for Prices and Photos (No Backend Required)
+// Custom Store for Prices and Photos
+// Syncs changes to backend database / object storage via authenticated API routes,
+// with local cache and instant UI events.
+
+import { experiencesApi } from './api/experiencesApi';
 
 const CUSTOM_PRICES_KEY = 'elhana_custom_prices';
 const CUSTOM_IMAGES_KEY = 'elhana_custom_images';
@@ -13,12 +17,20 @@ export const getCustomPrices = () => {
   }
 };
 
-export const saveCustomPrice = (slugOrId, price) => {
+export const saveCustomPrice = async (slugOrId, price) => {
+  const numericPrice = Number(price);
   try {
+    // 1. Local Cache for instant UI feedback
     const prices = getCustomPrices();
-    prices[slugOrId] = Number(price);
+    prices[slugOrId] = numericPrice;
     localStorage.setItem(CUSTOM_PRICES_KEY, JSON.stringify(prices));
-    window.dispatchEvent(new CustomEvent('elhana_content_updated', { detail: { type: 'price', slugOrId, price } }));
+    window.dispatchEvent(new CustomEvent('elhana_content_updated', { detail: { type: 'price', slugOrId, price: numericPrice } }));
+
+    // 2. Persist to real Database via Authenticated API
+    await experiencesApi.updateTrip(slugOrId, { startingPrice: numericPrice }).catch(err => {
+      console.warn('Database price sync error (will retry next time):', err.message);
+    });
+
     return true;
   } catch (err) {
     console.error('Failed to save custom price:', err);
@@ -46,15 +58,36 @@ export const getCustomImages = () => {
   }
 };
 
-export const saveCustomImage = (slugOrId, imageUrl, index = 0) => {
+export const saveCustomImage = async (slugOrId, imageSource, index = 0) => {
   try {
+    let finalImageUrl = imageSource;
+
+    // If it's a base64 upload, store in real Object Storage (Supabase Storage) instead of localStorage!
+    if (typeof imageSource === 'string' && imageSource.startsWith('data:image/')) {
+      try {
+        const uploadRes = await experiencesApi.uploadImage(`${slugOrId}_photo.jpg`, imageSource);
+        if (uploadRes && uploadRes.url) {
+          finalImageUrl = uploadRes.url;
+        }
+      } catch (uploadErr) {
+        console.warn('Object storage upload failed, saving URL locally:', uploadErr.message);
+      }
+    }
+
+    // 1. Local Cache
     const imagesMap = getCustomImages();
     if (!imagesMap[slugOrId]) {
       imagesMap[slugOrId] = [];
     }
-    imagesMap[slugOrId][index] = imageUrl;
+    imagesMap[slugOrId][index] = finalImageUrl;
     localStorage.setItem(CUSTOM_IMAGES_KEY, JSON.stringify(imagesMap));
-    window.dispatchEvent(new CustomEvent('elhana_content_updated', { detail: { type: 'image', slugOrId, imageUrl, index } }));
+    window.dispatchEvent(new CustomEvent('elhana_content_updated', { detail: { type: 'image', slugOrId, imageUrl: finalImageUrl, index } }));
+
+    // 2. Persist to real Database
+    await experiencesApi.updateTrip(slugOrId, { images: imagesMap[slugOrId] }).catch(err => {
+      console.warn('Database image sync error:', err.message);
+    });
+
     return true;
   } catch (err) {
     console.error('Failed to save custom image:', err);
@@ -98,7 +131,7 @@ export const getCustomGalleryImages = (key, defaultImages = []) => {
   return defaultImages;
 };
 
-export const saveCustomGalleryImages = (key, imagesArray) => {
+export const saveCustomGalleryImages = async (key, imagesArray) => {
   try {
     const galleries = getCustomGalleries();
     galleries[key] = imagesArray;
@@ -106,6 +139,10 @@ export const saveCustomGalleryImages = (key, imagesArray) => {
     window.dispatchEvent(new CustomEvent('elhana_content_updated', {
       detail: { type: 'gallery', key, images: imagesArray }
     }));
+
+    // If key is a trip slug, update DB as well
+    await experiencesApi.updateTrip(key, { images: imagesArray }).catch(() => {});
+
     return true;
   } catch (err) {
     console.error('Failed to save custom gallery:', err);

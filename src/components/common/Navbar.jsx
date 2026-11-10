@@ -137,17 +137,13 @@ export const Navbar = () => {
     <>
       {/* ── HEADER ────────────────────────────────────────────── */}
       <header
-        className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-300 transform will-change-transform ${
-          !mobileNavVisible && !mobileMenuOpen
-            ? 'max-lg:-translate-y-full max-lg:opacity-0 pointer-events-none lg:pointer-events-auto lg:translate-y-0 lg:opacity-100'
-            : 'translate-y-0 opacity-100'
-        } ${
+        className={`sticky top-0 z-[1000] w-full h-[var(--header-h)] flex items-center transition-colors duration-300 ${
           scrolled
-            ? 'bg-white/95 backdrop-blur-xl text-slate-900 shadow-lg py-2.5 border-b border-sky-100/80'
-            : 'bg-white/85 backdrop-blur-md text-slate-900 py-3 border-b border-sky-100/50'
+            ? 'bg-white/95 backdrop-blur-xl text-slate-900 shadow-md border-b border-sky-100/80'
+            : 'bg-white/90 backdrop-blur-md text-slate-900 border-b border-sky-100/50'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="flex items-center justify-between gap-4">
 
             {/* Logo */}
