@@ -21,9 +21,11 @@ export const HomePage = () => {
         description="Book premium desert safaris, ATV quad bike adventures, dune buggy tours, Bedouin sunset experiences, luxury yacht cruises, snorkeling, and diving in Sharm El Sheikh with El Hana Group."
       />
       <HeroSection />
+      {/* SECTION 2: Sticky Stacking Panels for Featured Trips */}
+      <TripStack />
+      {/* SECTION 3: Why Choose Us (With Stacking Cards on Mobile) */}
       <WhyChooseUs />
       <ServicesListSection />
-      <TripStack />
       <DesertAdventuresSection />
       <SeaAdventuresSection />
       <TransfersSection />

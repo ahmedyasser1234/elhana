@@ -32,6 +32,7 @@ export default async function handler(req, res) {
       const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(6000),
         body: JSON.stringify({
           chat_id: chat,
           text: text || '✅ Test Telegram notification from El Hana Group',
@@ -60,6 +61,7 @@ export default async function handler(req, res) {
     const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(6000),
       body: JSON.stringify({
         chat_id: chatId,
         text: cleanText,

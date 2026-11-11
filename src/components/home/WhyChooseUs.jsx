@@ -70,17 +70,15 @@ export const WhyChooseUs = () => {
           </TextMaskReveal>
         </div>
 
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        {/* Feature Cards Grid (Stacking cards on mobile under header, clean grid on desktop) */}
+        <div className="flex flex-col space-y-6 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-8">
           {features.map((feat, idx) => {
             const Icon = feat.icon;
             return (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.55, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="sticky top-[calc(var(--header-h)+1.25rem)] md:static"
+                style={{ zIndex: idx + 10 }}
               >
                 <TiltCard maxRotate={6} className="h-full">
                   <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-7 border border-slate-200/80 shadow-lg shadow-slate-100/80 hover:border-[#0284C7]/50 hover:shadow-2xl hover:shadow-[#0284C7]/10 transition-all duration-300 space-y-6 flex flex-col justify-between group h-full relative overflow-hidden">
@@ -110,7 +108,7 @@ export const WhyChooseUs = () => {
 
                   </div>
                 </TiltCard>
-              </motion.div>
+              </div>
             );
           })}
         </div>
