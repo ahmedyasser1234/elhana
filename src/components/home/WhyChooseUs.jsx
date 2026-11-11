@@ -42,12 +42,12 @@ export const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-slate-50 via-white to-sky-50/50 text-slate-800 border-b border-sky-100/70 relative overflow-hidden">
+    <section className="py-20 md:py-24 bg-gradient-to-br from-slate-50 via-white to-sky-50/50 text-slate-800 border-b border-sky-100/70 relative">
       {/* Background Glow Effects */}
       <div className="absolute top-0 left-0 w-[450px] h-[450px] bg-[#0284C7]/10 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-[#F97316]/10 rounded-full blur-[140px] pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 md:space-y-16 relative z-10">
         
         {/* Section Header */}
         <div className="space-y-4 max-w-3xl">
@@ -71,17 +71,20 @@ export const WhyChooseUs = () => {
         </div>
 
         {/* Feature Cards Grid (Stacking cards on mobile under header, clean grid on desktop) */}
-        <div className="flex flex-col space-y-6 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-8">
+        <div className="flex flex-col space-y-6 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-8 pb-8 md:pb-0">
           {features.map((feat, idx) => {
             const Icon = feat.icon;
             return (
               <div
                 key={idx}
-                className="sticky top-[calc(var(--header-h)+1.25rem)] md:static"
-                style={{ zIndex: idx + 10 }}
+                className="sticky md:static w-full transition-transform"
+                style={{
+                  top: `calc(var(--header-h) + ${16 + idx * 14}px)`,
+                  zIndex: idx + 10
+                }}
               >
                 <TiltCard maxRotate={6} className="h-full">
-                  <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-7 border border-slate-200/80 shadow-lg shadow-slate-100/80 hover:border-[#0284C7]/50 hover:shadow-2xl hover:shadow-[#0284C7]/10 transition-all duration-300 space-y-6 flex flex-col justify-between group h-full relative overflow-hidden">
+                  <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-[0_16px_40px_-12px_rgba(15,23,42,0.12)] hover:border-[#0284C7]/50 hover:shadow-2xl hover:shadow-[#0284C7]/10 transition-all duration-300 space-y-6 flex flex-col justify-between group h-full relative overflow-hidden min-h-[220px]">
                     
                     {/* Top Right Decorative Glow */}
                     <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${feat.highlight} rounded-bl-full pointer-events-none transition duration-500 group-hover:scale-125`}></div>

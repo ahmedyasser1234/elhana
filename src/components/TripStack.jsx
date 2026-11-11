@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { EXPERIENCES, getLocalizedExperience } from '../data/experiences';
 
 const pad = (n) => String(n).padStart(2, '0');
+const toWebp = (url) => (url ? url.replace(/\.(jpg|jpeg|png)$/i, '.webp') : url);
 
 const CURATED_CONFIG = [
   { slug: 'atv-quad-bike-safari', focus: 'center 40%', href: '/experience/atv-quad-bike-safari' },
@@ -46,17 +47,20 @@ export default function TripStack({ trips: customTrips }) {
             className="sticky top-[var(--header-h)] h-[calc(100svh-var(--header-h))] min-h-[480px] w-full overflow-hidden bg-neutral-200"
             style={{ zIndex: i + 1 }}
           >
-            <img
-              src={trip.image}
-              alt={trip.title}
-              width="1600"
-              height="900"
-              loading={i === 0 ? 'eager' : 'lazy'}
-              fetchPriority={i === 0 ? 'high' : 'auto'}
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-cover"
-              style={{ objectPosition: trip.focus || 'center' }}
-            />
+            <picture className="absolute inset-0 h-full w-full">
+              <source srcSet={toWebp(trip.image)} type="image/webp" />
+              <img
+                src={trip.image}
+                alt={trip.title}
+                width="1600"
+                height="900"
+                loading={i < 2 ? 'eager' : 'lazy'}
+                fetchPriority={i === 0 ? 'high' : 'auto'}
+                decoding="async"
+                className="h-full w-full object-cover"
+                style={{ objectPosition: trip.focus || 'center' }}
+              />
+            </picture>
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent md:hidden" />
             <div className={`absolute inset-x-4 bottom-6 bg-white/95 p-5 shadow-lg md:inset-x-auto md:bottom-14 md:w-[380px] md:p-8 ${side}`}>
               <p dir="ltr" className="mb-3 text-end text-xs tracking-[0.25em] text-neutral-500">

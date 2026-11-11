@@ -14,16 +14,24 @@ export async function sendTelegramMessage(text, options = {}) {
     const payload = {
       text,
       parse_mode: options.parseMode || 'HTML',
-      isTest: Boolean(options.isTest)
+      isTest: Boolean(options.isTest),
+      testToken: options.testToken,
+      testChatId: options.testChatId
     };
 
     const res = await apiClient.post('/telegram', payload);
-    return { success: res.data && !res.data.error, data: res.data };
+    const isSuccess = res.data && !res.data.error && res.data.ok !== false;
+    return {
+      success: isSuccess,
+      data: res.data,
+      message: res.data?.description || res.data?.message || (res.data?.error ? String(res.data.error) : '')
+    };
   } catch (err) {
     console.warn('Telegram notification request error:', err.message);
+    const serverMsg = err.response?.data?.description || err.response?.data?.error || err.response?.data?.message || err.message;
     return {
       success: false,
-      message: err.response?.data?.error || err.message
+      message: serverMsg
     };
   }
 }
@@ -74,12 +82,16 @@ export async function sendBookingTelegramNotification(booking) {
 /**
  * Sends a test notification to verify credentials via server
  */
-export async function testTelegramConnection() {
+export async function testTelegramConnection(token, chatId) {
   const testText = `✅ <b>اختبار ربط بوت تليجرام - مجموعة الهنا</b>
 ━━━━━━━━━━━━━━━━━━━━━
 تم اختبار الاتصال بنجاح عبر السيرفر الآمن!
 سوف تصلك الآن جميع إشعارات الحجوزات الجديدة مباشرة على هذه المحادثة فور إتمام أي عميل للحجز من الموقع.
 🕒 ${new Date().toLocaleTimeString('ar-EG')}`;
 
-  return sendTelegramMessage(testText, { isTest: true });
+  return sendTelegramMessage(testText, {
+    isTest: true,
+    testToken: token,
+    testChatId: chatId
+  });
 }

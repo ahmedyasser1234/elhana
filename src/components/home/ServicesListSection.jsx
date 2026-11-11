@@ -62,12 +62,12 @@ export const ServicesListSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-bl from-orange-50 via-white to-sky-50/60 text-slate-800 border-b border-orange-100/70 relative overflow-hidden">
+    <section className="py-20 md:py-24 bg-gradient-to-bl from-orange-50 via-white to-sky-50/60 text-slate-800 border-b border-orange-100/70 relative">
       {/* Alternating Glow: Orange Top-Right, Sky Blue Bottom-Left */}
       <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-[#F97316]/12 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-[#0284C7]/12 rounded-full blur-[140px] pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 md:space-y-16 relative z-10">
         
         {/* Header */}
         <div className="space-y-4 max-w-3xl">
@@ -85,18 +85,19 @@ export const ServicesListSection = () => {
           </TextMaskReveal>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Services Grid (Stacking cards on mobile, clean grid on desktop) */}
+        <div className="flex flex-col space-y-6 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 pb-8 md:pb-0">
           {services.map((item, idx) => (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, y: 35 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.55, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="sticky md:static w-full transition-transform"
+              style={{
+                top: `calc(var(--header-h) + ${14 + idx * 12}px)`,
+                zIndex: idx + 10
+              }}
             >
               <TiltCard maxRotate={8} className="h-full">
-                <div className="bg-white/95 backdrop-blur-md rounded-3xl p-8 border border-orange-100 shadow-md hover:border-[#F97316] hover:shadow-2xl transition-all duration-300 space-y-6 flex flex-col justify-between group h-full">
+                <div className="bg-white rounded-3xl p-7 border border-orange-100 shadow-[0_16px_40px_-12px_rgba(15,23,42,0.12)] hover:border-[#F97316] hover:shadow-2xl transition-all duration-300 space-y-6 flex flex-col justify-between group h-full">
                   <div className="space-y-4">
                     <span className="text-xs font-bold text-[#F97316] bg-[#F97316]/10 px-3 py-1 rounded-xl tracking-wider inline-block">
                       {item.num}
@@ -119,7 +120,7 @@ export const ServicesListSection = () => {
                   </div>
                 </div>
               </TiltCard>
-            </motion.div>
+            </div>
           ))}
         </div>
 

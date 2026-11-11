@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { SEOHead } from '../components/common/SEOHead';
@@ -121,6 +121,8 @@ export const AdminBookingsPage = () => {
   const [enableWebhook, setEnableWebhook] = useState(false);
   const [webhookUrl, setWebhookUrl] = useState('');
   const [saveStatus, setSaveStatus] = useState('');
+  const [isAutoSaved, setIsAutoSaved] = useState(false);
+  const settingsLoadedRef = useRef(false);
 
   // ==========================================
   // TAB 2: GUIDES MANAGEMENT STATE
@@ -326,8 +328,50 @@ export const AdminBookingsPage = () => {
       setWebhookUrl(settings.webhookUrl || '');
     } catch (e) {
       console.error(e);
+    } finally {
+      setTimeout(() => { settingsLoadedRef.current = true; }, 350);
     }
   };
+
+  // Automatic Persistence (Autosave to localStorage on every change)
+  useEffect(() => {
+    if (!settingsLoadedRef.current) return;
+    const timer = setTimeout(() => {
+      try {
+        const settings = {
+          enableTelegram,
+          telegramToken: telegramToken.trim(),
+          telegramChatId: telegramChatId.trim(),
+          enableEmail,
+          adminEmail: adminEmail.trim(),
+          emailjsServiceId,
+          emailjsTemplateId,
+          emailjsPublicKey,
+          enableWhatsAppApi,
+          whatsappAdminPhone: whatsappAdminPhone.trim(),
+          whatsappApiUrl,
+          whatsappApiToken: undefined,
+          enableWebhook,
+          webhookUrl
+        };
+        localStorage.setItem('admin_notification_settings', JSON.stringify(settings));
+        setIsAutoSaved(true);
+        setTimeout(() => setIsAutoSaved(false), 2000);
+      } catch (e) {
+        console.error('Autosave error:', e);
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [
+    enableTelegram,
+    telegramToken,
+    telegramChatId,
+    enableEmail,
+    adminEmail,
+    enableWhatsAppApi,
+    whatsappAdminPhone
+  ]);
 
   const saveSettings = () => {
     const settings = {
@@ -368,14 +412,45 @@ export const AdminBookingsPage = () => {
     }
   };
 
+  const isChatIdBotUsername = (telegramChatId || '').trim().toLowerCase().endsWith('bot');
+
   const handleTestTelegram = async () => {
+    const cleanToken = telegramToken.trim();
+    const cleanChatId = telegramChatId.trim();
+
+    if (!cleanToken) {
+      setTelegramTestStatus({
+        text: isAr ? 'يرجى إدخال رمز البوت (Bot Token) أولاً' : 'Please enter Bot Token first',
+        type: 'error'
+      });
+      return;
+    }
+
+    if (!cleanChatId) {
+      setTelegramTestStatus({
+        text: isAr ? 'يرجى إدخال معرف الشات أو القناة (Chat ID)' : 'Please enter Chat ID',
+        type: 'error'
+      });
+      return;
+    }
+
+    if (cleanChatId.toLowerCase().endsWith('bot') || (cleanChatId.startsWith('@') && cleanChatId.toLowerCase().includes('bot'))) {
+      setTelegramTestStatus({
+        text: isAr 
+          ? '⚠️ خطأ شائع: لقد وضعت اسم البوت نفسه في خانة Chat ID! البوت لا يستطيع إرسال رسائل لنفسه. الحل: 1- افتح بوت @userinfobot في تليجرام واضغط Start لتعرف رقم الـ ID الخاص بك (مثال: 123456789) وضعه هنا. 2- افتح بوتك الخاص واضغط Start مرة واحدة.' 
+          : '⚠️ Error: You entered the bot username in the Chat ID field! Bots cannot message themselves. Please use your numeric Chat ID (from @userinfobot) or add the bot as admin in a channel.',
+        type: 'error'
+      });
+      return;
+    }
+
     setIsTestingTelegram(true);
     setTelegramTestStatus({
       text: isAr ? 'جاري إرسال رسالة تجريبية إلى تليجرام عبر السيرفر الآمن...' : 'Sending test message to Telegram via secure server API...',
       type: 'info'
     });
     try {
-      const res = await testTelegramConnection();
+      const res = await testTelegramConnection(cleanToken, cleanChatId);
       if (res.success) {
         setTelegramTestStatus({
           text: isAr ? 'وصلت الرسالة بنجاح! البوت يعمل ومربوط 100%' : 'Message delivered successfully! Bot is connected.',
@@ -383,7 +458,7 @@ export const AdminBookingsPage = () => {
         });
       } else {
         setTelegramTestStatus({
-          text: (isAr ? 'فشل الإرسال: ' : 'Failed: ') + (res.message || 'Error connecting to Telegram. Check TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in server env.'),
+          text: (isAr ? 'فشل الإرسال: ' : 'Failed: ') + (res.message || 'Error connecting to Telegram. Make sure you started the bot and Chat ID is valid.'),
           type: 'error'
         });
       }
@@ -1361,10 +1436,16 @@ export const AdminBookingsPage = () => {
                     {isAr ? "إعداد قنوات التنبيهات الفورية (واتساب + تليجرام + جيميل)" : "Multi-Channel Alert Configuration"}
                   </h2>
                   <p className="text-xs text-slate-500">
-                    {isAr ? "تصلك تنبيهات الحجز الجديد لحظياً على الرقم أو القنوات المحددة." : "Get instant notifications when a guest completes a booking."}
+                    {isAr ? "تصلك تنبيهات الحجز الجديد لحظياً على الرقم أو القنوات المحددة (تُحفظ تلقائياً بمجرد الكتابة)." : "Instant notifications on new bookings (auto-saved as you type)."}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
+                  {isAutoSaved && (
+                    <span className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xs">
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      {isAr ? "تم الحفظ تلقائياً ✓" : "Auto-saved ✓"}
+                    </span>
+                  )}
                   <Button variant="primary" size="sm" onClick={saveSettings} icon={CheckCircle2}>
                     {isAr ? "حفظ الإعدادات" : "Save Channels"}
                   </Button>
@@ -1465,16 +1546,35 @@ export const AdminBookingsPage = () => {
                   </div>
 
                   <div>
-                    <label className="text-[11px] text-slate-600 block mb-1">
-                      {isAr ? "معرف الشات أو القناة (Chat ID) *" : "Chat ID or Channel Username *"}
-                    </label>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-[11px] text-slate-600 block">
+                        {isAr ? "معرف الشات أو القناة (Chat ID) *" : "Chat ID or Channel Username *"}
+                      </label>
+                      <a 
+                        href="https://t.me/userinfobot" 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="text-[10px] text-sky-600 hover:underline font-bold"
+                      >
+                        {isAr ? "معرفة الـ Chat ID؟" : "Get Chat ID?"}
+                      </a>
+                    </div>
                     <input 
                       type="text" 
                       value={telegramChatId} 
                       onChange={(e) => setTelegramChatId(e.target.value)} 
-                      placeholder={isAr ? "مثال: @my_bookings أو 123456789" : "e.g. @my_channel or 123456789"}
-                      className="w-full bg-white border border-slate-300 text-slate-900 rounded-xl px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-sky-500" 
+                      placeholder={isAr ? "رقم الـ ID مثل 123456789" : "e.g. 123456789 or @channel"}
+                      className={`w-full bg-white border text-slate-900 rounded-xl px-3 py-1.5 text-xs font-mono focus:outline-none ${
+                        isChatIdBotUsername ? 'border-rose-400 focus:border-rose-500 bg-rose-50/40 text-rose-800' : 'border-slate-300 focus:border-sky-500'
+                      }`}
                     />
+                    {isChatIdBotUsername && (
+                      <p className="mt-1.5 text-[11px] text-rose-600 font-bold leading-tight">
+                        {isAr 
+                          ? "⚠️ تنبيه: لقد كتبت اسم البوت (@...Bot)! البوت لا يمكنه مراسلة نفسه. ضع رقم معرفك الشخصي (مثل 123456789) واضغط Start في بوتك أولاً."
+                          : "⚠️ Warning: You entered the bot username! Enter your numeric Chat ID."}
+                      </p>
+                    )}
                   </div>
 
                   <div className="pt-1 flex gap-2">

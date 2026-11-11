@@ -21,18 +21,18 @@ export default async function handler(req, res) {
     if (isTest) {
       const admin = isAuthenticatedAdmin(req);
       if (!admin) {
-        return res.status(401).json({ error: 'Unauthorized test request' });
+        return res.status(401).json({ error: 'Unauthorized test request. Please login to admin dashboard.' });
       }
-      const token = testToken || process.env.TELEGRAM_BOT_TOKEN;
-      const chat = testChatId || process.env.TELEGRAM_CHAT_ID;
+      const token = (testToken || process.env.TELEGRAM_BOT_TOKEN || '').trim();
+      const chat = (testChatId || process.env.TELEGRAM_CHAT_ID || '').trim();
       if (!token || !chat) {
-        return res.status(400).json({ error: 'Telegram Bot Token and Chat ID must be configured in environment.' });
+        return res.status(400).json({ error: 'يرجى إدخال رمز البوت (Bot Token) ومعرف الشات (Chat ID).' });
       }
 
       const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        signal: AbortSignal.timeout(6000),
+        signal: AbortSignal.timeout(8000),
         body: JSON.stringify({
           chat_id: chat,
           text: text || '✅ Test Telegram notification from El Hana Group',
@@ -40,7 +40,13 @@ export default async function handler(req, res) {
         })
       });
       const data = await tgRes.json();
-      return res.status(tgRes.ok ? 200 : tgRes.status).json(data);
+      if (!tgRes.ok || !data.ok) {
+        return res.status(400).json({
+          error: data.description || 'فشل إرسال الرسالة عبر تليجرام.',
+          description: data.description
+        });
+      }
+      return res.status(200).json(data);
     }
 
     // Standard notification (server-only env vars, never from client body)
