@@ -126,7 +126,7 @@ export const Footer = () => {
                 target="_blank"
                 rel="noreferrer"
                 className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#25D366] hover:border-[#25D366] transition duration-300"
-                title="واتساب: 01044790588"
+                title="واتساب: 01037118060"
               >
                 <MessageCircle className="w-4 h-4" />
               </a>

@@ -72,7 +72,7 @@ export const ContactUsPage = () => {
                   </div>
                   <div>
                     <div className="font-bold text-emerald-300 group-hover:text-emerald-200">{isAr ? "واتساب مباشر للحجز" : "WhatsApp Direct Booking"}</div>
-                    <div className="text-[11px] text-slate-200 font-semibold font-mono" dir="ltr">{WHATSAPP_DISPLAY} (+201044790588)</div>
+                    <div className="text-[11px] text-slate-200 font-semibold font-mono" dir="ltr">{WHATSAPP_DISPLAY} (+201037118060)</div>
                   </div>
                 </a>
 

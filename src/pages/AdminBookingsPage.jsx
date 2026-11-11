@@ -115,7 +115,7 @@ export const AdminBookingsPage = () => {
   const [emailjsTemplateId, setEmailjsTemplateId] = useState('');
   const [emailjsPublicKey, setEmailjsPublicKey] = useState('');
   const [enableWhatsAppApi, setEnableWhatsAppApi] = useState(false);
-  const [whatsappAdminPhone, setWhatsappAdminPhone] = useState('+201044790588');
+  const [whatsappAdminPhone, setWhatsappAdminPhone] = useState('+201037118060');
   const [whatsappApiUrl, setWhatsappApiUrl] = useState('');
   const [whatsappApiToken, setWhatsappApiToken] = useState('');
   const [enableWebhook, setEnableWebhook] = useState(false);
@@ -321,7 +321,7 @@ export const AdminBookingsPage = () => {
       setEmailjsTemplateId(settings.emailjsTemplateId || '');
       setEmailjsPublicKey(settings.emailjsPublicKey || '');
       setEnableWhatsAppApi(settings.enableWhatsAppApi || false);
-      setWhatsappAdminPhone(settings.whatsappAdminPhone || '+201044790588');
+      setWhatsappAdminPhone(settings.whatsappAdminPhone || '+201037118060');
       setWhatsappApiUrl(settings.whatsappApiUrl || '');
       setWhatsappApiToken(settings.whatsappApiToken || '');
       setEnableWebhook(settings.enableWebhook || false);

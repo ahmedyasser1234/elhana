@@ -20,7 +20,7 @@ const DEFAULT_ORGANIZATION_SCHEMA = {
     },
     {
       "@type": "ContactPoint",
-      "telephone": "+201044790588",
+      "telephone": "+201037118060",
       "contactType": "WhatsApp Booking & Inquiries",
       "areaServed": "World",
       "availableLanguage": ["Arabic", "English", "Russian"]
