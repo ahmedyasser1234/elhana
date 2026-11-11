@@ -33,8 +33,8 @@ export const FinalCTA = () => {
   ];
 
   return (
-    <section className="py-8 sm:py-12 bg-transparent relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-12 md:py-16 bg-slate-950 relative">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         
         {/* Luxury Hero Card Container - Compact & Visible Photo */}
         <motion.div
@@ -160,7 +160,7 @@ export const FinalCTA = () => {
         </motion.div>
 
       </div>
-    </section>
+    </div>
   );
 };
 

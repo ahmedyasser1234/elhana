@@ -26,7 +26,7 @@ export const WhatsAppButton = ({ message, label, variant = "floating", className
 
   if (variant === "floating") {
     return (
-      <div className="fixed bottom-6 left-6 z-50 group select-none">
+      <div className="fixed bottom-6 left-6 z-[1050] group select-none">
         {/* Tooltip with Brand Styling */}
         <div className="absolute bottom-full left-0 mb-3 hidden group-hover:flex items-center gap-2 bg-slate-900/95 backdrop-blur-md text-white text-xs font-bold px-3.5 py-2 rounded-2xl shadow-2xl border border-emerald-500/30 whitespace-nowrap animate-in fade-in slide-in-from-bottom-2">
           <span className="w-2 h-2 rounded-full bg-[#25D366] animate-ping"></span>

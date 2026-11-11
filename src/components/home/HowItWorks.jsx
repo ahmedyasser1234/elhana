@@ -13,7 +13,7 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-sky-50 via-white to-orange-50/60 text-slate-800 border-b border-sky-100/70 relative overflow-hidden">
+    <div className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-12 md:py-16 bg-gradient-to-br from-sky-50 via-white to-orange-50/60 text-slate-800 relative">
       {/* Alternating Glow: Sky Blue Top-Left */}
       <div className="absolute top-0 left-0 w-[450px] h-[450px] bg-[#0284C7]/12 rounded-full blur-[140px] pointer-events-none"></div>
 
@@ -52,7 +52,7 @@ export const HowItWorks = () => {
         </div>
 
       </div>
-    </section>
+    </div>
   );
 };
 

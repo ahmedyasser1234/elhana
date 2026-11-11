@@ -9,7 +9,7 @@ export const Footer = () => {
   const isAr = i18n.language === 'ar';
 
   return (
-    <footer className="bg-gradient-to-br from-sky-50/90 via-white to-orange-50/80 text-slate-800 pt-16 pb-12 border-t border-sky-200/70 relative overflow-hidden">
+    <footer className="relative z-[100] bg-white bg-gradient-to-br from-sky-50/90 via-white to-orange-50/80 text-slate-800 pt-16 pb-12 border-t border-sky-200/70 overflow-hidden shadow-[0_-16px_40px_-12px_rgba(15,23,42,0.14)]">
       {/* Ambient Light Glow Accents (Sky Blue & Orange) */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0284C7]/10 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none"></div>

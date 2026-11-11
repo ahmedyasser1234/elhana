@@ -21,7 +21,7 @@ export const SeaAdventuresSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-sky-100/70 via-cyan-50/50 to-orange-50/60 text-slate-900 border-b border-sky-200/60 relative overflow-hidden">
+    <div className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-12 md:py-16 bg-gradient-to-br from-sky-100/70 via-cyan-50/50 to-orange-50/60 text-slate-900 relative">
       {/* Alternating Glow: Sky Blue Top-Left */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[550px] h-[550px] bg-[#0284C7]/15 rounded-full blur-[150px] pointer-events-none"></div>
 
@@ -106,7 +106,7 @@ export const SeaAdventuresSection = () => {
 
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

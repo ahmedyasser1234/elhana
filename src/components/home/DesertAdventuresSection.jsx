@@ -21,7 +21,7 @@ export const DesertAdventuresSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-bl from-orange-100/70 via-amber-50/50 to-sky-50/60 text-slate-900 border-b border-orange-200/60 relative z-[100] overflow-hidden">
+    <div className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-12 md:py-16 bg-gradient-to-bl from-orange-100/70 via-amber-50/50 to-sky-50/60 text-slate-900 relative">
       {/* Alternating Glow: Sunset Orange Top-Right */}
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[550px] h-[550px] bg-[#F97316]/15 rounded-full blur-[150px] pointer-events-none"></div>
 
@@ -102,7 +102,7 @@ export const DesertAdventuresSection = () => {
 
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -71,7 +71,7 @@ function AppContent() {
     <div className={`min-h-screen flex flex-col justify-between bg-slate-50 text-slate-900 font-sans selection:bg-[#0284C7] selection:text-white ${isAdminRoute ? 'h-screen overflow-hidden' : ''}`}>
       <ScrollToTop />
       {!isAdminRoute && <Navbar />}
-      <main className={isAdminRoute ? "h-screen w-screen overflow-hidden flex flex-col" : "flex-grow"}>
+      <div className={isAdminRoute ? "h-screen w-screen overflow-hidden flex flex-col" : "flex-grow"}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -117,7 +117,7 @@ function AppContent() {
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
-      </main>
+      </div>
       {!isAdminRoute && <Footer />}
       {!isAdminRoute && <WhatsAppButton />}
       {!isAdminRoute && <QuickAdventureBookingModal />}

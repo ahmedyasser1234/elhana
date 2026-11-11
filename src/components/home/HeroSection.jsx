@@ -51,12 +51,15 @@ export const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-[calc(100svh-var(--header-h))] flex flex-col justify-between py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-slate-900">
+    <div className="relative min-h-[calc(100svh-var(--header-h))] flex flex-col justify-between py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-slate-900 w-full">
       {/* 1. REAL PHOTO BACKGROUND - SOFT DARK SLATE SHADOW FOR ULTRA READABILITY */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
           src="/images/real/polaris-buggy-family.jpg"
           alt="El Hana Group Buggy Safari Background"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = '/images/real/atv-quad-hero.png';
@@ -309,7 +312,7 @@ export const HeroSection = () => {
           </div>
         )}
       </AnimatePresence>
-    </section>
+    </div>
   );
 };
 

@@ -15,7 +15,7 @@ export const TransfersSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-bl from-orange-50 via-white to-sky-50/60 text-slate-800 border-b border-orange-100/70 relative overflow-hidden">
+    <div className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-12 md:py-16 bg-gradient-to-bl from-orange-50 via-white to-sky-50/60 text-slate-800 relative">
       {/* Alternating Glow: Sunset Orange Top-Right */}
       <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-[#F97316]/12 rounded-full blur-[140px] pointer-events-none"></div>
 
@@ -65,7 +65,7 @@ export const TransfersSection = () => {
         </div>
 
       </div>
-    </section>
+    </div>
   );
 };
 

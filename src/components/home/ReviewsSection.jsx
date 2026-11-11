@@ -180,7 +180,7 @@ export const ReviewsSection = () => {
   }, []);
 
   return (
-    <section className="py-24 bg-gradient-to-b from-slate-50 via-sky-50/30 to-white text-slate-800 border-b border-sky-100 relative overflow-hidden">
+    <div className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-12 md:py-16 bg-gradient-to-b from-slate-50 via-sky-50/30 to-white text-slate-800 relative">
       {/* Decorative background glow */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0284C7]/6 rounded-full blur-[150px] pointer-events-none"></div>
 
@@ -285,7 +285,7 @@ export const ReviewsSection = () => {
         </div>
 
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -42,7 +42,7 @@ export const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="py-20 md:py-24 bg-gradient-to-br from-slate-50 via-white to-sky-50/50 text-slate-800 border-b border-sky-100/70 relative">
+    <div className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-12 md:py-16 bg-gradient-to-br from-slate-50 via-white to-sky-50/50 text-slate-800 relative">
       {/* Background Glow Effects */}
       <div className="absolute top-0 left-0 w-[450px] h-[450px] bg-[#0284C7]/10 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-[#F97316]/10 rounded-full blur-[140px] pointer-events-none"></div>
@@ -117,7 +117,7 @@ export const WhyChooseUs = () => {
         </div>
 
       </div>
-    </section>
+    </div>
   );
 };
 

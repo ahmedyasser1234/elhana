@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { EXPERIENCES, getLocalizedExperience } from '../data/experiences';
+import StackSection from './StackSection';
 
 const pad = (n) => String(n).padStart(2, '0');
 const toWebp = (url) => (url ? url.replace(/\.(jpg|jpeg|png)$/i, '.webp') : url);
@@ -14,7 +15,7 @@ const CURATED_CONFIG = [
   { slug: 'dahab-blue-hole-canyon-trip', focus: 'center 55%', href: '/experience/dahab-blue-hole-canyon-trip' }
 ];
 
-export default function TripStack({ trips: customTrips }) {
+export default function TripStack({ startIndex = 1, trips: customTrips }) {
   const { t, i18n } = useTranslation();
 
   // If trips not passed as props, resolve the 5 curated featured trips with current locale
@@ -26,6 +27,7 @@ export default function TripStack({ trips: customTrips }) {
       const localized = getLocalizedExperience(found, i18n.language);
       return {
         id: found.id,
+        slug: found.slug,
         title: localized.title,
         subtitle: localized.shortDescription,
         image: found.images && found.images.length > 0 ? found.images[0] : '/images/real/atv-quad.jpg',
@@ -38,14 +40,18 @@ export default function TripStack({ trips: customTrips }) {
   const total = trips.length;
 
   return (
-    <section className="relative" aria-label={t('trips.stackLabel', 'Our trips')}>
+    <>
       {trips.map((trip, i) => {
         const side = i % 2 === 1 ? 'md:end-14' : 'md:start-14';
+        const globalIndex = startIndex + i;
         return (
-          <article
+          <StackSection
             key={trip.id}
-            className="sticky top-[var(--header-h)] h-[calc(100svh-var(--header-h))] min-h-[480px] w-full overflow-hidden bg-neutral-200"
-            style={{ zIndex: i + 1 }}
+            as="article"
+            index={globalIndex}
+            id={`trip-${trip.slug}`}
+            bg="bg-neutral-900"
+            className="h-[calc(100svh-var(--header-h))] relative"
           >
             <picture className="absolute inset-0 h-full w-full">
               <source srcSet={toWebp(trip.image)} type="image/webp" />
@@ -54,40 +60,43 @@ export default function TripStack({ trips: customTrips }) {
                 alt={trip.title}
                 width="1600"
                 height="900"
-                loading={i < 2 ? 'eager' : 'lazy'}
-                fetchPriority={i === 0 ? 'high' : 'auto'}
+                loading="lazy"
                 decoding="async"
                 className="h-full w-full object-cover"
                 style={{ objectPosition: trip.focus || 'center' }}
               />
             </picture>
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent md:hidden" />
-            <div className={`absolute inset-x-4 bottom-6 bg-white/95 p-5 shadow-lg md:inset-x-auto md:bottom-14 md:w-[380px] md:p-8 ${side}`}>
-              <p dir="ltr" className="mb-3 text-end text-xs tracking-[0.25em] text-neutral-500">
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent md:hidden" />
+            <div className={`absolute inset-x-4 bottom-6 bg-white/95 backdrop-blur-md p-5 sm:p-6 shadow-2xl rounded-2xl md:inset-x-auto md:bottom-14 md:w-[380px] md:p-8 ${side}`}>
+              <p dir="ltr" className="mb-2 text-end text-xs tracking-[0.25em] text-neutral-500 font-mono">
                 {pad(i + 1)} / {pad(total)}
               </p>
-              <h2 className="text-2xl font-semibold leading-tight text-neutral-900 md:text-4xl">{trip.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-neutral-600 md:text-base">{trip.subtitle}</p>
-              <Link
-                to={trip.href}
-                className="mt-5 inline-flex min-h-11 items-center justify-center border border-neutral-900 px-6 text-sm font-medium text-neutral-900 transition hover:bg-neutral-900 hover:text-white"
-              >
-                {t('trips.view', 'عرض الرحلة')}
-              </Link>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight text-neutral-900 font-heading">
+                {trip.title}
+              </h2>
+              <p className="mt-2 text-xs sm:text-sm leading-relaxed text-neutral-600 line-clamp-3 md:line-clamp-none">
+                {trip.subtitle}
+              </p>
+              <div className="mt-4 flex items-center justify-between gap-4">
+                <Link
+                  to={trip.href}
+                  className="inline-flex min-h-10 sm:min-h-11 items-center justify-center border border-neutral-900 px-5 sm:px-6 text-xs sm:text-sm font-semibold text-neutral-900 transition hover:bg-neutral-900 hover:text-white rounded-xl"
+                >
+                  {t('trips.view', 'عرض الرحلة')}
+                </Link>
+                {i === total - 1 && (
+                  <Link
+                    to="/experiences"
+                    className="text-xs font-bold text-[#0284C7] hover:underline"
+                  >
+                    {t('trips.viewAll', 'عرض جميع الرحلات')} →
+                  </Link>
+                )}
+              </div>
             </div>
-          </article>
+          </StackSection>
         );
       })}
-
-      {/* Section transition footer with z-[100] so it slides OVER the last panel */}
-      <div className="relative z-[100] bg-white py-12 px-4 text-center border-b border-neutral-200">
-        <Link
-          to="/experiences"
-          className="inline-flex min-h-11 items-center justify-center border border-neutral-900 px-8 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-900 hover:text-white"
-        >
-          {t('trips.viewAll', 'عرض جميع الرحلات')}
-        </Link>
-      </div>
-    </section>
+    </>
   );
 }

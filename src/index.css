@@ -26,6 +26,7 @@
 /* Prevent horizontal scrolling at every level */
 html {
   width: 100%;
+  scroll-padding-top: var(--header-h);
   /* NOTE: DO NOT set overflow-x:hidden on html — it breaks fixed overlays */
 }
 

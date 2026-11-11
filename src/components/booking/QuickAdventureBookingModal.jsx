@@ -507,7 +507,7 @@ export const QuickAdventureBookingModal = () => {
                       {isAr ? 'السعر الأساسي:' : 'Base price:'}{' '}
                       <span className="font-extrabold text-slate-900">{formatPrice(selectedExp.startingPrice || 15)}</span>
                       {' • '}
-                      <span>{locExp?.duration || selectedExp.duration}</span>
+                      <span>{locSelectedExp?.duration || selectedExp.duration}</span>
                     </p>
                   </div>
                 </div>
