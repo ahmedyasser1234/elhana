@@ -1,13 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Quote, CheckCircle2, QrCode, MessageSquarePlus } from 'lucide-react';
+import { 
+  Star, 
+  Quote, 
+  CheckCircle2, 
+  QrCode, 
+  MessageSquarePlus, 
+  ChevronLeft, 
+  ChevronRight,
+  Filter,
+  Eye,
+  Grid3X3,
+  Sparkles
+} from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 const DEFAULT_REVIEWS = [
   {
     id: 1,
     name: "Alexey Vasilyev",
-    country: "Russia",
+    country: "Russia 🇷🇺",
     date: "Aug 2026",
     rating: 5,
     tour: "سفاري بيتش باجي وعشاء بدوي",
@@ -25,7 +37,7 @@ const DEFAULT_REVIEWS = [
   {
     id: 2,
     name: "Giulia Mancini",
-    country: "Italy",
+    country: "Italy 🇮🇹",
     date: "Sep 2026",
     rating: 5,
     tour: "يخت الجزيرة البيضاء ورأس محمد",
@@ -43,7 +55,7 @@ const DEFAULT_REVIEWS = [
   {
     id: 3,
     name: "Thomas Becker",
-    country: "Germany",
+    country: "Germany 🇩🇪",
     date: "Jul 2026",
     rating: 5,
     tour: "غوص رأس محمد والسنوركلينج",
@@ -61,7 +73,7 @@ const DEFAULT_REVIEWS = [
   {
     id: 4,
     name: "سارة عبد الرحمن",
-    country: "Saudi Arabia",
+    country: "Saudi Arabia 🇸🇦",
     date: "Sep 2026",
     rating: 5,
     tour: "رحلة دهب والبلو هول",
@@ -79,7 +91,7 @@ const DEFAULT_REVIEWS = [
   {
     id: 5,
     name: "David Miller",
-    country: "United Kingdom",
+    country: "United Kingdom 🇬🇧",
     date: "Aug 2026",
     rating: 5,
     tour: "رحلة صعود جبل موسى وسانت كاترين",
@@ -97,7 +109,7 @@ const DEFAULT_REVIEWS = [
   {
     id: 6,
     name: "Elena Rostova",
-    country: "Ukraine",
+    country: "Ukraine 🇺🇦",
     date: "Oct 2026",
     rating: 5,
     tour: "سفاري باجي الرمال السريع",
@@ -115,7 +127,7 @@ const DEFAULT_REVIEWS = [
   {
     id: 7,
     name: "محمد الشمري",
-    country: "Kuwait",
+    country: "Kuwait 🇰🇼",
     date: "Sep 2026",
     rating: 5,
     tour: "يخت VIP خاص ورحلة عائلية",
@@ -133,7 +145,7 @@ const DEFAULT_REVIEWS = [
   {
     id: 8,
     name: "Camille Laurent",
-    country: "France",
+    country: "France 🇫🇷",
     date: "Aug 2026",
     rating: 5,
     tour: "باراسيلينج وألعاب مائية بالبحر",
@@ -147,6 +159,150 @@ const DEFAULT_REVIEWS = [
       es: "¡El parasailing sobre la bahía fue alucinante! Vistas increíbles y máxima seguridad."
     },
     avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    id: 9,
+    name: "عبد الله الدوسري",
+    country: "Saudi Arabia 🇸🇦",
+    date: "Oct 2026",
+    rating: 5,
+    tour: "سهرة بدوية وعشاء تحت النجوم",
+    tourEn: "Bedouin Dinner & Stargazing",
+    text: {
+      ar: "أجواء البدو والضيافة والخبز الطازج كانت خيالية. التلسكوب ورؤية كواكب وفضاء شرم الشيخ شيء أذهل أولادي. خدمة ممتازة.",
+      en: "Authentic Bedouin hospitality and warm bread under the stars. The telescope view of Saturn amazed my kids. Outstanding!",
+      ru: "Аутентичный бедуинский ужин под звездами. Телескоп поразил детей. Великолепный сервис.",
+      it: "Autentica ospitalità beduina e cena sotto le stelle. I bambini sono rimasti estasiati dal telescopio.",
+      de: "Authentische Beduinen-Gastfreundschaft und Sternegucken. Ein magischer Abend für die ganze Familie.",
+      es: "Hospitalidad beduina única y cena bajo las estrellas. Ver los planetas con telescopio fue inolvidable."
+    },
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    id: 10,
+    name: "Marco Bianchi",
+    country: "Italy 🇮🇹",
+    date: "Aug 2026",
+    rating: 4,
+    tour: "رحلة وادي الوشواشي ونويبع",
+    tourEn: "Wishwashi Canyon & Nuweiba Safari",
+    text: {
+      ar: "رحلة مغامرة حقيقية ومسبح الوشواشي الطبيعي بين الجبال تحفة. المشي في الوادي يحتاج حذاء رياضي مريح، التجربة تستحق كل دقيقة.",
+      en: "True canyon adventure! The natural pool between rocks is a hidden gem. Good hiking shoes recommended.",
+      ru: "Настоящее приключение в каньоне Вишваши. Природный бассейн потрясающий. Нужна удобная обувь.",
+      it: "Una vera avventura nel canyon! La piscina naturale tra le rocce è stupenda. Consiglio scarpe adatte.",
+      de: "Tolles Abenteuer im Wishwashi-Canyon! Feste Schuhe sind ratsam, aber der Pool ist atemberaubend.",
+      es: "¡Aventura salvaje en el cañón! La piscina natural entre las rocas es mágica. Muy recomendado."
+    },
+    avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    id: 11,
+    name: "Olga Ivanova",
+    country: "Russia 🇷🇺",
+    date: "Sep 2026",
+    rating: 5,
+    tour: "غوص تمهيدي للمبتدئين (إنترو)",
+    tourEn: "Introductory Scuba Diving",
+    text: {
+      ar: "أول مرة أغوص في حياتي وكنت خائفة جداً، لكن المدرب كان هادئاً ورافقني خطوة بخطوة حتى شاهدت السلاحف والشعاب. شعور لا يوصف!",
+      en: "First time diving and I was nervous, but the instructor was patient and guided me step by step. Saw turtles and corals!",
+      ru: "Первое погружение в жизни! Инструктор был очень терпеливым и спокойным. Видела черепах и рифы!",
+      it: "Prima volta che facevo immersioni. Istruttore bravissimo e rassicurante. Ho visto tartarughe bellissime.",
+      de: "Mein erster Tauchgang überhaupt. Großartiger Tauchlehrer, der mir alle Ängste genommen hat.",
+      es: "Mi primer buceo. El instructor fue paciente y me cuidó todo el tiempo. ¡Vi tortugas y corales!"
+    },
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    id: 12,
+    name: "Lukas Weber",
+    country: "Germany 🇩🇪",
+    date: "Oct 2026",
+    rating: 4,
+    tour: "سفاري الكواد بايك وقت الغروب",
+    tourEn: "Sunset ATV Quad Safari",
+    text: {
+      ar: "منظر الغروب في وادي الصدى ساحر، والسرعة بالبيتش باجي كانت ممتازة. التنظيم مرتب جداً وتمنيت لو استمرت الجولة ساعة إضافية.",
+      en: "Sunset at Echo Canyon was stunning. Quad bikes had good power and safety. Would have loved an extra hour!",
+      ru: "Закат в каньоне эха великолепен. Квадроциклы быстрые и надежные. Хотелось кататься еще дольше!",
+      it: "Il tramonto nel canyon degli echi è magico. I quad erano potenti e sicuri. Ottima esperienza.",
+      de: "Der Sonnenuntergang im Echo-Canyon war fantastisch. Die Quads waren in Top-Zustand.",
+      es: "El atardecer en el cañón fue espectacular. Los quads corrían muy bien y el guía fue muy amable."
+    },
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    id: 13,
+    name: "مريم الكعبي",
+    country: "Qatar 🇶🇦",
+    date: "Oct 2026",
+    rating: 5,
+    tour: "باقة VIP يخت خاص للعرسان",
+    tourEn: "VIP Private Yacht Honeymoon",
+    text: {
+      ar: "شكر خاص للأستاذ أحمد وفريق الهنا على تنسيق الورود والعشاء الرومانسي على متن اليخت. كانت مفاجأة العمر لزوجي ولن ننساها أبداً.",
+      en: "Special thanks to the team for arranging the romantic yacht setup and fresh flowers. Best honeymoon surprise ever!",
+      ru: "Огромное спасибо за организацию романтического вечера на яхте с цветами и ужином. Незабываемо!",
+      it: "Grazie di cuore per aver allestito lo yacht per il nostro anniversario. Cena a lume di candela perfetta.",
+      de: "Vielen Dank für das romantische Yacht-Arrangement mit Blumen und Kerzenlicht. Ein Traum!",
+      es: "Una sorpresa inolvidable en el yate privado con cena romántica. Atención de diez estrellas."
+    },
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    id: 14,
+    name: "John & Emma Davies",
+    country: "United Kingdom 🇬🇧",
+    date: "Jul 2026",
+    rating: 5,
+    tour: "عرض الدلافين والسباحة مع الدلفين",
+    tourEn: "Dolphin Show & Swim Experience",
+    text: {
+      ar: "السباحة مع الدلافين كانت أسعد لحظة لأطفالي في شرم الشيخ. السائق أخذنا من باب الفندق وأعادنا مباشرة، دقة متناهية.",
+      en: "Swimming with dolphins was the highlight of our family holiday. Punctual private hotel transfers made it stress-free.",
+      ru: "Плавание с дельфинами стало главным впечатлением поездки для детей. Трансфер минута в минуту.",
+      it: "Nuotare con i delfini è stato il momento più bello per i nostri figli. Tutto organizzato nei dettagli.",
+      de: "Das Schwimmen mit Delfinen war das Highlight unseres Urlaubs. Pünktlicher und sauberer Transfer.",
+      es: "Nadar con delfines fue maravilloso para los niños. Transporte puntual y personal muy atento."
+    },
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    id: 15,
+    name: "تركي القحطاني",
+    country: "Saudi Arabia 🇸🇦",
+    date: "Aug 2026",
+    rating: 5,
+    tour: "سفاري كومبو: باجي + جمال + عشاء",
+    tourEn: "Super Desert Combo Adventure",
+    text: {
+      ar: "سعر مناسب جداً مقابل برنامج متكامل وخدمة VIP حقيقية بدون استغلال أو مصاريف مخفية. الدفع كاش وقت الاستلام يعطيك ثقة وراحة بال.",
+      en: "Superb value for money, honest pricing with zero hidden fees. Paying cash upon pickup gave total peace of mind.",
+      ru: "Отличная цена за полный пакет без скрытых доплат. Оплата наличными при посадке — это очень удобно.",
+      it: "Ottimo rapporto qualità prezzo, nessun costo nascosto. Pagare in contanti al pickup è comodissimo.",
+      de: "Faire Preise ohne versteckte Gebühren. Bezahlung erst bei Abholung am Hotel — absolut vertrauenswürdig.",
+      es: "Excelente relación calidad-precio y sin sorpresas. Pagamos en efectivo al llegar el coche."
+    },
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    id: 16,
+    name: "Anna Kowalska",
+    country: "Poland 🇵🇱",
+    date: "Sep 2026",
+    rating: 4,
+    tour: "جولة ركوب الخيل العربي الأصيل",
+    tourEn: "Arabian Horse Riding on Beach",
+    text: {
+      ar: "الخيول نظيفة ومدربة جيداً وركوب الخيل وقت الشروق على الشاطئ رومانسي جداً. المدرب كان لطيفاً والتقط لنا صوراً رائعة.",
+      en: "Well-cared horses and peaceful sunrise beach ride. The trainer took gorgeous photos for us.",
+      ru: "Ухоженные арабские лошади и прогулка на рассвете вдоль моря. Инструктор сделал нам классные фото.",
+      it: "Cavalli stupendi e passeggiata sulla spiaggia all'alba. L'istruttore ci ha fatto bellissime foto.",
+      de: "Wunderschöne Pferde und ein friedlicher Ritt am Strand bei Sonnenaufgang. Tolle Fotos!",
+      es: "Caballos muy bien cuidados y paseo al amanecer junto al mar. Nos tomaron fotos espectaculares."
+    },
+    avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face"
   }
 ];
 
@@ -154,61 +310,352 @@ export const ReviewsSection = () => {
   const { currentLang } = useLanguage();
   const lang = currentLang || 'en';
   const isAr = lang === 'ar';
-  const [allReviews, setAllReviews] = useState(DEFAULT_REVIEWS);
 
+  const [allReviews, setAllReviews] = useState(DEFAULT_REVIEWS);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [selectedRating, setSelectedRating] = useState('all');
+  const [showAll, setShowAll] = useState(false);
+
+  // Touch swipe support for mobile
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const minSwipeDistance = 45;
+
+  // Load any user reviews submitted locally
   useEffect(() => {
     try {
       const localReviews = JSON.parse(localStorage.getItem('userReviews') || '[]');
       if (localReviews.length > 0) {
-        // Merge customer submitted reviews at top
         const mappedLocal = localReviews.map(r => ({
-          id: r.id,
-          name: r.name || 'عميل مسافر',
-          country: r.country || 'International',
+          id: r.id || `local-${Date.now()}-${Math.random()}`,
+          name: r.name || (isAr ? 'عميل مسافر' : 'Verified Traveler'),
+          country: r.country || (isAr ? 'نزيل فندقي' : 'Hotel Guest'),
           date: r.date || '2026',
-          rating: r.rating || 5,
-          tour: r.tourTitle || 'رحلة ممتعة مع الهنا',
+          rating: Number(r.rating) || 5,
+          tour: r.tourTitle || (isAr ? 'رحلة ممتعة مع الهنا' : 'El Hana Excursion'),
           tourEn: r.tourTitle || 'El Hana Excursion',
           text: r.text || { ar: r.comment || '', en: r.comment || '' },
-          avatar: r.avatar || `https://i.pravatar.cc/150?u=${r.id}`
+          avatar: r.avatar || `https://i.pravatar.cc/150?u=${r.id || 'guest'}`
         }));
         setAllReviews([...mappedLocal, ...DEFAULT_REVIEWS]);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Local reviews load error:", err);
     }
+  }, [isAr]);
+
+  // Responsive itemsPerPage:
+  // Desktop (>= 1024px): 4 cards per row
+  // Tablet (640px - 1023px): 2 cards
+  // Mobile (< 640px): 1 card per row
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setItemsPerPage(4);
+      } else if (window.innerWidth >= 640) {
+        setItemsPerPage(2);
+      } else {
+        setItemsPerPage(1);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  return (
-    <div className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-12 md:py-16 bg-gradient-to-b from-slate-50 via-sky-50/30 to-white text-slate-800 relative">
-      {/* Decorative background glow */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0284C7]/6 rounded-full blur-[150px] pointer-events-none"></div>
+  // Calculate dynamic rating breakdown: 5★, 4★, 3★, 2★, 1★
+  const ratingStats = useMemo(() => {
+    const total = allReviews.length || 1;
+    const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    let sumScore = 0;
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
+    allReviews.forEach(r => {
+      const rating = Math.min(5, Math.max(1, Math.round(Number(r.rating) || 5)));
+      counts[rating] = (counts[rating] || 0) + 1;
+      sumScore += rating;
+    });
+
+    const average = (sumScore / total).toFixed(1);
+
+    const breakdown = [5, 4, 3, 2, 1].map(star => {
+      const count = counts[star] || 0;
+      const percentage = Math.round((count / total) * 100);
+      return {
+        star,
+        count,
+        percentage
+      };
+    });
+
+    return {
+      total,
+      counts,
+      average,
+      breakdown
+    };
+  }, [allReviews]);
+
+  // Filter reviews by star rating if user clicked a star filter
+  const filteredReviews = useMemo(() => {
+    if (selectedRating === 'all') return allReviews;
+    return allReviews.filter(r => Math.round(Number(r.rating) || 5) === Number(selectedRating));
+  }, [allReviews, selectedRating]);
+
+  // Reset pagination when filter or showAll changes
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [selectedRating, showAll, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredReviews.length / itemsPerPage);
+
+  // Paginated reviews to render
+  const displayedReviews = useMemo(() => {
+    if (showAll) return filteredReviews;
+    const start = currentPage * itemsPerPage;
+    return filteredReviews.slice(start, start + itemsPerPage);
+  }, [filteredReviews, showAll, currentPage, itemsPerPage]);
+
+  const handlePrev = () => {
+    if (totalPages <= 1) return;
+    setCurrentPage((prev) => (prev > 0 ? prev - 1 : totalPages - 1));
+  };
+
+  const handleNext = () => {
+    if (totalPages <= 1) return;
+    setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
+  };
+
+  // Touch event handlers for mobile swiping
+  const onTouchStartHandler = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMoveHandler = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEndHandler = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    // In RTL: swipe right goes to previous, swipe left goes to next
+    if (isAr) {
+      if (isLeftSwipe) handleNext();
+      if (isRightSwipe) handlePrev();
+    } else {
+      if (isLeftSwipe) handleNext();
+      if (isRightSwipe) handlePrev();
+    }
+  };
+
+  const NextIcon = isAr ? ChevronLeft : ChevronRight;
+  const PrevIcon = isAr ? ChevronRight : ChevronLeft;
+
+  return (
+    <div className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-10 md:py-16 bg-gradient-to-b from-slate-50 via-sky-50/25 to-white text-slate-800 relative">
+      {/* Decorative background glow */}
+      <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-[#0284C7]/6 rounded-full blur-[140px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-[350px] h-[350px] bg-amber-400/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8 md:space-y-10">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-100/90 text-[#0284C7] text-xs font-bold uppercase tracking-wider border border-sky-200 shadow-xs">
-            <CheckCircle2 className="w-4 h-4" />
+            <CheckCircle2 className="w-4 h-4 text-[#0284C7]" />
             <span>{isAr ? 'تقييمات موثقة من ضيوفنا' : 'Verified Traveler Reviews'}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 font-heading tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-slate-900 font-heading tracking-tight">
             {isAr ? 'ماذا يقول ' : 'What '} 
             <span className="text-[#0284C7]">{isAr ? 'عملاؤنا' : 'Travelers'}</span> 
             {isAr ? ' عنا؟' : ' Say'}
           </h2>
 
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+          <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed font-normal">
             {isAr 
-              ? 'نفتخر برسم الابتسامة على وجوه المسافرين من أكثر من 50 دولة حول العالم ونقل ذكريات لا تُنسى في شرم الشيخ.'
-              : 'We take pride in bringing smiles to travelers from across the globe and delivering unforgettable memories in Sharm El Sheikh.'}
+              ? 'تقييمات حقيقية وتجارب موثقة من مسافري وعائلات أكثر من 50 دولة قضوْا أجمل لحظاتهم معنا في شرم الشيخ وجنوب سيناء.'
+              : 'Authentic verified reviews from travelers and families across 50+ countries who experienced Sharm El Sheikh with us.'}
           </p>
         </div>
 
-        {/* Multi-Card Grid (3-4 cards per row) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {allReviews.map((rev) => {
+        {/* Rating Breakdown & Summary Card */}
+        <div className="bg-white rounded-3xl p-5 sm:p-7 md:p-8 border border-slate-200/90 shadow-sm shadow-slate-100/60">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+            
+            {/* Overall Score Badge (Left/Top) */}
+            <div className="lg:col-span-4 text-center lg:text-start flex flex-col items-center lg:items-start justify-center space-y-3 lg:border-e lg:border-slate-100 lg:pe-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <span>{isAr ? 'تقييم امتياز 5 نجوم' : '5-Star Excellence Rating'}</span>
+              </div>
+
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 font-heading tracking-tight">
+                  {ratingStats.average}
+                </span>
+                <span className="text-slate-400 text-base sm:text-lg font-bold">/ 5.0</span>
+              </div>
+
+              {/* Gold Star Icons */}
+              <div className="flex items-center gap-1 text-amber-400">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+
+              <p className="text-xs text-slate-500 font-medium">
+                {isAr 
+                  ? `بناءً على ${ratingStats.total} تقييماً موثقاً من مسافرينا`
+                  : `Based on ${ratingStats.total} verified traveler reviews`}
+              </p>
+
+              {/* Active Filter Indicator */}
+              {selectedRating !== 'all' && (
+                <button
+                  onClick={() => setSelectedRating('all')}
+                  className="inline-flex items-center gap-1.5 text-xs text-[#0284C7] hover:text-[#0369A1] font-bold pt-1 underline cursor-pointer"
+                >
+                  <Filter className="w-3.5 h-3.5" />
+                  <span>{isAr ? 'إلغاء التصفية وعرض الكل' : 'Clear filter (Show all)'}</span>
+                </button>
+              )}
+            </div>
+
+            {/* Dynamic Star Distribution Bars (Right/Bottom) */}
+            <div className="lg:col-span-8 space-y-2.5 sm:space-y-3">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-600 pb-1">
+                <span>{isAr ? 'تفاصيل التقييمات حسب النجوم:' : 'Rating Distribution:'}</span>
+                <span className="text-[11px] text-slate-400 font-normal">
+                  {isAr ? '(اضغط على أي تقييم لتصفيته)' : '(Click any star to filter)'}
+                </span>
+              </div>
+
+              {ratingStats.breakdown.map((row) => {
+                const isSelected = String(selectedRating) === String(row.star);
+
+                return (
+                  <button
+                    key={row.star}
+                    type="button"
+                    onClick={() => setSelectedRating(isSelected ? 'all' : row.star)}
+                    className={`w-full flex items-center gap-3 sm:gap-4 p-2 sm:p-2.5 rounded-2xl transition-all cursor-pointer text-start ${
+                      isSelected 
+                        ? 'bg-amber-50/80 ring-2 ring-amber-400 border border-amber-200' 
+                        : 'hover:bg-slate-50 border border-transparent'
+                    }`}
+                  >
+                    {/* Star Label */}
+                    <div className="flex items-center gap-1 w-20 sm:w-24 shrink-0 text-xs font-extrabold text-slate-800">
+                      <span>{row.star}</span>
+                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 shrink-0" />
+                      <span className="text-slate-500 font-medium text-[11px]">
+                        {isAr ? 'نجوم' : 'Stars'}
+                      </span>
+                    </div>
+
+                    {/* Progress Bar Track */}
+                    <div className="flex-1 bg-slate-100 rounded-full h-3 sm:h-3.5 overflow-hidden relative shadow-inner">
+                      <div
+                        className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-500 ease-out"
+                        style={{ width: `${row.percentage}%` }}
+                      />
+                    </div>
+
+                    {/* Count & Percentage */}
+                    <div className="w-20 sm:w-24 text-end shrink-0 flex items-center justify-end gap-1.5 font-mono text-xs">
+                      <span className="font-bold text-slate-900">{row.count}</span>
+                      <span className="text-slate-400 text-[10px]">({row.percentage}%)</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+          </div>
+        </div>
+
+        {/* Controls Bar: Mode Toggle + Pagination Arrows */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
+          {/* Status info */}
+          <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
+            <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>
+              {isAr
+                ? `عرض ${displayedReviews.length} من أصل ${filteredReviews.length} تقييم`
+                : `Showing ${displayedReviews.length} of ${filteredReviews.length} reviews`}
+            </span>
+            {selectedRating !== 'all' && (
+              <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold">
+                {selectedRating} {isAr ? 'نجوم فقط' : 'Stars only'}
+              </span>
+            )}
+          </div>
+
+          {/* Controls: Prev / Next / Toggle View More */}
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
+            
+            {/* Toggle Show All / Paginate */}
+            <button
+              type="button"
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition shadow-2xs cursor-pointer"
+            >
+              {showAll ? (
+                <>
+                  <Grid3X3 className="w-3.5 h-3.5 text-[#0284C7]" />
+                  <span>{isAr ? 'عرض بالصفحات (4 بالسطر)' : 'Paginated View (4/row)'}</span>
+                </>
+              ) : (
+                <>
+                  <Eye className="w-3.5 h-3.5 text-[#0284C7]" />
+                  <span>{isAr ? 'عرض الكل' : 'View All'}</span>
+                </>
+              )}
+            </button>
+
+            {/* Pagination Navigation Arrows (Shown in paginated mode) */}
+            {!showAll && totalPages > 1 && (
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  aria-label={isAr ? "السابق" : "Previous"}
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-[#0284C7] border border-slate-200 hover:border-sky-300 flex items-center justify-center transition shadow-2xs cursor-pointer active:scale-95"
+                >
+                  <PrevIcon className="w-5 h-5" />
+                </button>
+
+                <div className="px-2.5 py-1.5 text-xs font-bold font-mono text-slate-700 bg-white border border-slate-200 rounded-xl min-w-[70px] text-center select-none shadow-2xs">
+                  {currentPage + 1} / {totalPages}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  aria-label={isAr ? "التالي" : "Next"}
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-[#0284C7] border border-slate-200 hover:border-sky-300 flex items-center justify-center transition shadow-2xs cursor-pointer active:scale-95"
+                >
+                  <NextIcon className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 4 Reviews in 1 Row on Desktop (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`) */}
+        <div 
+          onTouchStart={onTouchStartHandler}
+          onTouchMove={onTouchMoveHandler}
+          onTouchEnd={onTouchEndHandler}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 transition-all duration-300"
+        >
+          {displayedReviews.map((rev) => {
             const reviewComment = typeof rev.text === 'object' 
               ? (rev.text[lang] || rev.text['ar'] || rev.text['en']) 
               : rev.text;
@@ -216,11 +663,11 @@ export const ReviewsSection = () => {
             return (
               <div
                 key={rev.id}
-                className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-[#0284C7]/40 transition-all duration-300 flex flex-col justify-between space-y-4 group relative"
+                className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-[#0284C7]/40 transition-all duration-300 flex flex-col justify-between space-y-4 group relative"
               >
                 <div className="space-y-3 relative">
                   <div className="flex items-center justify-between">
-                    {/* 5 Golden Stars */}
+                    {/* Golden Stars matching rating */}
                     <div className="flex items-center gap-0.5 text-amber-400">
                       {[...Array(rev.rating || 5)].map((_, i) => (
                         <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
@@ -265,11 +712,30 @@ export const ReviewsSection = () => {
           })}
         </div>
 
+        {/* Pagination Dots (for quick navigation) */}
+        {!showAll && totalPages > 1 && (
+          <div className="flex items-center justify-center gap-1.5 pt-2">
+            {[...Array(totalPages)].map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setCurrentPage(idx)}
+                aria-label={`Go to page ${idx + 1}`}
+                className={`transition-all duration-300 rounded-full cursor-pointer ${
+                  currentPage === idx 
+                    ? 'w-7 h-2.5 bg-[#0284C7]' 
+                    : 'w-2.5 h-2.5 bg-slate-200 hover:bg-slate-300'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+
         {/* Bottom CTA Row: Add Review / QR */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
           <Link
             to="/leave-review"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-extrabold transition shadow-md shadow-sky-600/20"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-extrabold transition shadow-md shadow-sky-600/20 active:scale-95"
           >
             <MessageSquarePlus className="w-4 h-4" />
             <span>{isAr ? 'أضف تقييمك لرحلتك الآن' : 'Leave a Tour Review'}</span>
@@ -277,7 +743,7 @@ export const ReviewsSection = () => {
 
           <Link
             to="/qr"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-extrabold transition shadow-2xs"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-extrabold transition shadow-2xs active:scale-95"
           >
             <QrCode className="w-4 h-4 text-[#0284C7]" />
             <span>{isAr ? 'مركز رموز QR للتقييم' : 'QR Review Center'}</span>
