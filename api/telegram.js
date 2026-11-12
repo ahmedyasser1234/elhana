@@ -1,4 +1,5 @@
 import { isAuthenticatedAdmin } from './_auth.js';
+import { getTelegramCredentials } from './_store.js';
 
 export default async function handler(req, res) {
   // CORS
@@ -23,8 +24,11 @@ export default async function handler(req, res) {
       if (!admin) {
         return res.status(401).json({ error: 'Unauthorized test request. Please login to admin dashboard.' });
       }
-      const token = (testToken || process.env.TELEGRAM_BOT_TOKEN || '').trim();
-      const chat = (testChatId || process.env.TELEGRAM_CHAT_ID || '').trim();
+      
+      const { token: defaultToken, chatId: defaultChat } = await getTelegramCredentials();
+      const token = (testToken || defaultToken || process.env.TELEGRAM_BOT_TOKEN || '').trim();
+      const chat = (testChatId || defaultChat || process.env.TELEGRAM_CHAT_ID || '').trim();
+
       if (!token || !chat) {
         return res.status(400).json({ error: 'يرجى إدخال رمز البوت (Bot Token) ومعرف الشات (Chat ID).' });
       }
@@ -49,13 +53,12 @@ export default async function handler(req, res) {
       return res.status(200).json(data);
     }
 
-    // Standard notification (server-only env vars, never from client body)
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    // Standard notification (from env vars OR dashboard store)
+    const { token: botToken, chatId, enabled } = await getTelegramCredentials();
 
-    if (!botToken || !chatId) {
-      console.warn('Telegram notifications skipped: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set.');
-      return res.status(200).json({ skipped: true, message: 'Telegram credentials not configured in server environment.' });
+    if (!enabled || !botToken || !chatId) {
+      console.warn('Telegram notifications skipped: credentials not set or disabled.');
+      return res.status(200).json({ skipped: true, message: 'Telegram credentials not configured in server environment or dashboard.' });
     }
 
     if (!text || typeof text !== 'string') {
@@ -78,6 +81,7 @@ export default async function handler(req, res) {
     const data = await tgRes.json();
     return res.status(tgRes.ok ? 200 : tgRes.status).json(data);
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error('Telegram notification error:', err);
+    return res.status(500).json({ error: 'Failed to dispatch Telegram message', details: err.message });
   }
 }

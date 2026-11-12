@@ -79,6 +79,7 @@ import {
   Sun,
   Moon,
   Menu,
+  Copy,
   X
 } from 'lucide-react';
 import { 
@@ -122,6 +123,10 @@ export const AdminBookingsPage = () => {
   const [webhookUrl, setWebhookUrl] = useState('');
   const [saveStatus, setSaveStatus] = useState('');
   const [isAutoSaved, setIsAutoSaved] = useState(false);
+  const [bookingStatusFilter, setBookingStatusFilter] = useState('all'); // 'all' | 'confirmed' | 'completed' | 'cancelled'
+  const [copiedRef, setCopiedRef] = useState(null);
+  const [showTelegramGuide, setShowTelegramGuide] = useState(false);
+  const priceDebounceTimers = useRef({});
   const settingsLoadedRef = useRef(false);
 
   // ==========================================
@@ -309,9 +314,19 @@ export const AdminBookingsPage = () => {
     }, 2000);
   };
 
-  const loadSettings = () => {
+  const loadSettings = async () => {
     try {
-      const settings = JSON.parse(localStorage.getItem('admin_notification_settings') || '{}');
+      let serverSettings = null;
+      try {
+        serverSettings = await adminApi.getSettings();
+      } catch {
+        // serverless fallback
+      }
+      const localSettings = JSON.parse(localStorage.getItem('admin_notification_settings') || '{}');
+      const settings = (serverSettings && typeof serverSettings === 'object' && Object.keys(serverSettings).length > 0)
+        ? { ...localSettings, ...serverSettings }
+        : localSettings;
+
       setEnableTelegram(settings.enableTelegram !== false);
       setTelegramToken(settings.telegramToken || '');
       setTelegramChatId(settings.telegramChatId || '');
@@ -333,10 +348,10 @@ export const AdminBookingsPage = () => {
     }
   };
 
-  // Automatic Persistence (Autosave to localStorage on every change)
+  // Automatic Persistence (Autosave to localStorage & server on every change)
   useEffect(() => {
     if (!settingsLoadedRef.current) return;
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
       try {
         const settings = {
           enableTelegram,
@@ -355,12 +370,13 @@ export const AdminBookingsPage = () => {
           webhookUrl
         };
         localStorage.setItem('admin_notification_settings', JSON.stringify(settings));
+        adminApi.saveSettings(settings).catch(() => {});
         setIsAutoSaved(true);
         setTimeout(() => setIsAutoSaved(false), 2000);
       } catch (e) {
         console.error('Autosave error:', e);
       }
-    }, 400);
+    }, 450);
 
     return () => clearTimeout(timer);
   }, [
@@ -373,37 +389,43 @@ export const AdminBookingsPage = () => {
     whatsappAdminPhone
   ]);
 
-  const saveSettings = () => {
+  const saveSettings = async () => {
     const settings = {
       enableTelegram,
       telegramToken: telegramToken.trim(),
       telegramChatId: telegramChatId.trim(),
       enableEmail,
-      adminEmail,
+      adminEmail: adminEmail.trim(),
       emailjsServiceId,
       emailjsTemplateId,
       emailjsPublicKey,
       enableWhatsAppApi,
-      whatsappAdminPhone,
+      whatsappAdminPhone: whatsappAdminPhone.trim(),
       whatsappApiUrl,
       whatsappApiToken: undefined,
       enableWebhook,
       webhookUrl
     };
     localStorage.setItem('admin_notification_settings', JSON.stringify(settings));
+    try {
+      await adminApi.saveSettings(settings);
+    } catch {
+      // ignore
+    }
     setSaveStatus(isAr ? 'تم حفظ إعدادات جميع القنوات بنجاح!' : 'All channel notification settings saved successfully!');
     setTimeout(() => setSaveStatus(''), 4000);
   };
 
-  const handleSaveTelegramSettings = () => {
+  const handleSaveTelegramSettings = async () => {
     try {
       const existingSettings = JSON.parse(localStorage.getItem('admin_notification_settings') || '{}');
       existingSettings.telegramToken = telegramToken.trim();
       existingSettings.telegramChatId = telegramChatId.trim();
       existingSettings.enableTelegram = enableTelegram;
       localStorage.setItem('admin_notification_settings', JSON.stringify(existingSettings));
+      await adminApi.saveSettings(existingSettings).catch(() => {});
       setTelegramTestStatus({
-        text: isAr ? 'تم حفظ الإعدادات بنجاح!' : 'Telegram settings saved successfully',
+        text: isAr ? 'تم حفظ إعدادات تليجرام بنجاح!' : 'Telegram settings saved successfully',
         type: 'success'
       });
       setTimeout(() => setTelegramTestStatus({ text: '', type: '' }), 4000);
@@ -412,7 +434,12 @@ export const AdminBookingsPage = () => {
     }
   };
 
-  const isChatIdBotUsername = (telegramChatId || '').trim().toLowerCase().endsWith('bot');
+  const isChatIdBotUsername = Boolean(
+    telegramChatId && (
+      telegramChatId.trim().toLowerCase().endsWith('bot') || 
+      telegramChatId.trim().startsWith('@')
+    )
+  );
 
   const handleTestTelegram = async () => {
     const cleanToken = telegramToken.trim();
@@ -420,7 +447,7 @@ export const AdminBookingsPage = () => {
 
     if (!cleanToken) {
       setTelegramTestStatus({
-        text: isAr ? 'يرجى إدخال رمز البوت (Bot Token) أولاً' : 'Please enter Bot Token first',
+        text: isAr ? 'يرجى إدخال رمز البوت (Bot Token) أولاً من @BotFather' : 'Please enter Bot Token first',
         type: 'error'
       });
       return;
@@ -437,7 +464,7 @@ export const AdminBookingsPage = () => {
     if (cleanChatId.toLowerCase().endsWith('bot') || (cleanChatId.startsWith('@') && cleanChatId.toLowerCase().includes('bot'))) {
       setTelegramTestStatus({
         text: isAr 
-          ? '⚠️ خطأ شائع: لقد وضعت اسم البوت نفسه في خانة Chat ID! البوت لا يستطيع إرسال رسائل لنفسه. الحل: 1- افتح بوت @userinfobot في تليجرام واضغط Start لتعرف رقم الـ ID الخاص بك (مثال: 123456789) وضعه هنا. 2- افتح بوتك الخاص واضغط Start مرة واحدة.' 
+          ? '⚠️ خطأ شائع: لقد وضعت اسم البوت نفسه (@...Bot) في خانة Chat ID! تليجرام لا يسمح للبوت بمراسلة نفسه. الحل: 1- افتح بوت @userinfobot في تليجرام واضغط Start لتعرف رقم الـ ID الخاص بك (مثال: 123456789) وضعه هنا. 2- افتح بوتك الخاص واضغط Start مرة واحدة.' 
           : '⚠️ Error: You entered the bot username in the Chat ID field! Bots cannot message themselves. Please use your numeric Chat ID (from @userinfobot) or add the bot as admin in a channel.',
         type: 'error'
       });
@@ -453,12 +480,26 @@ export const AdminBookingsPage = () => {
       const res = await testTelegramConnection(cleanToken, cleanChatId);
       if (res.success) {
         setTelegramTestStatus({
-          text: isAr ? 'وصلت الرسالة بنجاح! البوت يعمل ومربوط 100%' : 'Message delivered successfully! Bot is connected.',
+          text: isAr ? '✅ وصلت الرسالة بنجاح! البوت يعمل ومربوط 100%' : 'Message delivered successfully! Bot is connected.',
           type: 'success'
         });
       } else {
+        let msg = res.message || '';
+        if (msg.includes('chat not found')) {
+          msg = isAr 
+            ? 'لم يتم العثور على المحادثة! تأكد أنك فتحت البوت الخاص بك في تليجرام وضغطت /start أولاً، وأن رقم Chat ID هو رقمك من @userinfobot.'
+            : 'Chat not found. Click /start in your bot first, and ensure Chat ID is numeric.';
+        } else if (msg.includes('blocked by the user')) {
+          msg = isAr
+            ? 'البوت محظور من قبلك في تليجرام! افتح محادثة البوت واضغط إلغاء الحظر أو /start.'
+            : 'Bot is blocked by the user. Unblock it in Telegram.';
+        } else if (msg.includes('Unauthorized')) {
+          msg = isAr
+            ? 'رمز البوت (Bot Token) غير صالح! تأكد من نسخه بالكامل من @BotFather دون مسافات زائدة.'
+            : 'Unauthorized bot token.';
+        }
         setTelegramTestStatus({
-          text: (isAr ? 'فشل الإرسال: ' : 'Failed: ') + (res.message || 'Error connecting to Telegram. Make sure you started the bot and Chat ID is valid.'),
+          text: (isAr ? 'فشل الإرسال: ' : 'Failed: ') + msg,
           type: 'error'
         });
       }
@@ -471,6 +512,54 @@ export const AdminBookingsPage = () => {
       setIsTestingTelegram(false);
       setTimeout(() => setTelegramTestStatus({ text: '', type: '' }), 8000);
     }
+  };
+
+  const handleDeleteSingleBooking = async (idOrRef) => {
+    if (!confirm(isAr ? 'هل تريد حذف هذا الحجز نهائياً؟' : 'Delete this booking?')) return;
+    try {
+      await adminApi.deleteBooking(idOrRef);
+    } catch {
+      // fallback
+    }
+    const updated = bookings.filter(b => b.id !== idOrRef && b.bookingRef !== idOrRef && b.bookingReference !== idOrRef);
+    setBookings(updated);
+    localStorage.setItem('elhana_local_bookings', JSON.stringify(updated));
+  };
+
+  const handleUpdateBookingStatus = async (idOrRef, newStatus) => {
+    try {
+      await adminApi.updateBookingStatus(idOrRef, newStatus);
+    } catch {
+      // fallback
+    }
+    const updated = bookings.map(b => {
+      if (b.id === idOrRef || b.bookingRef === idOrRef || b.bookingReference === idOrRef) {
+        return { ...b, status: newStatus };
+      }
+      return b;
+    });
+    setBookings(updated);
+    localStorage.setItem('elhana_local_bookings', JSON.stringify(updated));
+  };
+
+  const handleCopyBookingDetails = (b) => {
+    const ref = b.bookingRef || b.bookingReference || 'N/A';
+    const text = [
+      `🌴 مجموعة الهنا للرحلات والسفاري - إيصال حجز #${ref}`,
+      `━━━━━━━━━━━━━━━━━━━━━`,
+      `الرحلة: ${b.itemTitle || ''}`,
+      `الموعد: ${b.date || ''} (${b.timeSlot || ''})`,
+      `العميل: ${b.leadTraveler?.fullName || ''}`,
+      `الهاتف / واتساب: ${b.leadTraveler?.whatsapp || b.leadTraveler?.phone || ''}`,
+      `الفندق: ${b.leadTraveler?.hotelName || '-'}`,
+      `العدد: ${b.adults || 1} كبار ${b.children > 0 ? `+ ${b.children} أطفال` : ''}`,
+      `الإجمالي: $${b.totalPrice || 0} USD (${b.paymentMethod === 'cash_arrival' ? 'كاش عند الوصول' : 'إلكتروني'})`,
+      `الحالة: ${b.status === 'completed' ? 'مكتمل' : b.status === 'cancelled' ? 'ملغي' : 'مؤكد'}`,
+      `━━━━━━━━━━━━━━━━━━━━━`
+    ].join('\n');
+    navigator.clipboard?.writeText(text);
+    setCopiedRef(ref);
+    setTimeout(() => setCopiedRef(null), 2500);
   };
 
   const clearLogs = async () => {
@@ -584,6 +673,20 @@ export const AdminBookingsPage = () => {
       ...prev,
       [slug]: value
     }));
+
+    const num = Number(value);
+    if (!isNaN(num) && num > 0) {
+      if (priceDebounceTimers.current[slug]) {
+        clearTimeout(priceDebounceTimers.current[slug]);
+      }
+      priceDebounceTimers.current[slug] = setTimeout(() => {
+        saveCustomPrice(slug, num);
+        setPriceSaveSuccess(prev => ({ ...prev, [slug]: true }));
+        setTimeout(() => {
+          setPriceSaveSuccess(prev => ({ ...prev, [slug]: false }));
+        }, 2000);
+      }, 700);
+    }
   };
 
   const handleSaveSinglePrice = (slug) => {
@@ -726,14 +829,16 @@ export const AdminBookingsPage = () => {
     }));
   };
 
-  // Filter Bookings
+  // Filter Bookings by Search & Status
   const filteredBookings = bookings.filter(b => {
     const search = searchTerm.toLowerCase();
     const name = (b.leadTraveler?.fullName || '').toLowerCase();
     const hotel = (b.leadTraveler?.hotelName || '').toLowerCase();
     const ref = (b.bookingRef || b.bookingReference || '').toLowerCase();
     const title = (b.itemTitle || '').toLowerCase();
-    return name.includes(search) || hotel.includes(search) || ref.includes(search) || title.includes(search);
+    const matchesSearch = !searchTerm || name.includes(search) || hotel.includes(search) || ref.includes(search) || title.includes(search);
+    const matchesStatus = bookingStatusFilter === 'all' || (b.status || 'confirmed') === bookingStatusFilter;
+    return matchesSearch && matchesStatus;
   });
 
   // Categories Translation Map
@@ -1547,18 +1652,50 @@ export const AdminBookingsPage = () => {
 
                   <div>
                     <div className="flex items-center justify-between mb-1">
-                      <label className="text-[11px] text-slate-600 block">
+                      <label className="text-[11px] text-slate-600 block font-bold">
                         {isAr ? "معرف الشات أو القناة (Chat ID) *" : "Chat ID or Channel Username *"}
                       </label>
-                      <a 
-                        href="https://t.me/userinfobot" 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        className="text-[10px] text-sky-600 hover:underline font-bold"
+                      <button
+                        type="button"
+                        onClick={() => setShowTelegramGuide(!showTelegramGuide)}
+                        className="text-[10px] text-sky-600 hover:text-sky-800 underline font-bold cursor-pointer"
                       >
-                        {isAr ? "معرفة الـ Chat ID؟" : "Get Chat ID?"}
-                      </a>
+                        {showTelegramGuide ? (isAr ? "إخفاء الدليل" : "Hide Guide") : (isAr ? "💡 كيف أحصل على Chat ID؟" : "How to get Chat ID?")}
+                      </button>
                     </div>
+
+                    {showTelegramGuide && (
+                      <div className="mb-2 p-3 bg-sky-50 border border-sky-200 rounded-xl text-xs text-slate-700 space-y-1.5 leading-relaxed">
+                        <div className="font-bold text-sky-900 flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-sky-600" />
+                          <span>{isAr ? "خطوات ربط بوت تليجرام في 30 ثانية:" : "Quick 30-sec Setup:"}</span>
+                        </div>
+                        <ol className="list-decimal list-inside space-y-1 text-[11px] text-slate-600 font-medium">
+                          <li>
+                            {isAr ? (
+                              <span>افتح بوت <a href="https://t.me/userinfobot" target="_blank" rel="noreferrer" className="text-sky-700 font-bold underline">@userinfobot</a> في تليجرام واضغط <b>Start</b>؛ سيعطيك رقم الـ <b>Id</b> الخاص بك (أرقام فقط مثل <code>54321098</code>).</span>
+                            ) : (
+                              <span>Open <a href="https://t.me/userinfobot" target="_blank" rel="noreferrer" className="underline">@userinfobot</a>, press <b>Start</b> to get your numeric ID.</span>
+                            )}
+                          </li>
+                          <li>
+                            {isAr ? (
+                              <span>افتح البوت الخاص بك الذي أنشأته واضغط <b>Start</b> (ضروري جداً ليسمح له تليجرام بمراسلتك).</span>
+                            ) : (
+                              <span>Open your own bot and click <b>Start</b> to allow it to message you.</span>
+                            )}
+                          </li>
+                          <li>
+                            {isAr ? (
+                              <span>الصق رقم الـ Id هنا في خانة Chat ID واضغط «إرسال رسالة تجريبية» للتأكد.</span>
+                            ) : (
+                              <span>Paste the numeric ID into Chat ID and click Test.</span>
+                            )}
+                          </li>
+                        </ol>
+                      </div>
+                    )}
+
                     <input 
                       type="text" 
                       value={telegramChatId} 
@@ -1617,20 +1754,100 @@ export const AdminBookingsPage = () => {
               </div>
             </div>
 
-            {/* Bookings Search & Header */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="relative w-full sm:w-80">
-                <Search className="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-3 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder={isAr ? "بحث بالاسم، الفندق، رقم الحجز..." : "Search name, hotel, ref..."}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-2xl pr-10 pl-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 shadow-xs"
-                />
+            {/* Top Stats Overview */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-1">
+                <span className="text-[11px] font-bold text-slate-400 block">{isAr ? "إجمالي الحجوزات" : "Total Bookings"}</span>
+                <div className="text-2xl font-black text-slate-900 font-heading">{bookings.length}</div>
               </div>
-              <div className="text-xs text-slate-500">
-                {isAr ? `عرض ${filteredBookings.length} من إجمالي ${bookings.length} حجز` : `Showing ${filteredBookings.length} of ${bookings.length} bookings`}
+              <div className="bg-white p-4 rounded-2xl border border-emerald-100 bg-emerald-50/30 shadow-xs space-y-1">
+                <span className="text-[11px] font-bold text-emerald-600 block">{isAr ? "الحجوزات المؤكدة" : "Confirmed"}</span>
+                <div className="text-2xl font-black text-emerald-700 font-heading">
+                  {bookings.filter(b => (b.status || 'confirmed') === 'confirmed').length}
+                </div>
+              </div>
+              <div className="bg-white p-4 rounded-2xl border border-sky-100 bg-sky-50/30 shadow-xs space-y-1">
+                <span className="text-[11px] font-bold text-sky-600 block">{isAr ? "المكتملة" : "Completed"}</span>
+                <div className="text-2xl font-black text-sky-700 font-heading">
+                  {bookings.filter(b => b.status === 'completed').length}
+                </div>
+              </div>
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-1">
+                <span className="text-[11px] font-bold text-slate-400 block">{isAr ? "إجمالي المبيعات" : "Total Revenue"}</span>
+                <div className="text-2xl font-black text-slate-900 font-heading">
+                  ${bookings.reduce((sum, b) => sum + (Number(b.totalPrice) || 0), 0)} <span className="text-xs font-bold text-slate-400">USD</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Filter Pills & Search Header */}
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-white p-4 rounded-3xl border border-slate-200 shadow-xs">
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                <button
+                  type="button"
+                  onClick={() => setBookingStatusFilter('all')}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                    bookingStatusFilter === 'all'
+                      ? 'bg-slate-900 text-white shadow-xs'
+                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
+                  }`}
+                >
+                  {isAr ? "جميع الحجوزات" : "All"} ({bookings.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBookingStatusFilter('confirmed')}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                    bookingStatusFilter === 'confirmed'
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'bg-slate-50 text-emerald-700 hover:bg-emerald-50 border border-slate-200'
+                  }`}
+                >
+                  {isAr ? "المؤكدة" : "Confirmed"} ({bookings.filter(b => (b.status || 'confirmed') === 'confirmed').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBookingStatusFilter('completed')}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                    bookingStatusFilter === 'completed'
+                      ? 'bg-sky-600 text-white shadow-xs'
+                      : 'bg-slate-50 text-sky-700 hover:bg-sky-50 border border-slate-200'
+                  }`}
+                >
+                  {isAr ? "المكتملة" : "Completed"} ({bookings.filter(b => b.status === 'completed').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBookingStatusFilter('cancelled')}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                    bookingStatusFilter === 'cancelled'
+                      ? 'bg-rose-600 text-white shadow-xs'
+                      : 'bg-slate-50 text-rose-700 hover:bg-rose-50 border border-slate-200'
+                  }`}
+                >
+                  {isAr ? "الملغية" : "Cancelled"} ({bookings.filter(b => b.status === 'cancelled').length})
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1 md:w-64">
+                  <Search className="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-3 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder={isAr ? "بحث بالاسم، الفندق، رقم الحجز..." : "Search name, hotel, ref..."}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-9 pl-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white"
+                  />
+                </div>
+                <Button variant="outline" size="sm" onClick={loadBookings} icon={RefreshCw}>
+                  {isAr ? "تحديث" : "Refresh"}
+                </Button>
+                {bookings.length > 0 && (
+                  <Button variant="danger" size="sm" onClick={clearLogs} icon={Trash2}>
+                    {isAr ? "مسح الكل" : "Clear"}
+                  </Button>
+                )}
               </div>
             </div>
 
@@ -1649,25 +1866,65 @@ export const AdminBookingsPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {filteredBookings.map((b, idx) => {
                   const ref = b.bookingRef || b.bookingReference || `SHM-${1000 + idx}`;
+                  const currentStatus = b.status || 'confirmed';
                   const waText = [
                     `مرحباً ${b.leadTraveler?.fullName || ''} 🌴✨`,
                     `تفاصيل إيصال حجزك مع مجموعة الهنا:`,
-                    `مرجع الحجز: ${ref}`,
+                    `مرجع الحجز: #${ref}`,
                     `الرحلة: ${b.itemTitle || ''}`,
                     `التاريخ والوقت: ${b.date || ''} (${b.timeSlot || ''})`,
-                    `الإجمالي: $${b.totalPrice || 0} USD`
+                    `الفندق: ${b.leadTraveler?.hotelName || '-'}`,
+                    `العدد: ${b.adults || 1} كبار ${b.children > 0 ? `+ ${b.children} أطفال` : ''}`,
+                    `الإجمالي: $${b.totalPrice || 0} USD (${b.paymentMethod === 'cash_arrival' ? 'كاش عند الوصول' : 'إلكتروني'})`,
+                    `الحالة: ${currentStatus === 'completed' ? 'مكتمل' : currentStatus === 'cancelled' ? 'ملغي' : 'مؤكد'}`,
+                    `━━━━━━━━━━━━━━━━━━━━━`,
+                    `نتمنى لكم مغامرة استثنائية مع مجموعة الهنا!`
                   ].join('\n');
-                  const waLink = getWhatsAppLink(b.leadTraveler?.whatsapp || WHATSAPP_PHONE, waText);
+                  const waLink = getWhatsAppLink(b.leadTraveler?.whatsapp || b.leadTraveler?.phone || WHATSAPP_PHONE, waText);
 
                   return (
                     <div key={b.id || idx} className="bg-white rounded-3xl p-5 border border-slate-200 space-y-4 shadow-sm hover:shadow-md hover:border-slate-300 transition">
                       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <span className="font-mono text-xs font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100">
-                          #{ref}
-                        </span>
-                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-700">
-                          {b.paymentMethod === 'cash_arrival' ? (isAr ? 'كاش عند الوصول' : 'Cash on Arrival') : 'Electronic'}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100">
+                            #{ref}
+                          </span>
+                          {/* Live Status Selector */}
+                          <select
+                            value={currentStatus}
+                            onChange={(e) => handleUpdateBookingStatus(b.id || ref, e.target.value)}
+                            className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border cursor-pointer outline-none transition ${
+                              currentStatus === 'completed'
+                                ? 'bg-sky-50 border-sky-200 text-sky-700'
+                                : currentStatus === 'cancelled'
+                                ? 'bg-rose-50 border-rose-200 text-rose-700'
+                                : 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                            }`}
+                          >
+                            <option value="confirmed">{isAr ? 'مؤكد ✓' : 'Confirmed'}</option>
+                            <option value="completed">{isAr ? 'مكتمل 🏁' : 'Completed'}</option>
+                            <option value="cancelled">{isAr ? 'ملغي ✕' : 'Cancelled'}</option>
+                          </select>
+                        </div>
+
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => handleCopyBookingDetails(b)}
+                            title={isAr ? "نسخ تفاصيل الحجز" : "Copy details"}
+                            className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition cursor-pointer"
+                          >
+                            {copiedRef === ref ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteSingleBooking(b.id || ref)}
+                            title={isAr ? "حذف هذا الحجز" : "Delete booking"}
+                            className="p-1.5 rounded-lg hover:bg-rose-50 text-slate-400 hover:text-rose-600 transition cursor-pointer"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </div>
 
                       <h3 className="text-base font-bold text-slate-900 line-clamp-2">
@@ -1681,21 +1938,24 @@ export const AdminBookingsPage = () => {
                         </div>
                         <div>
                           <span className="text-slate-500 text-[10px] block">{isAr ? "الفندق" : "Hotel"}</span>
-                          <span className="font-bold text-slate-800">{b.leadTraveler?.hotelName || '-'}</span>
+                          <span className="font-bold text-slate-800 truncate block">{b.leadTraveler?.hotelName || '-'}</span>
                         </div>
                         <div>
                           <span className="text-slate-500 text-[10px] block">{isAr ? "الموعد" : "Time"}</span>
-                          <span className="text-slate-700">{b.date} • {b.timeSlot}</span>
+                          <span className="text-slate-700">{b.date || '-'} • {b.timeSlot || '-'}</span>
                         </div>
                         <div>
                           <span className="text-slate-500 text-[10px] block">{isAr ? "واتساب" : "WhatsApp"}</span>
-                          <span className="text-emerald-700 font-mono font-semibold">{b.leadTraveler?.whatsapp || '-'}</span>
+                          <span className="text-emerald-700 font-mono font-semibold">{b.leadTraveler?.whatsapp || b.leadTraveler?.phone || '-'}</span>
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                        <div className="text-lg font-black text-emerald-600 font-heading">
-                          ${b.totalPrice || 0} USD
+                        <div>
+                          <span className="text-[10px] text-slate-400 block">{isAr ? "المبلغ الإجمالي" : "Total Price"}</span>
+                          <div className="text-lg font-black text-emerald-600 font-heading">
+                            ${b.totalPrice || 0} <span className="text-xs font-bold text-slate-500">USD</span>
+                          </div>
                         </div>
                         <a href={waLink} target="_blank" rel="noopener noreferrer">
                           <Button variant="whatsapp" size="sm" icon={Send}>

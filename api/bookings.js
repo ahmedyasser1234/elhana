@@ -1,4 +1,5 @@
 import { randomBytes } from 'node:crypto';
+import { saveBooking, getTelegramCredentials } from './_store.js';
 
 export default async function handler(req, res) {
   // CORS
@@ -11,7 +12,6 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    // If a reference query is provided, return that specific booking
     const { ref } = req.query || {};
     return res.status(200).json({
       success: true,
@@ -37,11 +37,15 @@ export default async function handler(req, res) {
         createdAt: new Date().toISOString()
       };
 
-      // Send automated Telegram notification if server environment credentials exist
-      const token = process.env.TELEGRAM_BOT_TOKEN;
-      const chat = process.env.TELEGRAM_CHAT_ID;
-      if (token && chat) {
-        const text = `🔔 <b>حجز جديد مؤكد - مجموعة الهنا</b> 🌴✨
+      // Persist booking to store
+      await saveBooking(booking);
+
+      // Send automated Telegram notification if credentials are configured
+      // (from env variables OR from settings configured in Admin Dashboard!)
+      try {
+        const { token, chatId, enabled } = await getTelegramCredentials();
+        if (enabled && token && chatId) {
+          const text = `🔔 <b>حجز جديد مؤكد - مجموعة الهنا</b> 🌴✨
 ━━━━━━━━━━━━━━━━━━━━━
 🔖 <b>رقم الحجز:</b> <code>#${ref}</code>
 🏝️ <b>الرحلة:</b> <b>${booking.itemTitle || 'رحلة شرم الشيخ'}</b>
@@ -58,18 +62,21 @@ export default async function handler(req, res) {
 🕒 ${new Date().toLocaleTimeString('ar-EG')}
 🌐 <i>حجز مباشر عبر موقع مجموعة الهنا الرسمي</i>`;
 
-        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          signal: AbortSignal.timeout(6000),
-          body: JSON.stringify({
-            chat_id: chat,
-            text,
-            parse_mode: 'HTML'
-          })
-        }).catch(err => {
-          console.warn('Booking Telegram push failed:', err.message);
-        });
+          fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            signal: AbortSignal.timeout(6000),
+            body: JSON.stringify({
+              chat_id: chatId,
+              text,
+              parse_mode: 'HTML'
+            })
+          }).catch(err => {
+            console.warn('Booking Telegram push failed:', err.message);
+          });
+        }
+      } catch (tgErr) {
+        console.warn('Telegram trigger error:', tgErr.message);
       }
 
       return res.status(201).json({
