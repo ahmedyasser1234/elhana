@@ -1,150 +1,560 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <!-- Homepage -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://elhanagroup.com/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/" />
   </url>
-
-  <!-- Main Category Hubs -->
   <url>
     <loc>https://elhanagroup.com/safari</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/safari" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/safari" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/safari" />
   </url>
   <url>
     <loc>https://elhanagroup.com/sea-trips</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/sea-trips" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/sea-trips" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/sea-trips" />
   </url>
   <url>
     <loc>https://elhanagroup.com/excursions</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/excursions" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/excursions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/excursions" />
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experiences</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experiences" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experiences" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experiences" />
   </url>
   <url>
     <loc>https://elhanagroup.com/transfers</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/transfers" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/transfers" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/transfers" />
   </url>
-
-  <!-- Desert Safari Excursions -->
+  <url>
+    <loc>https://elhanagroup.com/airport-vip</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/airport-vip" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/airport-vip" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/airport-vip" />
+  </url>
   <url>
     <loc>https://elhanagroup.com/atv-tours</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/atv-tours" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/atv-tours" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/atv-tours" />
   </url>
   <url>
     <loc>https://elhanagroup.com/buggy-tours</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/buggy-tours" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/buggy-tours" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/buggy-tours" />
   </url>
   <url>
     <loc>https://elhanagroup.com/bedouin-experience</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/bedouin-experience" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/bedouin-experience" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/bedouin-experience" />
   </url>
   <url>
     <loc>https://elhanagroup.com/camel-riding</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/camel-riding" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/camel-riding" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/camel-riding" />
   </url>
   <url>
     <loc>https://elhanagroup.com/horse-riding</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/horse-riding" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/horse-riding" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/horse-riding" />
   </url>
-
-  <!-- Red Sea Marine Trips -->
   <url>
     <loc>https://elhanagroup.com/yacht-trips</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/yacht-trips" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/yacht-trips" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/yacht-trips" />
   </url>
   <url>
     <loc>https://elhanagroup.com/snorkeling</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/snorkeling" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/snorkeling" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/snorkeling" />
   </url>
   <url>
     <loc>https://elhanagroup.com/diving</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/diving" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/diving" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/diving" />
   </url>
   <url>
     <loc>https://elhanagroup.com/parasailing</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/parasailing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/parasailing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/parasailing" />
   </url>
   <url>
     <loc>https://elhanagroup.com/banana-boat</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/banana-boat" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/banana-boat" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/banana-boat" />
   </url>
-
-  <!-- Content & Information Pages -->
+  <url>
+    <loc>https://elhanagroup.com/dolphin-experience</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/dolphin-experience" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/dolphin-experience" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/dolphin-experience" />
+  </url>
   <url>
     <loc>https://elhanagroup.com/gallery</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/gallery" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/gallery" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/gallery" />
   </url>
   <url>
     <loc>https://elhanagroup.com/blog</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/blog" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/blog" />
   </url>
   <url>
     <loc>https://elhanagroup.com/about</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/about" />
   </url>
   <url>
     <loc>https://elhanagroup.com/contact</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/contact" />
   </url>
   <url>
     <loc>https://elhanagroup.com/faq</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/faq" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/faq" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/faq" />
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/leave-review</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/leave-review" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/leave-review" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/leave-review" />
   </url>
   <url>
     <loc>https://elhanagroup.com/privacy-policy</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.40</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/privacy-policy" />
   </url>
   <url>
     <loc>https://elhanagroup.com/terms-and-conditions</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.40</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/terms-and-conditions" />
   </url>
   <url>
     <loc>https://elhanagroup.com/cancellation-policy</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.40</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/cancellation-policy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/cancellation-policy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/cancellation-policy" />
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/dahab-blue-hole-canyon-trip</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/dahab-blue-hole-canyon-trip" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/dahab-blue-hole-canyon-trip" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/dahab-blue-hole-canyon-trip" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/excursions/dahab/dahab-blue-hole-lagoon.jpg</image:loc>
+      <image:title>Dahab City, Blue Hole Snorkeling &amp; Canyon Day Trip</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/marry-me-proposal-yacht</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/marry-me-proposal-yacht" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/marry-me-proposal-yacht" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/marry-me-proposal-yacht" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/romantic/marry-me-proposal-yacht.jpg</image:loc>
+      <image:title>VIP 'Marry Me' Luxury Yacht Proposal Package</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/romantic-bedouin-candlelight-dinner</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/romantic-bedouin-candlelight-dinner" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/romantic-bedouin-candlelight-dinner" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/romantic-bedouin-candlelight-dinner" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/romantic/romantic-bedouin-candlelight-dinner.jpg</image:loc>
+      <image:title>Private VIP Romantic Bedouin Candlelight Dinner</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/marry-me-proposal-desert</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/marry-me-proposal-desert" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/marry-me-proposal-desert" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/marry-me-proposal-desert" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/romantic/marry-me-proposal-desert.jpg</image:loc>
+      <image:title>Sinai Desert VIP 'Marry Me' Proposal Package</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/atv-quad-bike-safari</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/atv-quad-bike-safari" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/atv-quad-bike-safari" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/atv-quad-bike-safari" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/real/atv-quad.jpg</image:loc>
+      <image:title>ATV Quad Bike Desert Safari</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/dune-buggy-adventure</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/dune-buggy-adventure" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/dune-buggy-adventure" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/dune-buggy-adventure" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/real/polaris-buggy-white.jpg</image:loc>
+      <image:title>Sinai Desert Dune Buggy Tour</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/authentic-bedouin-experience-dinner</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/authentic-bedouin-experience-dinner" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/authentic-bedouin-experience-dinner" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/authentic-bedouin-experience-dinner" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/real/camel-caravan.jpg</image:loc>
+      <image:title>Bedouin Sunset Experience &amp; Traditional Dinner</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/camel-riding</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/camel-riding" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/camel-riding" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/camel-riding" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/real/camel-riding-hero.jpg</image:loc>
+      <image:title>Desert Camel Caravan &amp; Bedouin Tea</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/horse-riding</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/horse-riding" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/horse-riding" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/horse-riding" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/real/horse-riding-hero.jpg</image:loc>
+      <image:title>Sinai Desert &amp; Coastal Horseback Riding</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/vip-yacht-ras-mohammed-white-island</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/vip-yacht-ras-mohammed-white-island" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/vip-yacht-ras-mohammed-white-island" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/vip-yacht-ras-mohammed-white-island" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/sea/white-island-sandbar.jpg</image:loc>
+      <image:title>VIP Luxury Yacht Cruise: Ras Mohammed &amp; White Island</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/tiran-island-snorkeling-boat-trip</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/tiran-island-snorkeling-boat-trip" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/tiran-island-snorkeling-boat-trip" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/tiran-island-snorkeling-boat-trip" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/sea/snorkeling-ras-mohammed-reef.jpg</image:loc>
+      <image:title>Tiran Island Snorkeling &amp; Sea Cruise</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/introductory-scuba-diving-red-sea</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/introductory-scuba-diving-red-sea" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/introductory-scuba-diving-red-sea" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/introductory-scuba-diving-red-sea" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/sea/scuba-diving-intro.jpg</image:loc>
+      <image:title>Introductory Scuba Diving Experience</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/red-sea-parasailing-adventure</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/red-sea-parasailing-adventure" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/red-sea-parasailing-adventure" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/red-sea-parasailing-adventure" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/sea/parasailing-sharm-flight.jpg</image:loc>
+      <image:title>Red Sea Parasailing Adventure (Solo or Tandem)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/banana-boat-tube-water-fun</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/banana-boat-tube-water-fun" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/banana-boat-tube-water-fun" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/banana-boat-tube-water-fun" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/sea/banana-boat-water-ride.jpg</image:loc>
+      <image:title>Banana Boat &amp; Tube Water Activity</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/super-desert-combo-safari</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/super-desert-combo-safari" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/super-desert-combo-safari" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/super-desert-combo-safari" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/real/polaris-buggy-family.jpg</image:loc>
+      <image:title>Super Desert Combo: ATV + Buggy + Camel + Dinner Show</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/ras-mohammed-land-bus-tour</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/ras-mohammed-land-bus-tour" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/ras-mohammed-land-bus-tour" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/ras-mohammed-land-bus-tour" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/real/IMG-20260722-WA0087.jpg</image:loc>
+      <image:title>Ras Mohammed National Park Overland Bus &amp; Snorkeling Tour</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/st-catherine-mount-sinai-trip</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/st-catherine-mount-sinai-trip" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/st-catherine-mount-sinai-trip" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/st-catherine-mount-sinai-trip" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/excursions/catherine/mount-sinai-sea-of-clouds.jpg</image:loc>
+      <image:title>Mount Sinai Sunrise Hike &amp; St. Catherine Monastery</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/taba-fjord-bay-castle-tour</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/taba-fjord-bay-castle-tour" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/taba-fjord-bay-castle-tour" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/taba-fjord-bay-castle-tour" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/excursions/taba/taba-fjord-bay-crystal.jpg</image:loc>
+      <image:title>Taba Day Trip: Fjord Bay, Pharaoh's Island &amp; Salah El-Din Castle</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/nuweiba-wishwashi-canyon-safari</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/nuweiba-wishwashi-canyon-safari" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/nuweiba-wishwashi-canyon-safari" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/nuweiba-wishwashi-canyon-safari" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/excursions/nuweiba/nuweiba-wishwashi-emerald.jpg</image:loc>
+      <image:title>Nuweiba Safari: Wishwashi Canyon &amp; Ras Shitan Bedouin Camp</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/luxury-polaris-canam-buggy-safari</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/luxury-polaris-canam-buggy-safari" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/luxury-polaris-canam-buggy-safari" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/luxury-polaris-canam-buggy-safari" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/real/polaris-buggy-white.jpg</image:loc>
+      <image:title>Polaris XPEDITION &amp; Can-Am Luxury Desert Safari</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/experience/dolphin-swim-show-experience</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/experience/dolphin-swim-show-experience" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/experience/dolphin-swim-show-experience" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/experience/dolphin-swim-show-experience" />
+    <image:image>
+      <image:loc>https://elhanagroup.com/images/sea/dolphin-show-sharm.jpg</image:loc>
+      <image:title>Dolphin Show &amp; Swim with Dolphins Experience</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/blog/top-10-things-to-do-in-sharm-el-sheikh</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/blog/top-10-things-to-do-in-sharm-el-sheikh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/blog/top-10-things-to-do-in-sharm-el-sheikh" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/blog/top-10-things-to-do-in-sharm-el-sheikh" />
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80</image:loc>
+      <image:title>Top 10 Must-Do Adventures in Sharm El Sheikh (2026 Ultimate Guide)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/blog/ras-mohammed-vs-tiran-island-which-boat-trip-is-best</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/blog/ras-mohammed-vs-tiran-island-which-boat-trip-is-best" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/blog/ras-mohammed-vs-tiran-island-which-boat-trip-is-best" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/blog/ras-mohammed-vs-tiran-island-which-boat-trip-is-best" />
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80</image:loc>
+      <image:title>Ras Mohammed vs Tiran Island: Which Red Sea Boat Trip Should You Choose?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://elhanagroup.com/blog/what-to-pack-for-a-desert-safari-in-sharm</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://elhanagroup.com/blog/what-to-pack-for-a-desert-safari-in-sharm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://elhanagroup.com/blog/what-to-pack-for-a-desert-safari-in-sharm" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://elhanagroup.com/blog/what-to-pack-for-a-desert-safari-in-sharm" />
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1200&q=80</image:loc>
+      <image:title>What to Pack &amp; Wear for a Desert Safari in South Sinai</image:title>
+    </image:image>
   </url>
 </urlset>
