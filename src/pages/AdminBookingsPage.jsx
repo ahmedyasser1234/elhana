@@ -1444,7 +1444,7 @@ export const AdminBookingsPage = () => {
   );
 
   return (
-    <div className="h-screen w-screen flex overflow-hidden bg-slate-100 text-slate-800 font-sans antialiased relative" dir={isAr ? 'rtl' : 'ltr'}>
+    <div className="h-[100dvh] w-full flex overflow-hidden bg-slate-100 text-slate-800 font-sans antialiased relative" dir={isAr ? 'rtl' : 'ltr'}>
       <SEOHead 
         title={isAr ? "لوحة تحكم الأدمن الشاملة | مجموعة الهنا" : "Admin Command Center | El Hana Group"} 
       />
@@ -1452,7 +1452,7 @@ export const AdminBookingsPage = () => {
       {/* ======================================================== */}
       {/* 1. PERMANENT DESKTOP SIDEBAR (ALWAYS VISIBLE ON DESKTOP)  */}
       {/* ======================================================== */}
-      <aside className="hidden lg:flex w-72 xl:w-80 h-screen shrink-0 bg-white rtl:border-l ltr:border-r border-slate-200/90 shadow-sm flex-col justify-between z-30 overflow-y-auto">
+      <aside className="hidden lg:flex w-72 xl:w-80 h-full shrink-0 bg-white rtl:border-l ltr:border-r border-slate-200/90 shadow-sm flex-col justify-between z-30 overflow-y-auto">
         {renderSidebarContent(false)}
       </aside>
 
@@ -1476,7 +1476,7 @@ export const AdminBookingsPage = () => {
       {/* ======================================================== */}
       {/* MAIN DASHBOARD CONTENT AREA                              */}
       {/* ======================================================== */}
-      <main className="flex-1 h-screen overflow-y-auto bg-slate-50 flex flex-col min-w-0 pb-20 lg:pb-0">
+      <main className="flex-1 h-full min-h-0 overflow-y-auto bg-slate-50 flex flex-col min-w-0 pb-28 lg:pb-6">
         
         {/* Sticky Dashboard Topbar (Unified Desktop & Mobile) */}
         <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 shrink-0 shadow-xs">
@@ -1829,25 +1829,27 @@ export const AdminBookingsPage = () => {
                 </button>
               </div>
 
-              <div className="flex items-center gap-2">
-                <div className="relative flex-1 md:w-64">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
+                <div className="relative flex-1 sm:w-64">
                   <Search className="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-3 text-slate-400" />
                   <input
                     type="text"
                     placeholder={isAr ? "بحث بالاسم، الفندق، رقم الحجز..." : "Search name, hotel, ref..."}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-9 pl-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-9 pl-3 py-2 sm:py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white shadow-2xs"
                   />
                 </div>
-                <Button variant="outline" size="sm" onClick={loadBookings} icon={RefreshCw}>
-                  {isAr ? "تحديث" : "Refresh"}
-                </Button>
-                {bookings.length > 0 && (
-                  <Button variant="danger" size="sm" onClick={clearLogs} icon={Trash2}>
-                    {isAr ? "مسح الكل" : "Clear"}
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" onClick={loadBookings} icon={RefreshCw} className="flex-1 sm:flex-none justify-center">
+                    {isAr ? "تحديث" : "Refresh"}
                   </Button>
-                )}
+                  {bookings.length > 0 && (
+                    <Button variant="danger" size="sm" onClick={clearLogs} icon={Trash2} className="flex-1 sm:flex-none justify-center">
+                      {isAr ? "مسح الكل" : "Clear"}
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -2084,7 +2086,7 @@ export const AdminBookingsPage = () => {
             {/* Add Guide Modal */}
             {showAddGuideModal && (
               <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-                <div className="bg-white rounded-3xl p-6 border border-slate-200 text-slate-900 max-w-lg w-full space-y-5 shadow-2xl my-8">
+                <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 text-slate-900 max-w-lg w-full max-h-[90vh] overflow-y-auto space-y-5 shadow-2xl my-auto">
                   <div className="flex items-center justify-between border-b border-slate-200 pb-4">
                     <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                       <Plus className="w-5 h-5 text-sky-600" />
@@ -2508,9 +2510,11 @@ export const AdminBookingsPage = () => {
               </div>
             </div>
 
-            {/* Tours Price Table */}
+            {/* Tours Price Table & Mobile Cards */}
             <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-              <div className="overflow-x-auto">
+              
+              {/* Desktop Table View */}
+              <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-right text-xs">
                   <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 uppercase font-bold text-[11px]">
                     <tr>
@@ -2609,6 +2613,90 @@ export const AdminBookingsPage = () => {
                   </tbody>
                 </table>
               </div>
+
+              {/* Mobile Dedicated Touch-Friendly Cards View */}
+              <div className="md:hidden divide-y divide-slate-100">
+                {filteredExperiences.map((tour) => {
+                  const originalDefault = EXPERIENCES.find(e => e.slug === tour.slug)?.startingPrice || tour.startingPrice;
+                  const activeCustom = customPrices[tour.slug] !== undefined ? customPrices[tour.slug] : null;
+                  const currentValueInput = editingPrices[tour.slug] !== undefined 
+                    ? editingPrices[tour.slug] 
+                    : (activeCustom !== null ? activeCustom : originalDefault);
+                  const isSaved = priceSaveSuccess[tour.slug];
+
+                  return (
+                    <div key={tour.slug} className="p-4 space-y-3">
+                      <div className="flex items-center gap-3">
+                        <img 
+                          src={tour.images?.[0] || '/images/real/atv-quad.jpg'} 
+                          alt="" 
+                          className="w-12 h-12 rounded-xl object-cover ring-1 ring-slate-200 shrink-0 shadow-xs"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <span className="font-bold text-slate-900 block text-xs truncate">
+                            {tour.title}
+                          </span>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-semibold text-[10px]">
+                              {getCategoryName(tour.category)}
+                            </span>
+                            {activeCustom !== null && (
+                              <span className="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold text-[10px]">
+                                {isAr ? "سعر مخصص" : "Custom"}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between bg-slate-50 p-3 rounded-2xl border border-slate-200 text-xs gap-2">
+                        <div className="shrink-0">
+                          <span className="text-[10px] text-slate-400 block">{isAr ? "الافتراضي" : "Default"}</span>
+                          <span className="font-bold text-slate-500">${originalDefault} USD</span>
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                          <div className="inline-flex items-center gap-1 bg-white border border-slate-300 rounded-xl px-2 py-1 shadow-2xs">
+                            <span className="text-emerald-600 font-bold text-xs">$</span>
+                            <input
+                              type="number"
+                              min="1"
+                              max="9999"
+                              value={currentValueInput}
+                              onChange={(e) => handlePriceChange(tour.slug, e.target.value)}
+                              className="w-16 text-center font-bold text-slate-900 text-xs focus:outline-none"
+                            />
+                            <span className="text-slate-400 text-[10px]">USD</span>
+                          </div>
+
+                          <button
+                            onClick={() => handleSaveSinglePrice(tour.slug)}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition inline-flex items-center gap-1 cursor-pointer ${
+                              isSaved
+                                ? 'bg-emerald-600 text-white shadow-xs'
+                                : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200'
+                            }`}
+                          >
+                            {isSaved ? <Check className="w-3.5 h-3.5" /> : <DollarSign className="w-3.5 h-3.5" />}
+                            <span>{isSaved ? (isAr ? "تم!" : "Saved!") : (isAr ? "حفظ" : "Save")}</span>
+                          </button>
+
+                          {activeCustom !== null && (
+                            <button
+                              onClick={() => handleResetSinglePrice(tour.slug, originalDefault)}
+                              className="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 cursor-pointer"
+                              title={isAr ? "استعادة السعر الافتراضي" : "Reset to default"}
+                            >
+                              <RefreshCw className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
             </div>
           </div>
         )}
@@ -3369,8 +3457,8 @@ export const AdminBookingsPage = () => {
 
         </div>
 
-        {/* Mobile Sticky Bottom Navigation Bar (Thumb Friendly) */}
-        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 flex items-center justify-around shadow-lg">
+        {/* Mobile Sticky Bottom Navigation Bar (Thumb Friendly with iOS Safe Area) */}
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] flex items-center justify-around shadow-lg">
           <button
             type="button"
             onClick={() => { setActiveTab('bookings'); setIsMobileMenuOpen(false); }}

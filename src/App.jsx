@@ -68,10 +68,10 @@ function AppContent() {
   const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/admin-login' || location.pathname === '/login';
 
   return (
-    <div className={`min-h-screen flex flex-col justify-between bg-slate-50 text-slate-900 font-sans selection:bg-[#0284C7] selection:text-white ${isAdminRoute ? 'h-screen overflow-hidden' : ''}`}>
+    <div className={`min-h-screen flex flex-col justify-between bg-slate-50 text-slate-900 font-sans selection:bg-[#0284C7] selection:text-white ${isAdminRoute ? 'h-[100dvh] overflow-hidden' : ''}`}>
       <ScrollToTop />
       {!isAdminRoute && <Navbar />}
-      <div className={isAdminRoute ? "h-screen w-screen overflow-hidden flex flex-col" : "flex-grow"}>
+      <div className={isAdminRoute ? "h-[100dvh] w-full overflow-hidden flex flex-col" : "flex-grow"}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
