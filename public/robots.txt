@@ -11,4 +11,4 @@ Disallow: /review-guide
 Disallow: /review/guide
 Disallow: /api/
 
-Sitemap: https://elhanagroup.com/sitemap.xml
+Sitemap: https://www.elahanasafari.com/sitemap.xml

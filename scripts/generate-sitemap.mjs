@@ -13,7 +13,7 @@ async function run() {
   console.log(`Found ${EXPERIENCES.length} experiences and ${BLOG_POSTS.length} blog posts.`);
 
   const today = new Date().toISOString().split('T')[0];
-  const baseUrl = 'https://elhanagroup.com';
+  const baseUrl = 'https://www.elahanasafari.com';
 
   const staticRoutes = [
     { path: '/', priority: '1.0', changefreq: 'daily' },

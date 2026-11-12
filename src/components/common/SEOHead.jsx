@@ -6,9 +6,9 @@ const DEFAULT_ORGANIZATION_SCHEMA = {
   "name": "El Hana Group Sharm El Sheikh",
   "alternateName": "مجموعة الهنا للسياحة والسفاري والرحلات البحرية بشرم الشيخ وجنوب سيناء",
   "description": "المشغل الرائد لرحلات السفاري الصحراوية بالبيتش باجي والكار باجي والعشاء البدوي، ورحلات اليخوت الفاخرة لرأس محمد والجزيرة البيضاء وتيران، والغوص والسنوركلينج، وجولات دهب وسانت كاترين، وتوصيل مطار شرم الشيخ.",
-  "url": typeof window !== 'undefined' ? window.location.origin : 'https://elhanagroup.com',
-  "logo": typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : 'https://elhanagroup.com/logo.png',
-  "image": typeof window !== 'undefined' ? `${window.location.origin}/images/real/atv-quad.jpg` : 'https://elhanagroup.com/images/real/atv-quad.jpg',
+  "url": typeof window !== 'undefined' ? window.location.origin : 'https://www.elahanasafari.com',
+  "logo": typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : 'https://www.elahanasafari.com/logo.png',
+  "image": typeof window !== 'undefined' ? `${window.location.origin}/images/real/atv-quad.jpg` : 'https://www.elahanasafari.com/images/real/atv-quad.jpg',
   "telephone": "+20110077330",
   "contactPoint": [
     {
@@ -103,7 +103,7 @@ export const SEOHead = ({ title, description, keywords, canonicalUrl, structured
       metaKeywords.setAttribute('content', keywords || DEFAULT_KEYWORDS);
 
       // Canonical URL
-      const activeUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://elhanagroup.com');
+      const activeUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://www.elahanasafari.com');
       let canonical = document.querySelector('link[rel="canonical"]');
       if (!canonical) {
         canonical = document.createElement('link');
@@ -128,7 +128,7 @@ export const SEOHead = ({ title, description, keywords, canonicalUrl, structured
       setMetaProperty('og:url', activeUrl);
       setMetaProperty('og:site_name', 'مجموعة الهنا للسياحة والسفاري بشرم الشيخ | El Hana Group');
       setMetaProperty('og:type', 'website');
-      setMetaProperty('og:image', ogImage || (typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : 'https://elhanagroup.com/logo.png'));
+      setMetaProperty('og:image', ogImage || (typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : 'https://www.elahanasafari.com/logo.png'));
 
       // Twitter Cards
       const setMetaName = (name, content) => {
@@ -144,7 +144,7 @@ export const SEOHead = ({ title, description, keywords, canonicalUrl, structured
       setMetaName('twitter:card', 'summary_large_image');
       setMetaName('twitter:title', activeTitle);
       setMetaName('twitter:description', activeDesc);
-      setMetaName('twitter:image', ogImage || (typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : 'https://elhanagroup.com/logo.png'));
+      setMetaName('twitter:image', ogImage || (typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : 'https://www.elahanasafari.com/logo.png'));
 
       // JSON-LD Structured Data Schema Insertion
       const scriptId = 'json-ld-structured-data';

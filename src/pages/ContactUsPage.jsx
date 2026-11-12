@@ -119,7 +119,7 @@ export const ContactUsPage = () => {
                   </div>
                   <div>
                     <div className="font-bold text-white">{isAr ? "البريد الإلكتروني" : "Email Us"}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">info@elhanagroup.com</div>
+                    <div className="text-[11px] text-slate-400 font-mono">info@elahanasafari.com</div>
                   </div>
                 </div>
 

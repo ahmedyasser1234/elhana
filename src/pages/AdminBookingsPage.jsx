@@ -111,7 +111,7 @@ export const AdminBookingsPage = () => {
   const [telegramTestStatus, setTelegramTestStatus] = useState({ text: '', type: '' });
   const [isTestingTelegram, setIsTestingTelegram] = useState(false);
   const [enableEmail, setEnableEmail] = useState(true);
-  const [adminEmail, setAdminEmail] = useState('info@elhanagroup.com');
+  const [adminEmail, setAdminEmail] = useState('info@elahanasafari.com');
   const [emailjsServiceId, setEmailjsServiceId] = useState('');
   const [emailjsTemplateId, setEmailjsTemplateId] = useState('');
   const [emailjsPublicKey, setEmailjsPublicKey] = useState('');
@@ -331,7 +331,7 @@ export const AdminBookingsPage = () => {
       setTelegramToken(settings.telegramToken || '');
       setTelegramChatId(settings.telegramChatId || '');
       setEnableEmail(settings.enableEmail !== false);
-      setAdminEmail(settings.adminEmail || 'info@elhanagroup.com');
+      setAdminEmail(settings.adminEmail || 'info@elahanasafari.com');
       setEmailjsServiceId(settings.emailjsServiceId || '');
       setEmailjsTemplateId(settings.emailjsTemplateId || '');
       setEmailjsPublicKey(settings.emailjsPublicKey || '');
@@ -3555,7 +3555,7 @@ export const AdminBookingsPage = () => {
                     required
                     value={newMod.email}
                     onChange={e => setNewMod({ ...newMod, email: e.target.value })}
-                    placeholder={isAr ? "مثال: mod@elhanagroup.com" : "e.g. mod@elhanagroup.com"}
+                    placeholder={isAr ? "مثال: mod@elahanasafari.com" : "e.g. mod@elahanasafari.com"}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-300 text-slate-900 focus:bg-white rounded-xl focus:outline-none focus:border-indigo-500 font-mono"
                   />
                 </div>

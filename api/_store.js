@@ -13,7 +13,7 @@ let memoryStore = {
     telegramToken: '',
     telegramChatId: '',
     enableEmail: true,
-    adminEmail: 'info@elhanagroup.com',
+    adminEmail: 'info@elahanasafari.com',
     enableWhatsAppApi: false,
     whatsappAdminPhone: '+201037118060'
   }
