@@ -6,6 +6,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
+function escapeXml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function escapeXmlUrl(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;');
+}
+
 async function run() {
   const { EXPERIENCES } = await import('../src/data/experiences.js');
   const { BLOG_POSTS } = await import('../src/data/blogs.js');
@@ -73,10 +88,11 @@ async function run() {
   for (const exp of EXPERIENCES) {
     const loc = `${baseUrl}/experience/${exp.slug}`;
     const mainImg = Array.isArray(exp.images) && exp.images[0] ? exp.images[0] : null;
-    const imgUrl = mainImg
+    const rawImgUrl = mainImg
       ? (mainImg.startsWith('http') ? mainImg : `${baseUrl}${mainImg.startsWith('/') ? '' : '/'}${mainImg}`)
       : null;
-    const cleanTitle = (exp.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const imgUrl = escapeXmlUrl(rawImgUrl);
+    const cleanTitle = escapeXml(exp.title || '');
 
     xml += `  <url>
     <loc>${loc}</loc>
@@ -103,10 +119,11 @@ async function run() {
   // Blog posts
   for (const post of BLOG_POSTS) {
     const loc = `${baseUrl}/blog/${post.slug}`;
-    const imgUrl = post.image
+    const rawImgUrl = post.image
       ? (post.image.startsWith('http') ? post.image : `${baseUrl}${post.image.startsWith('/') ? '' : '/'}${post.image}`)
       : null;
-    const cleanTitle = (post.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const imgUrl = escapeXmlUrl(rawImgUrl);
+    const cleanTitle = escapeXml(post.title || '');
 
     xml += `  <url>
     <loc>${loc}</loc>
