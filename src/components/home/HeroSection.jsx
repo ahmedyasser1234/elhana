@@ -58,10 +58,11 @@ export const HeroSection = () => {
           <source media="(max-width: 640px)" srcSet="/images/real/polaris-buggy-family-mobile.webp" type="image/webp" />
           <source srcSet="/images/real/polaris-buggy-family.webp" type="image/webp" />
           <img
-            src="/images/real/polaris-buggy-family.jpg"
+            src="/images/real/polaris-buggy-family.webp"
             alt="El Hana Group Buggy Safari Background"
-            width="1400"
-            height="800"
+            width="1200"
+            height="675"
+            sizes="100vw"
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -88,22 +89,15 @@ export const HeroSection = () => {
           <div className="lg:col-span-7 space-y-5 text-left rtl:text-right">
             
             {/* Eyebrow Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+            <div
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/70 backdrop-blur-md border border-sky-400/40 text-sky-300 font-semibold text-xs tracking-wider shadow-md"
             >
               <span className="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
               <span>{isAr ? "شركة الهنا للسياحة والسفاري VIP" : "EL HANA GROUP TOURISM VIP"}</span>
-            </motion.div>
+            </div>
 
             {/* Single Line Headline */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-            >
+            <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.25rem] font-bold text-white font-heading leading-snug tracking-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
                 {isAr ? (
                   <span>
@@ -123,25 +117,19 @@ export const HeroSection = () => {
                   </span>
                 )}
               </h1>
-            </motion.div>
+            </div>
 
             {/* Subtitle Paragraph */}
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
+            <p
               className="text-sm sm:text-base text-slate-100 max-w-xl font-normal leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.75)]"
             >
               {isAr
                 ? "نصنع تجارب سياحية فاخرة تجمع بين إثارة صحراء سيناء، يخوت البحر الأحمر VIP، والانتقالات المباشرة من الفندق في شرم الشيخ."
                 : "We partner with ambitious travelers to create Sinai adventures that resonate, engage, and deliver real impact."}
-            </motion.p>
+            </p>
 
             {/* Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
+            <div
               className="flex flex-wrap items-center gap-4 pt-1"
             >
               <Link to="/experiences">
@@ -162,7 +150,7 @@ export const HeroSection = () => {
                   {isAr ? "شاهد الفيديو" : "Watch Video"}
                 </span>
               </button>
-            </motion.div>
+            </div>
 
           </div>
 
@@ -174,10 +162,10 @@ export const HeroSection = () => {
               <picture>
                 <source srcSet="/images/real/polaris-buggy-white.webp" type="image/webp" />
                 <img
-                  src="/images/real/polaris-buggy-white.jpg"
+                  src="/images/real/polaris-buggy-white.webp"
                   alt="El Hana Group Buggy Safari Sharm El Sheikh"
-                  width="600"
-                  height="450"
+                  width="500"
+                  height="375"
                   loading="lazy"
                   decoding="async"
                   onError={(e) => {

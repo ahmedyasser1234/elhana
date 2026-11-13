@@ -38,10 +38,10 @@ async function optimize() {
     fs.renameSync(tempDesktop, 'public/images/real/polaris-buggy-family.webp');
     console.log('Generated polaris-buggy-family.webp');
 
-    // Mobile WebP (600px width, quality 70)
+    // Mobile WebP (540px width, quality 60)
     await sharp(heroFamily)
-      .resize(600, null, { withoutEnlargement: true })
-      .webp({ quality: 70, effort: 6 })
+      .resize(540, null, { withoutEnlargement: true })
+      .webp({ quality: 60, effort: 6 })
       .toFile('public/images/real/polaris-buggy-family-mobile.webp');
     console.log('Generated polaris-buggy-family-mobile.webp');
   }
@@ -51,8 +51,8 @@ async function optimize() {
   if (fs.existsSync(buggyWhite)) {
     const tempWhite = 'public/images/real/temp-white.webp';
     await sharp(buggyWhite)
-      .resize(600, null, { withoutEnlargement: true })
-      .webp({ quality: 72, effort: 6 })
+      .resize(500, null, { withoutEnlargement: true })
+      .webp({ quality: 65, effort: 6 })
       .toFile(tempWhite);
     fs.renameSync(tempWhite, 'public/images/real/polaris-buggy-white.webp');
     console.log('Generated polaris-buggy-white.webp');
