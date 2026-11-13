@@ -9,8 +9,11 @@ import { Footer } from './components/common/Footer';
 import { Toast } from './components/common/Toast';
 import { WhatsAppButton } from './components/common/WhatsAppButton';
 import ErrorBoundary from './components/common/ErrorBoundary';
-import { QuickAdventureBookingModal } from './components/booking/QuickAdventureBookingModal';
 import HomePage from './pages/HomePage';
+
+const QuickAdventureBookingModal = lazy(() =>
+  import('./components/booking/QuickAdventureBookingModal').then(m => ({ default: m.QuickAdventureBookingModal }))
+);
 
 // Lazy Loaded Subpages for code-splitting & fast performance
 const SafariToursPage = lazy(() => import('./pages/SafariToursPage'));
@@ -120,7 +123,11 @@ function AppContent() {
       </div>
       {!isAdminRoute && <Footer />}
       {!isAdminRoute && <WhatsAppButton />}
-      {!isAdminRoute && <QuickAdventureBookingModal />}
+      {!isAdminRoute && (
+        <Suspense fallback={null}>
+          <QuickAdventureBookingModal />
+        </Suspense>
+      )}
       <Toast />
     </div>
   );

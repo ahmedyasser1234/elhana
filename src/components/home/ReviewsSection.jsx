@@ -9,8 +9,6 @@ import {
   ChevronLeft, 
   ChevronRight,
   Filter,
-  Eye,
-  Grid3X3,
   Sparkles
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
@@ -315,7 +313,6 @@ export const ReviewsSection = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(4);
   const [selectedRating, setSelectedRating] = useState('all');
-  const [showAll, setShowAll] = useState(false);
 
   // Touch swipe support for mobile
   const [touchStart, setTouchStart] = useState(null);
@@ -403,19 +400,18 @@ export const ReviewsSection = () => {
     return allReviews.filter(r => Math.round(Number(r.rating) || 5) === Number(selectedRating));
   }, [allReviews, selectedRating]);
 
-  // Reset pagination when filter or showAll changes
+  // Reset pagination when filter or itemsPerPage changes
   useEffect(() => {
     setCurrentPage(0);
-  }, [selectedRating, showAll, itemsPerPage]);
+  }, [selectedRating, itemsPerPage]);
 
   const totalPages = Math.ceil(filteredReviews.length / itemsPerPage);
 
-  // Paginated reviews to render
+  // Strictly 1 Single Row of reviews
   const displayedReviews = useMemo(() => {
-    if (showAll) return filteredReviews;
     const start = currentPage * itemsPerPage;
     return filteredReviews.slice(start, start + itemsPerPage);
-  }, [filteredReviews, showAll, currentPage, itemsPerPage]);
+  }, [filteredReviews, currentPage, itemsPerPage]);
 
   const handlePrev = () => {
     if (totalPages <= 1) return;
@@ -580,15 +576,15 @@ export const ReviewsSection = () => {
           </div>
         </div>
 
-        {/* Controls Bar: Mode Toggle + Pagination Arrows */}
+        {/* Controls Bar: Navigation Arrows & Status */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
           {/* Status info */}
           <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
             <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>
               {isAr
-                ? `عرض ${displayedReviews.length} من أصل ${filteredReviews.length} تقييم`
-                : `Showing ${displayedReviews.length} of ${filteredReviews.length} reviews`}
+                ? `صف التقييمات (${displayedReviews.length} من أصل ${filteredReviews.length} تقييم)`
+                : `Reviews Row (${displayedReviews.length} of ${filteredReviews.length} reviews)`}
             </span>
             {selectedRating !== 'all' && (
               <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold">
@@ -597,55 +593,32 @@ export const ReviewsSection = () => {
             )}
           </div>
 
-          {/* Controls: Prev / Next / Toggle View More */}
-          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
-            
-            {/* Toggle Show All / Paginate */}
-            <button
-              type="button"
-              onClick={() => setShowAll(!showAll)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition shadow-2xs cursor-pointer"
-            >
-              {showAll ? (
-                <>
-                  <Grid3X3 className="w-3.5 h-3.5 text-[#0284C7]" />
-                  <span>{isAr ? 'عرض بالصفحات (4 بالسطر)' : 'Paginated View (4/row)'}</span>
-                </>
-              ) : (
-                <>
-                  <Eye className="w-3.5 h-3.5 text-[#0284C7]" />
-                  <span>{isAr ? 'عرض الكل' : 'View All'}</span>
-                </>
-              )}
-            </button>
+          {/* TWO NAVIGATION ARROWS (السهمين للتنقل بين التقييمات) */}
+          {totalPages > 1 && (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handlePrev}
+                aria-label={isAr ? "السابق" : "Previous"}
+                className="w-10 h-10 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-[#0284C7] border border-slate-200 hover:border-sky-300 flex items-center justify-center transition shadow-xs cursor-pointer active:scale-95"
+              >
+                <PrevIcon className="w-5 h-5" />
+              </button>
 
-            {/* Pagination Navigation Arrows (Shown in paginated mode) */}
-            {!showAll && totalPages > 1 && (
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={handlePrev}
-                  aria-label={isAr ? "السابق" : "Previous"}
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-[#0284C7] border border-slate-200 hover:border-sky-300 flex items-center justify-center transition shadow-2xs cursor-pointer active:scale-95"
-                >
-                  <PrevIcon className="w-5 h-5" />
-                </button>
-
-                <div className="px-2.5 py-1.5 text-xs font-bold font-mono text-slate-700 bg-white border border-slate-200 rounded-xl min-w-[70px] text-center select-none shadow-2xs">
-                  {currentPage + 1} / {totalPages}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  aria-label={isAr ? "التالي" : "Next"}
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-[#0284C7] border border-slate-200 hover:border-sky-300 flex items-center justify-center transition shadow-2xs cursor-pointer active:scale-95"
-                >
-                  <NextIcon className="w-5 h-5" />
-                </button>
+              <div className="px-3 py-1.5 text-xs font-bold font-mono text-slate-700 bg-white border border-slate-200 rounded-xl min-w-[70px] text-center select-none shadow-xs">
+                {currentPage + 1} / {totalPages}
               </div>
-            )}
-          </div>
+
+              <button
+                type="button"
+                onClick={handleNext}
+                aria-label={isAr ? "التالي" : "Next"}
+                className="w-10 h-10 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-[#0284C7] border border-slate-200 hover:border-sky-300 flex items-center justify-center transition shadow-xs cursor-pointer active:scale-95"
+              >
+                <NextIcon className="w-5 h-5" />
+              </button>
+            </div>
+          )}
         </div>
 
         {/* 4 Reviews in 1 Row on Desktop (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`) */}
@@ -713,7 +686,7 @@ export const ReviewsSection = () => {
         </div>
 
         {/* Pagination Dots (for quick navigation with accessible 40x40 tap targets) */}
-        {!showAll && totalPages > 1 && (
+        {totalPages > 1 && (
           <div className="flex items-center justify-center gap-1 pt-2">
             {[...Array(totalPages)].map((_, idx) => (
               <button

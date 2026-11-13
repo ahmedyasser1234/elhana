@@ -36,7 +36,7 @@ export const HeroSection = () => {
       tag: isAr ? "الغوص والسنوركلينج" : "DIVING & REEFS",
       title: isAr ? "عالم المرجان والأعماق" : "Underwater Reefs",
       link: "/diving",
-      positionClass: "bottom-20 ltr:-right-4 ltr:xl:-right-8 rtl:-left-4 rtl:xl:-left-8",
+      positionClass: "bottom-24 ltr:-right-4 ltr:xl:-right-8 rtl:-left-4 rtl:xl:-left-8",
       accentBg: "bg-emerald-500/20 text-emerald-300",
     },
     {
@@ -45,7 +45,7 @@ export const HeroSection = () => {
       tag: isAr ? "الانتقالات الخاصة" : "VIP TRANSFERS",
       title: isAr ? "توصيل 24/7 للمطار والفندق" : "24/7 Airport Shuttles",
       link: "/transfers",
-      positionClass: "-bottom-5 ltr:left-4 ltr:xl:left-8 rtl:right-4 rtl:xl:right-8",
+      positionClass: "-bottom-4 ltr:-left-4 ltr:xl:-left-8 rtl:-right-4 rtl:xl:-right-8",
       accentBg: "bg-orange-500/20 text-orange-300",
     },
   ];
@@ -70,7 +70,7 @@ export const HeroSection = () => {
               e.target.onerror = null;
               e.target.src = '/images/real/atv-quad-hero.png';
             }}
-            className="w-full h-full object-cover object-center filter brightness-100 contrast-105 saturate-105 scale-100"
+            className="w-full h-full object-cover object-center scale-100"
           />
         </picture>
         
@@ -179,24 +179,19 @@ export const HeroSection = () => {
               {/* Soft Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent"></div>
 
-              {/* Top VIP Pill Badge */}
-              <div className="absolute top-3.5 right-3.5 rtl:right-auto rtl:left-3.5 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-bold text-sky-300 shadow-md flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>{isAr ? "مغامرات شرم الحصرية" : "Exclusive Experiences"}</span>
-              </div>
-
-              {/* Real Photo Floating Bottom Badge Overlay */}
-              <div className="absolute bottom-3 sm:bottom-4 inset-x-3 sm:inset-x-4 bg-slate-900/90 backdrop-blur-md p-2.5 sm:p-3 px-3.5 sm:px-4 rounded-2xl border border-white/20 flex items-center justify-between shadow-xl">
-                <div className="flex items-center gap-2 min-w-0">
-                  <MapPin className="w-4 h-4 text-sky-400 shrink-0" />
-                  <span className="text-xs font-semibold text-white truncate">
-                    {isAr ? "صحراء شرم الشيخ • سيناء" : "Sharm El Sheikh Desert • Sinai"}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1 text-amber-400 text-xs font-bold shrink-0">
+              {/* Top Badges Row (Zero Overlap on all screens) */}
+              <div className="absolute top-3.5 inset-x-3.5 flex items-center justify-between pointer-events-none">
+                {/* Rating Badge */}
+                <div className="px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-bold text-white shadow-md flex items-center gap-1.5 pointer-events-auto">
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   <span>4.9</span>
-                  <span className="text-[10px] text-slate-400 hidden sm:inline">(1,280+)</span>
+                  <span className="text-[10px] text-slate-300">(1,280+)</span>
+                </div>
+
+                {/* VIP Exclusive Experience Badge */}
+                <div className="px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-bold text-sky-300 shadow-md flex items-center gap-1.5 pointer-events-auto">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>{isAr ? "مغامرات شرم الحصرية" : "Exclusive Experiences"}</span>
                 </div>
               </div>
             </div>

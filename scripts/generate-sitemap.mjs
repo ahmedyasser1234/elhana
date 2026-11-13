@@ -103,7 +103,8 @@ async function run() {
     <xhtml:link rel="alternate" hreflang="en" href="${loc}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${loc}" />`;
 
-    if (imgUrl) {
+    // Google Image Sitemap strictly requires image URLs to belong to the verified domain
+    if (imgUrl && rawImgUrl && rawImgUrl.startsWith(baseUrl)) {
       xml += `
     <image:image>
       <image:loc>${imgUrl}</image:loc>
@@ -134,7 +135,8 @@ async function run() {
     <xhtml:link rel="alternate" hreflang="en" href="${loc}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${loc}" />`;
 
-    if (imgUrl) {
+    // Google Image Sitemap strictly requires image URLs to belong to the verified domain
+    if (imgUrl && rawImgUrl && rawImgUrl.startsWith(baseUrl)) {
       xml += `
     <image:image>
       <image:loc>${imgUrl}</image:loc>

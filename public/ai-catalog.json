@@ -6,18 +6,32 @@
   },
   "entries": [
     {
-      "identifier": "urn:ai:elhanasafari:experiences",
+      "identifier": "urn:air:elhanasafari:tours:experiences",
       "displayName": "All Experiences & Tours",
-      "type": "api",
+      "mediaType": "text/html",
       "url": "https://www.elahanasafari.com/experiences",
-      "description": "Full directory of desert safaris, quad ATV tours, Polaris dune buggies, Ras Mohammed VIP yachts, and diving adventures in Sharm El Sheikh."
+      "description": "Full directory of desert safaris, quad ATV tours, Polaris dune buggies, Ras Mohammed VIP yachts, and diving adventures in Sharm El Sheikh.",
+      "representativeQueries": [
+        "رحلات سفاري شرم الشيخ بيتش باجي",
+        "Sharm El Sheikh desert safari quad ATV",
+        "رحلة يخت رأس محمد والجزيرة البيضاء",
+        "Ras Mohammed VIP yacht boat trip Sharm",
+        "حجز رحلات وسفاري شرم الشيخ",
+        "best tours and excursions in Sharm El Sheikh"
+      ]
     },
     {
-      "identifier": "urn:ai:elhanasafari:booking",
+      "identifier": "urn:air:elhanasafari:booking:support",
       "displayName": "Instant Booking & Support Channel",
-      "type": "action",
+      "mediaType": "text/html",
       "url": "https://wa.me/201037118060",
-      "description": "Official direct WhatsApp channel for bookings, tour reservations, and tourist assistance."
+      "description": "Official direct WhatsApp channel for bookings, tour reservations, and tourist assistance.",
+      "representativeQueries": [
+        "حجز رحلة سفاري واتساب شرم الشيخ",
+        "WhatsApp booking Sharm safari and yacht",
+        "رقم حجز رحلات الهنا جروب شرم",
+        "Instant support and reservations Sharm El Sheikh"
+      ]
     }
   ]
 }
