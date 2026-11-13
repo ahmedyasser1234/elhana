@@ -7,9 +7,7 @@ import {
   QrCode, 
   MessageSquarePlus, 
   ChevronLeft, 
-  ChevronRight,
-  Filter,
-  Sparkles
+  ChevronRight
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
@@ -473,221 +471,116 @@ export const ReviewsSection = () => {
             {isAr ? ' عنا؟' : ' Say'}
           </h2>
 
-          <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed font-normal">
-            {isAr 
-              ? 'تقييمات حقيقية وتجارب موثقة من مسافري وعائلات أكثر من 50 دولة قضوْا أجمل لحظاتهم معنا في شرم الشيخ وجنوب سيناء.'
-              : 'Authentic verified reviews from travelers and families across 50+ countries who experienced Sharm El Sheikh with us.'}
-          </p>
-        </div>
-
-        {/* Rating Breakdown & Summary Card */}
-        <div className="bg-white rounded-3xl p-5 sm:p-7 md:p-8 border border-slate-200/90 shadow-sm shadow-slate-100/60">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-            
-            {/* Overall Score Badge (Left/Top) */}
-            <div className="lg:col-span-4 text-center lg:text-start flex flex-col items-center lg:items-start justify-center space-y-3 lg:border-e lg:border-slate-100 lg:pe-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                <span>{isAr ? 'تقييم امتياز 5 نجوم' : '5-Star Excellence Rating'}</span>
-              </div>
-
-              <div className="flex items-baseline gap-2">
-                <span className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 font-heading tracking-tight">
-                  {ratingStats.average}
-                </span>
-                <span className="text-slate-600 text-base sm:text-lg font-bold">/ 5.0</span>
-              </div>
-
-              {/* Gold Star Icons */}
-              <div className="flex items-center gap-1 text-amber-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-
-              <p className="text-xs text-slate-600 font-medium">
-                {isAr 
-                  ? `بناءً على ${ratingStats.total} تقييماً موثقاً من مسافرينا`
-                  : `Based on ${ratingStats.total} verified traveler reviews`}
-              </p>
-
-              {/* Active Filter Indicator */}
-              {selectedRating !== 'all' && (
-                <button
-                  onClick={() => setSelectedRating('all')}
-                  className="inline-flex items-center gap-1.5 text-xs text-[#0284C7] hover:text-[#0369A1] font-bold pt-1 underline cursor-pointer"
-                >
-                  <Filter className="w-3.5 h-3.5" />
-                  <span>{isAr ? 'إلغاء التصفية وعرض الكل' : 'Clear filter (Show all)'}</span>
-                </button>
-              )}
+          {/* Compact Golden Rating Badge */}
+          <div className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
+            <div className="flex items-center gap-1 text-amber-400">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+              ))}
             </div>
-
-            {/* Dynamic Star Distribution Bars (Right/Bottom) */}
-            <div className="lg:col-span-8 space-y-2.5 sm:space-y-3">
-              <div className="flex items-center justify-between text-xs font-bold text-slate-700 pb-1">
-                <span>{isAr ? 'تفاصيل التقييمات حسب النجوم:' : 'Rating Distribution:'}</span>
-                <span className="text-[11px] text-slate-600 font-normal">
-                  {isAr ? '(اضغط على أي تقييم لتصفيته)' : '(Click any star to filter)'}
-                </span>
-              </div>
-
-              {ratingStats.breakdown.map((row) => {
-                const isSelected = String(selectedRating) === String(row.star);
-
-                return (
-                  <button
-                    key={row.star}
-                    type="button"
-                    onClick={() => setSelectedRating(isSelected ? 'all' : row.star)}
-                    className={`w-full flex items-center gap-3 sm:gap-4 p-2 sm:p-2.5 rounded-2xl transition-all cursor-pointer text-start ${
-                      isSelected 
-                        ? 'bg-amber-50/80 ring-2 ring-amber-400 border border-amber-200' 
-                        : 'hover:bg-slate-50 border border-transparent'
-                    }`}
-                  >
-                    {/* Star Label */}
-                    <div className="flex items-center gap-1 w-20 sm:w-24 shrink-0 text-xs font-extrabold text-slate-800">
-                      <span>{row.star}</span>
-                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 shrink-0" />
-                      <span className="text-slate-600 font-medium text-[11px]">
-                        {isAr ? 'نجوم' : 'Stars'}
-                      </span>
-                    </div>
-
-                    {/* Progress Bar Track */}
-                    <div className="flex-1 bg-slate-100 rounded-full h-3 sm:h-3.5 overflow-hidden relative shadow-inner">
-                      <div
-                        className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-500 ease-out"
-                        style={{ width: `${row.percentage}%` }}
-                      />
-                    </div>
-
-                    {/* Count & Percentage */}
-                    <div className="w-20 sm:w-24 text-end shrink-0 flex items-center justify-end gap-1.5 font-mono text-xs">
-                      <span className="font-bold text-slate-900">{row.count}</span>
-                      <span className="text-slate-600 text-[10px] font-semibold">({row.percentage}%)</span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-
-          </div>
-        </div>
-
-        {/* Controls Bar: Navigation Arrows & Status */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
-          {/* Status info */}
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-            <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>
-              {isAr
-                ? `صف التقييمات (${displayedReviews.length} من أصل ${filteredReviews.length} تقييم)`
-                : `Reviews Row (${displayedReviews.length} of ${filteredReviews.length} reviews)`}
+            <span className="text-slate-900 font-black text-sm font-mono">4.9 / 5.0</span>
+            <span className="text-slate-500 text-xs font-medium border-s border-slate-200 ps-2 ms-1">
+              {isAr ? 'أكثر من 1,280 تقييم موثق' : '1,280+ verified reviews'}
             </span>
-            {selectedRating !== 'all' && (
-              <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold">
-                {selectedRating} {isAr ? 'نجوم فقط' : 'Stars only'}
-              </span>
-            )}
+          </div>
+        </div>
+
+        {/* ── THE CAROUSEL: SINGLE ROW ONLY + TWO PROMINENT ARROWS (صف واحد وسهمين) ── */}
+        <div className="relative py-2 px-1 sm:px-2">
+          
+          {/* Arrow 1: Previous (سهم السابق) */}
+          {totalPages > 1 && (
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label={isAr ? "السابق" : "Previous"}
+              className="absolute -start-2 sm:-start-5 lg:-start-7 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white hover:bg-sky-50 text-slate-800 hover:text-[#0284C7] shadow-[0_8px_30px_rgba(0,0,0,0.18)] border-2 border-slate-200 hover:border-[#0284C7] flex items-center justify-center transition-all duration-300 active:scale-90 cursor-pointer"
+            >
+              <PrevIcon className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />
+            </button>
+          )}
+
+          {/* Single Row of Cards (صف واحد فقط) */}
+          <div 
+            onTouchStart={onTouchStartHandler}
+            onTouchMove={onTouchMoveHandler}
+            onTouchEnd={onTouchEndHandler}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 px-6 sm:px-8 transition-all duration-500"
+          >
+            {displayedReviews.map((rev) => {
+              const reviewComment = typeof rev.text === 'object' 
+                ? (rev.text[lang] || rev.text['ar'] || rev.text['en']) 
+                : rev.text;
+
+              return (
+                <div
+                  key={rev.id}
+                  className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-[#0284C7]/40 transition-all duration-300 flex flex-col justify-between space-y-4 group relative"
+                >
+                  <div className="space-y-3 relative">
+                    <div className="flex items-center justify-between">
+                      {/* Golden Stars matching rating */}
+                      <div className="flex items-center gap-0.5 text-amber-400">
+                        {[...Array(rev.rating || 5)].map((_, i) => (
+                          <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                        ))}
+                      </div>
+
+                      <Quote className="w-7 h-7 text-sky-100 group-hover:text-sky-200 transition-colors" />
+                    </div>
+
+                    {/* Quoted Comment */}
+                    <p className="text-xs text-slate-700 leading-relaxed font-medium line-clamp-4 italic">
+                      "{reviewComment}"
+                    </p>
+                  </div>
+
+                  {/* Tour & Client Metadata */}
+                  <div className="pt-3 border-t border-slate-100 space-y-3">
+                    <div className="inline-block px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-50 text-[#0369A1] border border-sky-100/80 truncate max-w-full">
+                      {isAr ? (rev.tour || 'رحلة شرم الشيخ') : (rev.tourEn || rev.tour)}
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <img 
+                        src={rev.avatar} 
+                        alt={rev.name}
+                        loading="lazy" 
+                        className="w-10 h-10 rounded-full object-cover ring-2 ring-sky-500/30 flex-shrink-0"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs font-black text-slate-900 truncate">
+                          {rev.name}
+                        </div>
+                        <div className="text-[11px] text-slate-500 font-semibold truncate">
+                          {rev.country} • {rev.date}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              );
+            })}
           </div>
 
-          {/* TWO NAVIGATION ARROWS (السهمين للتنقل بين التقييمات) */}
+          {/* Arrow 2: Next (سهم التالي) */}
           {totalPages > 1 && (
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handlePrev}
-                aria-label={isAr ? "السابق" : "Previous"}
-                className="w-10 h-10 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-[#0284C7] border border-slate-200 hover:border-sky-300 flex items-center justify-center transition shadow-xs cursor-pointer active:scale-95"
-              >
-                <PrevIcon className="w-5 h-5" />
-              </button>
-
-              <div className="px-3 py-1.5 text-xs font-bold font-mono text-slate-700 bg-white border border-slate-200 rounded-xl min-w-[70px] text-center select-none shadow-xs">
-                {currentPage + 1} / {totalPages}
-              </div>
-
-              <button
-                type="button"
-                onClick={handleNext}
-                aria-label={isAr ? "التالي" : "Next"}
-                className="w-10 h-10 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-[#0284C7] border border-slate-200 hover:border-sky-300 flex items-center justify-center transition shadow-xs cursor-pointer active:scale-95"
-              >
-                <NextIcon className="w-5 h-5" />
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label={isAr ? "التالي" : "Next"}
+              className="absolute -end-2 sm:-end-5 lg:-end-7 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white hover:bg-sky-50 text-slate-800 hover:text-[#0284C7] shadow-[0_8px_30px_rgba(0,0,0,0.18)] border-2 border-slate-200 hover:border-[#0284C7] flex items-center justify-center transition-all duration-300 active:scale-90 cursor-pointer"
+            >
+              <NextIcon className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />
+            </button>
           )}
+
         </div>
 
-        {/* 4 Reviews in 1 Row on Desktop (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`) */}
-        <div 
-          onTouchStart={onTouchStartHandler}
-          onTouchMove={onTouchMoveHandler}
-          onTouchEnd={onTouchEndHandler}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 transition-all duration-300"
-        >
-          {displayedReviews.map((rev) => {
-            const reviewComment = typeof rev.text === 'object' 
-              ? (rev.text[lang] || rev.text['ar'] || rev.text['en']) 
-              : rev.text;
-
-            return (
-              <div
-                key={rev.id}
-                className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-[#0284C7]/40 transition-all duration-300 flex flex-col justify-between space-y-4 group relative"
-              >
-                <div className="space-y-3 relative">
-                  <div className="flex items-center justify-between">
-                    {/* Golden Stars matching rating */}
-                    <div className="flex items-center gap-0.5 text-amber-400">
-                      {[...Array(rev.rating || 5)].map((_, i) => (
-                        <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-
-                    <Quote className="w-7 h-7 text-sky-100 group-hover:text-sky-200 transition-colors" />
-                  </div>
-
-                  {/* Quoted Comment */}
-                  <p className="text-xs text-slate-700 leading-relaxed font-medium line-clamp-4 italic">
-                    "{reviewComment}"
-                  </p>
-                </div>
-
-                {/* Tour & Client Metadata */}
-                <div className="pt-3 border-t border-slate-100 space-y-3">
-                  <div className="inline-block px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-50 text-[#0369A1] border border-sky-100/80 truncate max-w-full">
-                    {isAr ? (rev.tour || 'رحلة شرم الشيخ') : (rev.tourEn || rev.tour)}
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <img 
-                      src={rev.avatar} 
-                      alt={rev.name}
-                      loading="lazy" 
-                      className="w-10 h-10 rounded-full object-cover ring-2 ring-sky-500/30 flex-shrink-0"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <div className="text-xs font-black text-slate-900 truncate">
-                        {rev.name}
-                      </div>
-                      <div className="text-[11px] text-slate-500 font-semibold truncate">
-                        {rev.country} • {rev.date}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Pagination Dots (for quick navigation with accessible 40x40 tap targets) */}
+        {/* Pagination Dots (مؤشر التنقل بين الصفحات) */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-1 pt-2">
+          <div className="flex items-center justify-center gap-1.5 pt-1">
             {[...Array(totalPages)].map((_, idx) => (
               <button
                 key={idx}
@@ -699,7 +592,7 @@ export const ReviewsSection = () => {
                 <span
                   className={`block transition-all duration-300 rounded-full pointer-events-none ${
                     currentPage === idx 
-                      ? 'w-7 h-2.5 bg-[#0284C7]' 
+                      ? 'w-8 h-2.5 bg-[#0284C7]' 
                       : 'w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400'
                   }`}
                 />
@@ -709,7 +602,7 @@ export const ReviewsSection = () => {
         )}
 
         {/* Bottom CTA Row: Add Review / QR */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <Link
             to="/leave-review"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0369A1] hover:bg-[#075985] text-white text-xs font-extrabold transition shadow-md shadow-sky-900/20 active:scale-95"
