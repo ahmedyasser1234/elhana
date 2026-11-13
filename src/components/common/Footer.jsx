@@ -80,12 +80,19 @@ export const Footer = () => {
           
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="inline-flex items-center gap-3 group" title="El Hana Group">
-              <img
-                src="/logo.png"
-                alt="El Hana Group Logo"
-                className="w-14 h-14 rounded-full object-cover border-2 border-[#0284C7] shadow-lg shadow-[#0284C7]/20 group-hover:scale-105 transition duration-300"
-              />
+            <Link to="/" className="inline-flex items-center gap-3 group" title="El Hana Group" aria-label="El Hana Group Home">
+              <picture>
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img
+                  src="/logo.png"
+                  alt="El Hana Group Logo"
+                  width="56"
+                  height="56"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-14 h-14 rounded-full object-cover border-2 border-[#0284C7] shadow-lg shadow-[#0284C7]/20 group-hover:scale-105 transition duration-300"
+                />
+              </picture>
               <span className="font-extrabold text-xl text-slate-900 font-heading tracking-tight group-hover:text-[#0284C7] transition">
                 El Hana Group
               </span>
@@ -102,6 +109,7 @@ export const Footer = () => {
                 rel="noreferrer"
                 className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-gradient-to-tr hover:from-amber-500 hover:to-purple-600 hover:border-transparent transition duration-300"
                 title="Instagram @el_hana_group"
+                aria-label="Instagram El Hana Group"
               >
                 <Camera className="w-4 h-4" />
               </a>
@@ -111,6 +119,7 @@ export const Footer = () => {
                 rel="noreferrer"
                 className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2] transition duration-300"
                 title="Facebook"
+                aria-label="Facebook El Hana Group"
               >
                 <Share2 className="w-4 h-4" />
               </a>
@@ -118,6 +127,7 @@ export const Footer = () => {
                 href="tel:+20110077330"
                 className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#0284C7] hover:border-[#0284C7] transition duration-300"
                 title="اتصال هاتف: 0110077330"
+                aria-label="اتصال هاتف 0110077330"
               >
                 <Phone className="w-4 h-4" />
               </a>
@@ -127,6 +137,7 @@ export const Footer = () => {
                 rel="noreferrer"
                 className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-[#25D366] hover:border-[#25D366] transition duration-300"
                 title="واتساب: 01037118060"
+                aria-label="محادثة واتساب 01037118060"
               >
                 <MessageCircle className="w-4 h-4" />
               </a>

@@ -54,18 +54,23 @@ export const HeroSection = () => {
     <div className="relative min-h-[calc(100svh-var(--header-h))] flex flex-col justify-between py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-slate-900 w-full">
       {/* 1. REAL PHOTO BACKGROUND - SOFT DARK SLATE SHADOW FOR ULTRA READABILITY */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
-          src="/images/real/polaris-buggy-family.jpg"
-          alt="El Hana Group Buggy Safari Background"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = '/images/real/atv-quad-hero.png';
-          }}
-          className="w-full h-full object-cover object-center filter brightness-100 contrast-105 saturate-105 scale-100"
-        />
+        <picture>
+          <source srcSet="/images/real/polaris-buggy-family.webp" type="image/webp" />
+          <img
+            src="/images/real/polaris-buggy-family.jpg"
+            alt="El Hana Group Buggy Safari Background"
+            width="1400"
+            height="800"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/images/real/atv-quad-hero.png';
+            }}
+            className="w-full h-full object-cover object-center filter brightness-100 contrast-105 saturate-105 scale-100"
+          />
+        </picture>
         
         {/* Soft Dark Vignette for maximum text readability */}
         <div className="absolute inset-0 bg-slate-950/65 lg:bg-transparent"></div>
@@ -218,9 +223,9 @@ export const HeroSection = () => {
                         <span className="text-[10px] font-bold tracking-wider uppercase block text-sky-400">
                           {card.tag}
                         </span>
-                        <h4 className="text-xs font-bold text-white font-heading leading-snug truncate">
+                        <div className="text-xs font-bold text-white font-heading leading-snug truncate">
                           {card.title}
-                        </h4>
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -245,9 +250,9 @@ export const HeroSection = () => {
                       <span className="text-[9px] sm:text-[10px] font-bold text-sky-400 block truncate">
                         {card.tag}
                       </span>
-                      <h4 className="text-[11px] sm:text-xs font-bold text-white group-hover:text-sky-300 transition truncate leading-tight">
+                      <div className="text-[11px] sm:text-xs font-bold text-white group-hover:text-sky-300 transition truncate leading-tight">
                         {card.title}
-                      </h4>
+                      </div>
                     </div>
                   </Link>
                 );

@@ -306,10 +306,12 @@ export const FloatingSearchWidget = () => {
       {/* 3. Date & Guests */}
       <div className="grid grid-cols-2 gap-2">
         <div className="space-y-1.5">
-          <label className="text-[11px] md:text-xs uppercase font-bold text-sky-700 tracking-wider block">
+          <label htmlFor="floating-search-date" className="text-[11px] md:text-xs uppercase font-bold text-sky-800 tracking-wider block">
             {t('search.selectDate', isAr ? 'التاريخ' : 'Date')}
           </label>
           <input
+            id="floating-search-date"
+            aria-label={t('search.selectDate', isAr ? 'التاريخ' : 'Date')}
             type="date"
             value={date}
             min={new Date().toISOString().split('T')[0]}
@@ -320,7 +322,7 @@ export const FloatingSearchWidget = () => {
 
         {/* Guests Dropdown */}
         <div className="space-y-1.5 relative" ref={guestsRef}>
-          <label className="text-[11px] md:text-xs uppercase font-bold text-sky-700 tracking-wider block">
+          <label className="text-[11px] md:text-xs uppercase font-bold text-sky-800 tracking-wider block">
             {t('search.guests', isAr ? 'عدد الأفراد' : 'Guests')}
           </label>
           <button
@@ -382,7 +384,7 @@ export const FloatingSearchWidget = () => {
       <div>
         <button
           type="submit"
-          className="w-full py-3 bg-[#F97316] hover:bg-[#EA580C] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-[#F97316]/25 hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
+          className="w-full py-3 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-[#EA580C]/25 hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
         >
           <span>{t('search.searchBtn', isAr ? 'بحث عن رحلة' : 'Find Adventures')}</span>
         </button>

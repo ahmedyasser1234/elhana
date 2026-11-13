@@ -499,7 +499,7 @@ export const ReviewsSection = () => {
                 <span className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 font-heading tracking-tight">
                   {ratingStats.average}
                 </span>
-                <span className="text-slate-400 text-base sm:text-lg font-bold">/ 5.0</span>
+                <span className="text-slate-600 text-base sm:text-lg font-bold">/ 5.0</span>
               </div>
 
               {/* Gold Star Icons */}
@@ -509,7 +509,7 @@ export const ReviewsSection = () => {
                 ))}
               </div>
 
-              <p className="text-xs text-slate-500 font-medium">
+              <p className="text-xs text-slate-600 font-medium">
                 {isAr 
                   ? `بناءً على ${ratingStats.total} تقييماً موثقاً من مسافرينا`
                   : `Based on ${ratingStats.total} verified traveler reviews`}
@@ -529,9 +529,9 @@ export const ReviewsSection = () => {
 
             {/* Dynamic Star Distribution Bars (Right/Bottom) */}
             <div className="lg:col-span-8 space-y-2.5 sm:space-y-3">
-              <div className="flex items-center justify-between text-xs font-bold text-slate-600 pb-1">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-700 pb-1">
                 <span>{isAr ? 'تفاصيل التقييمات حسب النجوم:' : 'Rating Distribution:'}</span>
-                <span className="text-[11px] text-slate-400 font-normal">
+                <span className="text-[11px] text-slate-600 font-normal">
                   {isAr ? '(اضغط على أي تقييم لتصفيته)' : '(Click any star to filter)'}
                 </span>
               </div>
@@ -554,7 +554,7 @@ export const ReviewsSection = () => {
                     <div className="flex items-center gap-1 w-20 sm:w-24 shrink-0 text-xs font-extrabold text-slate-800">
                       <span>{row.star}</span>
                       <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 shrink-0" />
-                      <span className="text-slate-500 font-medium text-[11px]">
+                      <span className="text-slate-600 font-medium text-[11px]">
                         {isAr ? 'نجوم' : 'Stars'}
                       </span>
                     </div>
@@ -570,7 +570,7 @@ export const ReviewsSection = () => {
                     {/* Count & Percentage */}
                     <div className="w-20 sm:w-24 text-end shrink-0 flex items-center justify-end gap-1.5 font-mono text-xs">
                       <span className="font-bold text-slate-900">{row.count}</span>
-                      <span className="text-slate-400 text-[10px]">({row.percentage}%)</span>
+                      <span className="text-slate-600 text-[10px] font-semibold">({row.percentage}%)</span>
                     </div>
                   </button>
                 );
@@ -712,21 +712,25 @@ export const ReviewsSection = () => {
           })}
         </div>
 
-        {/* Pagination Dots (for quick navigation) */}
+        {/* Pagination Dots (for quick navigation with accessible 40x40 tap targets) */}
         {!showAll && totalPages > 1 && (
-          <div className="flex items-center justify-center gap-1.5 pt-2">
+          <div className="flex items-center justify-center gap-1 pt-2">
             {[...Array(totalPages)].map((_, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setCurrentPage(idx)}
-                aria-label={`Go to page ${idx + 1}`}
-                className={`transition-all duration-300 rounded-full cursor-pointer ${
-                  currentPage === idx 
-                    ? 'w-7 h-2.5 bg-[#0284C7]' 
-                    : 'w-2.5 h-2.5 bg-slate-200 hover:bg-slate-300'
-                }`}
-              />
+                aria-label={isAr ? `الانتقال إلى الصفحة ${idx + 1}` : `Go to page ${idx + 1}`}
+                className="w-10 h-10 inline-flex items-center justify-center cursor-pointer rounded-full hover:bg-slate-100 transition"
+              >
+                <span
+                  className={`block transition-all duration-300 rounded-full pointer-events-none ${
+                    currentPage === idx 
+                      ? 'w-7 h-2.5 bg-[#0284C7]' 
+                      : 'w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400'
+                  }`}
+                />
+              </button>
             ))}
           </div>
         )}

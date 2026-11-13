@@ -25,7 +25,7 @@ export const CategoryCard = ({ category, active = false, onClick }) => {
           <IconComponent className="w-5 h-5" />
         </div>
         <div>
-          <h4 className="text-xs md:text-sm font-bold font-heading line-clamp-1">{category.title}</h4>
+          <div className="text-xs md:text-sm font-bold font-heading line-clamp-1">{category.title}</div>
           <span className={`text-[11px] font-medium ${active ? 'text-stone-300' : 'text-stone-500'}`}>
             {category.count} Adventures
           </span>

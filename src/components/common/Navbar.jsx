@@ -147,17 +147,24 @@ export const Navbar = () => {
           <div className="flex items-center justify-between gap-4">
 
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group shrink-0" title="El Hana Group">
-              <img
-                src="/logo.png"
-                alt="El Hana Group Logo"
-                onError={(e) => {
-                  if (e.currentTarget.src.endsWith('/logo.png')) {
-                    e.currentTarget.src = '/logo.jpg';
-                  }
-                }}
-                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover border-2 border-[#0284C7] shadow-md shadow-[#0284C7]/20 group-hover:scale-105 transition duration-300 bg-white"
-              />
+            <Link to="/" className="flex items-center gap-3 group shrink-0" title="El Hana Group" aria-label="El Hana Group Homepage">
+              <picture>
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img
+                  src="/logo.png"
+                  alt="El Hana Group Logo"
+                  width="44"
+                  height="44"
+                  loading="eager"
+                  decoding="async"
+                  onError={(e) => {
+                    if (e.currentTarget.src.endsWith('/logo.png')) {
+                      e.currentTarget.src = '/logo.jpg';
+                    }
+                  }}
+                  className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover border-2 border-[#0284C7] shadow-md shadow-[#0284C7]/20 group-hover:scale-105 transition duration-300 bg-white"
+                />
+              </picture>
               <span className="font-extrabold text-base md:text-lg tracking-tight text-slate-900 group-hover:text-[#0284C7] transition hidden sm:inline-block font-heading">
                 El Hana Group
               </span>
@@ -314,17 +321,25 @@ export const Navbar = () => {
               to="/"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center gap-2.5 group"
+              aria-label="El Hana Group Homepage"
             >
-              <img
-                src="/logo.png"
-                alt="El Hana Group Logo"
-                onError={(e) => {
-                  if (e.currentTarget.src.endsWith('/logo.png')) {
-                    e.currentTarget.src = '/logo.jpg';
-                  }
-                }}
-                className="w-9 h-9 rounded-full border-2 border-[#0284C7] object-cover shadow-xs group-hover:scale-105 transition bg-white"
-              />
+              <picture>
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img
+                  src="/logo.png"
+                  alt="El Hana Group Logo"
+                  width="36"
+                  height="36"
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e) => {
+                    if (e.currentTarget.src.endsWith('/logo.png')) {
+                      e.currentTarget.src = '/logo.jpg';
+                    }
+                  }}
+                  className="w-9 h-9 rounded-full border-2 border-[#0284C7] object-cover shadow-xs group-hover:scale-105 transition bg-white"
+                />
+              </picture>
               <span className="font-black text-base tracking-tight text-slate-900 group-hover:text-[#0284C7] transition font-heading">
                 El Hana Group
               </span>
@@ -333,6 +348,7 @@ export const Navbar = () => {
             <button
               onClick={() => setMobileMenuOpen(false)}
               className="p-2.5 rounded-2xl bg-slate-100 text-slate-700 hover:bg-red-50 hover:text-red-600 transition duration-200 active:scale-95 cursor-pointer"
+              aria-label={isAr ? "إغلاق القائمة" : "Close menu"}
               aria-label="Close menu"
             >
               <X className="w-5 h-5 stroke-[2.5]" />

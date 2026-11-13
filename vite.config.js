@@ -126,6 +126,7 @@ export default defineConfig({
     mediaManifestPlugin(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: 'script-defer',
       includeAssets: ['favicon.svg'],
       manifest: {
         name: 'El Hana Group Tourism & Safaris',

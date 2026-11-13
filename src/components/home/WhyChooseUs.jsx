@@ -52,7 +52,7 @@ export const WhyChooseUs = () => {
         {/* Section Header */}
         <div className="space-y-4 max-w-3xl">
           <TextMaskReveal>
-            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/90 border border-sky-200 text-[#0284C7] text-xs font-extrabold uppercase tracking-wider shadow-sm">
+            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/90 border border-sky-200 text-[#0369A1] text-xs font-extrabold uppercase tracking-wider shadow-sm">
               <span>{t('whyUs.badge')}</span>
             </div>
           </TextMaskReveal>
@@ -104,7 +104,7 @@ export const WhyChooseUs = () => {
                       </p>
                     </div>
 
-                    <div className="pt-2 text-xs font-extrabold text-[#0284C7] flex items-center gap-1.5 group-hover:gap-2.5 transition-all duration-300">
+                    <div className="pt-2 text-xs font-extrabold text-[#0369A1] flex items-center gap-1.5 group-hover:gap-2.5 transition-all duration-300">
                       <span>{t('common.learnMore')}</span>
                       <ArrowIcon className="w-4 h-4 stroke-[2.5]" />
                     </div>

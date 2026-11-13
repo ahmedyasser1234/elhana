@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agenticresourcediscovery.org/schema/v1/catalog.json",
+  "name": "El Hana Group API & Excursion Catalog",
+  "description": "Agentic discovery catalog for tours, safaris, and marine excursions in Sharm El Sheikh, Egypt.",
+  "version": "1.0.0",
+  "provider": {
+    "name": "El Hana Group",
+    "url": "https://www.elahanasafari.com"
+  },
+  "resources": [
+    {
+      "name": "All Experiences",
+      "type": "catalog",
+      "url": "https://www.elahanasafari.com/experiences",
+      "description": "Directory of all desert safaris, yacht cruises, diving, and tours."
+    },
+    {
+      "name": "Booking WhatsApp",
+      "type": "action",
+      "url": "https://wa.me/201037118060",
+      "description": "Direct agent and customer booking channel."
+    }
+  ]
+}

@@ -72,7 +72,7 @@ export const ServicesListSection = () => {
         {/* Header */}
         <div className="space-y-4 max-w-3xl">
           <TextMaskReveal>
-            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/90 border border-orange-200 text-[#F97316] text-xs font-bold uppercase tracking-wider shadow-sm">
+            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/90 border border-orange-200 text-[#C2410C] text-xs font-bold uppercase tracking-wider shadow-sm">
               <span>{isAr ? "وجهات وتجارب رحلاتنا" : "Our Tour Destinations & Experiences"}</span>
             </div>
           </TextMaskReveal>
@@ -80,7 +80,7 @@ export const ServicesListSection = () => {
           <TextMaskReveal delay={0.15}>
             <h2 className="text-3xl md:text-5xl font-black font-heading tracking-tight text-slate-900 leading-tight">
               {isAr ? "رحلات سيناء وشرم الشيخ بأعلى معايير " : "Sinai & Sharm El Sheikh Tours With "}
-              <span className="text-[#F97316]">{isAr ? "الاحترافية والأمان." : "Excellence & Safety."}</span>
+              <span className="text-[#C2410C]">{isAr ? "الاحترافية والأمان." : "Excellence & Safety."}</span>
             </h2>
           </TextMaskReveal>
         </div>
@@ -99,10 +99,10 @@ export const ServicesListSection = () => {
               <TiltCard maxRotate={8} className="h-full">
                 <div className="bg-white rounded-3xl p-7 border border-orange-100 shadow-[0_16px_40px_-12px_rgba(15,23,42,0.12)] hover:border-[#F97316] hover:shadow-2xl transition-all duration-300 space-y-6 flex flex-col justify-between group h-full">
                   <div className="space-y-4">
-                    <span className="text-xs font-bold text-[#F97316] bg-[#F97316]/10 px-3 py-1 rounded-xl tracking-wider inline-block">
+                    <span className="text-xs font-extrabold text-[#C2410C] bg-orange-100 px-3 py-1 rounded-xl tracking-wider inline-block">
                       {item.num}
                     </span>
-                    <h3 className="text-xl font-bold text-slate-900 font-heading group-hover:text-[#F97316] transition">
+                    <h3 className="text-xl font-bold text-slate-900 font-heading group-hover:text-[#C2410C] transition">
                       {item.title}
                     </h3>
                     <p className="text-xs text-slate-600 leading-relaxed font-normal">
@@ -111,8 +111,8 @@ export const ServicesListSection = () => {
                   </div>
 
                   <div className="pt-4 border-t border-orange-50 flex items-center justify-between">
-                    <Link to={item.link}>
-                      <MagneticButton className="text-xs font-bold text-[#F97316] flex items-center gap-1.5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition duration-300">
+                    <Link to={item.link} aria-label={isAr ? `استكشف تجربة ${item.title}` : `Explore ${item.title}`}>
+                      <MagneticButton className="text-xs font-extrabold text-[#C2410C] flex items-center gap-1.5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition duration-300">
                         <span>{isAr ? "استكشف التجربة" : "Explore Experience"}</span>
                         <span>→</span>
                       </MagneticButton>

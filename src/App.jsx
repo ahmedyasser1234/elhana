@@ -10,9 +10,9 @@ import { Toast } from './components/common/Toast';
 import { WhatsAppButton } from './components/common/WhatsAppButton';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import { QuickAdventureBookingModal } from './components/booking/QuickAdventureBookingModal';
+import HomePage from './pages/HomePage';
 
-// Lazy Loaded Pages for high performance & fast initial load
-const HomePage = lazy(() => import('./pages/HomePage'));
+// Lazy Loaded Subpages for code-splitting & fast performance
 const SafariToursPage = lazy(() => import('./pages/SafariToursPage'));
 const ATVToursPage = lazy(() => import('./pages/ATVToursPage'));
 const BuggyToursPage = lazy(() => import('./pages/BuggyToursPage'));

@@ -80,6 +80,7 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
               <div className="mt-4 flex items-center justify-between gap-4">
                 <Link
                   to={trip.href}
+                  aria-label={`${t('trips.view', 'عرض الرحلة')}: ${trip.title}`}
                   className="inline-flex min-h-10 sm:min-h-11 items-center justify-center border border-neutral-900 px-5 sm:px-6 text-xs sm:text-sm font-semibold text-neutral-900 transition hover:bg-neutral-900 hover:text-white rounded-xl"
                 >
                   {t('trips.view', 'عرض الرحلة')}

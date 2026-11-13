@@ -42,21 +42,23 @@ export const InstagramGallery = () => {
               <img
                 src={img.url}
                 alt="El Hana Group Real Tour"
+                width="300"
+                height="300"
                 loading="lazy"
                 className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
               />
               <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-white backdrop-blur-xs">
-                <span className="text-xs font-black text-white bg-[#F97316] px-3 py-1 rounded-full shadow-sm">{img.tag}</span>
+                <span className="text-xs font-black text-white bg-[#EA580C] px-3 py-1 rounded-full shadow-sm">{img.tag}</span>
               </div>
             </motion.div>
           ))}
         </div>
 
         <a
-          href="https://instagram.com"
+          href="https://www.instagram.com/el_hana_group/"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-[#F97316] hover:bg-[#EA580C] px-7 py-3 rounded-full shadow-md hover:shadow-lg transition duration-300"
+          className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-white bg-[#EA580C] hover:bg-[#C2410C] px-7 py-3 rounded-full shadow-md hover:shadow-lg transition duration-300"
         >
           <span>{t('instagram.followBtn')}</span>
           <span>→</span>
