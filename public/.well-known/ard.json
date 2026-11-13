@@ -1,0 +1,23 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "El Hana Group - Sharm El Sheikh Tours & Safari",
+    "identifier": "https://www.elahanasafari.com"
+  },
+  "entries": [
+    {
+      "identifier": "urn:ai:elhanasafari:experiences",
+      "displayName": "All Experiences & Tours",
+      "type": "api",
+      "url": "https://www.elahanasafari.com/experiences",
+      "description": "Full directory of desert safaris, quad ATV tours, Polaris dune buggies, Ras Mohammed VIP yachts, and diving adventures in Sharm El Sheikh."
+    },
+    {
+      "identifier": "urn:ai:elhanasafari:booking",
+      "displayName": "Instant Booking & Support Channel",
+      "type": "action",
+      "url": "https://wa.me/201037118060",
+      "description": "Official direct WhatsApp channel for bookings, tour reservations, and tourist assistance."
+    }
+  ]
+}

@@ -1,24 +1,23 @@
 {
-  "$schema": "https://agenticresourcediscovery.org/schema/v1/catalog.json",
-  "name": "El Hana Group API & Excursion Catalog",
-  "description": "Agentic discovery catalog for tours, safaris, and marine excursions in Sharm El Sheikh, Egypt.",
-  "version": "1.0.0",
-  "provider": {
-    "name": "El Hana Group",
-    "url": "https://www.elahanasafari.com"
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "El Hana Group - Sharm El Sheikh Tours & Safari",
+    "identifier": "https://www.elahanasafari.com"
   },
-  "resources": [
+  "entries": [
     {
-      "name": "All Experiences",
-      "type": "catalog",
+      "identifier": "urn:ai:elhanasafari:experiences",
+      "displayName": "All Experiences & Tours",
+      "type": "api",
       "url": "https://www.elahanasafari.com/experiences",
-      "description": "Directory of all desert safaris, yacht cruises, diving, and tours."
+      "description": "Full directory of desert safaris, quad ATV tours, Polaris dune buggies, Ras Mohammed VIP yachts, and diving adventures in Sharm El Sheikh."
     },
     {
-      "name": "Booking WhatsApp",
+      "identifier": "urn:ai:elhanasafari:booking",
+      "displayName": "Instant Booking & Support Channel",
       "type": "action",
       "url": "https://wa.me/201037118060",
-      "description": "Direct agent and customer booking channel."
+      "description": "Official direct WhatsApp channel for bookings, tour reservations, and tourist assistance."
     }
   ]
 }

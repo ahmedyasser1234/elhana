@@ -55,8 +55,9 @@
 
     <!-- Agentic AI Discovery -->
     <link rel="llms-txt" type="text/markdown" href="/llms.txt" />
-    <link rel="ai-catalog" type="application/json" href="/ai-catalog.json" />
-    <link rel="alternate" type="application/json" href="/.well-known/ai-catalog.json" />
+    <link rel="ai-catalog" type="application/json" href="/.well-known/ai-catalog.json" />
+    <link rel="ard" type="application/json" href="/.well-known/ard.json" />
+    <link rel="alternate" type="application/json" href="/ai-catalog.json" />
 
     <!-- Preconnect & Asynchronous Fonts (No render blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -132,7 +133,15 @@
     </script>
   </head>
   <body class="bg-[#F8FAFC] text-[#0F172A] font-sans antialiased selection:bg-[#0284C7] selection:text-white overflow-x-clip">
-    <div id="root"></div>
+    <div id="root">
+      <div style="position:absolute;inset:0;height:100vh;background:#0f172a;overflow:hidden;z-index:0">
+        <picture>
+          <source media="(max-width: 640px)" srcset="/images/real/polaris-buggy-family-mobile.webp" type="image/webp" />
+          <source srcset="/images/real/polaris-buggy-family.webp" type="image/webp" />
+          <img src="/images/real/polaris-buggy-family-mobile.webp" alt="El Hana Group Buggy Safari Background" width="1200" height="675" fetchpriority="high" decoding="async" style="width:100%;height:100%;object-fit:cover;filter:brightness(1) contrast(1.05)" />
+        </picture>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
