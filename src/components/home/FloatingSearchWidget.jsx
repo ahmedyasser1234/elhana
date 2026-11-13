@@ -384,7 +384,7 @@ export const FloatingSearchWidget = () => {
       <div>
         <button
           type="submit"
-          className="w-full py-3 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-[#EA580C]/25 hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
+          className="w-full py-3 bg-[#C2410C] hover:bg-[#9A3412] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-[#C2410C]/25 hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
         >
           <span>{t('search.searchBtn', isAr ? 'بحث عن رحلة' : 'Find Adventures')}</span>
         </button>

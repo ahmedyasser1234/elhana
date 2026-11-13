@@ -170,8 +170,8 @@ export const EXPERIENCES = [
     shortDescription: "Ride through the spectacular Sinai desert dunes on a powerful 250cc quad bike with expert guides.",
     description: "Feel the thrill of speed and adrenaline as you maneuver your quad bike across rugged desert paths, canyons, and golden sand dunes in the heart of South Sinai. Stop at an authentic Bedouin tent to rest, sample herbal tea, and listen to the natural echo of the desert mountains.",
     images: [
-      "/images/real/atv-quad.jpg",
-      "/images/real/polaris-buggy-white.jpg",
+      "/images/real/atv-quad.webp",
+      "/images/real/polaris-buggy-white.webp",
       "/images/real/atv-quad-hero.png"
     ],
     duration: "3 Hours",
@@ -227,8 +227,8 @@ export const EXPERIENCES = [
     shortDescription: "Command a heavy-duty 2-seater or 4-seater off-road buggy across high sand hills and mountain trails.",
     description: "Take the wheel of an off-road buggy engineered for Sinai's rocky desert terrain. Perfect for couples, families, or small groups looking for speed, stability, and maximum fun with roll-cage protection.",
     images: [
-      "/images/real/polaris-buggy-white.jpg",
-      "/images/real/polaris-buggy-family.jpg",
+      "/images/real/polaris-buggy-white.webp",
+      "/images/real/polaris-buggy-family.webp",
       "/images/real/family-buggy-ride.jpg"
     ],
     duration: "3 Hours",
@@ -286,7 +286,7 @@ export const EXPERIENCES = [
     images: [
       "/images/real/camel-caravan.jpg",
       "/images/real/family-buggy-ride.jpg",
-      "/images/real/atv-quad.jpg"
+      "/images/real/atv-quad.webp"
     ],
     duration: "5 Hours",
     location: "Bedouin Desert Valley, Sharm El Sheikh",
@@ -381,7 +381,7 @@ export const EXPERIENCES = [
     description: "Whether you are a complete beginner or an experienced equestrian rider, enjoy an horseback ride through desert trails or coastal paths. Choose 30 minutes ($15) or 1 full hour ($25). Includes hotel pickup and safety gear.",
     images: [
       "/images/real/horse-riding-hero.jpg",
-      "/images/real/atv-quad.jpg"
+      "/images/real/atv-quad.webp"
     ],
     duration: "2 - 3 Hours",
     location: "Desert & Coast, Sharm El Sheikh",
@@ -611,8 +611,8 @@ export const EXPERIENCES = [
     shortDescription: "The ultimate Sinai desert adventure combining ATV Quad, Dune Buggy, Camel Ride, Bedouin BBQ & stargazing.",
     description: "Why choose one when you can experience all desert adventures in a single action-packed afternoon and evening? Ride quads through canyon trails, command a dune buggy, mount a camel, taste authentic Bedouin bread and tea, enjoy a lavish dinner buffet with live oriental performances, and stargaze with a telescope.",
     images: [
-      "/images/real/polaris-buggy-family.jpg",
-      "/images/real/atv-quad.jpg",
+      "/images/real/polaris-buggy-family.webp",
+      "/images/real/atv-quad.webp",
       "/images/real/camel-caravan.jpg"
     ],
     duration: "6 Hours",
@@ -869,8 +869,8 @@ export const EXPERIENCES = [
     shortDescription: "Drive top-of-the-line Polaris XPEDITION (5-Seater VIP) or 1000cc Turbo Can-Am buggies across Sinai dunes in ultimate luxury.",
     description: "Elevate your desert safari experience with our ultra-luxury fleet of Polaris XPEDITION ADV 5-seater family buggies and high-octane 1000cc Turbo Can-Am Maverick vehicles. Engineered with heavy-duty long-travel suspension, plush bucket seats, and enclosed roll-cages for supreme power, safety, and comfort.",
     images: [
-      "/images/real/polaris-buggy-white.jpg",
-      "/images/real/polaris-buggy-family.jpg",
+      "/images/real/polaris-buggy-white.webp",
+      "/images/real/polaris-buggy-family.webp",
       "/images/real/family-buggy-ride.jpg"
     ],
     duration: "3.5 Hours",
@@ -1003,7 +1003,7 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
             title: "الانتقال المريح من الفندق",
             desc: "الانتقال بسيارات حديثة ومكيفة من استقبال الفندق بشرم الشيخ مباشرة إلى مقر مركز السفاري.",
             images: [
-              "/images/real/atv-quad.jpg",
+              "/images/real/atv-quad.webp",
               "/images/real/atv-quad-hero.png"
             ]
           },
@@ -1012,8 +1012,8 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
             title: "مقر السفاري وتجهيزات السلامة",
             desc: "الوصول لمركز السفاري، ارتداء الخوذات وشال الصحراء واستلام تعليمات القيادة والأمان من المرشد.",
             images: [
-              "/images/real/atv-quad.jpg",
-              "/images/real/polaris-buggy-white.jpg"
+              "/images/real/atv-quad.webp",
+              "/images/real/polaris-buggy-white.webp"
             ]
           },
           {
@@ -1022,7 +1022,7 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
             desc: "الانطلاق بالصحراء الكبرى بين جبال سيناء والتوقف في وادي الصدى لتجربة صدى الصوت والتصوير.",
             images: [
               "/images/real/atv-quad-hero.png",
-              "/images/real/atv-quad.jpg"
+              "/images/real/atv-quad.webp"
             ]
           },
           {

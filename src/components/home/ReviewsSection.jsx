@@ -685,7 +685,7 @@ export const ReviewsSection = () => {
 
                 {/* Tour & Client Metadata */}
                 <div className="pt-3 border-t border-slate-100 space-y-3">
-                  <div className="inline-block px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-50 text-[#0284C7] border border-sky-100/80 truncate max-w-full">
+                  <div className="inline-block px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-50 text-[#0369A1] border border-sky-100/80 truncate max-w-full">
                     {isAr ? (rev.tour || 'رحلة شرم الشيخ') : (rev.tourEn || rev.tour)}
                   </div>
 
@@ -739,7 +739,7 @@ export const ReviewsSection = () => {
         <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
           <Link
             to="/leave-review"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-extrabold transition shadow-md shadow-sky-600/20 active:scale-95"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0369A1] hover:bg-[#075985] text-white text-xs font-extrabold transition shadow-md shadow-sky-900/20 active:scale-95"
           >
             <MessageSquarePlus className="w-4 h-4" />
             <span>{isAr ? 'أضف تقييمك لرحلتك الآن' : 'Leave a Tour Review'}</span>

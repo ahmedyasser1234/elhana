@@ -7,12 +7,12 @@ export const InstagramGallery = () => {
   const { t } = useTranslation();
 
   const images = [
-    { url: "/images/real/atv-quad.jpg", tag: "#ElHanaQuad" },
-    { url: "/images/real/polaris-buggy-family.jpg", tag: "#PolarisBuggy" },
+    { url: "/images/real/atv-quad.webp", tag: "#ElHanaQuad" },
+    { url: "/images/real/polaris-buggy-family.webp", tag: "#PolarisBuggy" },
     { url: "/images/real/camel-caravan.jpg", tag: "#BedouinCamel" },
     { url: "/images/real/family-buggy-ride.jpg", tag: "#FamilyFun" },
-    { url: "/images/real/polaris-buggy-white.jpg", tag: "#SinaiBuggy" },
-    { url: "/images/sea/ras-mohammed-luxury-yacht.jpg", tag: "#RedSeaDiving" }
+    { url: "/images/real/polaris-buggy-white.webp", tag: "#SinaiBuggy" },
+    { url: "/images/sea/ras-mohammed-luxury-yacht.webp", tag: "#RedSeaDiving" }
   ];
 
   return (
@@ -58,7 +58,7 @@ export const InstagramGallery = () => {
           href="https://www.instagram.com/el_hana_group/"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-white bg-[#EA580C] hover:bg-[#C2410C] px-7 py-3 rounded-full shadow-md hover:shadow-lg transition duration-300"
+          className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-white bg-[#C2410C] hover:bg-[#9A3412] px-7 py-3 rounded-full shadow-md hover:shadow-lg transition duration-300"
         >
           <span>{t('instagram.followBtn')}</span>
           <span>→</span>

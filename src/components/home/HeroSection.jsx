@@ -55,6 +55,7 @@ export const HeroSection = () => {
       {/* 1. REAL PHOTO BACKGROUND - SOFT DARK SLATE SHADOW FOR ULTRA READABILITY */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <picture>
+          <source media="(max-width: 640px)" srcSet="/images/real/polaris-buggy-family-mobile.webp" type="image/webp" />
           <source srcSet="/images/real/polaris-buggy-family.webp" type="image/webp" />
           <img
             src="/images/real/polaris-buggy-family.jpg"
@@ -144,7 +145,7 @@ export const HeroSection = () => {
               className="flex flex-wrap items-center gap-4 pt-1"
             >
               <Link to="/experiences">
-                <button className="px-7 py-3 rounded-full bg-[#0284C7] hover:bg-[#0369A1] text-white font-medium text-xs sm:text-sm border border-sky-400/40 shadow-lg shadow-[#0284C7]/40 hover:shadow-sky-500/50 transition duration-300 flex items-center gap-2.5 group cursor-pointer">
+                <button className="px-7 py-3 rounded-full bg-[#0369A1] hover:bg-[#075985] text-white font-bold text-xs sm:text-sm border border-sky-400/40 shadow-lg shadow-[#0369A1]/40 hover:shadow-sky-500/50 transition duration-300 flex items-center gap-2.5 group cursor-pointer">
                   <span>{isAr ? "استكشف تجاربنا" : "Explore Our Work"}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition duration-300 rtl:rotate-180" />
                 </button>
@@ -170,15 +171,22 @@ export const HeroSection = () => {
             
             {/* 1. Real Image Frame */}
             <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[16/10] sm:aspect-[16/10] lg:aspect-[4/3] lg:h-[400px] xl:h-[440px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-2 sm:border-4 border-white/20 bg-slate-950 group z-20">
-              <img
-                src="/images/real/polaris-buggy-white.jpg"
-                alt="El Hana Group Buggy Safari Sharm El Sheikh"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = '/images/real/atv-quad.jpg';
-                }}
-                className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
-              />
+              <picture>
+                <source srcSet="/images/real/polaris-buggy-white.webp" type="image/webp" />
+                <img
+                  src="/images/real/polaris-buggy-white.jpg"
+                  alt="El Hana Group Buggy Safari Sharm El Sheikh"
+                  width="600"
+                  height="450"
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/real/atv-quad.jpg';
+                  }}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
+                />
+              </picture>
               
               {/* Soft Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent"></div>

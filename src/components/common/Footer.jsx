@@ -146,39 +146,39 @@ export const Footer = () => {
 
           {/* Col 2: Desert Safaris */}
           <div className="space-y-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#0284C7] font-heading">
+            <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#0369A1] font-heading">
               {t('nav.safari')}
-            </h4>
+            </h3>
             <ul className="space-y-2.5 text-xs font-medium text-slate-700">
               <li><Link to="/atv-tours" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "سفاري بيتش باجي (ATV)" : "ATV Quad Bikes"}</Link></li>
               <li><Link to="/buggy-tours" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "رحلات الكار باجي" : "Dune Buggy Tours"}</Link></li>
               <li><Link to="/bedouin-experience" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "السهرة والعشاء البدوي" : "Bedouin Experience"}</Link></li>
               <li><Link to="/camel-riding" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "ركوب الجمال بالصحراء" : "Camel Caravan"}</Link></li>
               <li><Link to="/horse-riding" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "ركوب الخيل بالصحراء والشاطئ" : "Horseback Riding"}</Link></li>
-              <li><Link to="/safari" className="text-[#0284C7] font-bold hover:text-amber-600 hover:underline transition inline-block">{isAr ? "عرض جميع رحلات السفاري" : "All Desert Safaris"}</Link></li>
+              <li><Link to="/safari" className="text-[#0369A1] font-bold hover:text-amber-600 hover:underline transition inline-block">{isAr ? "عرض جميع رحلات السفاري" : "All Desert Safaris"}</Link></li>
             </ul>
           </div>
 
           {/* Col 3: Red Sea Trips */}
           <div className="space-y-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#0284C7] font-heading">
+            <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#0369A1] font-heading">
               {t('nav.seaTrips')}
-            </h4>
+            </h3>
             <ul className="space-y-2.5 text-xs font-medium text-slate-700">
               <li><Link to="/yacht-trips" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "رحلات اليخوت VIP الملكية" : "VIP Yacht Cruises"}</Link></li>
               <li><Link to="/snorkeling" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "سنوركلينج رأس محمد وتيران" : "Ras Mohammed & Tiran"}</Link></li>
               <li><Link to="/diving" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "غوص الغواصة والغطس" : "Intro Scuba Diving"}</Link></li>
               <li><Link to="/parasailing" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "باراشوت طيران باراسيليج" : "Parasailing Flight"}</Link></li>
               <li><Link to="/banana-boat" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "الألعاب المائية والبنانا" : "Banana & Tube Rides"}</Link></li>
-              <li><Link to="/sea-trips" className="text-[#0284C7] font-bold hover:text-amber-600 hover:underline transition inline-block">{isAr ? "عرض جميع رحلات البحر" : "All Sea Trips"}</Link></li>
+              <li><Link to="/sea-trips" className="text-[#0369A1] font-bold hover:text-amber-600 hover:underline transition inline-block">{isAr ? "عرض جميع رحلات البحر" : "All Sea Trips"}</Link></li>
             </ul>
           </div>
 
           {/* Col 4: Quick Links & Legal */}
           <div className="space-y-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#0284C7] font-heading">
+            <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#0369A1] font-heading">
               {t('footer.legal')}
-            </h4>
+            </h3>
             <ul className="space-y-2.5 text-xs font-medium text-slate-700">
               <li><Link to="/about" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{t('nav.about')}</Link></li>
               <li><Link to="/transfers" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{t('nav.transfers')}</Link></li>
