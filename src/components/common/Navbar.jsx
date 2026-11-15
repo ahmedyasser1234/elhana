@@ -124,7 +124,6 @@ export const Navbar = () => {
   const moreLinks = [
     { title: isAr ? 'معرض الرحلات والصور' : 'Tour Gallery', path: '/gallery', desc: isAr ? 'صور وفيديوهات من رحلاتنا' : 'Photos & videos of our tours' },
     { title: isAr ? 'خدمات مطار VIP' : 'VIP Airport Service', path: '/airport-vip', desc: isAr ? 'استقبال ووداع خاص بالمطار' : 'Meet & assist VIP service' },
-    { title: isAr ? 'خدمة الانتقالات والتوصيل' : 'Hotel Transfers', path: '/transfers', desc: isAr ? 'توصيل خاص بسيارات حديثة' : 'Private & comfortable transfers' },
     { title: isAr ? 'من نحن' : 'About Us', path: '/about', desc: isAr ? 'نبذة عن مجموعة الهنا للسياحة' : 'About El Hana Group' },
     { title: isAr ? 'تواصل معنا' : 'Contact Us', path: '/contact', desc: isAr ? 'خدمة العملاء والدعم على مدار 24/7' : '24/7 Support & Reservations' },
   ];
@@ -236,6 +235,13 @@ export const Navbar = () => {
                 className={`px-3 py-2 text-xs font-extrabold rounded-xl transition whitespace-nowrap ${location.pathname === '/excursions' ? 'text-[#0284C7] bg-sky-50' : 'text-slate-700 hover:text-[#0284C7] hover:bg-sky-50/60'}`}
               >
                 <span>{isAr ? 'رحلات سيناء (دهب، كاترين، طابا، نويبع)' : 'Sinai Excursions'}</span>
+              </Link>
+
+              <Link
+                to="/transfers"
+                className={`px-3 py-2 text-xs font-extrabold rounded-xl transition whitespace-nowrap ${location.pathname === '/transfers' ? 'text-[#0284C7] bg-sky-50' : 'text-slate-700 hover:text-[#0284C7] hover:bg-sky-50/60'}`}
+              >
+                <span>{isAr ? 'الانتقالات' : 'Transfers'}</span>
               </Link>
 
               <Link
@@ -426,6 +432,17 @@ export const Navbar = () => {
               className="flex items-center py-3 px-3 rounded-xl hover:bg-slate-50 text-slate-800 font-bold text-sm border-b border-slate-100"
             >
               {isAr ? 'رحلات سيناء (دهب، كاترين، طابا، نويبع)' : 'Sinai Excursions (Dahab, Taba...)'}
+            </Link>
+
+            <Link
+              to="/transfers"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-between py-3 px-3 rounded-xl hover:bg-sky-50 text-slate-900 font-extrabold text-sm border-b border-slate-100"
+            >
+              <span>{isAr ? 'الانتقالات وتوصيل المطار' : 'Hotel & Airport Transfers'}</span>
+              <span className="text-[10px] text-[#0284C7] bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200 font-bold">
+                {isAr ? 'خدمة 24/7' : '24/7 Service'}
+              </span>
             </Link>
 
             <Link
