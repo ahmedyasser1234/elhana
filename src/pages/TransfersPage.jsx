@@ -10,7 +10,8 @@ import { FAQAccordion } from '../components/faq/FAQAccordion';
 import { GoogleMapLocation } from '../components/common/GoogleMapLocation';
 import { useCurrency } from '../context/CurrencyContext';
 import { getTourReviews } from '../data/reviews';
-import { VEHICLE_TYPES, TRANSFER_GALLERY } from '../data/transfers';
+import { VEHICLE_TYPES, TRANSFER_GALLERY, FLEET_CARS, getCarsByCategory } from '../data/transfers';
+import { VehicleSpecsModal } from '../components/transfers/VehicleSpecsModal';
 import { 
   Car, 
   MapPin, 
@@ -29,7 +30,8 @@ import {
   Maximize2,
   X,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Eye
 } from 'lucide-react';
 
 export const TransfersPage = () => {
@@ -40,6 +42,9 @@ export const TransfersPage = () => {
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [selectedVehicleId, setSelectedVehicleId] = useState(VEHICLE_TYPES[0].id);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [fleetModalCar, setFleetModalCar] = useState(null);
+  const [isFleetModalOpen, setIsFleetModalOpen] = useState(false);
+  const [fleetCategoryFilter, setFleetCategoryFilter] = useState('all');
 
   // Sync active gallery image when vehicle is chosen
   const handleSelectVehicle = (vId) => {
@@ -675,52 +680,88 @@ export const TransfersPage = () => {
 
             {/* ── 4. FLEET PHOTO GALLERY & VEHICLE CARDS ────────── */}
             <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-sky-100 shadow-md space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-sky-100 pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sky-100 pb-4">
                 <div>
                   <span className="text-xs font-bold uppercase text-[#0284C7] tracking-wider block">
                     {isAr ? 'أسطول سيارات الهنا المتكامل' : 'El Hana Vehicle Fleet'}
                   </span>
-                  <h3 className="text-xl font-bold font-heading text-slate-900">
-                    {isAr ? 'معرض سيارات التوصيل (ليموزين، ميني فان 7 راكب، هاي إيس 14-15 راكب)' : 'Transfer Fleet Showcase (Limousine, 7-Seater Van, 14-15 Pax HiAce)'}
+                  <h3 className="text-xl sm:text-2xl font-bold font-heading text-slate-900">
+                    {isAr ? 'معرض سيارات التوصيل (مواصفات وصور حقيقية)' : 'Transfer Fleet Showcase (Real Specs & Photos)'}
                   </h3>
                 </div>
                 <span className="text-xs font-semibold text-slate-500">
-                  {isAr ? 'اختر الفئة للحساب والحجز' : 'Click to select & calculate'}
+                  {isAr ? 'اختر أي سيارة لرؤية صورها ومواصفاتها' : 'Click any car for full specs & photos'}
                 </span>
               </div>
 
+              {/* Category Filter Tabs */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
+                <button
+                  type="button"
+                  onClick={() => setFleetCategoryFilter('all')}
+                  className={`px-3.5 py-2 rounded-2xl text-xs font-black transition whitespace-nowrap cursor-pointer ${
+                    fleetCategoryFilter === 'all'
+                      ? 'bg-slate-900 text-white shadow-md'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  {isAr ? 'جميع السيارات (8 سيارات)' : 'All Vehicles (8 Cars)'}
+                </button>
+                {VEHICLE_TYPES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setFleetCategoryFilter(cat.id)}
+                    className={`px-3.5 py-2 rounded-2xl text-xs font-black transition whitespace-nowrap cursor-pointer ${
+                      fleetCategoryFilter === cat.id
+                        ? 'bg-[#0284C7] text-white shadow-md'
+                        : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                    }`}
+                  >
+                    {isAr ? cat.tagAr : cat.tagEn}
+                  </button>
+                ))}
+              </div>
+
+              {/* Cars Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {VEHICLE_TYPES.map((v) => {
-                  const isSelected = selectedVehicleId === v.id;
+                {(fleetCategoryFilter === 'all' ? FLEET_CARS : FLEET_CARS.filter(c => c.category === fleetCategoryFilter)).map((car) => {
+                  const isSelected = selectedVehicleId === car.category;
                   return (
                     <div
-                      key={v.id}
+                      key={car.id}
                       className={`rounded-3xl overflow-hidden border-2 transition-all duration-300 flex flex-col justify-between group cursor-pointer ${
                         isSelected 
-                          ? 'border-[#0284C7] shadow-xl ring-2 ring-[#0284C7]/30 bg-sky-50/20' 
+                          ? 'border-[#0284C7] shadow-xl ring-2 ring-[#0284C7]/20 bg-sky-50/10' 
                           : 'border-slate-200 hover:border-sky-300 hover:shadow-lg bg-white'
                       }`}
-                      onClick={() => handleSelectVehicle(v.id)}
+                      onClick={() => {
+                        setFleetModalCar(car);
+                        setIsFleetModalOpen(true);
+                      }}
                     >
-                      {/* Vehicle Image */}
+                      {/* Car Image Viewport */}
                       <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
                         <img
-                          src={v.image}
-                          alt={isAr ? v.nameAr : v.name}
+                          src={car.image}
+                          alt={isAr ? car.nameAr : car.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                         
-                        {/* Selected Tag */}
-                        {isSelected && (
-                          <div className="absolute top-3 end-3 px-3 py-1 rounded-full bg-[#0284C7] text-white text-xs font-black shadow-md flex items-center gap-1">
-                            ✓ {isAr ? 'الفئة المحددة حالياً' : 'Selected'}
-                          </div>
-                        )}
+                        {/* Badges */}
+                        <div className="absolute top-3 end-3 flex items-center gap-1.5">
+                          <span className="px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-black border border-white/20">
+                            📷 {car.gallery?.length || 1} {isAr ? 'صور' : 'Photos'}
+                          </span>
+                          <span className="px-2.5 py-1 rounded-full bg-[#0284C7] text-white text-[10px] font-black shadow-md">
+                            {isAr ? `موديل ${car.model}` : `Model ${car.model}`}
+                          </span>
+                        </div>
 
                         <div className="absolute bottom-3 start-3">
                           <span className="px-3 py-1 rounded-xl bg-slate-900/80 backdrop-blur-md text-white text-xs font-black shadow-md border border-white/20">
-                            {isAr ? v.nameAr : v.name}
+                            {isAr ? car.nameAr : car.name}
                           </span>
                         </div>
                       </div>
@@ -729,24 +770,24 @@ export const TransfersPage = () => {
                       <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
                         <div className="space-y-2.5">
                           <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                            {isAr ? v.descriptionAr : v.description}
+                            {isAr ? car.descriptionAr : car.descriptionEn}
                           </p>
 
                           {/* Capacity Chips */}
                           <div className="flex items-center gap-3 text-xs font-semibold text-slate-700 pt-1">
                             <span className="flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-xl">
                               <Users className="w-3.5 h-3.5 text-[#0284C7]" />
-                              {isAr ? `حتى ${v.maxPassengers} ركاب` : `Up to ${v.maxPassengers} Pax`}
+                              {isAr ? `حتى ${car.maxPassengers} ركاب` : `Up to ${car.maxPassengers} Pax`}
                             </span>
                             <span className="flex items-center gap-1 bg-amber-50 text-amber-900 px-2.5 py-1 rounded-xl border border-amber-200">
                               <Briefcase className="w-3.5 h-3.5 text-amber-600" />
-                              {isAr ? `سعة ${v.maxLuggage} حقائب` : `${v.maxLuggage} Bags`}
+                              {isAr ? `سعة ${car.maxLuggage} حقائب` : `${car.maxLuggage} Bags`}
                             </span>
                           </div>
 
                           {/* Bullet features */}
                           <div className="grid grid-cols-2 gap-1.5 pt-1 text-[11px] font-semibold text-slate-600">
-                            {(isAr ? v.featuresAr : v.featuresEn)?.map((feat, i) => (
+                            {(isAr ? car.featuresAr : car.featuresEn)?.map((feat, i) => (
                               <div key={i} className="flex items-center gap-1.5">
                                 <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
                                 <span className="truncate">{feat}</span>
@@ -756,26 +797,42 @@ export const TransfersPage = () => {
                         </div>
 
                         {/* Card Footer */}
-                        <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                        <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                           <div>
                             <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
                               {isAr ? 'سعر المشوار يبدأ من' : 'Base Rate Starts'}
                             </span>
                             <span className="text-2xl font-black text-[#0284C7] font-heading">
-                              {formatPrice(v.basePrice)}
+                              {formatPrice(car.basePrice)}
                             </span>
                           </div>
 
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              scrollToCalculator(v.id);
-                            }}
-                            className="px-4 py-2 rounded-xl bg-sky-50 hover:bg-[#0284C7] text-[#0284C7] hover:text-white text-xs font-black transition cursor-pointer shadow-2xs active:scale-95"
-                          >
-                            {isAr ? 'احسب واحجز' : 'Calculate & Book'}
-                          </button>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setFleetModalCar(car);
+                                setIsFleetModalOpen(true);
+                              }}
+                              className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black transition cursor-pointer flex items-center gap-1 shadow-2xs"
+                            >
+                              <Eye className="w-3.5 h-3.5 text-[#0284C7]" />
+                              <span>{isAr ? 'المواصفات والصور' : 'Specs'}</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedVehicleId(car.category);
+                                scrollToCalculator(car.category);
+                              }}
+                              className="px-3.5 py-2 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-black transition cursor-pointer shadow-md active:scale-95"
+                            >
+                              {isAr ? 'احسب واحجز' : 'Calculate & Book'}
+                            </button>
+                          </div>
                         </div>
                       </div>
 
@@ -783,6 +840,20 @@ export const TransfersPage = () => {
                   );
                 })}
               </div>
+
+              {/* Vehicle Specs & Gallery Modal */}
+              <VehicleSpecsModal
+                isOpen={isFleetModalOpen}
+                onClose={() => setIsFleetModalOpen(false)}
+                car={fleetModalCar}
+                calculatedPrice={fleetModalCar?.basePrice}
+                onSelectCar={(carItem) => {
+                  const catId = typeof carItem === 'object' ? carItem.category : carItem;
+                  setSelectedVehicleId(catId);
+                  setIsFleetModalOpen(false);
+                  scrollToCalculator(catId);
+                }}
+              />
             </div>
 
             {/* Verified Customer Reviews */}

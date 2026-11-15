@@ -15,13 +15,22 @@ import {
   Briefcase,
   PlaneTakeoff,
   PlaneLanding,
-  MessageCircle
+  MessageCircle,
+  Eye,
+  Check
 } from 'lucide-react';
-import { SHARM_LOCATIONS, VEHICLE_TYPES } from '../../data/transfers';
+import { 
+  SHARM_LOCATIONS, 
+  VEHICLE_TYPES, 
+  FLEET_CARS, 
+  getCarsByCategory, 
+  getCarById 
+} from '../../data/transfers';
 import { SHARM_ZONES } from '../../data/sharmHotels';
 import { useToast } from '../../context/ToastContext';
 import { useCurrency } from '../../context/CurrencyContext';
 import { getWhatsAppLink } from '../common/WhatsAppButton';
+import { VehicleSpecsModal } from './VehicleSpecsModal';
 
 export const TransferCalculator = ({ 
   selectedVehicleId, 
@@ -38,7 +47,14 @@ export const TransferCalculator = ({
   const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [pickup, setPickup] = useState(SHARM_LOCATIONS[0].id);
   const [dropoff, setDropoff] = useState(SHARM_LOCATIONS[1].id);
-  const [internalVehicle, setInternalVehicle] = useState(selectedVehicleId || VEHICLE_TYPES[0].id);
+
+  // Category & Specific Car Selection
+  const [activeCategory, setActiveCategory] = useState(selectedVehicleId || VEHICLE_TYPES[0].id);
+  const [selectedCarId, setSelectedCarId] = useState(FLEET_CARS[1].id); // default car-corolla
+
+  // Modal State for Specs & Photo Gallery
+  const [modalCar, setModalCar] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   // Dates & Times
   const [transferDate, setTransferDate] = useState(
@@ -56,24 +72,43 @@ export const TransferCalculator = ({
 
   const [passengers, setPassengers] = useState(2);
 
-  // Keep internal vehicle synced if prop changes
+  // Sync category if prop changes from outside
   useEffect(() => {
     if (selectedVehicleId) {
-      setInternalVehicle(selectedVehicleId);
+      setActiveCategory(selectedVehicleId);
+      const catCars = getCarsByCategory(selectedVehicleId);
+      if (catCars.length > 0 && !catCars.some(c => c.id === selectedCarId)) {
+        setSelectedCarId(catCars[0].id);
+      }
     }
   }, [selectedVehicleId]);
 
-  const selectedVehicle = selectedVehicleId || internalVehicle;
-  const handleSelectVehicle = (vId) => {
-    setInternalVehicle(vId);
+  const activeCar = FLEET_CARS.find(c => c.id === selectedCarId) || FLEET_CARS[0];
+
+  const handleSelectCar = (carId) => {
+    setSelectedCarId(carId);
+    const carObj = getCarById(carId);
+    if (carObj) {
+      setActiveCategory(carObj.categoryId);
+      if (onSelectVehicle) {
+        onSelectVehicle(carObj.categoryId);
+      }
+    }
+  };
+
+  const handleCategoryChange = (catId) => {
+    setActiveCategory(catId);
+    const catCars = getCarsByCategory(catId);
+    if (catCars.length > 0) {
+      setSelectedCarId(catCars[0].id);
+    }
     if (onSelectVehicle) {
-      onSelectVehicle(vId);
+      onSelectVehicle(catId);
     }
   };
 
   const pickupObj = SHARM_LOCATIONS.find(l => l.id === pickup) || SHARM_LOCATIONS[0];
   const dropoffObj = SHARM_LOCATIONS.find(l => l.id === dropoff) || SHARM_LOCATIONS[1];
-  const vehicle = VEHICLE_TYPES.find(v => v.id === selectedVehicle) || VEHICLE_TYPES[0];
 
   let distanceMultiplier = 1.0;
   if (
@@ -90,7 +125,7 @@ export const TransferCalculator = ({
     distanceMultiplier = 1.2;
   }
 
-  const oneWayPrice = Math.round(vehicle.basePrice * distanceMultiplier);
+  const oneWayPrice = Math.round(activeCar.basePrice * distanceMultiplier);
   const calculatedPriceInUSD = isRoundTrip ? (oneWayPrice * 2) : oneWayPrice;
 
   // Swap pickup & dropoff
@@ -131,11 +166,12 @@ export const TransferCalculator = ({
   const handleBookTransfer = () => {
     const pickupName = isAr ? pickupObj.nameAr : pickupObj.name;
     const dropoffName = isAr ? dropoffObj.nameAr : dropoffObj.name;
+    const carName = isAr ? activeCar.nameAr : activeCar.name;
     
     showToast(
       isAr 
-        ? `تم حفظ حجز التوصيل (${isRoundTrip ? 'ذهاب وعودة' : 'اتجاه واحد'})! جاري الانتقال لتأكيد الحجز.` 
-        : `Transfer booking (${isRoundTrip ? 'Round-Trip' : 'One-Way'}) saved! Proceeding to checkout.`, 
+        ? `تم حفظ حجز سيارة (${carName}) ${isRoundTrip ? 'ذهاب وعودة' : 'اتجاه واحد'}! جاري الانتقال لتأكيد الحجز.` 
+        : `Transfer booking (${carName} - ${isRoundTrip ? 'Round-Trip' : 'One-Way'}) saved! Proceeding to checkout.`, 
       'success'
     );
 
@@ -145,8 +181,9 @@ export const TransferCalculator = ({
         isRoundTrip,
         pickup: pickupName,
         dropoff: dropoffName,
-        vehicleName: isAr ? vehicle.nameAr : vehicle.name,
-        vehicleId: vehicle.id,
+        vehicleName: carName,
+        vehicleId: activeCar.id,
+        categoryId: activeCategory,
         routeNames: [pickupObj.name, dropoffObj.name],
         date: transferDate,
         time: transferTime,
@@ -159,8 +196,8 @@ export const TransferCalculator = ({
   };
 
   const whatsappMessage = isAr
-    ? `مرحباً! أود حجز توصيل خاص مع الهنا:\n• نوع المشوار: ${isRoundTrip ? 'ذهاب وعودة (Round Trip)' : 'اتجاه واحد (One Way)'}\n• مشوار الذهاب: من ${pickupObj.nameAr} إلى ${dropoffObj.nameAr}\n• موعد الذهاب: ${transferDate} الساعة ${transferTime}${isRoundTrip ? `\n• مشوار العودة: من ${dropoffObj.nameAr} إلى ${pickupObj.nameAr}\n• موعد العودة: ${returnDate} الساعة ${returnTime}` : ''}\n• فئة السيارة: ${vehicle.nameAr}\n• عدد الركاب: ${passengers}\n• السعر الإجمالي: $${calculatedPriceInUSD}`
-    : `Hello! I would like to book a private transfer with El Hana:\n• Trip Type: ${isRoundTrip ? 'Round-Trip' : 'One-Way'}\n• Outbound: From ${pickupObj.name} to ${dropoffObj.name} on ${transferDate} at ${transferTime}${isRoundTrip ? `\n• Return: From ${dropoffObj.name} to ${pickupObj.name} on ${returnDate} at ${returnTime}` : ''}\n• Vehicle: ${vehicle.name}\n• Passengers: ${passengers}\n• Estimated Rate: $${calculatedPriceInUSD}`;
+    ? `مرحباً! أود حجز توصيل خاص مع الهنا:\n• نوع المشوار: ${isRoundTrip ? 'ذهاب وعودة (Round Trip)' : 'اتجاه واحد (One Way)'}\n• السيارة المختارة: ${activeCar.nameAr} (موديل ${activeCar.model})\n• مشوار الذهاب: من ${pickupObj.nameAr} إلى ${dropoffObj.nameAr}\n• موعد الذهاب: ${transferDate} الساعة ${transferTime}${isRoundTrip ? `\n• مشوار العودة: من ${dropoffObj.nameAr} إلى ${pickupObj.nameAr}\n• موعد العودة: ${returnDate} الساعة ${returnTime}` : ''}\n• عدد الركاب: ${passengers}\n• السعر الإجمالي: $${calculatedPriceInUSD}`
+    : `Hello! I would like to book a private transfer with El Hana:\n• Trip Type: ${isRoundTrip ? 'Round-Trip' : 'One-Way'}\n• Selected Car: ${activeCar.name} (${activeCar.model})\n• Outbound: From ${pickupObj.name} to ${dropoffObj.name} on ${transferDate} at ${transferTime}${isRoundTrip ? `\n• Return: From ${dropoffObj.name} to ${pickupObj.name} on ${returnDate} at ${returnTime}` : ''}\n• Passengers: ${passengers}\n• Estimated Rate: $${calculatedPriceInUSD}`;
 
   return (
     <div 
@@ -178,7 +215,7 @@ export const TransferCalculator = ({
         <div className="flex items-baseline justify-between">
           <div>
             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-              {isAr ? "السعر الإجمالي للمشوار" : "Total Vehicle Rate"}
+              {isAr ? "السعر الإجمالي للسيارة المحددة" : "Total Rate for Selected Car"}
             </span>
             <div className="flex items-baseline gap-1.5 mt-0.5">
               <span className="text-3xl font-black text-slate-900 font-heading">
@@ -216,18 +253,24 @@ export const TransferCalculator = ({
           </span>
         </div>
 
-        {/* Fixed Price Clarity Badge */}
-        <div className="mt-1 px-3 py-2 rounded-xl bg-amber-50 border border-amber-300/80 text-amber-950 text-xs font-black flex items-center gap-2 shadow-2xs">
-          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0" />
-          <span>
-            {isAr 
-              ? (isRoundTrip 
-                  ? 'السعر شامل مشوار الذهاب ومشوار العودة بالكامل مع السائق وتتبع مواعيد الطيران.' 
-                  : 'السعر للمركبة بالكامل (وليس للفرد) شاملاً السائق والوقود وتتبع الرحلة.')
-              : (isRoundTrip
-                  ? 'Total fare covers both outbound & return transfers with driver and flight tracking.'
-                  : 'Price is per entire private vehicle (not per person), including chauffeur & fuel.')}
-          </span>
+        {/* Selected Car Notice */}
+        <div className="mt-1 px-3 py-2 rounded-xl bg-sky-50 border border-sky-200 text-slate-900 text-xs font-bold flex items-center justify-between shadow-2xs">
+          <div className="flex items-center gap-2">
+            <Car className="w-4 h-4 text-[#0284C7] shrink-0" />
+            <span>
+              {isAr ? "السيارة المحددة:" : "Selected Car:"} <strong>{isAr ? activeCar.nameAr : activeCar.name}</strong>
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setModalCar(activeCar);
+              setIsModalOpen(true);
+            }}
+            className="text-[11px] text-[#0284C7] hover:underline font-extrabold cursor-pointer"
+          >
+            {isAr ? "صور ومواصفات" : "Specs & Photos"}
+          </button>
         </div>
       </div>
 
@@ -372,7 +415,6 @@ export const TransferCalculator = ({
 
       {/* Date, Time & Return Schedule */}
       <div className="space-y-3 pt-1">
-        
         {/* Outbound Leg Card */}
         <div className={`p-3 rounded-2xl border space-y-2 ${isRoundTrip ? 'bg-sky-50/50 border-sky-200' : 'bg-transparent border-transparent p-0'}`}>
           {isRoundTrip && (
@@ -394,7 +436,6 @@ export const TransferCalculator = ({
                 min={new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo' }).format(new Date())}
                 onChange={(e) => {
                   setTransferDate(e.target.value);
-                  // Ensure return date is not before departure date
                   if (returnDate < e.target.value) {
                     setReturnDate(e.target.value);
                   }
@@ -481,69 +522,129 @@ export const TransferCalculator = ({
             ))}
           </select>
         </div>
-
       </div>
 
-      {/* Vehicle Category Selector */}
+      {/* ── 1. VEHICLE CATEGORIES SELECTOR (أنواع السيارات) ── */}
       <div className="space-y-2 pt-2 border-t border-slate-100">
-        <label className="text-xs font-extrabold uppercase tracking-wider text-slate-900 block">
-          {isAr ? "اختر فئة السيارة المطلوبة:" : "Select Vehicle Category:"}
-        </label>
-        
-        <div className="space-y-2">
-          {VEHICLE_TYPES.map((v) => {
-            const vBaseRate = Math.round(v.basePrice * distanceMultiplier);
-            const vPrice = isRoundTrip ? (vBaseRate * 2) : vBaseRate;
-            const isSelected = selectedVehicle === v.id;
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-black uppercase tracking-wider text-slate-900 block">
+            {isAr ? "1. اختر نوع السيارة (الفئة):" : "1. Select Vehicle Category:"}
+          </label>
+          <span className="text-[10px] text-slate-500 font-semibold">
+            {isAr ? "انقر لعرض السيارات المتاحة" : "Click to view cars"}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          {VEHICLE_TYPES.map((cat) => {
+            const isCatActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => handleCategoryChange(cat.id)}
+                className={`p-2.5 rounded-2xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer border-2 text-start ${
+                  isCatActive
+                    ? 'bg-slate-900 text-white border-[#0284C7] shadow-md scale-[1.01]'
+                    : 'bg-slate-50 hover:bg-white text-slate-700 border-slate-200 hover:border-sky-300 shadow-2xs'
+                }`}
+              >
+                <div className="w-2.5 h-2.5 rounded-full shrink-0 bg-[#0284C7]" />
+                <span className="truncate leading-tight flex-1">
+                  {isAr ? cat.tagAr : cat.tagEn}
+                </span>
+                {isCatActive && <Check className="w-3.5 h-3.5 text-[#38BDF8] shrink-0" />}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── 2. CARS UNDER SELECTED CATEGORY AS CARDS (كروت العربيات) ── */}
+      <div className="space-y-2 pt-1">
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-black uppercase tracking-wider text-slate-900 block">
+            {isAr ? "2. اختر السيارة واضغط لرؤية صورها ومواصفاتها:" : "2. Choose Car & Click for Specs / Photos:"}
+          </label>
+        </div>
+
+        <div className="space-y-2.5">
+          {getCarsByCategory(activeCategory).map((car) => {
+            const carBase = Math.round(car.basePrice * distanceMultiplier);
+            const carPrice = isRoundTrip ? (carBase * 2) : carBase;
+            const isCarSelected = selectedCarId === car.id;
 
             return (
               <div
-                key={v.id}
-                onClick={() => handleSelectVehicle(v.id)}
+                key={car.id}
+                onClick={() => handleSelectCar(car.id)}
                 className={`p-3 rounded-2xl border-2 transition-all duration-200 flex items-center justify-between gap-3 cursor-pointer group ${
-                  isSelected
-                    ? 'bg-slate-900 text-white border-[#0284C7] shadow-lg scale-[1.01]'
-                    : 'bg-slate-50 hover:bg-white text-slate-800 border-slate-200 hover:border-sky-300 shadow-2xs'
+                  isCarSelected
+                    ? 'bg-slate-900 text-white border-[#0284C7] shadow-xl scale-[1.01]'
+                    : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200 hover:border-sky-300 shadow-2xs'
                 }`}
               >
+                {/* Left: Car image + details */}
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <img
-                    src={v.image}
-                    alt={isAr ? v.nameAr : v.name}
-                    className="w-12 h-12 rounded-xl object-cover shrink-0 ring-1 ring-slate-300"
-                  />
-                  <div className="min-w-0">
-                    <div className="text-xs font-black truncate leading-snug">
-                      {isAr ? v.nameAr : v.name}
+                  <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden shrink-0 ring-1 ring-slate-200 bg-slate-950">
+                    <img
+                      src={car.image}
+                      alt={isAr ? car.nameAr : car.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute bottom-0.5 end-0.5 bg-black/75 text-white text-[8px] px-1 rounded font-bold">
+                      {car.gallery?.length || 1} 📷
+                    </span>
+                  </div>
+
+                  <div className="min-w-0 space-y-0.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-bold text-[#0284C7] bg-sky-50 px-1.5 py-0.2 rounded">
+                        {isAr ? `موديل ${car.model}` : `Model ${car.model}`}
+                      </span>
                     </div>
-                    <div className="flex items-center gap-2 text-[10px] opacity-80 mt-0.5">
+
+                    <h4 className="text-xs sm:text-sm font-black truncate leading-snug">
+                      {isAr ? car.nameAr : car.name}
+                    </h4>
+
+                    <div className="flex items-center gap-2 text-[10px] opacity-80">
                       <span className="flex items-center gap-0.5">
                         <Users className="w-2.5 h-2.5 text-sky-400" />
-                        {v.maxPassengers}
+                        {car.maxPassengers}
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-0.5">
                         <Briefcase className="w-2.5 h-2.5 text-amber-400" />
-                        {v.maxLuggage}
+                        {car.maxLuggage}
+                      </span>
+                      <span>•</span>
+                      <span className="text-emerald-400 font-bold truncate">
+                        {isAr ? "مكيفة بالكامل" : "Full A/C"}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="text-end shrink-0">
-                  <div className={`text-base font-black font-heading ${isSelected ? 'text-[#38BDF8]' : 'text-[#0284C7]'}`}>
-                    {formatPrice(vPrice)}
+                {/* Right: Price + Action Button */}
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <div className={`text-base font-black font-heading ${isCarSelected ? 'text-[#38BDF8]' : 'text-[#0284C7]'}`}>
+                    {formatPrice(carPrice)}
                   </div>
-                  {isRoundTrip && (
-                    <span className={`text-[9px] block ${isSelected ? 'text-slate-400' : 'text-slate-500'}`}>
-                      {isAr ? "ذهاب وعودة" : "Round-trip"}
-                    </span>
-                  )}
-                  {isSelected && (
-                    <span className="text-[9px] font-extrabold text-emerald-400 block">
-                      ✓ {isAr ? "محدد" : "Selected"}
-                    </span>
-                  )}
+
+                  {/* View Specs & Photos Button */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setModalCar(car);
+                      setIsModalOpen(true);
+                    }}
+                    className="px-2 py-1 rounded-lg bg-sky-50 hover:bg-[#0284C7] text-[#0284C7] hover:text-white text-[10px] font-extrabold transition flex items-center gap-1 cursor-pointer shadow-2xs"
+                  >
+                    <Eye className="w-3 h-3" />
+                    <span>{isAr ? "المواصفات والصور" : "Specs"}</span>
+                  </button>
                 </div>
               </div>
             );
@@ -601,6 +702,20 @@ export const TransferCalculator = ({
           </div>
         </div>
       </div>
+
+      {/* ── 3. INTERACTIVE CAR SPECS & PHOTO GALLERY MODAL ── */}
+      <VehicleSpecsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        car={modalCar}
+        onSelectCar={handleSelectCar}
+        calculatedPrice={
+          modalCar 
+            ? (Math.round(modalCar.basePrice * distanceMultiplier) * (isRoundTrip ? 2 : 1)) 
+            : calculatedPriceInUSD
+        }
+        isRoundTrip={isRoundTrip}
+      />
 
     </div>
   );
