@@ -562,6 +562,46 @@ export const DEFAULT_REVIEWS = [
       es: "Auténtica experiencia VIP con Polaris. Vehículos impecables y gran atención."
     },
     avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face"
+  },
+
+  // --- Private Airport & Hotel Transfers ---
+  {
+    id: 29,
+    tourSlug: "transfers",
+    name: "د. طارق منصور",
+    country: "UAE 🇦🇪",
+    date: "Nov 2026",
+    rating: 5,
+    tour: "انتقالات خاصة VIP من مطار شرم الشيخ",
+    tourEn: "VIP Private Airport Transfer",
+    text: {
+      ar: "خدمة التوصيل من مطار شرم الشيخ كانت في قمة الاحترافية. السائق كان بانتظاري في صالة الوصول حاملاً لافتة باسمي، والسيارة الليموزين نظيفة جداً ومكيفة. وفر علينا بهدلة التكاسي ومفاوضات الأسعار.",
+      en: "The airport transfer in Sharm El Sheikh was exceptionally professional. The chauffeur was waiting at arrivals with my nameplate, and the VIP limousine was immaculate and cool.",
+      ru: "Трансфер из аэропорта Шарм-эль-Шейха организован на высшем уровне. Водитель встретил с табличкой, машина идеальная.",
+      it: "Servizio di trasferimento aeroportuale impeccabile. Autista puntuale con cartello e limousine pulitissima.",
+      de: "Sehr professioneller Flughafentransfer. Pünktlicher Fahrer mit Namensschild und saubere VIP-Limousine.",
+      es: "Excelente servicio de traslado desde el aeropuerto. Chófer esperando con cartel y coche muy cómodo."
+    },
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    id: 30,
+    tourSlug: "transfers",
+    name: "Elena Rostova",
+    country: "Ukraine 🇺🇦",
+    date: "Oct 2026",
+    rating: 5,
+    tour: "تويوتا هاي إيس 14 راكب للعائلة",
+    tourEn: "Toyota HiAce 14-Seater Family Group",
+    text: {
+      ar: "حجزنا ميكروباص تويوتا هاي إيس 14 راكب لمجموعتنا العائلية مع الحقائب الكثيرة. السيارة واسعة ومكيفة وتتسع لكل الحقائب براحة تامة، والسائق كان قمة في الذوق والالتزام بالمواعيد.",
+      en: "We booked the 14-seater Toyota HiAce for our family group with plenty of luggage. Plenty of space, icy air conditioning, and a very courteous driver.",
+      ru: "Забронировали 14-местный микроавтобус Toyota HiAce для всей семьи с багажом. Просторный салон, мощный кондиционер и вежливый водитель.",
+      it: "Abbiamo prenotato il Toyota HiAce da 14 posti per la nostra famiglia. Spazio abbondante, ottimo condizionatore e autista molto gentile.",
+      de: "Wir haben den 14-Sitzer Toyota HiAce für unsere Familiengruppe gebucht. Sehr geräumig und pünktlicher Fahrer.",
+      es: "Reservamos el Toyota HiAce de 14 plazas para nuestra familia. Muy espacioso, aire acondicionado perfecto y chófer puntual."
+    },
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
   }
 ];
 

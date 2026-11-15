@@ -4,37 +4,111 @@ export const SHARM_LOCATIONS = SHARM_HOTELS;
 
 export const VEHICLE_TYPES = [
   {
-    id: "veh-sedan",
-    name: "Private Sedan Car",
-    nameAr: "سيارة ملاكي خاصة (سيدان)",
+    id: "veh-limo",
+    name: "Luxury VIP Limousine / Sedan",
+    nameAr: "ليموزين وسيدان VIP فاخرة (مرسيدس / ملاكي خاص)",
     maxPassengers: 3,
     maxLuggage: 3,
-    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
-    description: "Comfortable air-conditioned sedan suitable for couples or small families.",
-    descriptionAr: "سيارة حديثة ومكيفة تناسب الأزواج والعائلات الصغيرة حتى 3 أفراد.",
-    basePrice: 20
+    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
+    description: "Executive VIP sedan limousine with leather interior, icy air conditioning, and professional chauffeur.",
+    descriptionAr: "سيارة ليموزين سيدان حديثة وفخمة ومكيفة تناسب الأفراد، الأزواج، والعائلات الصغيرة حتى 3 ركاب مع 3 حقائب.",
+    basePrice: 20,
+    featuresAr: ["مقاعد جلدية مريحة", "تكييف فائق البرودة", "سائق خاص بزي رسمي", "مياه معدنية مجانية"],
+    featuresEn: ["Premium Leather Seats", "Dual Climate A/C", "Formal Attire Chauffeur", "Free Bottled Water"]
   },
   {
-    id: "veh-van",
-    name: "Private Minivan / Family Van",
-    nameAr: "فان عائلي ميني باص (تويوتا/هيونداي)",
-    maxPassengers: 8,
-    maxLuggage: 8,
-    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80",
-    description: "Spacious Toyota HiAce or Hyundai van for families and groups with extra luggage.",
-    descriptionAr: "فان واسع جداً يتسع للمجموعات والأسر الكبيرة مع الحقائب الكثيرة.",
-    basePrice: 35
+    id: "veh-minivan7",
+    name: "Family Minivan (7-Seater)",
+    nameAr: "ميني فان عائلي مريح (7 راكب)",
+    maxPassengers: 7,
+    maxLuggage: 7,
+    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+    description: "Comfortable, spacious 7-passenger family minivan with wide legroom and generous cargo trunk for 7 bags.",
+    descriptionAr: "فان عائلي مريح ومكيف يتسع لـ 7 ركاب و 7 حقائب سفر كبيرة، الخيار الأمثل للعائلات ومجموعات الأصدقاء.",
+    basePrice: 30,
+    featuresAr: ["يتسع لـ 7 ركاب براحة", "مساحة لـ 7 حقائب كبيرة", "تكييف هواء مركزي", "شواحن هواتف USB"],
+    featuresEn: ["7 Comfortable Seats", "7 Large Suitcase Capacity", "Dual Zone Climate Control", "USB Mobile Charging"]
+  },
+  {
+    id: "veh-hiace",
+    name: "Toyota HiAce Tourist Microbus (14-15 Seater)",
+    nameAr: "تويوتا هاي إيس سياحي فاخر (14 - 15 راكب)",
+    maxPassengers: 15,
+    maxLuggage: 15,
+    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
+    description: "High-roof tourist Toyota HiAce microbus with 14-15 comfortable seats, dual powerful A/C, and huge luggage space.",
+    descriptionAr: "ميكروباص سياحي تويوتا هاي إيس سقف عالي مكيف ومجهز بالكامل، يتسع لـ 14 إلى 15 راكب مع مساحة واسعة لجميع الحقائب للمجموعات السياحية والرحلات الكبيرة.",
+    basePrice: 45,
+    featuresAr: ["يتسع حتى 15 راكب", "سقف عالي ومقاعد مريحة", "مساحة ضخمة لجميع الحقائب", "مثالي للمجموعات والشركات"],
+    featuresEn: ["Up to 15 Passenger Capacity", "High-Roof Easy Movement", "Ample Cargo Space", "Ideal for Tours & Groups"]
   },
   {
     id: "veh-vip",
-    name: "VIP Executive SUV (Mercedes / Lexus)",
-    nameAr: "سيارة VIP فاخرة (مرسيدس / لكزس)",
+    name: "VIP Executive Luxury SUV (Mercedes / Lexus)",
+    nameAr: "سيارة VIP تنفيذية فاخرة (مرسيدس / لكزس SUV)",
     maxPassengers: 4,
     maxLuggage: 4,
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80",
-    description: "Luxury VIP vehicle with leather seats, bottled water, WiFi, and dedicated chauffeur.",
-    descriptionAr: "سيارة فاخرة بمقاعد جلدية وشديدة الرفاهية وسائق خاص بزي VIP رسمى.",
-    basePrice: 65
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
+    description: "Ultimate luxury executive SUV with leather captain chairs, high ride height, onboard WiFi, and VIP concierge.",
+    descriptionAr: "أعلى مستويات الرفاهية والفخامة مع مقاعد جلدية فاخرة، واي فاي مجاني، مياه وعصائر، وسائق VIP خاص.",
+    basePrice: 65,
+    featuresAr: ["فخامة تنفيذية مطلقة", "واي فاي وإنترنت مجاني", "مشروبات وضيافة خاصة", "سائق VIP شخصي"],
+    featuresEn: ["Ultimate Executive Luxury", "Free Onboard High-Speed WiFi", "Complimentary Refreshments", "Personal Dedicated VIP Driver"]
+  }
+];
+
+export const TRANSFER_GALLERY = [
+  {
+    id: "gal-limo",
+    vehicleId: "veh-limo",
+    titleAr: "ليموزين وسيدان VIP فاخرة",
+    titleEn: "Luxury VIP Limousine & Sedan",
+    subtitleAr: "سيدان خاصة مكيفة (1 - 3 ركاب | 3 حقائب)",
+    subtitleEn: "Private A/C Sedan (1-3 Pax | 3 Bags)",
+    badgeAr: "ليموزين VIP",
+    badgeEn: "VIP Limousine",
+    price: 20,
+    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
+    thumb: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    id: "gal-minivan7",
+    vehicleId: "veh-minivan7",
+    titleAr: "ميني فان عائلي مريح (7 راكب)",
+    titleEn: "Family Minivan (7-Seater)",
+    subtitleAr: "فان عائلي واسع (حتى 7 ركاب | 7 حقائب كبيرة)",
+    subtitleEn: "Spacious Family Van (Up to 7 Pax | 7 Bags)",
+    badgeAr: "ميني فان 7 راكب",
+    badgeEn: "7-Seater Minivan",
+    price: 30,
+    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+    thumb: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    id: "gal-hiace",
+    vehicleId: "veh-hiace",
+    titleAr: "تويوتا هاي إيس سياحي فاخر (14 - 15 راكب)",
+    titleEn: "Toyota HiAce Tourist Microbus (14-15 Seater)",
+    subtitleAr: "ميكروباص سياحي سقف عالي (14 - 15 راكب | 15 حقيبة)",
+    subtitleEn: "High-Roof Tourist Van (14-15 Pax | 15 Bags)",
+    badgeAr: "هاي إيس 14-15 راكب",
+    badgeEn: "HiAce 14-15 Pax",
+    price: 45,
+    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
+    thumb: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    id: "gal-vip",
+    vehicleId: "veh-vip",
+    titleAr: "سيارة VIP تنفيذية فاخرة (مرسيدس / لكزس SUV)",
+    titleEn: "VIP Executive Luxury SUV",
+    subtitleAr: "قمة الرفاهية لرجال الأعمال والرحلات الخاصة (حتى 4 ركاب)",
+    subtitleEn: "Ultimate Executive Luxury (Up to 4 Pax)",
+    badgeAr: "VIP فخم",
+    badgeEn: "Executive SUV",
+    price: 65,
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
+    thumb: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=300&q=80"
   }
 ];
 
