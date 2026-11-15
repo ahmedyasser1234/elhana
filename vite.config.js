@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
 import fs from 'fs'
 import path from 'path'
 
@@ -123,24 +122,7 @@ function mediaManifestPlugin() {
 export default defineConfig({
   plugins: [
     react(),
-    mediaManifestPlugin(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      injectRegister: 'script-defer',
-      includeAssets: ['favicon.svg'],
-      manifest: {
-        name: 'El Hana Group Tourism & Safaris',
-        short_name: 'El Hana Group',
-        description: 'Book your authentic desert safaris, yacht cruises, and diving trips in Sharm El Sheikh.',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
-        display: 'standalone',
-        icons: [
-          { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' }
-        ]
-      }
-    })
+    mediaManifestPlugin()
   ],
   server: {
     watch: {
