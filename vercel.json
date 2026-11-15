@@ -1,6 +1,19 @@
 {
   "headers": [
     {
+      "source": "/(sw\\.js|registerSW\\.js)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate, max-age=0"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
@@ -34,6 +47,8 @@
     { "source": "/robots.txt", "destination": "/robots.txt" },
     { "source": "/llms.txt", "destination": "/llms.txt" },
     { "source": "/ai-catalog.json", "destination": "/ai-catalog.json" },
+    { "source": "/sw.js", "destination": "/sw.js" },
+    { "source": "/registerSW.js", "destination": "/registerSW.js" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

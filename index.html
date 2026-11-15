@@ -27,6 +27,17 @@
             }
           });
         }
+        var BUILD_REV = "v_fleet_cars_modal_20261115_final";
+        try {
+          if (sessionStorage.getItem("elhana_purged") !== BUILD_REV) {
+            sessionStorage.setItem("elhana_purged", BUILD_REV);
+            if ('caches' in window) {
+              caches.keys().then(function(keys) {
+                return Promise.all(keys.map(function(k) { return caches.delete(k); }));
+              });
+            }
+          }
+        } catch(e) {}
       })();
     </script>
 
