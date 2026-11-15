@@ -55,6 +55,12 @@ export const ExperienceDetailsPage = ({ slugOverride }) => {
   };
 
   const experience = rawExperience ? getLocalizedExperience(rawExperience, i18n.language) : null;
+  const isAtvOrBuggy = Boolean(
+    ['atv-quad-bike-safari', 'dune-buggy-adventure', 'super-desert-combo-safari', 'luxury-polaris-canam-buggy-safari'].includes(slug) ||
+    experience?.category === 'safari' || experience?.category === 'atv' || experience?.category === 'buggy' ||
+    experience?.title?.toLowerCase().includes('atv') || experience?.title?.toLowerCase().includes('quad') ||
+    experience?.title?.includes('باجي') || experience?.title?.includes('كواد')
+  );
 
   if (loading) {
     return (
@@ -158,6 +164,18 @@ export const ExperienceDetailsPage = ({ slugOverride }) => {
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-black font-heading text-slate-900 tracking-tight leading-tight">
             {experience.title}
           </h1>
+
+          {/* Price Clarity Note for ATV & Buggies */}
+          {isAtvOrBuggy && (
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-amber-50 border border-amber-300/80 text-amber-950 font-black text-xs sm:text-sm shadow-xs mt-1">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shrink-0" />
+              <span>
+                {isAr 
+                  ? 'السعر للمركبة الـ ATV المزدوجة (لشخصين) — وليس للفرد الواحد.' 
+                  : 'Price is per double ATV vehicle (for 2 people) — not per individual person.'}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Image Gallery Showcase with 3D Sphere Animations */}
@@ -320,50 +338,192 @@ export const ExperienceDetailsPage = ({ slugOverride }) => {
               )}
             </div>
 
-            {/* Included vs Excluded (ABOVE ITINERARY) */}
+            {/* 2. Included vs Excluded (قوائم مرئية ومنظمة بعلامات ✓ و ✕) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 border border-emerald-100 shadow-md space-y-3">
-                <h4 className="text-base font-bold text-slate-900 font-heading flex items-center gap-2">
-                  <Check className="w-5 h-5 text-emerald-500" />
-                  {isAr ? 'الخدمات المشمولة في الرحلة' : "What's Included"}
-                </h4>
-                <ul className="space-y-2 text-xs text-slate-600 font-normal">
+              <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 border border-emerald-200/80 shadow-md space-y-4">
+                <div className="flex items-center gap-2.5 pb-3 border-b border-emerald-100">
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-black text-sm shrink-0">
+                    ✓
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-extrabold uppercase text-emerald-600 tracking-wider block">
+                      {isAr ? 'مشمول في الحجز' : 'Inclusive'}
+                    </span>
+                    <h4 className="text-base font-black text-slate-900 font-heading">
+                      {isAr ? 'يشمل السعر:' : "What's Included:"}
+                    </h4>
+                  </div>
+                </div>
+                <ul className="space-y-2.5 text-xs text-slate-700 font-semibold">
                   {included.map((inc, i) => (
-                    <li key={i} className="flex items-baseline gap-2">
-                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full shrink-0"></span>
-                      <span>{inc}</span>
+                    <li key={i} className="flex items-center gap-2.5">
+                      <span className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-300 flex items-center justify-center text-[11px] font-black shrink-0">
+                        ✓
+                      </span>
+                      <span className="leading-relaxed">{inc}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 border border-red-100 shadow-md space-y-3">
-                <h4 className="text-base font-bold text-slate-900 font-heading flex items-center gap-2">
-                  <X className="w-5 h-5 text-red-400" />
-                  {isAr ? 'غير مشمول في التكلفة' : "What's Excluded"}
-                </h4>
-                <ul className="space-y-2 text-xs text-slate-600 font-normal">
+              <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 border border-rose-200/80 shadow-md space-y-4">
+                <div className="flex items-center gap-2.5 pb-3 border-b border-rose-100">
+                  <div className="w-8 h-8 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-black text-sm shrink-0">
+                    ✕
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-extrabold uppercase text-rose-500 tracking-wider block">
+                      {isAr ? 'إضافات ومصاريف اختيارية' : 'Not Included'}
+                    </span>
+                    <h4 className="text-base font-black text-slate-900 font-heading">
+                      {isAr ? 'لا يشمل / إضافات:' : "What's Excluded / Extras:"}
+                    </h4>
+                  </div>
+                </div>
+                <ul className="space-y-2.5 text-xs text-slate-700 font-semibold">
                   {excluded.map((exc, i) => (
-                    <li key={i} className="flex items-baseline gap-2">
-                      <span className="w-1.5 h-1.5 bg-slate-300 rounded-full shrink-0"></span>
-                      <span>{exc}</span>
+                    <li key={i} className="flex items-center gap-2.5">
+                      <span className="w-5 h-5 rounded-full bg-rose-50 text-rose-500 border border-rose-300 flex items-center justify-center text-[11px] font-black shrink-0">
+                        ✕
+                      </span>
+                      <span className="leading-relaxed">{exc}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
 
-            {/* Important Info / Guidelines (ABOVE ITINERARY) */}
-            <div className="bg-slate-900 text-white rounded-3xl p-6 md:p-8 space-y-4 border border-sky-400/30 shadow-2xl">
-              <div className="flex items-center gap-2 font-bold text-sky-300 text-sm">
-                <Info className="w-5 h-5 text-[#F97316]" />
-                {isAr ? 'تعليمات وإرشادات مهمة للرحلة' : 'Important Trip Guidelines & What to Bring'}
+            {/* 3. Participation Requirements & Safety (متطلبات المشاركة ومعلومات السلامة) */}
+            <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-sky-100 shadow-md space-y-5">
+              <div className="flex items-center gap-3 pb-3 border-b border-sky-100">
+                <div className="w-10 h-10 rounded-2xl bg-sky-50 text-[#0284C7] flex items-center justify-center border border-sky-200 shrink-0">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-extrabold uppercase text-[#0284C7] tracking-wider block">
+                    {isAr ? 'معايير الأمان والشروط' : 'Safety & Eligibility'}
+                  </span>
+                  <h3 className="text-xl font-black font-heading text-slate-900">
+                    {isAr ? 'متطلبات المشاركة ومعلومات السلامة' : 'Participation & Safety Requirements'}
+                  </h3>
+                </div>
               </div>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300 font-normal">
-                {importantInfo.map((info, i) => (
-                  <li key={i}>• {info}</li>
-                ))}
-              </ul>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Driver Requirements */}
+                <div className="bg-slate-50/90 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-2.5">
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-wide flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
+                    {isAr ? 'متطلبات السائق:' : 'Driver Requirements:'}
+                  </h4>
+                  <ul className="space-y-2 text-xs text-slate-700 font-medium">
+                    <li className="flex items-baseline gap-2">
+                      <span className="text-[#0284C7] font-black">•</span>
+                      <span>
+                        <strong className="text-slate-900">{isAr ? 'الحد الأدنى لسن القيادة:' : 'Minimum Driving Age:'}</strong>{' '}
+                        {isAr ? '14+ سنة للقيادة الفردية المستقلة (الأعمار الأصغر يمكنهم الركوب كمرافق خلف سائق بالغ).' : '14+ years for independent solo driving (younger children ride as passengers with an adult).'}
+                      </span>
+                    </li>
+                    <li className="flex items-baseline gap-2">
+                      <span className="text-emerald-600 font-black">•</span>
+                      <span>
+                        <strong className="text-slate-900">{isAr ? 'رخصة القيادة:' : 'Driver License:'}</strong>{' '}
+                        <span className="text-emerald-700 font-extrabold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                          {isAr ? 'لا يتطلب رخصة قيادة إطلاقاً' : 'No driver’s license required'}
+                        </span>
+                        {isAr ? ' — يتم تقديم شرح وتجربة قيادة قصيرة قبل انطلاق الرحلة.' : ' — Full practical briefing & test drive provided before start.'}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Safety Rules */}
+                <div className="bg-slate-50/90 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-2.5">
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-wide flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                    {isAr ? 'قواعد السلامة والمرافقة:' : 'Safety & Guidance Rules:'}
+                  </h4>
+                  <ul className="space-y-2 text-xs text-slate-700 font-medium">
+                    <li className="flex items-baseline gap-2">
+                      <span className="text-emerald-600 font-black">•</span>
+                      <span>
+                        <strong className="text-slate-900">{isAr ? 'خوذات الأمان:' : 'Safety Helmets:'}</strong>{' '}
+                        {isAr ? 'ارتداء خوذة الأمان المعقمة والموفرة إلزامي طوال مسار القيادة لسلامتك.' : 'Wearing the provided sanitized safety helmet is mandatory at all times.'}
+                      </span>
+                    </li>
+                    <li className="flex items-baseline gap-2">
+                      <span className="text-emerald-600 font-black">•</span>
+                      <span>
+                        <strong className="text-slate-900">{isAr ? 'مرافقة المرشد:' : 'Expert Desert Guide:'}</strong>{' '}
+                        {isAr ? 'مرشد صحراوي معتمد يتقدم القافلة، ويُرجى الالتزام بالسرعة المحددة دون الخروج عن المسار.' : 'Certified desert guide leads the group; please maintain safe convoy speed.'}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. What to Bring & What to Wear (ماذا تحضر وماذا ترتدي؟) */}
+            <div className="bg-gradient-to-br from-amber-50/80 via-white to-sky-50/60 rounded-3xl p-6 md:p-8 border border-amber-200/90 shadow-md space-y-5">
+              <div className="flex items-center gap-3 pb-3 border-b border-amber-200/60">
+                <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-lg border border-amber-200 shrink-0">
+                  🎒
+                </div>
+                <div>
+                  <span className="text-[10px] font-extrabold uppercase text-amber-700 tracking-wider block">
+                    {isAr ? 'نصائح للاستعداد المسبق' : 'Preparation Checklist'}
+                  </span>
+                  <h3 className="text-xl font-black font-heading text-slate-900">
+                    {isAr ? 'ماذا تحضر وماذا ترتدي؟' : 'What to Bring & What to Wear?'}
+                  </h3>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5 text-xs">
+                {/* 1. Clothes */}
+                <div className="bg-white/95 p-4 rounded-2xl border border-amber-100 shadow-2xs space-y-1.5 flex flex-col justify-between">
+                  <div className="text-xl">👕</div>
+                  <div>
+                    <h5 className="font-black text-slate-900 text-xs">{isAr ? 'ملابس مريحة' : 'Comfortable Clothes'}</h5>
+                    <p className="text-[11px] text-slate-600 leading-relaxed font-normal mt-0.5">
+                      {isAr ? 'ملابس رياضية ومريحة يمكن أن تتعرض للغبار أو الطين أثناء القيادة.' : 'Casual athletic clothes that can comfortably handle dust or sand.'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 2. Shoes */}
+                <div className="bg-white/95 p-4 rounded-2xl border border-amber-100 shadow-2xs space-y-1.5 flex flex-col justify-between">
+                  <div className="text-xl">👟</div>
+                  <div>
+                    <h5 className="font-black text-slate-900 text-xs">{isAr ? 'أحذية مغلقة من الأمام' : 'Closed-toe Shoes'}</h5>
+                    <p className="text-[11px] text-slate-600 leading-relaxed font-normal mt-0.5">
+                      {isAr ? 'حذاء رياضي مغلق بالكامل (يُفضل تجنب الشبشب أو الصنادل المفتوحة).' : 'Sneakers or closed sports shoes (avoid flip-flops or open sandals).'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 3. Sunscreen & Sunglasses */}
+                <div className="bg-white/95 p-4 rounded-2xl border border-amber-100 shadow-2xs space-y-1.5 flex flex-col justify-between">
+                  <div className="text-xl">🕶️</div>
+                  <div>
+                    <h5 className="font-black text-slate-900 text-xs">{isAr ? 'واقي شمس ونظارات' : 'Sunscreen & Glasses'}</h5>
+                    <p className="text-[11px] text-slate-600 leading-relaxed font-normal mt-0.5">
+                      {isAr ? 'نظارة شمسية لحماية العينين من الغبار وأشعة شمس سيناء وكريم واقي.' : 'Sunglasses to protect your eyes from bright desert sun and dust.'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 4. Scarf / Bandana */}
+                <div className="bg-white/95 p-4 rounded-2xl border border-amber-100 shadow-2xs space-y-1.5 flex flex-col justify-between">
+                  <div className="text-xl">🧣</div>
+                  <div>
+                    <h5 className="font-black text-slate-900 text-xs">{isAr ? 'الشال أو الباندانا' : 'Scarf / Bandana'}</h5>
+                    <p className="text-[11px] text-slate-600 leading-relaxed font-normal mt-0.5">
+                      {isAr ? 'كوفية أو باندانا لتغطية الأنف والوجه من الرمال (متاح شراؤها بمركز السفاري).' : 'Keffiyeh or bandana to cover mouth & nose (available at center).'}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Detailed Itinerary (Clean cards without step photos or time badges) */}

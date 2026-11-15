@@ -193,15 +193,17 @@ export const EXPERIENCES = [
       "Round-trip air-conditioned hotel transfers included"
     ],
     included: [
-      "Hotel pickup and drop-off in Sharm El Sheikh",
-      "Quad bike rental & helmet safety gear",
+      "Single or Double Quad/ATV vehicle (as selected in booking)",
+      "Certified safety helmets",
       "Professional desert guide",
-      "Bedouin tea at desert camp",
-      "All taxes & service fees"
+      "Briefing & short practice drive before the trip",
+      "Round-trip hotel pickup and drop-off in Sharm El Sheikh"
     ],
     excluded: [
-      "Desert scarf (Keffiyeh) & goggles (available for small fee)",
-      "Personal photos / video recording"
+      "Desert scarf or bandana (essential for dust protection - available at center)",
+      "Protective goggles / sunglasses",
+      "Professional photo & video album shooting",
+      "Personal expenses & additional snacks/drinks"
     ],
     itinerary: [
       { step: 1, time: "الانطلاق", title: "الانتقال من الفندق إلى مركز السفاري", desc: "سيارة مكيفة من استقبال الفندق مباشرةً إلى مركز السفاري في قلب صحراء سيناء." },
@@ -987,15 +989,17 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
           "انتقالات الفندق ذهاباً وإياداً بسيارات مكيفة"
         ],
         included: [
-          "الانتقالات من وإلى الفندق بـ شرم الشيخ",
-          "إيجار البيتش باجي والخوذة ومعدات الأمان",
-          "مرشد صحراوي محترف",
-          "الشاي البدوي في المخيم",
-          "جميع الضرائب ورسوم الخدمة"
+          "مركبة Quad/ATV مزدوجة واحدة (أو حسب المركبة المختارة)",
+          "خوذات أمان معتمدة ومعدات الحماية",
+          "مرشد صحراوي محترف يرافقك طوال المسار",
+          "شرح وتجربة قيادة قصيرة وتدريب قبل الرحلة",
+          "خدمة التوصيل من وإلى الفندق بسيارات مكيفة"
         ],
         excluded: [
-          "الشال البدوي (الكوفية) والنظارات (مقابل رسم رمزي)",
-          "التصوير الشخصي وألبوم الصور والفيديو"
+          "الباندانا أو الشال (مهم جداً للحماية من الغبار - متاح بالمركز)",
+          "النظارات الواقية / النظارات الشمسية",
+          "تصوير الرحلة والفيديوهات",
+          "المصاريف الشخصية والمشروبات الإضافية"
         ],
         itinerary: [
           {

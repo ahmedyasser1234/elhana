@@ -15,6 +15,11 @@ export const StickyMobileCTA = ({ experience }) => {
 
   if (!experience) return null;
 
+  const isAtvBuggy = ['atv-quad-bike-safari', 'dune-buggy-adventure', 'super-desert-combo-safari', 'luxury-polaris-canam-buggy-safari'].includes(experience.slug) ||
+    experience.category === 'safari' || experience.category === 'atv' || experience.category === 'buggy' ||
+    experience.title?.toLowerCase().includes('atv') || experience.title?.toLowerCase().includes('quad') ||
+    experience.title?.includes('باجي') || experience.title?.includes('كواد');
+
   const handleBookClick = () => {
     updateBooking({ experience });
     navigate('/checkout');
@@ -26,6 +31,15 @@ export const StickyMobileCTA = ({ experience }) => {
         <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">{t('common.startingFrom')}</span>
         <div className="flex items-baseline gap-1">
           <span className="text-xl font-black text-white font-heading">{formatPrice(experience.startingPrice)}</span>
+          {isAtvBuggy ? (
+            <span className="text-[10px] text-amber-300 font-extrabold">
+              / {isAr ? 'للمركبة (شخصين)' : 'per vehicle (for 2)'}
+            </span>
+          ) : (
+            <span className="text-[10px] text-slate-400 font-medium">
+              / {isAr ? 'فرد' : 'person'}
+            </span>
+          )}
         </div>
       </div>
 

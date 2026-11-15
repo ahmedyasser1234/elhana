@@ -168,8 +168,8 @@ export const BookingWidget = ({ experience }) => {
       adultsLabel: { ar: "البالغون (12+)", en: "Adults (12+)" },
       childrenLabel: { ar: "الأطفال (3-11)", en: "Children (3-11)" },
       vehicleSelection: { ar: "اختيار عدد المركبات (المكن والكار باجي بنفس الصفحة)", en: "Vehicle Selection (Quads & Buggies)" },
-      singleQuadLabel: { ar: "بيتش باجي سنجل (راكب واحد)", en: "Single Quad Bike (1 Rider)" },
-      doubleQuadLabel: { ar: "بيتش باجي دبل (راكبان)", en: "Double Quad Bike (2 Riders)" },
+      singleQuadLabel: { ar: "بيتش باجي سنجل (السعر للمركبة لشخص واحد)", en: "Single Quad Bike (Price per single vehicle for 1 rider)" },
+      doubleQuadLabel: { ar: "بيتش باجي دبل (السعر للمركبة لشخصين)", en: "Double Quad Bike (Price per vehicle for 2 riders)" },
       buggy2Label: { ar: "كار باجي ثنائي (مقعدان)", en: "2-Seater Dune Buggy" },
       buggy4Label: { ar: "كار باجي رباعي (4 مقاعد)", en: "4-Seater Family Buggy" },
       bedouinPartySection: { ar: "الحفلة والعشاء البدوي مع السفاري", en: "Bedouin Dinner & Show Option" },
@@ -486,6 +486,16 @@ export const BookingWidget = ({ experience }) => {
             {Math.round(dynamicHeaderPrice * 52.39)} {isAr ? 'ج.م' : 'EGP'}
           </span>
         </div>
+
+        {/* ATV / Buggy Price Clarity Badge */}
+        {isSafari && !isDinnerOnly && !isHorseCamelTab && (
+          <div className="mt-1 px-3 py-2 rounded-xl bg-amber-50 border border-amber-300/80 text-amber-950 text-xs font-black flex items-center gap-2 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0" />
+            <span>
+              {isAr ? 'السعر للمركبة الـ ATV المزدوجة (لشخصين).' : 'Price is for the double ATV vehicle (for 2 people).'}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Date & Time Selection */}
@@ -689,12 +699,12 @@ export const BookingWidget = ({ experience }) => {
                 <div className="space-y-2 bg-slate-50 p-3 rounded-2xl border border-slate-200">
               
                   {/* Single Quad */}
-                  <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-stone-200 shadow-xs">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-stone-200 shadow-xs">
                     <div>
                       <div className="text-xs font-bold text-slate-800">
                         {getLabel('singleQuadLabel')}
                       </div>
-                      <div className="text-[10px] text-slate-500 font-semibold">{formatPrice(quadSinglePrice)}</div>
+                      <div className="text-[10px] text-slate-600 font-bold">{formatPrice(quadSinglePrice)} — {isAr ? 'السعر للمركبة (لشخص واحد)' : 'Price per vehicle (for 1 person)'}</div>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
@@ -716,12 +726,12 @@ export const BookingWidget = ({ experience }) => {
                   </div>
 
                   {/* Double Quad */}
-                  <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-stone-200 shadow-xs">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-amber-300/80 shadow-xs">
                     <div>
                       <div className="text-xs font-bold text-slate-800">
                         {getLabel('doubleQuadLabel')}
                       </div>
-                      <div className="text-[10px] text-slate-500 font-semibold">{formatPrice(quadDoublePrice)} ({isAr ? 'شخصان' : '2 Persons'})</div>
+                      <div className="text-[10px] text-amber-800 font-black">{formatPrice(quadDoublePrice)} — {isAr ? 'السعر للمركبة الـ ATV المزدوجة (لشخصين)' : 'Price per double ATV vehicle (for 2 people)'}</div>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
@@ -1831,6 +1841,39 @@ export const BookingWidget = ({ experience }) => {
         </div>
       </div>
 
+      {/* 5. Trust Policies Box (شارات الثقة وسياسات الحجز بالقرب من زر الحجز) */}
+      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2 text-xs">
+        <div className="flex items-start gap-2 text-slate-700">
+          <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+          <div className="leading-snug">
+            <span className="font-black text-slate-900">{isAr ? 'إلغاء مجاني:' : 'Free Cancellation:'} </span>
+            <span className="text-slate-600 font-medium">
+              {isAr ? 'إلغاء مجاني حتى 24 ساعة قبل بدء الرحلة مع استرداد كامل.' : 'Free cancellation up to 24 hours before tour start.'}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-2 text-slate-700">
+          <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+          <div className="leading-snug">
+            <span className="font-black text-slate-900">{isAr ? 'دفع مرن:' : 'Flexible Payment:'} </span>
+            <span className="text-slate-600 font-medium">
+              {isAr ? 'ادفع الآن أونلاين أو عند الوصول كاش عند الاستلام بالسيارة.' : 'Pay now online or pay cash upon pickup.'}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-2 text-slate-700">
+          <Sparkles className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />
+          <div className="leading-snug">
+            <span className="font-black text-slate-900">{isAr ? 'تأكيد فوري:' : 'Instant Confirmation:'} </span>
+            <span className="text-slate-600 font-medium">
+              {isAr ? 'يتم تأكيد الحجز فوراً وإرسال إيصال وتفاصيل السائق عبر WhatsApp والبريد.' : 'Instant booking confirmation sent via WhatsApp and Email.'}
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Action Buttons */}
       <div className="space-y-2.5">
         <button
@@ -1850,19 +1893,6 @@ export const BookingWidget = ({ experience }) => {
           <WhatsAppIcon className="w-5 h-5 text-[#25D366]" />
           <span>{t('common.askWhatsapp')}</span>
         </a>
-      </div>
-
-      {/* Micro Trust Badges */}
-      <div className="pt-1 flex items-center justify-center flex-wrap gap-x-4 gap-y-1.5 text-xs text-slate-500 font-medium">
-        <div className="flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>{getLabel('freeCancellation')}</span>
-        </div>
-        <span className="text-slate-300 hidden sm:inline">•</span>
-        <div className="flex items-center gap-1.5">
-          <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>{getLabel('payOnArrival')}</span>
-        </div>
       </div>
 
       {/* Time Slot Specific Media Lightbox Modal */}
