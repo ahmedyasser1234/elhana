@@ -10,7 +10,7 @@ export const HeroSection = () => {
   const isAr = i18n.language === 'ar';
   const [showVideoModal, setShowVideoModal] = useState(false);
 
-  // Floating Cards Configuration
+  // Category Cards Configuration
   const cardsData = [
     {
       id: 1,
@@ -18,7 +18,6 @@ export const HeroSection = () => {
       tag: isAr ? "سفاري الصحراء" : "DESERT SAFARI",
       title: isAr ? "إثارة وتشويق بلا حدود" : "Pure Adrenaline",
       link: "/safari",
-      positionClass: "-top-5 ltr:-right-4 ltr:xl:-right-8 rtl:-left-4 rtl:xl:-left-8",
       accentBg: "bg-sky-500/20 text-sky-300",
     },
     {
@@ -27,7 +26,6 @@ export const HeroSection = () => {
       tag: isAr ? "اليخوت الفاخرة" : "VIP YACHTS",
       title: isAr ? "إبحار ملوكي VIP" : "Royal Sailing VIP",
       link: "/sea-trips",
-      positionClass: "top-20 ltr:-left-4 ltr:xl:-left-8 rtl:-right-4 rtl:xl:-right-8",
       accentBg: "bg-amber-500/20 text-amber-300",
     },
     {
@@ -36,7 +34,6 @@ export const HeroSection = () => {
       tag: isAr ? "الغوص والسنوركلينج" : "DIVING & REEFS",
       title: isAr ? "عالم المرجان والأعماق" : "Underwater Reefs",
       link: "/diving",
-      positionClass: "bottom-24 ltr:-right-4 ltr:xl:-right-8 rtl:-left-4 rtl:xl:-left-8",
       accentBg: "bg-emerald-500/20 text-emerald-300",
     },
     {
@@ -45,7 +42,6 @@ export const HeroSection = () => {
       tag: isAr ? "الانتقالات الخاصة" : "VIP TRANSFERS",
       title: isAr ? "توصيل 24/7 للمطار والفندق" : "24/7 Airport Shuttles",
       link: "/transfers",
-      positionClass: "-bottom-4 ltr:-left-4 ltr:xl:-left-8 rtl:-right-4 rtl:xl:-right-8",
       accentBg: "bg-orange-500/20 text-orange-300",
     },
   ];
@@ -158,7 +154,7 @@ export const HeroSection = () => {
           <div className="lg:col-span-5 relative w-full flex flex-col items-center">
             
             {/* 1. Real Image Frame */}
-            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[16/10] sm:aspect-[16/10] lg:aspect-[4/3] lg:h-[400px] xl:h-[440px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-2 sm:border-4 border-white/20 bg-slate-950 group z-20">
+            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[16/10] lg:h-[280px] xl:h-[310px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-2 sm:border-3 border-white/20 bg-slate-950 group z-20">
               <picture>
                 <source srcSet="/images/real/polaris-buggy-white.webp" type="image/webp" />
                 <img
@@ -196,52 +192,24 @@ export const HeroSection = () => {
               </div>
             </div>
 
-            {/* Floating Cards (Desktop Only: lg and above, where space allows elegant hovering around image) */}
-            <div className="hidden lg:block max-lg:!hidden">
+            {/* 2. Interactive Category Grid (2x2) - 100% Zero Overlap on Desktop & Mobile */}
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mt-3.5 sm:mt-4 w-full max-w-sm sm:max-w-md lg:max-w-none">
               {cardsData.map((card) => {
                 const Icon = card.icon;
                 return (
                   <Link
                     key={card.id}
                     to={card.link}
-                    className={`absolute z-30 ${card.positionClass} group cursor-pointer block`}
+                    className="p-3 sm:p-3.5 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 backdrop-blur-xl border border-slate-800 hover:border-sky-400/80 shadow-lg hover:shadow-sky-500/20 flex items-center gap-2.5 sm:gap-3 transition-all duration-300 group cursor-pointer hover:scale-[1.02] active:scale-98"
                   >
-                    <div className="p-3 px-4 rounded-2xl bg-slate-900/90 backdrop-blur-2xl border border-slate-700/70 shadow-[0_15px_35px_rgba(0,0,0,0.5)] hover:border-sky-400/80 hover:shadow-[0_20px_40px_rgba(2,132,199,0.35)] flex items-center gap-3 min-w-[200px] max-w-[240px] group-hover:scale-105 transition duration-300">
-                      <div className={`p-2.5 rounded-xl ${card.accentBg} shrink-0`}>
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <div className="space-y-0.5 min-w-0">
-                        <span className="text-[10px] font-bold tracking-wider uppercase block text-sky-400">
-                          {card.tag}
-                        </span>
-                        <div className="text-xs font-bold text-white font-heading leading-snug truncate">
-                          {card.title}
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Mobile / Tablet Interactive Category Grid (2x2) - Neat, readable, zero overlap, zero collision */}
-            <div className="grid grid-cols-2 gap-2 sm:gap-2.5 mt-3.5 w-full max-w-sm sm:max-w-md mx-auto lg:hidden">
-              {cardsData.map((card) => {
-                const Icon = card.icon;
-                return (
-                  <Link
-                    key={card.id}
-                    to={card.link}
-                    className="p-2.5 sm:p-3 rounded-2xl bg-slate-900/85 backdrop-blur-xl border border-slate-800/80 hover:border-sky-500/60 shadow-lg flex items-center gap-2.5 active:scale-98 transition group"
-                  >
-                    <div className={`p-2 rounded-xl ${card.accentBg} shrink-0`}>
-                      <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <div className={`p-2 sm:p-2.5 rounded-xl ${card.accentBg} shrink-0 group-hover:scale-110 transition duration-300`}>
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <span className="text-[9px] sm:text-[10px] font-bold text-sky-400 block truncate">
+                      <span className="text-[9px] sm:text-[10px] font-bold tracking-wider uppercase text-sky-400 block truncate">
                         {card.tag}
                       </span>
-                      <div className="text-[11px] sm:text-xs font-bold text-white group-hover:text-sky-300 transition truncate leading-tight">
+                      <div className="text-[11px] sm:text-xs lg:text-[13px] font-bold text-white group-hover:text-sky-300 transition truncate leading-snug">
                         {card.title}
                       </div>
                     </div>
