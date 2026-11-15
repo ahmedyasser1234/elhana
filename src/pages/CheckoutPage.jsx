@@ -81,11 +81,19 @@ export const CheckoutPage = () => {
       }
 
       const bookingPayload = {
-        itemTitle: isTransfer ? `Private Transfer: ${transferData.pickup} → ${transferData.dropoff}` : (experience?.title || 'Sharm Experience'),
+        itemTitle: isTransfer 
+          ? (transferData.isRoundTrip 
+              ? `Private Transfer (Round Trip): ${transferData.pickup} ⇄ ${transferData.dropoff}` 
+              : `Private Transfer: ${transferData.pickup} → ${transferData.dropoff}`)
+          : (experience?.title || 'Sharm Experience'),
         itemType: isTransfer ? 'transfer' : 'experience',
         experienceSlug: isTransfer ? undefined : rawExperience?.slug,
         vehicleId: isTransfer ? transferData.vehicleId : undefined,
+        vehicleName: isTransfer ? transferData.vehicleName : undefined,
         routeNames: isTransfer ? transferData.routeNames : undefined,
+        isRoundTrip: isTransfer ? Boolean(transferData.isRoundTrip) : undefined,
+        returnDate: isTransfer ? transferData.returnDate : undefined,
+        returnTime: isTransfer ? transferData.returnTime : undefined,
         date: isTransfer ? transferData.date : bookingDraft.date,
         timeSlot: isTransfer ? transferData.time : bookingDraft.timeSlot,
         adults: isTransfer ? transferData.passengers : bookingDraft.adults,
@@ -97,7 +105,12 @@ export const CheckoutPage = () => {
           hotelName: formData.hotelName,
           roomNumber: formData.roomNumber
         },
-        options: isTransfer ? {} : {
+        options: isTransfer ? {
+          isRoundTrip: Boolean(transferData.isRoundTrip),
+          vehicleName: transferData.vehicleName,
+          returnDate: transferData.returnDate,
+          returnTime: transferData.returnTime
+        } : {
           singleQuads: bookingDraft.singleQuads || 0,
           doubleQuads: bookingDraft.doubleQuads || 0,
           buggy2Seater: bookingDraft.buggy2Seater || 0,
@@ -316,9 +329,28 @@ export const CheckoutPage = () => {
                   <span className="text-slate-400 font-bold block text-[10px] uppercase">{isAr ? "الخدمة / المغامرة" : "Activity / Service"}</span>
                   <span className="font-extrabold text-white text-sm block">
                     {isTransfer
-                      ? `Transfer: ${transferData?.pickup} → ${transferData?.dropoff}`
+                      ? (transferData?.isRoundTrip
+                          ? (isAr 
+                              ? `توصيل خاص (ذهاب وعودة): ${transferData?.pickup} ⇄ ${transferData?.dropoff}` 
+                              : `Private Transfer (Round Trip): ${transferData?.pickup} ⇄ ${transferData?.dropoff}`)
+                          : (isAr 
+                              ? `توصيل خاص: ${transferData?.pickup} → ${transferData?.dropoff}` 
+                              : `Private Transfer: ${transferData?.pickup} → ${transferData?.dropoff}`))
                       : (experience?.title || (bookingDraft.camelDuration ? (isAr ? 'جولة ركوب الجمال في الصحراء' : 'Desert Camel Riding') : (bookingDraft.horseDuration ? (isAr ? 'جولة ركوب الخيل العربي في سيناء' : 'Sinai Horse Riding') : (isAr ? 'لم يتم تحديد مغامرة بعد' : 'No adventure selected yet'))))}
                   </span>
+
+                  {isTransfer && transferData?.vehicleName && (
+                    <span className="text-[11px] text-sky-400 font-bold block mt-1">
+                      🚗 {isAr ? `فئة المركبة: ${transferData.vehicleName}` : `Vehicle: ${transferData.vehicleName}`}
+                    </span>
+                  )}
+
+                  {isTransfer && transferData?.isRoundTrip && (
+                    <span className="text-[10px] font-black text-emerald-400 bg-emerald-950/70 border border-emerald-500/40 px-2 py-0.5 rounded-full inline-block mt-1">
+                      🔄 {isAr ? "مشوار ذهاب وعودة شامل الانتقالين" : "Round-Trip (Both Ways Included)"}
+                    </span>
+                  )}
+
                   {!isTransfer && !experience && !bookingDraft.camelDuration && !bookingDraft.horseDuration && (
                     <button
                       type="button"
@@ -350,22 +382,45 @@ export const CheckoutPage = () => {
                   )}
                 </div>
 
-                <div className="flex justify-between items-center py-2 border-y border-slate-800">
-                  <span className="text-slate-400 flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-[#38BDF8]" /> {isAr ? "تاريخ الرحلة" : "Selected Date"}
-                  </span>
-                  <span className="font-bold text-white">
-                    {isTransfer ? transferData?.date : bookingDraft.date}
-                  </span>
-                </div>
-
-                {!isTransfer && (
-                  <div className="flex justify-between items-center py-2 border-b border-slate-800">
-                    <span className="text-slate-400 flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-[#38BDF8]" /> {isAr ? "موعد الاستقبال" : "Pickup Time"}
-                    </span>
-                    <span className="font-bold text-white">{bookingDraft.timeSlot || '08:30 AM'}</span>
+                {isTransfer && transferData?.isRoundTrip ? (
+                  <div className="space-y-1.5 py-2 border-y border-slate-800 text-xs">
+                    <div className="flex justify-between items-center text-slate-300">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-[#38BDF8]" />
+                        <span>{isAr ? "موعد الذهاب:" : "Outbound:"}</span>
+                      </span>
+                      <span className="font-bold text-white">
+                        {transferData.date} ({transferData.time})
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-amber-300">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-amber-400" />
+                        <span>{isAr ? "موعد العودة:" : "Return:"}</span>
+                      </span>
+                      <span className="font-bold text-white">
+                        {transferData.returnDate} ({transferData.returnTime})
+                      </span>
+                    </div>
                   </div>
+                ) : (
+                  <>
+                    <div className="flex justify-between items-center py-2 border-y border-slate-800">
+                      <span className="text-slate-400 flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-[#38BDF8]" /> {isAr ? "تاريخ الرحلة" : "Selected Date"}
+                      </span>
+                      <span className="font-bold text-white">
+                        {isTransfer ? transferData?.date : bookingDraft.date}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between items-center py-2 border-b border-slate-800">
+                      <span className="text-slate-400 flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-[#38BDF8]" /> {isAr ? (isTransfer ? "وقت التحرك / الرحلة" : "موعد الاستقبال") : "Pickup Time"}
+                      </span>
+                      <span className="font-bold text-white">{isTransfer ? transferData?.time : (bookingDraft.timeSlot || '08:30 AM')}</span>
+                    </div>
+                  </>
                 )}
 
                 <div className="flex justify-between items-center py-2 border-b border-slate-800">

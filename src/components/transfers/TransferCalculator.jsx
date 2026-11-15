@@ -14,6 +14,7 @@ import {
   CheckCircle2, 
   Briefcase,
   PlaneTakeoff,
+  PlaneLanding,
   MessageCircle
 } from 'lucide-react';
 import { SHARM_LOCATIONS, VEHICLE_TYPES } from '../../data/transfers';
@@ -34,13 +35,25 @@ export const TransferCalculator = ({
   const { showToast } = useToast();
   const { formatPrice } = useCurrency();
 
+  const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [pickup, setPickup] = useState(SHARM_LOCATIONS[0].id);
   const [dropoff, setDropoff] = useState(SHARM_LOCATIONS[1].id);
   const [internalVehicle, setInternalVehicle] = useState(selectedVehicleId || VEHICLE_TYPES[0].id);
+  
+  // Dates & Times
   const [transferDate, setTransferDate] = useState(
     new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo' }).format(new Date())
   );
   const [transferTime, setTransferTime] = useState('12:00');
+  
+  // Return Date defaults to 3 days after arrival
+  const [returnDate, setReturnDate] = useState(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 3);
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo' }).format(d);
+  });
+  const [returnTime, setReturnTime] = useState('14:00');
+
   const [passengers, setPassengers] = useState(2);
 
   // Keep internal vehicle synced if prop changes
@@ -77,7 +90,8 @@ export const TransferCalculator = ({
     distanceMultiplier = 1.2;
   }
 
-  const calculatedPriceInUSD = Math.round(vehicle.basePrice * distanceMultiplier);
+  const oneWayPrice = Math.round(vehicle.basePrice * distanceMultiplier);
+  const calculatedPriceInUSD = isRoundTrip ? (oneWayPrice * 2) : oneWayPrice;
 
   // Swap pickup & dropoff
   const handleSwapLocations = () => {
@@ -120,14 +134,15 @@ export const TransferCalculator = ({
     
     showToast(
       isAr 
-        ? `تم حفظ حجز التوصيل من ${pickupName} إلى ${dropoffName}! جاري الانتقال لتأكيد الحجز.` 
-        : `Transfer from ${pickupName} to ${dropoffName} saved! Proceeding to checkout.`, 
+        ? `تم حفظ حجز التوصيل (${isRoundTrip ? 'ذهاب وعودة' : 'اتجاه واحد'})! جاري الانتقال لتأكيد الحجز.` 
+        : `Transfer booking (${isRoundTrip ? 'Round-Trip' : 'One-Way'}) saved! Proceeding to checkout.`, 
       'success'
     );
 
     navigate('/checkout', {
       state: {
         isTransferBooking: true,
+        isRoundTrip,
         pickup: pickupName,
         dropoff: dropoffName,
         vehicleName: isAr ? vehicle.nameAr : vehicle.name,
@@ -135,6 +150,8 @@ export const TransferCalculator = ({
         routeNames: [pickupObj.name, dropoffObj.name],
         date: transferDate,
         time: transferTime,
+        returnDate: isRoundTrip ? returnDate : null,
+        returnTime: isRoundTrip ? returnTime : null,
         passengers,
         price: calculatedPriceInUSD
       }
@@ -142,8 +159,8 @@ export const TransferCalculator = ({
   };
 
   const whatsappMessage = isAr
-    ? `مرحباً! أود حجز توصيل خاص مع الهنا:\n• خط السير: من ${pickupObj.nameAr} إلى ${dropoffObj.nameAr}\n• فئة السيارة: ${vehicle.nameAr}\n• الموعد: ${transferDate} الساعة ${transferTime}\n• عدد الركاب: ${passengers}\n• السعر التقديري: $${calculatedPriceInUSD}`
-    : `Hello! I would like to book a private transfer with El Hana:\n• Route: From ${pickupObj.name} to ${dropoffObj.name}\n• Vehicle: ${vehicle.name}\n• Date & Time: ${transferDate} at ${transferTime}\n• Passengers: ${passengers}\n• Estimated Rate: $${calculatedPriceInUSD}`;
+    ? `مرحباً! أود حجز توصيل خاص مع الهنا:\n• نوع المشوار: ${isRoundTrip ? 'ذهاب وعودة (Round Trip)' : 'اتجاه واحد (One Way)'}\n• مشوار الذهاب: من ${pickupObj.nameAr} إلى ${dropoffObj.nameAr}\n• موعد الذهاب: ${transferDate} الساعة ${transferTime}${isRoundTrip ? `\n• مشوار العودة: من ${dropoffObj.nameAr} إلى ${pickupObj.nameAr}\n• موعد العودة: ${returnDate} الساعة ${returnTime}` : ''}\n• فئة السيارة: ${vehicle.nameAr}\n• عدد الركاب: ${passengers}\n• السعر الإجمالي: $${calculatedPriceInUSD}`
+    : `Hello! I would like to book a private transfer with El Hana:\n• Trip Type: ${isRoundTrip ? 'Round-Trip' : 'One-Way'}\n• Outbound: From ${pickupObj.name} to ${dropoffObj.name} on ${transferDate} at ${transferTime}${isRoundTrip ? `\n• Return: From ${dropoffObj.name} to ${pickupObj.name} on ${returnDate} at ${returnTime}` : ''}\n• Vehicle: ${vehicle.name}\n• Passengers: ${passengers}\n• Estimated Rate: $${calculatedPriceInUSD}`;
 
   return (
     <div 
@@ -168,9 +185,18 @@ export const TransferCalculator = ({
                 {formatPrice(calculatedPriceInUSD)}
               </span>
               <span className="text-xs text-slate-500 font-semibold">
-                / {isAr ? "للسيارة بالكامل" : "per private vehicle"}
+                / {isRoundTrip 
+                    ? (isAr ? "ذهاب وعودة بالكامل" : "Round-trip total") 
+                    : (isAr ? "اتجاه واحد للسيارة" : "One-way private vehicle")}
               </span>
             </div>
+            {isRoundTrip && (
+              <span className="text-[11px] font-bold text-[#0284C7] block mt-0.5">
+                {isAr 
+                  ? `(يشمل: ${formatPrice(oneWayPrice)} ذهاب + ${formatPrice(oneWayPrice)} عودة)` 
+                  : `(Includes: ${formatPrice(oneWayPrice)} Outbound + ${formatPrice(oneWayPrice)} Return)`}
+              </span>
+            )}
           </div>
           <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-extrabold shadow-2xs">
             ✓ {isAr ? "شامل كل الرسوم" : "All inclusive"}
@@ -195,9 +221,46 @@ export const TransferCalculator = ({
           <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0" />
           <span>
             {isAr 
-              ? 'السعر للمركبة بالكامل (وليس للفرد) شاملاً السائق والوقود وتتبع الرحلة.' 
-              : 'Price is per entire private vehicle (not per person), including chauffeur & fuel.'}
+              ? (isRoundTrip 
+                  ? 'السعر شامل مشوار الذهاب ومشوار العودة بالكامل مع السائق وتتبع مواعيد الطيران.' 
+                  : 'السعر للمركبة بالكامل (وليس للفرد) شاملاً السائق والوقود وتتبع الرحلة.')
+              : (isRoundTrip
+                  ? 'Total fare covers both outbound & return transfers with driver and flight tracking.'
+                  : 'Price is per entire private vehicle (not per person), including chauffeur & fuel.')}
           </span>
+        </div>
+      </div>
+
+      {/* ── TRIP TYPE SEGMENTED TOGGLE: ONE-WAY vs ROUND-TRIP ── */}
+      <div className="space-y-1.5">
+        <label className="text-xs font-bold text-slate-800 block">
+          {isAr ? "نوع الرحلة / المشوار:" : "Trip Type:"}
+        </label>
+        <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100/90 rounded-2xl border border-slate-200/80">
+          <button
+            type="button"
+            onClick={() => setIsRoundTrip(false)}
+            className={`py-2.5 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              !isRoundTrip
+                ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <span>{isAr ? "اتجاه واحد (ذهاب فقط)" : "One-Way (Single)"}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsRoundTrip(true)}
+            className={`py-2.5 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              isRoundTrip
+                ? 'bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white shadow-md'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <ArrowLeftRight className="w-3.5 h-3.5" />
+            <span>{isAr ? "ذهاب وعودة (شامل)" : "Round-Trip (Return)"}</span>
+          </button>
         </div>
       </div>
 
@@ -227,12 +290,14 @@ export const TransferCalculator = ({
       <div className="space-y-2.5">
         {/* Pickup */}
         <div className="space-y-1">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#0284C7]" />
-              <span>{isAr ? "مكان الاستلام (Pickup)" : "Pickup Location"}</span>
-            </label>
-          </div>
+          <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5 text-[#0284C7]" />
+            <span>
+              {isAr 
+                ? (isRoundTrip ? "مكان الاستلام الأول (الذهاب)" : "مكان الاستلام (Pickup)") 
+                : (isRoundTrip ? "Initial Pickup Location (Outbound)" : "Pickup Location")}
+            </span>
+          </label>
           <select
             value={pickup}
             onChange={(e) => setPickup(e.target.value)}
@@ -274,7 +339,11 @@ export const TransferCalculator = ({
         <div className="space-y-1">
           <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5 text-[#F97316]" />
-            <span>{isAr ? "مكان التوصيل (Drop-off)" : "Drop-off Location"}</span>
+            <span>
+              {isAr 
+                ? (isRoundTrip ? "مكان الوصول للذهاب (والانطلاق للعودة)" : "مكان التوصيل (Drop-off)") 
+                : (isRoundTrip ? "Drop-off Location (Pickup for Return)" : "Drop-off Location")}
+            </span>
           </label>
           <select
             value={dropoff}
@@ -301,36 +370,101 @@ export const TransferCalculator = ({
         </div>
       </div>
 
-      {/* Date, Time & Passengers */}
-      <div className="grid grid-cols-2 gap-2.5 pt-1">
-        <div className="space-y-1">
-          <label className="text-[11px] font-bold text-slate-700 flex items-center gap-1">
-            <Calendar className="w-3 h-3 text-[#0284C7]" />
-            <span>{isAr ? "التاريخ" : "Date"}</span>
-          </label>
-          <input
-            type="date"
-            value={transferDate}
-            min={new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo' }).format(new Date())}
-            onChange={(e) => setTransferDate(e.target.value)}
-            className="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-[#0284C7]"
-          />
+      {/* Date, Time & Return Schedule */}
+      <div className="space-y-3 pt-1">
+        
+        {/* Outbound Leg Card */}
+        <div className={`p-3 rounded-2xl border space-y-2 ${isRoundTrip ? 'bg-sky-50/50 border-sky-200' : 'bg-transparent border-transparent p-0'}`}>
+          {isRoundTrip && (
+            <div className="flex items-center gap-2 text-xs font-black text-[#0284C7] pb-1 border-b border-sky-100">
+              <PlaneTakeoff className="w-4 h-4 text-[#0284C7]" />
+              <span>{isAr ? "مشوار الذهاب (Outbound)" : "Outbound Transfer"}</span>
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-1">
+              <label className="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                <Calendar className="w-3 h-3 text-[#0284C7]" />
+                <span>{isAr ? "تاريخ الذهاب" : "Outbound Date"}</span>
+              </label>
+              <input
+                type="date"
+                value={transferDate}
+                min={new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Cairo' }).format(new Date())}
+                onChange={(e) => {
+                  setTransferDate(e.target.value);
+                  // Ensure return date is not before departure date
+                  if (returnDate < e.target.value) {
+                    setReturnDate(e.target.value);
+                  }
+                }}
+                className="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-[#0284C7]"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                <Clock className="w-3 h-3 text-[#0284C7]" />
+                <span>{isAr ? "وقت الذهاب" : "Outbound Time"}</span>
+              </label>
+              <input
+                type="time"
+                value={transferTime}
+                onChange={(e) => setTransferTime(e.target.value)}
+                className="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-[#0284C7]"
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="space-y-1">
-          <label className="text-[11px] font-bold text-slate-700 flex items-center gap-1">
-            <Clock className="w-3 h-3 text-[#0284C7]" />
-            <span>{isAr ? "وقت الوصول / التحرك" : "Time"}</span>
-          </label>
-          <input
-            type="time"
-            value={transferTime}
-            onChange={(e) => setTransferTime(e.target.value)}
-            className="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-[#0284C7]"
-          />
-        </div>
+        {/* Return Leg Card (When Round-Trip is Active) */}
+        {isRoundTrip && (
+          <div className="p-3 rounded-2xl border bg-orange-50/50 border-orange-200 space-y-2">
+            <div className="flex items-center gap-2 text-xs font-black text-[#F97316] pb-1 border-b border-orange-100">
+              <PlaneLanding className="w-4 h-4 text-[#F97316]" />
+              <span>{isAr ? "مشوار العودة (Return)" : "Return Transfer"}</span>
+            </div>
 
-        <div className="col-span-2 space-y-1">
+            <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                  <Calendar className="w-3 h-3 text-[#F97316]" />
+                  <span>{isAr ? "تاريخ العودة" : "Return Date"}</span>
+                </label>
+                <input
+                  type="date"
+                  value={returnDate}
+                  min={transferDate}
+                  onChange={(e) => setReturnDate(e.target.value)}
+                  className="w-full px-2.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-[#F97316]"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                  <Clock className="w-3 h-3 text-[#F97316]" />
+                  <span>{isAr ? "وقت تحرك العودة" : "Return Time"}</span>
+                </label>
+                <input
+                  type="time"
+                  value={returnTime}
+                  onChange={(e) => setReturnTime(e.target.value)}
+                  className="w-full px-2.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-[#F97316]"
+                />
+              </div>
+            </div>
+
+            <p className="text-[10px] text-slate-600 font-semibold leading-relaxed pt-1">
+              {isAr 
+                ? `مشوار العودة: سيتم نقلك من ${dropoffObj.nameAr} إلى ${pickupObj.nameAr}.` 
+                : `Return route: Pickup from ${dropoffObj.name} back to ${pickupObj.name}.`}
+            </p>
+          </div>
+        )}
+
+        {/* Passengers Input */}
+        <div className="space-y-1">
           <label className="text-[11px] font-bold text-slate-700 flex items-center gap-1">
             <Users className="w-3 h-3 text-[#0284C7]" />
             <span>{isAr ? "عدد الركاب" : "Passengers"}</span>
@@ -347,6 +481,7 @@ export const TransferCalculator = ({
             ))}
           </select>
         </div>
+
       </div>
 
       {/* Vehicle Category Selector */}
@@ -357,7 +492,8 @@ export const TransferCalculator = ({
         
         <div className="space-y-2">
           {VEHICLE_TYPES.map((v) => {
-            const vPrice = Math.round(v.basePrice * distanceMultiplier);
+            const vBaseRate = Math.round(v.basePrice * distanceMultiplier);
+            const vPrice = isRoundTrip ? (vBaseRate * 2) : vBaseRate;
             const isSelected = selectedVehicle === v.id;
 
             return (
@@ -398,6 +534,11 @@ export const TransferCalculator = ({
                   <div className={`text-base font-black font-heading ${isSelected ? 'text-[#38BDF8]' : 'text-[#0284C7]'}`}>
                     {formatPrice(vPrice)}
                   </div>
+                  {isRoundTrip && (
+                    <span className={`text-[9px] block ${isSelected ? 'text-slate-400' : 'text-slate-500'}`}>
+                      {isAr ? "ذهاب وعودة" : "Round-trip"}
+                    </span>
+                  )}
                   {isSelected && (
                     <span className="text-[9px] font-extrabold text-emerald-400 block">
                       ✓ {isAr ? "محدد" : "Selected"}
@@ -420,8 +561,12 @@ export const TransferCalculator = ({
           <Sparkles className="w-4 h-4 text-amber-300" />
           <span>
             {isAr 
-              ? `احجز مشوارك الآن (${formatPrice(calculatedPriceInUSD)})` 
-              : `Book Transfer Now (${formatPrice(calculatedPriceInUSD)})`}
+              ? (isRoundTrip 
+                  ? `احجز الذهاب والعودة الآن (${formatPrice(calculatedPriceInUSD)})` 
+                  : `احجز مشوارك الآن (${formatPrice(calculatedPriceInUSD)})`)
+              : (isRoundTrip
+                  ? `Book Round-Trip Now (${formatPrice(calculatedPriceInUSD)})`
+                  : `Book Transfer Now (${formatPrice(calculatedPriceInUSD)})`)}
           </span>
           <ArrowRight className="w-4 h-4 rtl:rotate-180" />
         </button>
@@ -433,7 +578,11 @@ export const TransferCalculator = ({
           className="w-full flex items-center justify-center gap-2 py-3 px-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300/80 font-black text-xs rounded-2xl shadow-xs transition-all duration-200 active:scale-[0.99]"
         >
           <MessageCircle className="w-4 h-4 text-[#25D366]" />
-          <span>{isAr ? "تنسيق فوري عبر واتساب" : "WhatsApp Quick Coordination"}</span>
+          <span>
+            {isAr 
+              ? (isRoundTrip ? "تنسيق ذهاب وعودة عبر واتساب" : "تنسيق فوري عبر واتساب")
+              : (isRoundTrip ? "WhatsApp Round-Trip Booking" : "WhatsApp Quick Coordination")}
+          </span>
         </a>
 
         {/* Guarantees */}

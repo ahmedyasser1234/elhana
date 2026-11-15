@@ -53,16 +53,19 @@ export function formatBookingMessage(booking) {
   const price = booking.totalPrice || 0;
   const payment = booking.paymentMethod === 'cash_arrival' ? 'كاش عند الوصول (Pay on Arrival)' : 'إلكتروني';
 
+  const roundTripInfo = (booking.isRoundTrip || booking.returnDate)
+    ? `\n🔄 <b>نوع المشوار:</b> ذهاب وعودة (Round-Trip)\n🛬 <b>موعد رحلة العودة:</b> ${booking.returnDate || 'محدد'} • (${booking.returnTime || 'محدد'})\n`
+    : '';
+
   return `🔔 <b>حجز جديد مؤكد - مجموعة الهنا</b> 🌴✨
 ━━━━━━━━━━━━━━━━━━━━━
 🔖 <b>رقم الحجز:</b> <code>#${ref}</code>
-🏝️ <b>الرحلة:</b> <b>${title}</b>
-📅 <b>الموعد:</b> ${date} • (${timeSlot})
-
+🏝️ <b>الرحلة / الخدمة:</b> <b>${title}</b>
+📅 <b>موعد الذهاب:</b> ${date} • (${timeSlot})${roundTripInfo}
 👤 <b>اسم العميل:</b> ${fullName}
 📱 <b>رقم واتساب:</b> <a href="https://wa.me/${phone.replace(/[^0-9]/g, '')}">${phone}</a>
 🏨 <b>مكان الإقامة / الفندق:</b> ${hotel}
-👥 <b>عدد الأفراد:</b> ${adults} كبار ${children > 0 ? `+ ${children} أطفال` : ''}
+👥 <b>عدد الأفراد / الركاب:</b> ${adults} ${children > 0 ? `+ ${children} أطفال` : ''}
 
 💵 <b>الإجمالي:</b> <b>$${price} USD</b>
 💳 <b>طريقة الدفع:</b> ${payment}
