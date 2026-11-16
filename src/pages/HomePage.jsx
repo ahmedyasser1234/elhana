@@ -5,6 +5,7 @@ import TripStack from '../components/TripStack';
 import { WhyChooseUs } from '../components/home/WhyChooseUs';
 import { DesertAdventuresSection } from '../components/home/DesertAdventuresSection';
 import { SeaAdventuresSection } from '../components/home/SeaAdventuresSection';
+import { CompletePackagesSection } from '../components/home/CompletePackagesSection';
 import { TransfersSection } from '../components/home/TransfersSection';
 import { HowItWorks } from '../components/home/HowItWorks';
 import { ReviewsSection } from '../components/home/ReviewsSection';
@@ -37,17 +38,22 @@ export const HomePage = () => {
           <WhyChooseUs />
         </section>
 
-        {/* 4. DESERT SAFARIS & DUNE BUGGY SHOWCASE */}
+        {/* 4. DESERT SAFARIS & SPECIAL OFFERS */}
         <section id="desert-safari" className="relative z-10">
           <DesertAdventuresSection />
         </section>
 
-        {/* 5. RED SEA YACHTS & CORAL REEF DIVING */}
+        {/* 5. RED SEA YACHTS & MARINE OFFERS */}
         <section id="sea-adventures" className="relative z-10">
           <SeaAdventuresSection />
         </section>
 
-        {/* 6. VIP AIRPORT & HOTEL TRANSFERS 24/7 */}
+        {/* 6. COMPLETE PACKAGES & COMBO OFFERS (رحلات كاملة عرض في السعر) */}
+        <section id="complete-packages" className="relative z-10">
+          <CompletePackagesSection />
+        </section>
+
+        {/* 7. VIP AIRPORT & HOTEL TRANSFERS 24/7 */}
         <section id="transfers" className="relative z-10">
           <TransfersSection />
         </section>

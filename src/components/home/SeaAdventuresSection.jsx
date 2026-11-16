@@ -38,11 +38,11 @@ export const SeaAdventuresSection = () => {
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white aspect-[4/3] group">
               <img
-                src="/images/sea/ras-mohammed-luxury-yacht.jpg"
+                src="/images/sea/ras-mohammed-luxury-yacht.webp"
                 alt="VIP Yacht Cruise & White Island Sharm"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/images/sea/white-island-sandbar.jpg';
+                  e.target.src = '/images/sea/white-island-sandbar.webp';
                 }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
@@ -50,12 +50,20 @@ export const SeaAdventuresSection = () => {
               
               <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl bg-white/95 backdrop-blur-md border border-white/60 flex items-center justify-between shadow-xl">
                 <div>
-                  <div className="text-xs font-bold text-slate-900 uppercase tracking-wider">{t('seaSection.specialBadge')}</div>
-                  <div className="text-[11px] text-slate-600 font-normal mt-0.5">{t('seaSection.specialDesc')}</div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100 text-[#0284C7] text-[10px] font-black mb-1">
+                    <span>{t('seaSection.specialBadge', 'عرض اليخت والجزيرة البيضاء VIP')}</span>
+                  </div>
+                  <div className="text-xs font-black text-slate-900 leading-snug">
+                    {t('seaSection.specialDesc', 'بوفيه بحري مفتوح + سنوركلينج + مشروبات طوال اليوم')}
+                  </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-[10px] text-slate-500 font-bold block uppercase tracking-wider">{t('common.startingFrom')}</span>
-                  <span className="text-xl font-black text-[#0284C7]">{formatPrice(35)}</span>
+                <div className="text-right rtl:text-left">
+                  <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-wider line-through">
+                    {formatPrice(50)}
+                  </span>
+                  <span className="text-xl font-black text-[#0284C7]">
+                    {formatPrice(35)}
+                  </span>
                 </div>
               </div>
             </div>

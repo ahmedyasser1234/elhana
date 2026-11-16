@@ -81,20 +81,32 @@ export const DesertAdventuresSection = () => {
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white aspect-[4/3] group">
               <img
-                src="/images/real/atv-quad.jpg"
+                src="/images/real/user-atv-safari.webp"
                 alt="Sinai Desert Safari ATV Quad Bikes"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/images/real/atv-real-showcase-1.webp';
+                }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
               
               <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl bg-white/95 backdrop-blur-md border border-white/60 flex items-center justify-between shadow-xl">
                 <div>
-                  <div className="text-xs font-bold text-slate-900 uppercase tracking-wider">{t('desertSection.specialBadge')}</div>
-                  <div className="text-[11px] text-slate-600 font-normal mt-0.5">{t('desertSection.specialDesc')}</div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-orange-100 text-[#F97316] text-[10px] font-black mb-1">
+                    <span>{t('desertSection.specialBadge', 'عرض سفاري الغروب الخاص')}</span>
+                  </div>
+                  <div className="text-xs font-black text-slate-900 leading-snug">
+                    {t('desertSection.specialDesc', 'بيتش باجي + جمال + عشاء بدوي + حفلة فلكلورية')}
+                  </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-[10px] text-slate-500 font-bold block uppercase tracking-wider">{t('common.startingFrom')}</span>
-                  <span className="text-xl font-black text-[#F97316]">{formatPrice(25)}</span>
+                <div className="text-right rtl:text-left">
+                  <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-wider line-through">
+                    {formatPrice(35)}
+                  </span>
+                  <span className="text-xl font-black text-[#F97316]">
+                    {formatPrice(25)}
+                  </span>
                 </div>
               </div>
             </div>
