@@ -170,9 +170,10 @@ export const EXPERIENCES = [
     shortDescription: "Ride through the spectacular Sinai desert dunes on a powerful 250cc quad bike with expert guides.",
     description: "Feel the thrill of speed and adrenaline as you maneuver your quad bike across rugged desert paths, canyons, and golden sand dunes in the heart of South Sinai. Stop at an authentic Bedouin tent to rest, sample herbal tea, and listen to the natural echo of the desert mountains.",
     images: [
+      "/images/real/user-atv-safari.webp",
+      "/images/real/atv-real-showcase-2.webp",
       "/images/real/atv-quad.webp",
-      "/images/real/polaris-buggy-white.webp",
-      "/images/real/atv-quad-hero.png"
+      "/images/real/polaris-buggy-white.webp"
     ],
     duration: "3 Hours",
     location: "Sinai Desert, Sharm El Sheikh",
