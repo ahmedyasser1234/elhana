@@ -163,7 +163,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'جولة محمية رأس محمد البرية بالباص',
     groupBadgeEn: 'Ras Mohammed Overland Bus Tour',
     focus: 'center 45%',
-    image: '/images/real/IMG-20260722-WA0087.jpg'
+    image: '/images/excursions/ras-mohammed/ras-mohammed-gate-of-allah.jpg'
   },
 
   // ═══════════════════════════════════════════════════════════════

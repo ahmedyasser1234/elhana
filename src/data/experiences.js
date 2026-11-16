@@ -671,8 +671,8 @@ export const EXPERIENCES = [
     shortDescription: "Explore Ras Mohammed by land: Allah Gate, Mangrove trees, Magic Lake, and Earthquake Rift.",
     description: "Travel by air-conditioned bus to the southernmost tip of Sinai. Visit iconic landmarks including the massive stone Allah Gate, ancient saltwater mangrove groves, the mystical Magic Lake, and dip into crystal clear waters for snorkeling.",
     images: [
-      "/images/real/IMG-20260722-WA0087.jpg",
-      "/images/real/IMG-20260722-WA0089.jpg"
+      "/images/excursions/ras-mohammed/ras-mohammed-gate-of-allah.jpg",
+      "/images/excursions/ras-mohammed/ras-mohammed-magic-lake.jpg"
     ],
     duration: "5 Hours",
     location: "Ras Mohammed National Park",
