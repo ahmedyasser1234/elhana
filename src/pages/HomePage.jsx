@@ -30,13 +30,13 @@ export const HomePage = () => {
           <HeroSection />
         </StackSection>
 
-        {/* PANELS 1..22: ALL Curated Tours & Experiences (Ordered: Safari -> Sea -> Transfers -> Outside Sharm) */}
-        <TripStack startIndex={1} />
-
-        {/* PANEL 23: Why Choose Us (4 Luxury Feature Cards) */}
-        <StackSection index={23} id="why-us" bg="bg-white">
+        {/* PANEL 1: Why Choose Us (4 Luxury Feature Cards - تانى سكشن تحت الهيرو على طول) */}
+        <StackSection index={1} id="why-us" bg="bg-white">
           <WhyChooseUs />
         </StackSection>
+
+        {/* PANELS 2..23: ALL Curated Tours & Experiences (Ordered: Safari -> Sea -> Transfers -> Outside Sharm) */}
+        <TripStack startIndex={2} />
 
         {/* PANEL 24: Desert Safaris & Buggy Adventure Showcase */}
         <StackSection index={24} id="desert-safari" bg="bg-[#FFFDF7]">
