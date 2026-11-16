@@ -102,7 +102,7 @@ export const HeroSection = () => {
   ];
 
   return (
-    <div className="relative min-h-[calc(100svh-var(--header-h))] flex flex-col justify-between py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-slate-900 w-full">
+    <div className="relative min-h-[calc(100svh-var(--header-h))] flex flex-col justify-between pt-6 sm:pt-8 md:pt-10 pb-8 sm:pb-12 md:pb-14 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-slate-900 w-full">
       {/* 1. REAL PHOTO BACKGROUND - SOFT DARK SLATE SHADOW FOR ULTRA READABILITY */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <picture>
@@ -314,7 +314,7 @@ export const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="w-full pt-2 relative z-30"
+          className="w-full pt-3 pb-1 relative z-50"
         >
           <FloatingSearchWidget />
         </motion.div>

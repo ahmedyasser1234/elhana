@@ -41,7 +41,8 @@ export default function StackSection({
       style={{ zIndex: index + 1, top: 'var(--header-h)' }}
       className={[
         'relative [@media(min-height:500px)]:sticky',
-        'min-h-[calc(100svh-var(--header-h))] w-full overflow-hidden',
+        'min-h-[calc(100svh-var(--header-h))] w-full',
+        index === 0 ? 'overflow-visible' : 'overflow-hidden',
         'rounded-t-3xl shadow-[0_-12px_30px_-14px_rgba(0,0,0,0.18)] first:rounded-t-none first:shadow-none',
         bg,
         className,

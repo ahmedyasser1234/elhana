@@ -146,9 +146,9 @@ export const FloatingSearchWidget = () => {
           />
         </button>
 
-        {/* Dropdown Menu (Always Drops DOWNWARDS) */}
+        {/* Dropdown Menu (Always Drops UPWARDS to prevent clipping by sections below) */}
         {hotelOpen && (
-          <div className="absolute top-full mt-2 w-full max-w-[calc(100vw-2.5rem)] sm:min-w-[340px] left-0 rtl:left-auto rtl:right-0 z-50 bg-white rounded-2xl shadow-2xl border border-sky-100 p-2.5 transition-all">
+          <div className="absolute bottom-full mb-2 w-full max-w-[calc(100vw-2.5rem)] sm:min-w-[340px] left-0 rtl:left-auto rtl:right-0 z-[100] bg-white rounded-2xl shadow-[0_-15px_40px_rgba(2,132,199,0.2)] border border-sky-100 p-2.5 transition-all">
             {/* Search Input inside Dropdown */}
             <div className="relative mb-2">
               <Search className="w-3.5 h-3.5 text-slate-400 absolute top-1/2 -translate-y-1/2 left-2.5 rtl:left-auto rtl:right-2.5 pointer-events-none" />
@@ -259,9 +259,9 @@ export const FloatingSearchWidget = () => {
           />
         </button>
 
-        {/* Dropdown Menu (Always Drops DOWNWARDS) */}
+        {/* Dropdown Menu (Always Drops UPWARDS) */}
         {categoryOpen && (
-          <div className="absolute top-full mt-2 w-full max-w-[calc(100vw-2.5rem)] sm:min-w-[240px] left-0 rtl:left-auto rtl:right-0 z-50 bg-white rounded-2xl shadow-2xl border border-sky-100 p-2 transition-all">
+          <div className="absolute bottom-full mb-2 w-full max-w-[calc(100vw-2.5rem)] sm:min-w-[260px] left-0 rtl:left-auto rtl:right-0 z-[100] bg-white rounded-2xl shadow-[0_-15px_40px_rgba(2,132,199,0.2)] border border-sky-100 p-2 transition-all">
             <div className="max-h-64 overflow-y-auto space-y-1">
               <button
                 type="button"
@@ -347,7 +347,7 @@ export const FloatingSearchWidget = () => {
           </button>
 
           {guestsOpen && (
-            <div className="absolute top-full mt-2 w-full max-w-[calc(100vw-2.5rem)] sm:min-w-[130px] left-0 rtl:left-auto rtl:right-0 z-50 bg-white rounded-2xl shadow-2xl border border-sky-100 p-1.5 transition-all">
+            <div className="absolute bottom-full mb-2 w-full max-w-[calc(100vw-2.5rem)] sm:min-w-[140px] left-0 rtl:left-auto rtl:right-0 z-[100] bg-white rounded-2xl shadow-[0_-15px_40px_rgba(2,132,199,0.2)] border border-sky-100 p-1.5 transition-all">
               <div className="max-h-52 overflow-y-auto space-y-0.5">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20].map((num) => {
                   const isSelected = guests === num;
