@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,61 @@ export const HeroSection = () => {
   const { t, i18n } = useTranslation();
   const isAr = i18n.language === 'ar';
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [activeSlideIdx, setActiveSlideIdx] = useState(0);
+
+  // Showcase experiences indicating what else El Hana Group offers beyond Desert Safari
+  const showcaseOffers = [
+    {
+      id: 'yacht',
+      image: '/images/sea/ras-mohammed-luxury-yacht.webp',
+      alt: 'Luxury VIP Yacht Cruise Ras Mohammed Sharm El Sheikh',
+      badgeAr: 'اليخوت الفاخرة VIP',
+      badgeEn: 'VIP Luxury Yacht',
+      titleAr: 'إبحار ملوكي، رأس محمد، والجزيرة البيضاء',
+      titleEn: 'Royal Sailing, Ras Mohammed & White Island',
+      link: '/sea-trips'
+    },
+    {
+      id: 'diving',
+      image: '/images/sea/snorkeling-ras-mohammed-reef.webp',
+      alt: 'Red Sea Snorkeling and Diving Sharm El Sheikh',
+      badgeAr: 'الغوص والسنوركلينج',
+      badgeEn: 'Diving & Reefs',
+      titleAr: 'عالم المرجان الساحر وأعماق البحر الأحمر',
+      titleEn: 'Vibrant Coral Reefs & Marine Life',
+      link: '/diving'
+    },
+    {
+      id: 'excursions',
+      image: '/images/excursions/dahab/dahab-blue-hole-lagoon.webp',
+      alt: 'Dahab Blue Hole & Sinai Excursions',
+      badgeAr: 'رحلات سيناء ودهب',
+      badgeEn: 'Sinai & Dahab Tours',
+      titleAr: 'بلو هول دهب، جبل موسى، وسانت كاترين',
+      titleEn: 'Dahab Blue Hole & St. Catherine',
+      link: '/excursions'
+    },
+    {
+      id: 'transfers',
+      image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80',
+      alt: 'Sharm El Sheikh VIP Private Transfers 24/7',
+      badgeAr: 'توصيل المطار 24/7',
+      badgeEn: '24/7 Airport Transfers',
+      titleAr: 'ليموزين، ميني فان، وتويوتا هاي إيس خاصة',
+      titleEn: 'Private Limousines, Minivans & HiAce',
+      link: '/transfers'
+    }
+  ];
+
+  // Auto rotate showcase slides every 5.5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlideIdx((prev) => (prev + 1) % showcaseOffers.length);
+    }, 5500);
+    return () => clearInterval(timer);
+  }, [showcaseOffers.length]);
+
+  const currentOffer = showcaseOffers[activeSlideIdx];
 
   // Category Cards Configuration
   const cardsData = [
@@ -153,44 +208,76 @@ export const HeroSection = () => {
           {/* IMAGE SHOWCASE COLUMN - 100% RESPONSIVE (Zero Overlap on Mobile) */}
           <div className="lg:col-span-5 relative w-full flex flex-col items-center">
             
-            {/* 1. Real Image Frame */}
-            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[16/10] lg:h-[280px] xl:h-[310px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-2 sm:border-3 border-white/20 bg-slate-950 group z-20">
-              <picture>
-                <source srcSet="/images/real/polaris-buggy-white.webp" type="image/webp" />
-                <img
-                  src="/images/real/polaris-buggy-white.webp"
-                  alt="El Hana Group Buggy Safari Sharm El Sheikh"
-                  width="500"
-                  height="375"
-                  loading="lazy"
-                  decoding="async"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/images/real/atv-quad.jpg';
-                  }}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
-                />
-              </picture>
+            {/* 1. Real Image Frame Showing Website Offerings (Yacht, Marine, Dahab, Transfers) */}
+            <Link
+              to={currentOffer.link}
+              className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[16/10] lg:h-[280px] xl:h-[310px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-2 sm:border-3 border-white/20 bg-slate-950 group z-20 block cursor-pointer"
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentOffer.id}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <img
+                    src={currentOffer.image}
+                    alt={currentOffer.alt}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
+                  />
+                </motion.div>
+              </AnimatePresence>
               
               {/* Soft Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent pointer-events-none"></div>
 
-              {/* Top Badges Row (Zero Overlap on all screens) */}
-              <div className="absolute top-3.5 inset-x-3.5 flex items-center justify-between pointer-events-none">
+              {/* Top Badges Row */}
+              <div className="absolute top-3.5 inset-x-3.5 flex items-center justify-between pointer-events-none z-10">
                 {/* Rating Badge */}
-                <div className="px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-bold text-white shadow-md flex items-center gap-1.5 pointer-events-auto">
+                <div className="px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-bold text-white shadow-md flex items-center gap-1.5">
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   <span>4.9</span>
                   <span className="text-[10px] text-slate-300">(1,280+)</span>
                 </div>
 
-                {/* VIP Exclusive Experience Badge */}
-                <div className="px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-bold text-sky-300 shadow-md flex items-center gap-1.5 pointer-events-auto">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span>{isAr ? "مغامرات شرم الحصرية" : "Exclusive Experiences"}</span>
+                {/* Active Category Badge */}
+                <div className="px-3 py-1 rounded-full bg-[#0284C7]/90 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-black text-white shadow-md flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                  <span>{isAr ? currentOffer.badgeAr : currentOffer.badgeEn}</span>
                 </div>
               </div>
-            </div>
+
+              {/* Bottom Info Pill (Shows what El Hana Offers) */}
+              <div className="absolute bottom-3 inset-x-3.5 flex items-center justify-between gap-2 z-10 bg-slate-950/80 backdrop-blur-md p-2.5 rounded-2xl border border-white/15">
+                <div className="min-w-0 flex-1">
+                  <span className="text-[10px] text-[#38BDF8] font-bold block uppercase tracking-wider">
+                    {isAr ? "خدمات ورحلات الهنا" : "El Hana Services"}
+                  </span>
+                  <div className="text-xs sm:text-sm font-black text-white truncate">
+                    {isAr ? currentOffer.titleAr : currentOffer.titleEn}
+                  </div>
+                </div>
+
+                {/* Slide dots */}
+                <div className="flex items-center gap-1 shrink-0">
+                  {showcaseOffers.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setActiveSlideIdx(idx);
+                      }}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${activeSlideIdx === idx ? 'w-4 bg-[#38BDF8]' : 'w-1.5 bg-white/40'}`}
+                      aria-label={`Slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </Link>
 
             {/* 2. Interactive Category Grid (2x2) - 100% Zero Overlap on Desktop & Mobile */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mt-3.5 sm:mt-4 w-full max-w-sm sm:max-w-md lg:max-w-none">

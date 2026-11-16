@@ -147,14 +147,12 @@ export const Navbar = () => {
           <div className="flex items-center justify-between gap-4">
 
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group shrink-0" title="El Hana Group" aria-label="El Hana Group Homepage">
+            <Link to="/" className="flex items-center gap-2.5 group shrink-0" title="El Hana Group" aria-label="El Hana Group Homepage">
               <picture>
                 <source srcSet="/logo.webp" type="image/webp" />
                 <img
                   src="/logo.png"
                   alt="El Hana Group Logo"
-                  width="44"
-                  height="44"
                   loading="eager"
                   decoding="async"
                   onError={(e) => {
@@ -162,12 +160,9 @@ export const Navbar = () => {
                       e.currentTarget.src = '/logo.jpg';
                     }
                   }}
-                  className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover border-2 border-[#0284C7] shadow-md shadow-[#0284C7]/20 group-hover:scale-105 transition duration-300 bg-white"
+                  className="h-10 sm:h-12 w-auto max-w-[130px] sm:max-w-[155px] object-contain group-hover:scale-105 transition duration-300"
                 />
               </picture>
-              <span className="font-extrabold text-base md:text-lg tracking-tight text-slate-900 group-hover:text-[#0284C7] transition hidden sm:inline-block font-heading">
-                El Hana Group
-              </span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -335,8 +330,6 @@ export const Navbar = () => {
                 <img
                   src="/logo.png"
                   alt="El Hana Group Logo"
-                  width="36"
-                  height="36"
                   loading="lazy"
                   decoding="async"
                   onError={(e) => {
@@ -344,12 +337,9 @@ export const Navbar = () => {
                       e.currentTarget.src = '/logo.jpg';
                     }
                   }}
-                  className="w-9 h-9 rounded-full border-2 border-[#0284C7] object-cover shadow-xs group-hover:scale-105 transition bg-white"
+                  className="h-9 sm:h-10 w-auto max-w-[125px] object-contain group-hover:scale-105 transition"
                 />
               </picture>
-              <span className="font-black text-base tracking-tight text-slate-900 group-hover:text-[#0284C7] transition font-heading">
-                El Hana Group
-              </span>
             </Link>
 
             <button

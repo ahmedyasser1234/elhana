@@ -86,16 +86,11 @@ export const Footer = () => {
                 <img
                   src="/logo.png"
                   alt="El Hana Group Logo"
-                  width="56"
-                  height="56"
                   loading="lazy"
                   decoding="async"
-                  className="w-14 h-14 rounded-full object-cover border-2 border-[#0284C7] shadow-lg shadow-[#0284C7]/20 group-hover:scale-105 transition duration-300"
+                  className="h-14 sm:h-16 w-auto max-w-[190px] object-contain group-hover:scale-105 transition duration-300 drop-shadow-sm"
                 />
               </picture>
-              <span className="font-extrabold text-xl text-slate-900 font-heading tracking-tight group-hover:text-[#0284C7] transition">
-                El Hana Group
-              </span>
             </Link>
 
             <p className="text-xs text-slate-600 leading-relaxed max-w-sm font-normal">
