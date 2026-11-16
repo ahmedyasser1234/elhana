@@ -30,56 +30,56 @@ export const HomePage = () => {
           <HeroSection />
         </StackSection>
 
-        {/* PANELS 1..21: ALL Curated Tours & Experiences (Each trip is its own sticky stacking panel) */}
+        {/* PANELS 1..22: ALL Curated Tours & Experiences (Ordered: Safari -> Sea -> Transfers -> Outside Sharm) */}
         <TripStack startIndex={1} />
 
-        {/* PANEL 22: Why Choose Us (4 Luxury Feature Cards) */}
-        <StackSection index={22} id="why-us" bg="bg-white">
+        {/* PANEL 23: Why Choose Us (4 Luxury Feature Cards) */}
+        <StackSection index={23} id="why-us" bg="bg-white">
           <WhyChooseUs />
         </StackSection>
 
-        {/* PANEL 23: Desert Safaris & Buggy Adventure Showcase */}
-        <StackSection index={23} id="desert-safari" bg="bg-[#FFFDF7]">
+        {/* PANEL 24: Desert Safaris & Buggy Adventure Showcase */}
+        <StackSection index={24} id="desert-safari" bg="bg-[#FFFDF7]">
           <DesertAdventuresSection />
         </StackSection>
 
-        {/* PANEL 24: Red Sea Yacht & Marine Offers */}
-        <StackSection index={24} id="sea-adventures" bg="bg-[#F0FDF4]">
+        {/* PANEL 25: Red Sea Yacht & Marine Offers */}
+        <StackSection index={25} id="sea-adventures" bg="bg-[#F0FDF4]">
           <SeaAdventuresSection />
         </StackSection>
 
-        {/* PANEL 25: South Sinai & Sharm Private Transfers 24/7 */}
-        <StackSection index={25} id="transfers" bg="bg-white">
+        {/* PANEL 26: South Sinai & Sharm Private Transfers 24/7 */}
+        <StackSection index={26} id="transfers" bg="bg-white">
           <TransfersSection />
         </StackSection>
 
-        {/* PANEL 26: Complete Packages & Combo Offers (رحلات كاملة عرض في السعر) */}
-        <StackSection index={26} id="complete-packages" bg="bg-[#FFFDF7]">
+        {/* PANEL 27: Complete Packages & Combo Offers (رحلات كاملة عرض في السعر) */}
+        <StackSection index={27} id="complete-packages" bg="bg-[#FFFDF7]">
           <CompletePackagesSection />
         </StackSection>
 
-        {/* PANEL 27: 3-Step Booking Journey */}
-        <StackSection index={27} id="how-it-works" bg="bg-slate-50">
-          <HowItWorks />
-        </StackSection>
-
-        {/* PANEL 28: Verified Guest Reviews */}
-        <StackSection index={28} id="reviews" bg="bg-white">
-          <ReviewsSection />
-        </StackSection>
-
-        {/* PANEL 29: South Sinai & Sharm Travel Guides */}
-        <StackSection index={29} id="guides" bg="bg-slate-50">
+        {/* PANEL 28: South Sinai & Sharm Travel Guides (رحلات سيناء وخارج شرم) */}
+        <StackSection index={28} id="guides" bg="bg-slate-50">
           <DestinationGuideSection />
         </StackSection>
 
-        {/* PANEL 30: Real Moments Instagram Gallery */}
-        <StackSection index={30} id="gallery" bg="bg-white">
+        {/* PANEL 29: 3-Step Booking Journey */}
+        <StackSection index={29} id="how-it-works" bg="bg-slate-50">
+          <HowItWorks />
+        </StackSection>
+
+        {/* PANEL 30: Verified Guest Reviews */}
+        <StackSection index={30} id="reviews" bg="bg-white">
+          <ReviewsSection />
+        </StackSection>
+
+        {/* PANEL 31: Real Moments Instagram Gallery */}
+        <StackSection index={31} id="gallery" bg="bg-white">
           <InstagramGallery />
         </StackSection>
 
-        {/* PANEL 31: Luxury Final CTA (Last panel in deck before footer) */}
-        <StackSection index={31} id="cta" bg="bg-slate-950">
+        {/* PANEL 32: Luxury Final CTA (Last panel in deck before footer) */}
+        <StackSection index={32} id="cta" bg="bg-slate-950">
           <FinalCTA />
         </StackSection>
       </main>
