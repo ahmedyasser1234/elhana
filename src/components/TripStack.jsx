@@ -176,7 +176,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'انتقالات خاصة 24/7 داخل جنوب سيناء',
     groupBadgeEn: '24/7 South Sinai VIP Transfers',
     focus: 'center 45%',
-    image: '/images/transfers/vip-transfers-sharm.webp',
+    image: '/images/transfers/vip-transfers-sharm.jpg',
     titleAr: 'انتقالات خاصة VIP بين مطار وفنادق شرم الشيخ وجنوب سيناء',
     titleEn: 'VIP Private Airport & South Sinai Hotel Transfers 24/7',
     subtitleAr: 'توصيل مريح ومكيف بأسعار ثابتة ومحددة مسبقاً من مطار شرم الشيخ الدولي لجميع الفنادق والمنتجعات، ورحلات سياحية خاصة لدهب وسانت كاترين بأسطول ليموزين سيدان، ميني فان 6 ركاب، وتويوتا هاي إيس 15 راكب.',
