@@ -326,6 +326,12 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
                 height="900"
                 loading="lazy"
                 decoding="async"
+                onError={(e) => {
+                  const fallback = '/images/real/user-atv-safari.webp';
+                  if (e.currentTarget.src !== fallback && !e.currentTarget.src.endsWith(fallback)) {
+                    e.currentTarget.src = fallback;
+                  }
+                }}
                 className="h-full w-full object-cover"
                 style={{ objectPosition: trip.focus || 'center' }}
               />

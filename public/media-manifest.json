@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-16T18:10:35.801Z",
+  "generated": "2026-11-16T18:42:18.705Z",
   "items": [
     {
       "url": "/images/safari/atv/double/dinner/WhatsApp Image 2026-10-05 at 11.26.00 AM (1).jpeg",
@@ -494,6 +494,12 @@
       "rel": "/images/sea/banana-boat-water-ride.jpg"
     },
     {
+      "url": "/images/sea/banana-boat-water-ride.webp",
+      "name": "banana-boat-water-ride.webp",
+      "type": "image",
+      "rel": "/images/sea/banana-boat-water-ride.webp"
+    },
+    {
       "url": "/images/sea/dolphin-show-sharm.jpg",
       "name": "dolphin-show-sharm.jpg",
       "type": "image",
@@ -522,6 +528,12 @@
       "name": "parasailing-sharm-flight.jpg",
       "type": "image",
       "rel": "/images/sea/parasailing-sharm-flight.jpg"
+    },
+    {
+      "url": "/images/sea/parasailing-sharm-flight.webp",
+      "name": "parasailing-sharm-flight.webp",
+      "type": "image",
+      "rel": "/images/sea/parasailing-sharm-flight.webp"
     },
     {
       "url": "/images/sea/ras-mohammed-luxury-yacht.jpg",
@@ -686,10 +698,22 @@
       "rel": "/images/excursions/dahab/dahab-blue-hole.jpg"
     },
     {
+      "url": "/images/excursions/dahab/dahab-blue-hole.webp",
+      "name": "dahab-blue-hole.webp",
+      "type": "image",
+      "rel": "/images/excursions/dahab/dahab-blue-hole.webp"
+    },
+    {
       "url": "/images/excursions/dahab/dahab-canyon-camels.jpg",
       "name": "dahab-canyon-camels.jpg",
       "type": "image",
       "rel": "/images/excursions/dahab/dahab-canyon-camels.jpg"
+    },
+    {
+      "url": "/images/excursions/dahab/dahab-canyon-camels.webp",
+      "name": "dahab-canyon-camels.webp",
+      "type": "image",
+      "rel": "/images/excursions/dahab/dahab-canyon-camels.webp"
     },
     {
       "url": "/images/excursions/dahab/dahab-promenade-bazaar.jpg",
@@ -792,6 +816,12 @@
       "name": "taba-fjord-bay.jpg",
       "type": "image",
       "rel": "/images/excursions/taba/taba-fjord-bay.jpg"
+    },
+    {
+      "url": "/images/excursions/taba/taba-fjord-bay.webp",
+      "name": "taba-fjord-bay.webp",
+      "type": "image",
+      "rel": "/images/excursions/taba/taba-fjord-bay.webp"
     },
     {
       "url": "/images/excursions/taba/taba-pharaoh-island.jpg",
