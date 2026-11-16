@@ -3,7 +3,6 @@ import { SEOHead } from '../components/common/SEOHead';
 import { HeroSection } from '../components/home/HeroSection';
 import TripStack from '../components/TripStack';
 import { WhyChooseUs } from '../components/home/WhyChooseUs';
-import { ServicesListSection } from '../components/home/ServicesListSection';
 import { DesertAdventuresSection } from '../components/home/DesertAdventuresSection';
 import { SeaAdventuresSection } from '../components/home/SeaAdventuresSection';
 import { TransfersSection } from '../components/home/TransfersSection';
@@ -38,47 +37,42 @@ export const HomePage = () => {
           <WhyChooseUs />
         </section>
 
-        {/* 4. ALL SERVICES & DESTINATIONS */}
-        <section id="services" className="relative z-10">
-          <ServicesListSection />
-        </section>
-
-        {/* 5. DESERT SAFARIS & DUNE BUGGY SHOWCASE */}
+        {/* 4. DESERT SAFARIS & DUNE BUGGY SHOWCASE */}
         <section id="desert-safari" className="relative z-10">
           <DesertAdventuresSection />
         </section>
 
-        {/* 6. RED SEA YACHTS & CORAL REEF DIVING */}
+        {/* 5. RED SEA YACHTS & CORAL REEF DIVING */}
         <section id="sea-adventures" className="relative z-10">
           <SeaAdventuresSection />
         </section>
 
-        {/* 7. VIP AIRPORT & HOTEL TRANSFERS 24/7 */}
+        {/* 6. VIP AIRPORT & HOTEL TRANSFERS 24/7 */}
         <section id="transfers" className="relative z-10">
           <TransfersSection />
         </section>
 
-        {/* 8. 3-STEP EASY BOOKING JOURNEY */}
+        {/* 7. 3-STEP EASY BOOKING JOURNEY */}
         <section id="how-it-works" className="relative z-10">
           <HowItWorks />
         </section>
 
-        {/* 9. VERIFIED GUEST REVIEWS */}
+        {/* 8. VERIFIED GUEST REVIEWS */}
         <section id="reviews" className="relative z-10">
           <ReviewsSection />
         </section>
 
-        {/* 10. SOUTH SINAI & SHARM TRAVEL GUIDES */}
+        {/* 9. SOUTH SINAI & SHARM TRAVEL GUIDES */}
         <section id="guides" className="relative z-10">
           <DestinationGuideSection />
         </section>
 
-        {/* 11. REAL MOMENTS INSTAGRAM GALLERY */}
+        {/* 10. REAL MOMENTS INSTAGRAM GALLERY */}
         <section id="gallery" className="relative z-10">
           <InstagramGallery />
         </section>
 
-        {/* 12. LUXURY FINAL CTA */}
+        {/* 11. LUXURY FINAL CTA */}
         <section id="cta" className="relative z-10">
           <FinalCTA />
         </section>
