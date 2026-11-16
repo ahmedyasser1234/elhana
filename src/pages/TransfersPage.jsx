@@ -231,58 +231,57 @@ export const TransfersPage = () => {
 
           </div>
 
-          {/* Thumbnails Stack: 3D Spheres with Motion (Limousine, Minivan 7 pax, HiAce 14-15 pax, VIP SUV) */}
-          <div className="flex flex-row lg:flex-col items-center justify-center gap-4 sm:gap-5 py-2 lg:py-0 [perspective:1000px] overflow-x-auto lg:overflow-visible">
+          {/* Vehicle Category Selector Cards (3 Categories: Limousine 3pax, Minivan 6pax, HiAce 14-15pax) */}
+          <div className="flex flex-row lg:flex-col justify-between gap-3 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 [scrollbar-width:none]">
             {TRANSFER_GALLERY.map((item, idx) => {
               const isActive = activeImageIdx === idx;
               return (
-                <div key={item.id} className="flex flex-col items-center gap-1.5 shrink-0">
-                  <motion.button
-                    type="button"
-                    onClick={() => handleGalleryClick(idx)}
-                    whileHover={{ rotateY: 25, rotateX: -15, scale: 1.15, z: 20 }}
-                    whileTap={{ scale: 0.9, rotateY: 180 }}
-                    animate={{
-                      y: isActive ? [0, -5, 0] : 0,
-                      rotateY: isActive ? [0, 10, -10, 0] : 0,
-                    }}
-                    transition={{
-                      y: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
-                      rotateY: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 18
-                    }}
-                    className={`relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full overflow-hidden transition-all duration-300 group/thumb shrink-0 shadow-2xl cursor-pointer ${
-                      isActive
-                        ? 'ring-4 ring-[#0284C7] ring-offset-2 ring-offset-white scale-110 shadow-[0_12px_30px_-3px_rgba(2,132,199,0.6)] z-10'
-                        : 'ring-2 ring-slate-200/90 opacity-75 hover:opacity-100'
-                    }`}
-                    style={{ transformStyle: 'preserve-3d' }}
-                    title={isAr ? item.titleAr : item.titleEn}
-                    aria-label={isAr ? item.titleAr : item.titleEn}
-                  >
-                    {isActive && (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
-                        className="absolute -inset-1 rounded-full bg-gradient-to-tr from-[#0284C7] via-[#38BDF8] to-[#F97316] opacity-70 blur-[4px] pointer-events-none"
-                      />
-                    )}
+                <motion.button
+                  key={item.id}
+                  type="button"
+                  onClick={() => handleGalleryClick(idx)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`w-64 sm:w-72 lg:w-full p-3 sm:p-3.5 rounded-2xl sm:rounded-3xl border-2 transition-all duration-300 text-start flex items-center gap-3 shrink-0 cursor-pointer shadow-sm ${
+                    isActive
+                      ? 'bg-slate-900 text-white border-[#0284C7] ring-4 ring-[#0284C7]/20 shadow-xl'
+                      : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200 hover:border-sky-300'
+                  }`}
+                >
+                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden shrink-0 shadow-inner bg-slate-950">
                     <img
                       src={item.thumb}
                       alt={isAr ? item.titleAr : item.titleEn}
-                      className="w-full h-full object-cover rounded-full group-hover/thumb:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/60 via-transparent to-black/70 pointer-events-none shadow-[inset_0_-8px_16px_rgba(0,0,0,0.65),inset_0_4px_8px_rgba(255,255,255,0.4)]" />
                     {isActive && (
-                      <div className="absolute inset-0 rounded-full border-2 border-[#0284C7] bg-[#0284C7]/15 pointer-events-none" />
+                      <div className="absolute inset-0 bg-sky-500/20 ring-2 ring-inset ring-[#0284C7] rounded-xl sm:rounded-2xl pointer-events-none" />
                     )}
-                  </motion.button>
-                  <span className={`text-[10px] font-black text-center max-w-[90px] leading-tight truncate ${isActive ? 'text-[#0284C7]' : 'text-slate-500'}`}>
-                    {isAr ? item.badgeAr : item.badgeEn}
-                  </span>
-                </div>
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                        isActive ? 'bg-[#0284C7] text-white' : 'bg-sky-50 text-[#0284C7]'
+                      }`}>
+                        {isAr ? item.badgeAr : item.badgeEn}
+                      </span>
+                      <span className={`text-xs font-black font-heading ${
+                        isActive ? 'text-[#38BDF8]' : 'text-[#0284C7]'
+                      }`}>
+                        {formatPrice(item.price)}
+                      </span>
+                    </div>
+
+                    <h4 className={`text-xs sm:text-sm font-extrabold truncate ${isActive ? 'text-white' : 'text-slate-900'}`}>
+                      {isAr ? item.titleAr : item.titleEn}
+                    </h4>
+
+                    <p className={`text-[11px] truncate mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500'}`}>
+                      {isAr ? item.subtitleAr : item.subtitleEn}
+                    </p>
+                  </div>
+                </motion.button>
               );
             })}
           </div>
@@ -497,8 +496,8 @@ export const TransfersPage = () => {
                     <li className="flex items-baseline gap-2">
                       <span className="text-[#0284C7] font-black">•</span>
                       <span>
-                        <strong className="text-slate-900">{isAr ? 'ميني فان 7 راكب:' : '7-Seater Minivan:'}</strong>{' '}
-                        {isAr ? 'تتسع لـ 7 ركاب و 7 حقائب سفر متوسطة/كبيرة.' : 'Accommodates 7 passengers and 7 suitcases.'}
+                        <strong className="text-slate-900">{isAr ? 'ميني فان 6 راكب:' : '6-Seater Minivan:'}</strong>{' '}
+                        {isAr ? 'تتسع لـ 6 ركاب و 6 حقائب سفر متوسطة/كبيرة.' : 'Accommodates 6 passengers and 6 suitcases.'}
                       </span>
                     </li>
                     <li className="flex items-baseline gap-2">
@@ -705,7 +704,7 @@ export const TransfersPage = () => {
                       : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                   }`}
                 >
-                  {isAr ? 'جميع السيارات (8 سيارات)' : 'All Vehicles (8 Cars)'}
+                  {isAr ? `جميع السيارات (${FLEET_CARS.length} سيارات)` : `All Vehicles (${FLEET_CARS.length} Cars)`}
                 </button>
                 {VEHICLE_TYPES.map((cat) => (
                   <button
@@ -725,8 +724,8 @@ export const TransfersPage = () => {
 
               {/* Cars Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {(fleetCategoryFilter === 'all' ? FLEET_CARS : FLEET_CARS.filter(c => c.category === fleetCategoryFilter)).map((car) => {
-                  const isSelected = selectedVehicleId === car.category;
+                {(fleetCategoryFilter === 'all' ? FLEET_CARS : FLEET_CARS.filter(c => (c.categoryId || c.category) === fleetCategoryFilter)).map((car) => {
+                  const isSelected = selectedVehicleId === (car.categoryId || car.category);
                   return (
                     <div
                       key={car.id}

@@ -5,63 +5,48 @@ export const SHARM_LOCATIONS = SHARM_HOTELS;
 export const VEHICLE_TYPES = [
   {
     id: "veh-limo",
-    name: "Luxury VIP Limousine & Sedan",
-    nameAr: "ليموزين وسيدان VIP فاخرة (مرسيدس / ملاكي خاص)",
-    tagAr: "ليموزين VIP",
-    tagEn: "VIP Limousine",
+    name: "Luxury Limousine & Private Sedan",
+    nameAr: "ليموزين وسيدان ملاكي خاص (3 راكب)",
+    tagAr: "ليموزين (3 راكب)",
+    tagEn: "Limousine (3 Pax)",
     maxPassengers: 3,
     maxLuggage: 3,
-    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
-    description: "Executive VIP sedan limousine with leather interior, icy air conditioning, and professional chauffeur.",
-    descriptionAr: "سيارة ليموزين سيدان حديثة وفخمة ومكيفة تناسب الأفراد، الأزواج، والعائلات الصغيرة حتى 3 ركاب مع 3 حقائب.",
+    image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+    description: "Private executive sedan limousine with leather interior, icy dual A/C, and professional chauffeur for up to 3 passengers.",
+    descriptionAr: "سيارة ليموزين وسيدان ملاكي خاصة ومكيفة تناسب الأفراد والأزواج والعائلات الصغيرة حتى 3 ركاب مع 3 حقائب سفر.",
     basePrice: 20,
-    featuresAr: ["مقاعد جلدية مريحة", "تكييف فائق البرودة", "سائق خاص بزي رسمي", "مياه معدنية مجانية"],
-    featuresEn: ["Premium Leather Seats", "Dual Climate A/C", "Formal Attire Chauffeur", "Free Bottled Water"]
+    featuresAr: ["يتسع لـ 3 ركاب و 3 حقائب", "تكييف هواء فائق البرودة", "سائق خاص بزي رسمي", "مياه معدنية مجانية"],
+    featuresEn: ["3 Passengers & 3 Bags", "Dual Climate A/C", "Formal Attire Chauffeur", "Free Bottled Water"]
   },
   {
-    id: "veh-minivan7",
-    name: "Family Minivan (7-Seater)",
-    nameAr: "ميني فان عائلي مريح (7 راكب)",
-    tagAr: "ميني فان 7 راكب",
-    tagEn: "7-Seater Minivan",
-    maxPassengers: 7,
-    maxLuggage: 7,
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
-    description: "Comfortable, spacious 7-passenger family minivan with wide legroom and generous cargo trunk for 7 bags.",
-    descriptionAr: "فان عائلي مريح ومكيف يتسع لـ 7 ركاب و 7 حقائب سفر كبيرة، الخيار الأمثل للعائلات ومجموعات الأصدقاء.",
+    id: "veh-minivan6",
+    name: "Family Minivan (6-Seater)",
+    nameAr: "ميني فان عائلي مريح (6 راكب)",
+    tagAr: "ميني فان (6 راكب)",
+    tagEn: "Minivan (6 Pax)",
+    maxPassengers: 6,
+    maxLuggage: 6,
+    image: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
+    description: "Comfortable, spacious 6-passenger family minivan with wide legroom and generous cargo trunk for 6 bags.",
+    descriptionAr: "فان عائلي مريح ومكيف يتسع لـ 6 ركاب و 6 حقائب سفر، الخيار الأمثل للعائلات ومجموعات الأصدقاء.",
     basePrice: 30,
-    featuresAr: ["يتسع لـ 7 ركاب براحة", "مساحة لـ 7 حقائب كبيرة", "تكييف هواء مركزي", "شواحن هواتف USB"],
-    featuresEn: ["7 Comfortable Seats", "7 Large Suitcase Capacity", "Dual Zone Climate Control", "USB Mobile Charging"]
+    featuresAr: ["يتسع لـ 6 ركاب براحة", "مساحة لـ 6 حقائب سفر", "تكييف هواء مركزي", "شواحن هواتف USB"],
+    featuresEn: ["6 Comfortable Seats", "6 Suitcase Capacity", "Dual Zone Climate Control", "USB Mobile Charging"]
   },
   {
     id: "veh-hiace",
     name: "Toyota HiAce Tourist Microbus (14-15 Seater)",
-    nameAr: "تويوتا هاي إيس سياحي فاخر (14 - 15 راكب)",
-    tagAr: "هاي إيس 14-15 راكب",
-    tagEn: "HiAce 14-15 Pax",
+    nameAr: "تويوتا هاي إيس سياحي (14 - 15 راكب)",
+    tagAr: "هاي إيس (14-15 راكب)",
+    tagEn: "HiAce (14-15 Pax)",
     maxPassengers: 15,
     maxLuggage: 15,
     image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
-    description: "High-roof tourist Toyota HiAce microbus with 14-15 comfortable seats, dual powerful A/C, and huge luggage space.",
-    descriptionAr: "ميكروباص سياحي تويوتا هاي إيس سقف عالي مكيف ومجهز بالكامل، يتسع لـ 14 إلى 15 راكب مع مساحة واسعة لجميع الحقائب للمجموعات السياحية والرحلات الكبيرة.",
+    description: "High-roof tourist Toyota HiAce passenger van with 14-15 comfortable seats, dual powerful A/C, and huge luggage space.",
+    descriptionAr: "ميكروباص سياحي تويوتا هاي إيس سقف عالي مكيف ومجهز بالكامل، يتسع لـ 14 إلى 15 راكب مع مساحة واسعة لجميع الحقائب للمجموعات الكبيرة.",
     basePrice: 45,
-    featuresAr: ["يتسع حتى 15 راكب", "سقف عالي ومقاعد مريحة", "مساحة ضخمة لجميع الحقائب", "مثالي للمجموعات والشركات"],
-    featuresEn: ["Up to 15 Passenger Capacity", "High-Roof Easy Movement", "Ample Cargo Space", "Ideal for Tours & Groups"]
-  },
-  {
-    id: "veh-vip",
-    name: "VIP Executive Luxury SUV (Mercedes / Lexus)",
-    nameAr: "سيارة VIP تنفيذية فاخرة (مرسيدس / لكزس SUV)",
-    tagAr: "VIP فخم",
-    tagEn: "Executive SUV",
-    maxPassengers: 4,
-    maxLuggage: 4,
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
-    description: "Ultimate luxury executive SUV with leather captain chairs, high ride height, onboard WiFi, and VIP concierge.",
-    descriptionAr: "أعلى مستويات الرفاهية والفخامة مع مقاعد جلدية فاخرة، واي فاي مجاني، مياه وعصائر، وسائق VIP خاص.",
-    basePrice: 65,
-    featuresAr: ["فخامة تنفيذية مطلقة", "واي فاي وإنترنت مجاني", "مشروبات وضيافة خاصة", "سائق VIP شخصي"],
-    featuresEn: ["Ultimate Executive Luxury", "Free Onboard High-Speed WiFi", "Complimentary Refreshments", "Personal Dedicated VIP Driver"]
+    featuresAr: ["يتسع لـ 14 إلى 15 راكب", "سقف عالي ومقاعد مريحة", "مساحة ضخمة لجميع الحقائب", "مثالي للمجموعات والرحلات"],
+    featuresEn: ["14 to 15 Passenger Capacity", "High-Roof Easy Movement", "Ample Cargo Space", "Ideal for Tours & Groups"]
   }
 ];
 
@@ -70,6 +55,7 @@ export const FLEET_CARS = [
   {
     id: "car-mercedes-e",
     categoryId: "veh-limo",
+    category: "veh-limo",
     name: "Mercedes-Benz E-Class VIP Limousine",
     nameAr: "مرسيدس E-Class ليموزين VIP فاخرة",
     model: "2024 / 2025",
@@ -113,6 +99,7 @@ export const FLEET_CARS = [
   {
     id: "car-corolla",
     categoryId: "veh-limo",
+    category: "veh-limo",
     name: "Toyota Corolla / Modern Sedan",
     nameAr: "تويوتا كورولا حديثة (سيدان ملاكي خاص)",
     model: "2024 / 2025",
@@ -153,30 +140,31 @@ export const FLEET_CARS = [
     }
   },
 
-  // ── 2. Family Minivan 7-Seater Cars ──
+  // ── 2. Family Minivan 6-Seater Cars ──
   {
     id: "car-innova",
-    categoryId: "veh-minivan7",
-    name: "Toyota Innova 7-Seater Family Van",
-    nameAr: "تويوتا إنوفا عائلي واسع (7 راكب)",
+    categoryId: "veh-minivan6",
+    category: "veh-minivan6",
+    name: "Toyota Innova 6-Seater Family Van",
+    nameAr: "تويوتا إنوفا عائلي واسع (6 راكب)",
     model: "2024 / 2025",
-    tagAr: "عائلي 7 راكب",
-    tagEn: "Family 7-Seater",
-    maxPassengers: 7,
-    maxLuggage: 7,
+    tagAr: "عائلي 6 راكب",
+    tagEn: "Family 6-Seater",
+    maxPassengers: 6,
+    maxLuggage: 6,
     basePrice: 30,
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
     gallery: [
+      "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80"
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
     ],
-    descriptionAr: "ميني فان عائلي مريح تويوتا إنوفا، 3 صفوف من المقاعد المريحة مع تكييف هواء مركزي أمامي وخلفي ومساحة واسعة تتسع لـ 7 حقائب سفر كبيرة.",
-    descriptionEn: "Spacious Toyota Innova 7-passenger family minivan with 3 seating rows, dual front & rear A/C, and generous luggage cargo for 7 bags.",
+    descriptionAr: "ميني فان عائلي مريح تويوتا إنوفا، مقاعد كابتن واسعة ومريحة لـ 6 ركاب مع تكييف هواء مركزي أمامي وخلفي ومساحة واسعة تتسع لـ 6 حقائب سفر كبيرة.",
+    descriptionEn: "Spacious Toyota Innova 6-passenger family minivan with wide captain seats, dual front & rear A/C, and generous luggage cargo for 6 bags.",
     specsAr: {
-      type: "ميني فان عائلي 7 مقاعد",
-      passengers: "7 ركاب براحة تامة",
-      luggage: "7 حقائب سفر كبيرة",
+      type: "ميني فان عائلي 6 مقاعد",
+      passengers: "6 ركاب براحة تامة",
+      luggage: "6 حقائب سفر كبيرة",
       transmission: "أوتوماتيك 6 سرعات",
       ac: "تكييف أمامي وخلفي مركزي",
       comfort: "مقاعد مريحة قابلة للطي ومساند ذراع",
@@ -185,9 +173,9 @@ export const FLEET_CARS = [
       driver: "سائق سياحي صبور وخبير مع العائلات"
     },
     specsEn: {
-      type: "7-Seater Family Multi-Purpose Van",
-      passengers: "7 Passengers",
-      luggage: "7 Large Luggage Suitcases",
+      type: "6-Seater Family Multi-Purpose Van",
+      passengers: "6 Passengers in comfort",
+      luggage: "6 Large Luggage Suitcases",
       transmission: "6-Speed Automatic",
       ac: "Front & Rear Central Air Conditioning",
       comfort: "Spacious Foldable Ergonomic Seating",
@@ -198,27 +186,28 @@ export const FLEET_CARS = [
   },
   {
     id: "car-staria",
-    categoryId: "veh-minivan7",
-    name: "Hyundai Staria Luxury 7-Seater VIP",
-    nameAr: "هيونداي ستاريا VIP المستقبلي (7 راكب)",
+    categoryId: "veh-minivan6",
+    category: "veh-minivan6",
+    name: "Hyundai Staria Luxury 6-Seater VIP",
+    nameAr: "هيونداي ستاريا VIP المستقبلي (6 راكب)",
     model: "2024 / 2025",
-    tagAr: "VIP عائلي فخم",
-    tagEn: "Luxury VIP Van",
-    maxPassengers: 7,
-    maxLuggage: 7,
+    tagAr: "VIP عائلي 6 راكب",
+    tagEn: "Luxury 6-Seater VIP",
+    maxPassengers: 6,
+    maxLuggage: 6,
     basePrice: 38,
-    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
+      "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
     ],
-    descriptionAr: "أحدث طرازات هيونداي ستاريا الفاخرة بتصميم مستقبلي ونوافذ بانورامية واسعة ومقاعد كابتن جلدية منفصلة مع تكييف رقمي مستقل لكل مقعد.",
-    descriptionEn: "Top-tier futuristic Hyundai Staria VIP van with panoramic glass windows, executive leather captain chairs, and individual climate controls.",
+    descriptionAr: "أحدث طرازات هيونداي ستاريا الفاخرة بتصميم مستقبلي ونوافذ بانورامية واسعة ومقاعد كابتن جلدية منفصلة لـ 6 ركاب مع تكييف رقمي مستقل لكل مقعد.",
+    descriptionEn: "Top-tier futuristic Hyundai Staria VIP van with panoramic glass windows, executive leather captain chairs for 6 guests, and individual climate controls.",
     specsAr: {
-      type: "فان تنفيذي VIP فاخر",
-      passengers: "7 ركاب VIP",
-      luggage: "7 حقائب كبيرة",
+      type: "فان تنفيذي VIP فاخر 6 مقاعد",
+      passengers: "6 ركاب VIP",
+      luggage: "6 حقائب كبيرة",
       transmission: "أوتوماتيك 8 سرعات Shift-by-Wire",
       ac: "تكييف رقمي ثلاثي المناطق",
       comfort: "مقاعد كابتن جلدية فاخرة ريلاكس",
@@ -227,9 +216,9 @@ export const FLEET_CARS = [
       driver: "سائق VIP محترف بزي رسمي"
     },
     specsEn: {
-      type: "Executive Luxury MPV",
-      passengers: "7 VIP Passengers",
-      luggage: "7 Large Suitcases",
+      type: "Executive Luxury MPV (6 Pax)",
+      passengers: "6 VIP Passengers",
+      luggage: "6 Large Suitcases",
       transmission: "8-Speed Electronic Automatic",
       ac: "Tri-Zone Climate Control",
       comfort: "Premium Relaxation Leather Captain Chairs",
@@ -243,6 +232,7 @@ export const FLEET_CARS = [
   {
     id: "car-hiace-highroof",
     categoryId: "veh-hiace",
+    category: "veh-hiace",
     name: "Toyota HiAce High-Roof Tourist Microbus (14 Pax)",
     nameAr: "تويوتا هاي إيس سقف عالي سياحي (14 راكب)",
     model: "2024 / 2025",
@@ -285,6 +275,7 @@ export const FLEET_CARS = [
   {
     id: "car-hiace-supergl",
     categoryId: "veh-hiace",
+    category: "veh-hiace",
     name: "Toyota HiAce Super GL VIP (15 Pax)",
     nameAr: "تويوتا هاي إيس سوبر جي إل VIP (15 راكب)",
     model: "2024 / 2025",
@@ -325,95 +316,10 @@ export const FLEET_CARS = [
     }
   },
 
-  // ── 4. VIP Executive SUV Cars ──
-  {
-    id: "car-mercedes-gle",
-    categoryId: "veh-vip",
-    name: "Mercedes-Benz GLE / GLS VIP SUV",
-    nameAr: "مرسيدس بنز GLE / GLS دفع رباعي VIP",
-    model: "2024 / 2025",
-    tagAr: "مرسيدس VIP SUV",
-    tagEn: "Mercedes VIP SUV",
-    maxPassengers: 4,
-    maxLuggage: 4,
-    basePrice: 75,
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80"
-    ],
-    descriptionAr: "قمة الفخامة التنفيذية الألمانية بمقاعد جلد نابا فاخرة، نظام تعليق هوائي فائق النعومة، وسائق VIP خاص بزي رسمي لخدمة كبار الشخصيات ورجال الأعمال.",
-    descriptionEn: "Peak German luxury SUV with Nappa leather, airmatic smooth ride, and bespoke VIP concierge chauffeur service for executive guests.",
-    specsAr: {
-      type: "سيارة دفع رباعي فخمة VIP",
-      passengers: "4 ركاب VIP",
-      luggage: "4 حقائب كبيرة",
-      transmission: "9G-TRONIC أوتوماتيك",
-      ac: "تكييف رقمي 4 مناطق منفصلة",
-      comfort: "مقاعد جلدية مريحة مع خاصية المساج والتبريد",
-      wifi: "واي فاي سريع + شحن لاسلكي للهواتف",
-      refreshments: "مياه وعصائر طبيعية ومشروبات باردة",
-      driver: "سائق VIP تنفيذي ببدلة رسمية ولافتة VIP"
-    },
-    specsEn: {
-      type: "Ultra-Luxury Executive SUV",
-      passengers: "4 VIP Passengers",
-      luggage: "4 Large Suitcases",
-      transmission: "9G-TRONIC Automatic",
-      ac: "4-Zone Digital Climate System",
-      comfort: "Ventilated Nappa Leather Seating",
-      wifi: "High-Speed WiFi & Qi Wireless Charging",
-      refreshments: "Chilled Natural Juices & Water",
-      driver: "Formal Suited Executive Chauffeur"
-    }
-  },
-  {
-    id: "car-lexus-prado",
-    categoryId: "veh-vip",
-    name: "Lexus LX / Land Cruiser Prado VIP",
-    nameAr: "لكزس LX / لاند كروزر برادو VIP",
-    model: "2024 / 2025",
-    tagAr: "لكزس / برادو VIP",
-    tagEn: "Lexus / Prado VIP",
-    maxPassengers: 4,
-    maxLuggage: 4,
-    basePrice: 65,
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80"
-    ],
-    descriptionAr: "سيارة دفع رباعي يابانية قوية وفخمة تناسب جولات شرم الشيخ والمطار وطرق سيناء ودهب بأعلى معايير الأمان والراحة العالية.",
-    descriptionEn: "Robust Japanese luxury 4x4 SUV tailored for Sharm airport transfers and Sinai highway travel with maximum safety and road comfort.",
-    specsAr: {
-      type: "سيارة SUV دفع رباعي يابانية فاخرة",
-      passengers: "4 ركاب VIP",
-      luggage: "4 حقائب سفر كبيرة",
-      transmission: "أوتوماتيك ذكي 4WD",
-      ac: "تكييف هواء صحراوي فائق التبريد",
-      comfort: "مقاعد جلدية مريحة وواسعة",
-      wifi: "واي فاي ومنافذ شحن USB",
-      refreshments: "مياه معدنية باردة",
-      driver: "سائق خاص محترف وخبير بطرق سيناء"
-    },
-    specsEn: {
-      type: "Japanese Prestige 4WD SUV",
-      passengers: "4 VIP Passengers",
-      luggage: "4 Large Suitcases",
-      transmission: "Intelligent 4WD Automatic",
-      ac: "High-Capacity Desert A/C",
-      comfort: "Spacious Leather Seating",
-      wifi: "WiFi & Multi-Port USB",
-      refreshments: "Chilled Mineral Water",
-      driver: "Expert Sinai Highway Chauffeur"
-    }
-  }
 ];
 
 export const getCarsByCategory = (catId) => {
-  return FLEET_CARS.filter(c => c.categoryId === catId);
+  return FLEET_CARS.filter(c => c.categoryId === catId || c.category === catId);
 };
 
 export const getCarById = (carId) => {
@@ -425,36 +331,36 @@ export const TRANSFER_GALLERY = [
     id: "gal-limo",
     vehicleId: "veh-limo",
     carId: "car-mercedes-e",
-    titleAr: "ليموزين وسيدان VIP فاخرة",
-    titleEn: "Luxury VIP Limousine & Sedan",
+    titleAr: "ليموزين وسيدان ملاكي (3 راكب)",
+    titleEn: "Limousine & Sedan (3 Pax)",
     subtitleAr: "مرسيدس E-Class وتويوتا كورولا (1 - 3 ركاب | 3 حقائب)",
     subtitleEn: "Mercedes E-Class & Toyota Corolla (1-3 Pax | 3 Bags)",
-    badgeAr: "ليموزين VIP",
-    badgeEn: "VIP Limousine",
+    badgeAr: "ليموزين 3 راكب",
+    badgeEn: "Limousine 3 Pax",
     price: 20,
-    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
-    thumb: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=300&q=80"
+    image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+    thumb: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=300&q=80"
   },
   {
-    id: "gal-minivan7",
-    vehicleId: "veh-minivan7",
+    id: "gal-minivan6",
+    vehicleId: "veh-minivan6",
     carId: "car-innova",
-    titleAr: "ميني فان عائلي مريح (7 راكب)",
-    titleEn: "Family Minivan (7-Seater)",
-    subtitleAr: "تويوتا إنوفا وهيونداي ستاريا (حتى 7 ركاب | 7 حقائب)",
-    subtitleEn: "Toyota Innova & Hyundai Staria (Up to 7 Pax | 7 Bags)",
-    badgeAr: "ميني فان 7 راكب",
-    badgeEn: "7-Seater Minivan",
+    titleAr: "ميني فان عائلي مريح (6 راكب)",
+    titleEn: "Family Minivan (6-Seater)",
+    subtitleAr: "تويوتا إنوفا وهيونداي ستاريا (حتى 6 ركاب | 6 حقائب)",
+    subtitleEn: "Toyota Innova & Hyundai Staria (Up to 6 Pax | 6 Bags)",
+    badgeAr: "ميني فان 6 راكب",
+    badgeEn: "Minivan 6 Pax",
     price: 30,
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
-    thumb: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80"
+    image: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
+    thumb: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=300&q=80"
   },
   {
     id: "gal-hiace",
     vehicleId: "veh-hiace",
     carId: "car-hiace-highroof",
-    titleAr: "تويوتا هاي إيس سياحي فاخر (14 - 15 راكب)",
-    titleEn: "Toyota HiAce Tourist Microbus (14-15 Seater)",
+    titleAr: "تويوتا هاي إيس سياحي (14 - 15 راكب)",
+    titleEn: "Toyota HiAce Tourist Microbus (14-15 Pax)",
     subtitleAr: "سقف عالي وسوبر GL (14 - 15 راكب | 15 حقيبة)",
     subtitleEn: "High-Roof & Super GL (14-15 Pax | 15 Bags)",
     badgeAr: "هاي إيس 14-15 راكب",
@@ -462,20 +368,6 @@ export const TRANSFER_GALLERY = [
     price: 45,
     image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
     thumb: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=300&q=80"
-  },
-  {
-    id: "gal-vip",
-    vehicleId: "veh-vip",
-    carId: "car-mercedes-gle",
-    titleAr: "سيارة VIP تنفيذية فاخرة (مرسيدس / لكزس SUV)",
-    titleEn: "VIP Executive Luxury SUV",
-    subtitleAr: "مرسيدس GLE ولكزس LX دفع رباعي (حتى 4 ركاب)",
-    subtitleEn: "Mercedes GLE & Lexus LX 4WD (Up to 4 Pax)",
-    badgeAr: "VIP فخم",
-    badgeEn: "Executive SUV",
-    price: 65,
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
-    thumb: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=300&q=80"
   }
 ];
 
