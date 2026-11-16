@@ -6,7 +6,6 @@ import { WhyChooseUs } from '../components/home/WhyChooseUs';
 import { DesertAdventuresSection } from '../components/home/DesertAdventuresSection';
 import { SeaAdventuresSection } from '../components/home/SeaAdventuresSection';
 import { CompletePackagesSection } from '../components/home/CompletePackagesSection';
-import { TransfersSection } from '../components/home/TransfersSection';
 import { HowItWorks } from '../components/home/HowItWorks';
 import { ReviewsSection } from '../components/home/ReviewsSection';
 import { DestinationGuideSection } from '../components/home/DestinationGuideSection';
@@ -51,11 +50,6 @@ export const HomePage = () => {
         {/* 6. COMPLETE PACKAGES & COMBO OFFERS (رحلات كاملة عرض في السعر) */}
         <section id="complete-packages" className="relative z-10">
           <CompletePackagesSection />
-        </section>
-
-        {/* 7. VIP AIRPORT & HOTEL TRANSFERS 24/7 */}
-        <section id="transfers" className="relative z-10">
-          <TransfersSection />
         </section>
 
         {/* 7. 3-STEP EASY BOOKING JOURNEY */}
