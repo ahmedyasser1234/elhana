@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SEOHead } from '../components/common/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -879,11 +879,26 @@ export const SeaUnifiedPage = ({ defaultTab = 'yacht' }) => {
     onSubTabChange: handleSubTabChange
   };
 
+  const location = useLocation();
+  const isSeaHub = location.pathname === '/sea-trips';
+  const canonicalUrl = location.pathname === '/yacht-trips'
+    ? 'https://www.elahanasafari.com/sea-trips'
+    : `https://www.elahanasafari.com${location.pathname}`;
+
+  const pageTitle = isSeaHub
+    ? (isAr ? 'عروض رحلات البحر واليخوت بشرم الشيخ 2026 | رأس محمد، الجزيرة البيضاء، وتيران' : 'Sharm Red Sea Cruises & Yacht Tours 2026 | Ras Mohammed & White Island')
+    : `${currentTabInfo.heroTitle} | ${isAr ? 'مجموعة الهنا' : 'El Hana Group'}`;
+
+  const pageDesc = isSeaHub
+    ? (isAr ? 'احجز أفخم رحلات اليخوت البحرية في شرم الشيخ: رحلات رأس محمد والجزيرة البيضاء، جزيرة تيران، الغوص والسنوركلينج، بوفيه مأكولات بحرية مفتوح وانتقالات مجانية.' : 'Book luxury Red Sea yacht trips in Sharm El Sheikh: Ras Mohammed, White Island, Tiran Island, diving, snorkeling, seafood buffet, and VIP hotel pickups.')
+    : currentTabBase.heroSubtitle;
+
   return (
     <div className="pt-24 pb-20 bg-[#FAF9F6] text-slate-900 min-h-screen overflow-x-hidden max-w-full">
       <SEOHead
-        title={`${currentTabInfo.heroTitle} | ${isAr ? 'مجموعة الهنا' : 'El Hana Group'}`}
-        description={currentTabBase.heroSubtitle}
+        title={pageTitle}
+        description={pageDesc}
+        canonicalUrl={canonicalUrl}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">

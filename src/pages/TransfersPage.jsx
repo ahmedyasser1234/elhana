@@ -113,6 +113,7 @@ export const TransfersPage = () => {
         description={isAr 
           ? "احجز انتقالات خاصة من مطار شرم الشيخ الدولي لجميع الفنادق بأسعار ثابتة ومحددة مسبقاً. أسطول يضم ليموزين VIP، ميني فان 7 راكب، وتويوتا هاي إيس 14-15 راكب مع تتبع الطيران واستقبال باليافطة."
           : "Book private VIP airport and hotel transfers in Sharm El Sheikh. Fleet includes luxury limousines, 7-seater family minivans, and 14-15 seater Toyota HiAce with live flight tracking."}
+        canonicalUrl="https://www.elahanasafari.com/transfers"
         structuredData={structuredData}
       />
 

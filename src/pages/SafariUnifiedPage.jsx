@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SEOHead } from '../components/common/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -774,11 +774,26 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
     setSlotMediaModalOpen(true);
   };
 
+  const location = useLocation();
+  const isSafariHub = location.pathname === '/safari';
+  const canonicalUrl = location.pathname === '/atv-tours'
+    ? 'https://www.elahanasafari.com/safari'
+    : `https://www.elahanasafari.com${location.pathname}`;
+
+  const pageTitle = isSafariHub
+    ? (isAr ? 'عروض رحلات السفاري بشرم الشيخ 2026 | بيتش باجي، كار باجي، وسهرة بدوية' : 'Sharm El Sheikh Desert Safari Tours 2026 | ATV Quads, Buggy & Bedouin')
+    : `${currentTabInfo.heroTitle} | ${isAr ? 'مجموعة الهنا' : 'El Hana Group'}`;
+
+  const pageDesc = isSafariHub
+    ? (isAr ? 'احجز أفضل رحلات سفاري شرم الشيخ مع مجموعة الهنا: جولات بيتش باجي 250cc، كار باجي عائلي وبولاريس، ركوب الجمال، وعشاء بدوي فاخر في قلب وادي الماندال مع انتقالات الفندق مجاناً وبدون مقدم.' : 'Book top Sharm El Sheikh desert safaris with El Hana Group: 250cc ATV quads, family buggies, Polaris RZR, camel rides, and VIP Bedouin dinners with free hotel transfers.')
+    : currentTabBase.heroSubtitle;
+
   return (
     <div className="pt-24 pb-20 bg-[#FAF9F6] text-slate-900 min-h-screen overflow-x-hidden max-w-full">
       <SEOHead
-        title={`${currentTabInfo.heroTitle} | ${isAr ? 'مجموعة الهنا' : 'El Hana Group'}`}
-        description={currentTabBase.heroSubtitle}
+        title={pageTitle}
+        description={pageDesc}
+        canonicalUrl={canonicalUrl}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">

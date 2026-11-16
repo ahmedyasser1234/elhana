@@ -1013,6 +1013,7 @@ export const ExcursionsPage = ({ defaultTab = 'dahab' }) => {
       <SEOHead
         title={`${currentTabInfo.heroTitle} | ${isAr ? 'مجموعة الهنا' : 'El Hana Group'}`}
         description={currentTabBase.heroSubtitle}
+        canonicalUrl="https://www.elahanasafari.com/excursions"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">

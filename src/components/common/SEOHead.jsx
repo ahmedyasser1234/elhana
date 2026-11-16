@@ -102,10 +102,10 @@ export const SEOHead = ({ title, description, keywords, canonicalUrl, structured
       }
       metaKeywords.setAttribute('content', keywords || DEFAULT_KEYWORDS);
 
-      // Canonical URL (Always clean without tracking or search query strings)
-      const cleanOrigin = typeof window !== 'undefined' ? window.location.origin : 'https://www.elahanasafari.com';
+      // Canonical URL (Always clean www domain without tracking or search query strings)
+      const canonicalOrigin = 'https://www.elahanasafari.com';
       const cleanPath = typeof window !== 'undefined' ? window.location.pathname : '/';
-      const defaultUrl = `${cleanOrigin}${cleanPath === '/' ? '/' : cleanPath.replace(/\/+$/, '')}`;
+      const defaultUrl = `${canonicalOrigin}${cleanPath === '/' ? '/' : cleanPath.replace(/\/+$/, '')}`;
       const activeUrl = canonicalUrl || defaultUrl;
       
       let canonical = document.querySelector('link[rel="canonical"]');

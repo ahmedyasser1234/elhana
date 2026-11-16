@@ -43,25 +43,28 @@
 
     <link rel="stylesheet" href="/src/index.css" />
     
-    <!-- Dynamic Canonical & Alternate Hreflang Tags (Pre-initialized to active path) -->
-    <link rel="canonical" id="canonical-tag" href="https://www.elahanasafari.com/" />
-    <link rel="alternate" id="hreflang-ar" hreflang="ar" href="https://www.elahanasafari.com/" />
-    <link rel="alternate" id="hreflang-en" hreflang="en" href="https://www.elahanasafari.com/" />
-    <link rel="alternate" id="hreflang-xdefault" hreflang="x-default" href="https://www.elahanasafari.com/" />
+    <!-- Dynamic Canonical & Alternate Hreflang Tags (Initialized to exact active URL) -->
     <script>
       (function() {
         try {
           var p = window.location.pathname || '/';
           var origin = 'https://www.elahanasafari.com';
           var full = origin + (p === '/' ? '/' : p.replace(/\/+$/, ''));
-          var c = document.getElementById('canonical-tag');
-          if (c) c.href = full;
-          var ar = document.getElementById('hreflang-ar');
-          if (ar) ar.href = full;
-          var en = document.getElementById('hreflang-en');
-          if (en) en.href = full;
-          var xd = document.getElementById('hreflang-xdefault');
-          if (xd) xd.href = full;
+          
+          var c = document.createElement('link');
+          c.rel = 'canonical';
+          c.id = 'canonical-tag';
+          c.href = full;
+          document.head.appendChild(c);
+
+          ['ar', 'en', 'x-default'].forEach(function(lang) {
+            var alt = document.createElement('link');
+            alt.rel = 'alternate';
+            alt.id = 'hreflang-' + lang;
+            alt.setAttribute('hreflang', lang);
+            alt.href = full;
+            document.head.appendChild(alt);
+          });
         } catch(e) {}
       })();
     </script>

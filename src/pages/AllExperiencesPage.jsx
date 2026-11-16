@@ -63,6 +63,7 @@ export const AllExperiencesPage = () => {
       <SEOHead
         title={isAr ? "جميع رحلات وتجارب شرم الشيخ" : "All Experiences & Safaris in Sharm El Sheikh"}
         description={isAr ? "استكشف أكثر من 12 رحلة سفاري، يخوت VIP، وألعاب مائية في شرم الشيخ." : "Browse 12+ Sharm El Sheikh desert quad safaris, VIP yacht cruises, snorkeling, and diving."}
+        canonicalUrl="https://www.elahanasafari.com/experiences"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">

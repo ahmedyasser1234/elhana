@@ -5,6 +5,7 @@ import TripStack from '../components/TripStack';
 import { WhyChooseUs } from '../components/home/WhyChooseUs';
 import { DesertAdventuresSection } from '../components/home/DesertAdventuresSection';
 import { SeaAdventuresSection } from '../components/home/SeaAdventuresSection';
+import { TransfersSection } from '../components/home/TransfersSection';
 import { CompletePackagesSection } from '../components/home/CompletePackagesSection';
 import { HowItWorks } from '../components/home/HowItWorks';
 import { ReviewsSection } from '../components/home/ReviewsSection';
@@ -18,6 +19,7 @@ export const HomePage = () => {
       <SEOHead
         title="El Hana Group | Sharm El Sheikh Luxury Safaris & Tours"
         description="Book premium desert safaris, ATV quad bike adventures, dune buggy tours, Bedouin sunset experiences, luxury yacht cruises, snorkeling, and diving in Sharm El Sheikh with El Hana Group."
+        canonicalUrl="https://www.elahanasafari.com/"
       />
 
       {/* Main Clean Flow - Each section has generous breathing room and displays in full */}
@@ -47,7 +49,12 @@ export const HomePage = () => {
           <SeaAdventuresSection />
         </section>
 
-        {/* 6. COMPLETE PACKAGES & COMBO OFFERS (رحلات كاملة عرض في السعر) */}
+        {/* 6. SOUTH SINAI & SHARM PRIVATE TRANSFERS (انتقالات داخل جنوب سيناء) */}
+        <section id="transfers" className="relative z-10">
+          <TransfersSection />
+        </section>
+
+        {/* 7. COMPLETE PACKAGES & COMBO OFFERS (رحلات كاملة عرض في السعر) */}
         <section id="complete-packages" className="relative z-10">
           <CompletePackagesSection />
         </section>

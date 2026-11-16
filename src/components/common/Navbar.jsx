@@ -160,7 +160,7 @@ export const Navbar = () => {
                       e.currentTarget.src = '/logo.jpg';
                     }
                   }}
-                  className="h-10 sm:h-12 w-auto max-w-[130px] sm:max-w-[155px] object-contain group-hover:scale-105 transition duration-300"
+                  className="h-11 sm:h-13 lg:h-14 w-auto max-w-[150px] sm:max-w-[180px] lg:max-w-[210px] object-contain group-hover:scale-105 transition duration-300 drop-shadow-xs"
                 />
               </picture>
             </Link>
@@ -337,7 +337,7 @@ export const Navbar = () => {
                       e.currentTarget.src = '/logo.jpg';
                     }
                   }}
-                  className="h-9 sm:h-10 w-auto max-w-[125px] object-contain group-hover:scale-105 transition"
+                  className="h-10 sm:h-12 w-auto max-w-[150px] sm:max-w-[175px] object-contain group-hover:scale-105 transition drop-shadow-xs"
                 />
               </picture>
             </Link>
