@@ -1,5 +1,6 @@
 import React from 'react';
 import { SEOHead } from '../components/common/SEOHead';
+import StackSection from '../components/StackSection';
 import { HeroSection } from '../components/home/HeroSection';
 import TripStack from '../components/TripStack';
 import { WhyChooseUs } from '../components/home/WhyChooseUs';
@@ -22,67 +23,67 @@ export const HomePage = () => {
         canonicalUrl="https://www.elahanasafari.com/"
       />
 
-      {/* Main Clean Flow - Each section has generous breathing room and displays in full */}
-      <main className="relative bg-white overflow-x-clip">
-        {/* 1. HERO SECTION: Authentic Desert Safari & Search Widget */}
-        <section id="hero" className="relative z-20">
+      {/* ONE Stacking Deck Container for All Home Sections (الحركة والتصكيك المتراكب الأصلي) */}
+      <main className="relative isolate">
+        {/* PANEL 0: Hero Section (Sticks at top, flat top) */}
+        <StackSection index={0} id="hero" bg="bg-slate-900">
           <HeroSection />
-        </section>
+        </StackSection>
 
-        {/* 2. SIGNATURE ADVENTURES: Redesigned Showcase matching Brand Identity & WhyChooseUs */}
-        <section id="featured-trips" className="relative z-10 py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-slate-100/80 via-white to-slate-50/60">
+        {/* PANEL 1: Curated Featured Adventures Showcase */}
+        <StackSection index={1} id="featured-trips" bg="bg-gradient-to-b from-slate-100/90 via-white to-slate-50/70" className="py-10 sm:py-14 lg:py-16">
           <TripStack />
-        </section>
+        </StackSection>
 
-        {/* 3. WHY CHOOSE US: 4 Luxury Service Pillars */}
-        <section id="why-us" className="relative z-10">
+        {/* PANEL 2: Why Choose Us (4 Feature Cards) */}
+        <StackSection index={2} id="why-us" bg="bg-white">
           <WhyChooseUs />
-        </section>
+        </StackSection>
 
-        {/* 4. DESERT SAFARIS & SPECIAL OFFERS */}
-        <section id="desert-safari" className="relative z-10">
+        {/* PANEL 3: Desert Safaris & Buggy Adventure Showcase */}
+        <StackSection index={3} id="desert-safari" bg="bg-[#FFFDF7]">
           <DesertAdventuresSection />
-        </section>
+        </StackSection>
 
-        {/* 5. RED SEA YACHTS & MARINE OFFERS */}
-        <section id="sea-adventures" className="relative z-10">
+        {/* PANEL 4: Red Sea Yacht & Marine Offers */}
+        <StackSection index={4} id="sea-adventures" bg="bg-[#F0FDF4]">
           <SeaAdventuresSection />
-        </section>
+        </StackSection>
 
-        {/* 6. SOUTH SINAI & SHARM PRIVATE TRANSFERS (انتقالات داخل جنوب سيناء) */}
-        <section id="transfers" className="relative z-10">
+        {/* PANEL 5: South Sinai & Sharm Private Transfers 24/7 */}
+        <StackSection index={5} id="transfers" bg="bg-white">
           <TransfersSection />
-        </section>
+        </StackSection>
 
-        {/* 7. COMPLETE PACKAGES & COMBO OFFERS (رحلات كاملة عرض في السعر) */}
-        <section id="complete-packages" className="relative z-10">
+        {/* PANEL 6: Complete Packages & Combo Offers (رحلات كاملة عرض في السعر) */}
+        <StackSection index={6} id="complete-packages" bg="bg-[#FFFDF7]">
           <CompletePackagesSection />
-        </section>
+        </StackSection>
 
-        {/* 7. 3-STEP EASY BOOKING JOURNEY */}
-        <section id="how-it-works" className="relative z-10">
+        {/* PANEL 7: 3-Step Booking Journey */}
+        <StackSection index={7} id="how-it-works" bg="bg-slate-50">
           <HowItWorks />
-        </section>
+        </StackSection>
 
-        {/* 8. VERIFIED GUEST REVIEWS */}
-        <section id="reviews" className="relative z-10">
+        {/* PANEL 8: Verified Guest Reviews */}
+        <StackSection index={8} id="reviews" bg="bg-white">
           <ReviewsSection />
-        </section>
+        </StackSection>
 
-        {/* 9. SOUTH SINAI & SHARM TRAVEL GUIDES */}
-        <section id="guides" className="relative z-10">
+        {/* PANEL 9: South Sinai & Sharm Travel Guides */}
+        <StackSection index={9} id="guides" bg="bg-slate-50">
           <DestinationGuideSection />
-        </section>
+        </StackSection>
 
-        {/* 10. REAL MOMENTS INSTAGRAM GALLERY */}
-        <section id="gallery" className="relative z-10">
+        {/* PANEL 10: Real Moments Instagram Gallery */}
+        <StackSection index={10} id="gallery" bg="bg-white">
           <InstagramGallery />
-        </section>
+        </StackSection>
 
-        {/* 11. LUXURY FINAL CTA */}
-        <section id="cta" className="relative z-10">
+        {/* PANEL 11: Luxury Final CTA (Last panel in deck before footer) */}
+        <StackSection index={11} id="cta" bg="bg-slate-950">
           <FinalCTA />
-        </section>
+        </StackSection>
       </main>
     </>
   );

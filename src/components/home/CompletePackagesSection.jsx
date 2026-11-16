@@ -1,12 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
   Sparkles,
-  CheckCircle2,
   Crown,
-  Calendar,
-  Users,
   Compass,
   Ship,
   Car,
@@ -14,7 +11,11 @@ import {
   Waves,
   ArrowLeft,
   ArrowRight,
-  ShieldCheck,
+  MessageCircle,
+  Calendar,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   Percent
 } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -25,308 +26,328 @@ export const CompletePackagesSection = () => {
   const isAr = i18n.language === 'ar';
   const ArrowIcon = isAr ? ArrowLeft : ArrowRight;
 
+  const [activePackageIdx, setActivePackageIdx] = useState(0);
+
   const packages = [
     {
+      id: 'royal-all-inclusive',
+      tabLabelAr: '👑 باقة VIP الملكية (الأكثر طلباً)',
+      tabLabelEn: '👑 Royal VIP All-Inclusive (Best Seller)',
+      badgeAr: 'باقات شرم الحصرية • توفير 35%',
+      badgeEn: 'Exclusive Sharm Combos • Save 35%',
+      badgeColor: 'bg-amber-100 text-amber-800 border-amber-300',
+      titleAr: 'باقة شرم الملكية VIP الشاملة',
+      titleEn: 'Royal VIP Sharm All-Inclusive Combo',
+      titleHighlightAr: 'الشاملة',
+      titleHighlightEn: 'All-Inclusive',
+      descriptionAr:
+        'البرنامج السياحي المتكامل والأكثر فخامة في شرم الشيخ. يجمع بين أروع مغامرات الصحراء بالبيتش باجي والعشاء البدوي الفاخر، ورحلة يخت ملكي خاص لمحمية رأس محمد والجزيرة البيضاء مع الغوص بالأسطوانة وانتقالات المطار VIP مجاناً.',
+      descriptionEn:
+        'The most luxurious all-inclusive vacation combo in Sharm El Sheikh. Combines the desert ATV safari with VIP Bedouin dinner & show, a luxury yacht cruise to Ras Mohammed & White Island with scuba diving, and complimentary round-trip VIP airport transfers.',
+      durationAr: '3 - 4 أيام (البرنامج المتكامل)',
+      durationEn: '3 - 4 Days (Full Program)',
+      originalPrice: 130,
+      offerPrice: 85,
+      savingAmount: 45,
+      priceBadgeAr: 'عرض الباقة الملكية VIP',
+      priceBadgeEn: 'Royal VIP Special Offer',
+      priceIncludesAr: 'يشمل: سوبر سفاري + يخت رأس محمد + غوص + استقبال وتوصيل المطار VIP',
+      priceIncludesEn: 'Includes: Super Safari + VIP Yacht + Scuba Dive + Free Airport VIP Transfers',
+      image: '/images/sea/ras-mohammed-luxury-yacht.webp',
+      accentColor: '#F59E0B',
+      featuresAr: [
+        'سوبر سفاري بالبيتش باجي 250cc في قلب وادي الصدى',
+        'ركوب الجمال البدوية عند مغيب الشمس فوق الرمال الذهبية',
+        'عشاء بدوي مشوي فاخر في الخيمة البدوية مع بوفيه مفتوح',
+        'حفلة فلكلورية شرقية (تنورة ورقص شرقي) وجلسة رصد النجوم بالتلسكوب',
+        'يوم كامل على يخت ملكي VIP فاخر لرأس محمد والجزيرة البيضاء',
+        'وجبة غداء مأكولات بحرية طازجة ومشروبات منعشة طوال اليوم',
+        'غطسة استكشافية بالأسطوانة (Scuba Diving) مع مدرب PADI محترف',
+        'انتقالات مطار شرم الشيخ VIP مجاناً ذهاب وعودة بسيارة خاصة حديثة'
+      ],
+      featuresEn: [
+        '250cc Quad ATV desert adventure through Echo Valley',
+        'Sunset camel caravan ride across golden desert dunes',
+        'Open BBQ VIP Bedouin dinner inside authentic Bedouin camp',
+        'Oriental folklore show (Tanoura & Belly dance) + Telescope stargazing',
+        'Full-day VIP luxury yacht cruise to Ras Mohammed & White Island',
+        'Fresh seafood & BBQ lunch buffet with unlimited soft drinks',
+        'Introductory scuba diving session with certified PADI divemaster',
+        'FREE round-trip Sharm El Sheikh Airport VIP private transfers'
+      ],
+      whatsappMsg:
+        'مرحباً مجموعة الهنا، أرغب في حجز باقة شرم الملكية VIP الشاملة بسعر العرض الخاص (85$ للفرد بدلاً من 130$)، برجاء تزويدي بالمواعيد والتفاصيل.'
+    },
+    {
       id: 'classic-combo',
-      nameAr: 'باقة مغامرات شرم الكلاسيكية',
-      nameEn: 'Classic Sharm Adventure Combo',
-      badgeAr: 'الأكثر طلباً للأزواج والأصدقاء',
-      badgeEn: 'Best Seller for Couples & Friends',
-      badgeStyle: 'bg-sky-50 text-[#0284C7] border-sky-200',
+      tabLabelAr: '⚡ مغامرات شرم الكلاسيكية (يومان)',
+      tabLabelEn: '⚡ Classic Sharm Adventure (2 Days)',
+      badgeAr: 'باقات التوفير • الأكثر طلباً',
+      badgeEn: 'Best Value • Most Popular',
+      badgeColor: 'bg-sky-100 text-[#0284C7] border-sky-300',
+      titleAr: 'باقة مغامرات شرم الكلاسيكية',
+      titleEn: 'Classic Sharm Adventure Combo',
+      titleHighlightAr: 'الكلاسيكية',
+      titleHighlightEn: 'Classic Combo',
+      descriptionAr:
+        'الباقة المثالية للاستمتاع بأهم وأقوى تجارب شرم الشيخ الأساسية في يومين فقط: إثارة البيتش باجي في الصحراء مع الشاي البدوي، والرحلة البحرية الاستثنائية لمحمية رأس محمد والجزيرة البيضاء الساحرة بأفضل سعر توفيري.',
+      descriptionEn:
+        'The perfect 2-day combo covering Sharm El Sheikh essentials: exhilarating desert ATV quad biking with authentic Bedouin tea, and a premium yacht cruise to Ras Mohammed and the magical White Island with lunch.',
       durationAr: 'يومان من المغامرة',
       durationEn: '2 Days of Adventure',
       originalPrice: 65,
       offerPrice: 45,
       savingAmount: 20,
-      highlight: 'from-[#0284C7]/15 to-transparent',
-      borderColor: 'border-slate-200 hover:border-[#0284C7]/50',
-      isPopular: false,
+      priceBadgeAr: 'عرض الكومبو الكلاسيكي',
+      priceBadgeEn: 'Classic Combo Offer',
+      priceIncludesAr: 'يشمل: سفاري بيتش باجي 250cc + يخت رأس محمد والجزيرة البيضاء + غداء وانتقالات',
+      priceIncludesEn: 'Includes: 250cc Quad ATV Safari + White Island Yacht + Lunch Buffet + Pickups',
       image: '/images/real/user-atv-safari.webp',
-      includes: [
-        {
-          icon: Compass,
-          textAr: 'سفاري بيتش باجي 250cc في وادي الصدى مع شاي بدوي',
-          textEn: '250cc Quad ATV Safari in Echo Valley with Bedouin tea'
-        },
-        {
-          icon: Ship,
-          textAr: 'رحلة يخت رأس محمد والجزيرة البيضاء VIP مع بوفيه غداء وسنوركلينج',
-          textEn: 'Ras Mohammed & White Island VIP Yacht with lunch buffet & snorkeling'
-        },
-        {
-          icon: Car,
-          textAr: 'سيارات حديثة ومكيفة للتوصيل من وإلى باب فندقك في الرحلتين',
-          textEn: 'Air-conditioned hotel transfers included for both trips'
-        }
-      ]
+      accentColor: '#0284C7',
+      featuresAr: [
+        'جولة سفاري بيتش باجي (ATV) 250cc لمدة ساعتين بين الجبال',
+        'التوقف في وادي الصدى للاستمتاع بظاهرة صدى الصوت والتقاط الصور',
+        'استراحة شاي بدوي بالأعشاب والخبز البدوي الطازج في المخيم',
+        'رحلة بحرية فاخرة باليخت إلى محمية رأس محمد الوطنية',
+        'نزول الجزيرة البيضاء (مالديف مصر) والسباحة على الرمال الناعمة',
+        'وقفات سنوركلينج برفقة مرشد بحري متخصص لمشاهدة الشعاب المرجانية',
+        'بوفيه غداء مفتوح ولذيذ على متن اليخت مع مشروبات طوال اليوم',
+        'توصيل مجاني من وإلى باب فندقك في شرم الشيخ للرحلتين'
+      ],
+      featuresEn: [
+        '2-hour 250cc Quad ATV safari ride through Sinai mountain trails',
+        'Echo Valley stop for sound resonance and desert landscape photos',
+        'Bedouin tent relaxation with herbal tea and fresh Bedouin bread',
+        'Full-day yacht cruise to world-famous Ras Mohammed National Park',
+        'Disembarking and swimming at the sandbar of White Island',
+        'Guided snorkeling stops among protected colorful coral reefs',
+        'Open buffet lunch prepared on board with soft drinks',
+        'Free hotel lobby door-to-door pickups for both excursions'
+      ],
+      whatsappMsg:
+        'مرحباً مجموعة الهنا، أرغب في حجز باقة مغامرات شرم الكلاسيكية بسعر العرض (45$ بدلاً من 65$)، برجاء تأكيد الحجز.'
     },
     {
-      id: 'royal-all-inclusive',
-      nameAr: 'باقة شرم الملكية VIP الشاملة',
-      nameEn: 'Royal VIP Sharm All-Inclusive Combo',
-      badgeAr: 'الباقة الملكية الأكثر توفيراً ⭐⭐⭐⭐⭐',
-      badgeEn: 'Ultimate Royal VIP Value ⭐⭐⭐⭐⭐',
-      badgeStyle: 'bg-amber-500 text-white font-black shadow-md shadow-amber-500/25',
-      durationAr: '3 - 4 أيام (البرنامج المتكامل)',
-      durationEn: '3 - 4 Days (Full Highlights)',
-      originalPrice: 130,
-      offerPrice: 85,
-      savingAmount: 45,
-      highlight: 'from-[#F59E0B]/20 via-[#F97316]/10 to-transparent',
-      borderColor: 'border-amber-400 ring-2 ring-amber-400/40 shadow-2xl shadow-amber-500/10',
-      isPopular: true,
-      image: '/images/sea/ras-mohammed-luxury-yacht.webp',
-      includes: [
-        {
-          icon: Crown,
-          textAr: 'سوبر سفاري VIP (بيتش باجي + جمال + عشاء بدوي فاخر + حفلة فلكلورية وتلسكوب)',
-          textEn: 'Super VIP Safari (ATV + Camel + Bedouin Dinner & Show + Stargazing)'
-        },
-        {
-          icon: Ship,
-          textAr: 'يخت ملكي فاخر لرأس محمد والجزيرة البيضاء مع مأكولات بحرية طازجة ومشروبات',
-          textEn: 'VIP Luxury Yacht to Ras Mohammed & White Island with seafood buffet'
-        },
-        {
-          icon: Waves,
-          textAr: 'غطسة استكشافية بالأسطوانة (Scuba Diving) مع مدرب PADI محترف في أعماق البحر',
-          textEn: 'Introductory Scuba Diving with certified PADI divemaster'
-        },
-        {
-          icon: Plane,
-          textAr: 'انتقالات مطار شرم الشيخ VIP مجاناً بالكامل (ذهاب وعودة بسيارة خاصة)',
-          textEn: 'FREE Round-Trip Sharm Airport VIP Private Car Transfers'
-        }
-      ]
-    },
-    {
-      id: 'family-sinai-wonders',
-      nameAr: 'باقة العائلة وجولات سيناء الكبرى',
-      nameEn: 'Ultimate Family & Sinai Wonders Combo',
-      badgeAr: 'مثالية للعائلات والمجموعات',
-      badgeEn: 'Perfect for Families & Groups',
-      badgeStyle: 'bg-emerald-50 text-[#059669] border-emerald-200',
+      id: 'family-wonders',
+      tabLabelAr: '🌴 العائلة وعجائب سيناء (4-5 أيام)',
+      tabLabelEn: '🌴 Family & Sinai Wonders (4-5 Days)',
+      badgeAr: 'باقة العائلات والمجموعات • توفير $60',
+      badgeEn: 'Family & Groups • Save $60',
+      badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+      titleAr: 'باقة العائلة الشاملة وعجائب سيناء',
+      titleEn: 'Ultimate Family & Sinai Wonders Combo',
+      titleHighlightAr: 'وعجائب سيناء',
+      titleHighlightEn: 'Sinai Wonders',
+      descriptionAr:
+        'برنامج عائلي مصمم بعناية ليناسب جميع أفراد الأسرة والأطفال وكبار السن. يجمع بين راحة الكار باجي العائلي 4 مقاعد، وسهرة العشاء البدوي، ويخت الجزيرة البيضاء، وجولة دهب الساحرة والبلو هول مع وادي قني.',
+      descriptionEn:
+        'Specially curated for families, kids, and groups seeking comfort and wonder. Features a 4-seater family dune buggy, Bedouin dinner & folklore night, White Island yacht cruise, and a private day trip to Dahab Blue Hole & Canyon.',
       durationAr: '4 - 5 أيام (برنامج عائلي مريح)',
       durationEn: '4 - 5 Days (Family Friendly)',
       originalPrice: 185,
       offerPrice: 125,
       savingAmount: 60,
-      highlight: 'from-[#059669]/15 to-transparent',
-      borderColor: 'border-slate-200 hover:border-[#059669]/50',
-      isPopular: false,
-      image: '/images/real/polaris-buggy-family.webp',
-      includes: [
-        {
-          icon: Car,
-          textAr: 'كار باجي عائلي بولاريس (4 مقاعد) في قلب رمال وجبال سيناء الساحرة',
-          textEn: 'Family Polaris Dune Buggy (4-Seater) in Sinai desert'
-        },
-        {
-          icon: Ship,
-          textAr: 'يخت رأس محمد والجزيرة البيضاء VIP المريح لجميع أفراد الأسرة',
-          textEn: 'Family-friendly VIP Yacht to Ras Mohammed & White Island'
-        },
-        {
-          icon: Compass,
-          textAr: 'رحلة يوم كامل لمدينة دهب والبلو هول والوادي الملون وجولة تسوق حرة',
-          textEn: 'Full-Day Dahab, Blue Hole & Canyon adventure tour'
-        },
-        {
-          icon: Plane,
-          textAr: 'سيارة فان عائلية خاصة ومكيفة لجميع انتقالات المطار والفنادق طوال العطلة',
-          textEn: 'Private Family Van for all airport & hotel excursions transfers'
-        }
-      ]
+      priceBadgeAr: 'عرض العائلة والمجموعات الخاص',
+      priceBadgeEn: 'Family & Group Special Deal',
+      priceIncludesAr: 'يشمل: كار باجي 4 مقاعد + عشاء بدوي + يخت بحري + جولة دهب والبلو هول',
+      priceIncludesEn: 'Includes: 4-Seater Buggy + Bedouin Dinner + White Island Yacht + Dahab Tour',
+      image: '/images/real/family-buggy-ride.jpg',
+      accentColor: '#10B981',
+      featuresAr: [
+        'كار باجي بولاريس عائلي آمن ومريح 4 مقاعد في وادي الماندال',
+        'عشاء بدوي مشوي فاخر في المخيم مع حفلة فلكلورية وعرض التنورة',
+        'رحلة يخت رأس محمد والجزيرة البيضاء مناسبة للأطفال والعائلات',
+        'معدات سنوركلينج وسترات نجاة آمنة لجميع الأعمار مجاناً',
+        'رحلة يوم كامل إلى دهب، البلو هول، وركوب الجمال على شاطئ البحر',
+        'زيارة واحة وادي قني الطبيعية وشراء الهدايا التذكارية من ممشى دهب',
+        'سائق وسيارة خاصة مكيفة لجميع الجولات لضمان راحة وخصوصية العائلة',
+        'خصم إضافي خاص للأطفال تحت 10 سنوات'
+      ],
+      featuresEn: [
+        'Safe 4-seater Polaris family dune buggy tour in Mandal Valley',
+        'Luxury Bedouin BBQ dinner with oriental Tanoura folklore show',
+        'Family-friendly Ras Mohammed & White Island luxury cruise',
+        'Free snorkeling equipment & sanitized life jackets for all ages',
+        'Full-day private tour to Dahab, the Blue Hole, and seaside camel ride',
+        'Visit to Wadi Qnai oasis and shopping at vibrant Dahab Promenade',
+        'Private air-conditioned chauffeur throughout for maximum comfort',
+        'Special discounted family rates for children under 10'
+      ],
+      whatsappMsg:
+        'مرحباً مجموعة الهنا، أرغب في الاستفسار وحجز باقة العائلة الشاملة وعجائب سيناء بسعر العرض (125$ بدلاً من 185$).'
     }
   ];
 
-  const handleBookPackage = (pkg) => {
-    const pkgName = isAr ? pkg.nameAr : pkg.nameEn;
-    const priceText = `$${pkg.offerPrice}`;
-    const message = isAr
-      ? `مرحباً مجموعة الهنا، أرغب في حجز "${pkgName}" بعرض السعر الخاص (${priceText} للفرد). أرجو تزويدي بكافة التفاصيل وتأكيد المواعيد.`
-      : `Hello El Hana Group, I would like to book the "${pkgName}" with the special offer price (${priceText} per person). Please provide details and confirm dates.`;
-    const whatsappUrl = `https://wa.me/201100777330?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  const currentPkg = packages[activePackageIdx];
+
+  const getWhatsAppBookingLink = (msg) => {
+    return `https://wa.me/201100777330?text=${encodeURIComponent(msg)}`;
   };
 
   return (
-    <div className="w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-sky-50/40 to-slate-50 relative overflow-hidden">
-      {/* Background Accent Ambient Glows */}
-      <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-[#0284C7]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-0 w-[500px] h-[500px] bg-[#F59E0B]/10 rounded-full blur-[140px] pointer-events-none" />
+    <div className="w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-[#FFFDF7] via-white to-amber-50/30 text-slate-800 relative overflow-hidden">
+      {/* Ambient Decorative Glows */}
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-amber-400/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 left-0 w-[500px] h-[500px] bg-[#0284C7]/10 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12 sm:space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 text-[#EA580C] text-xs font-black uppercase tracking-wider border border-orange-200/80 shadow-xs">
-            <Percent className="w-3.5 h-3.5" />
-            <span>{isAr ? 'عروض الباقات والرحلات الكاملة' : 'Complete All-Inclusive Holiday Packages'}</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 text-amber-900 text-xs font-black uppercase tracking-wider border border-amber-300 shadow-xs">
+            <Percent className="w-3.5 h-3.5 text-amber-600" />
+            <span>{isAr ? 'عروض وباقات الرحلات الشاملة' : 'Complete Tour Combos & Deals'}</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-slate-900 tracking-tight leading-tight">
-            {isAr ? 'باقات الرحلات الكاملة الشاملة' : 'All-Inclusive Trip Packages'}{' '}
-            <span className="text-[#0284C7]">{isAr ? 'عرض في السعر وتوفير حقيقي' : 'Special Combo Offers'}</span>
+            {isAr ? 'رحلات كاملة' : 'All-Inclusive Vacation Packages'}{' '}
+            <span className="text-[#F97316]">{isAr ? 'عرض في السعر وتوفير حقيقي' : '& Best Value Combos'}</span>
           </h2>
 
           <p className="text-slate-600 text-sm sm:text-base lg:text-lg leading-relaxed font-medium">
             {isAr
-              ? 'اجمع أقوى تجارب شرم الشيخ (سفاري الصحراء + اليخوت الملكية + انتقالات المطار VIP) في باقة واحدة شاملة، واستمتع بخصم يصل إلى 35% مقارنة بحجز كل رحلة منفصلة مع تأكيد فوري ودون أي مصاريف خفية.'
-              : 'Combine Sharm El Sheikh’s top adventures (Desert Safari + VIP Yacht Cruise + Airport Transfers) into one complete holiday bundle and save up to 35% compared to individual bookings.'}
+              ? 'وفّر وقتك وميزانيتك مع باقاتنا المتكاملة التي تجمع بين رحلات السفاري واليخوت البحرية والغوص وانتقالات المطار بأسعار خاصة جداً وخصومات تصل إلى 35%.'
+              : 'Save time and money with all-inclusive multi-day packages combining desert safaris, yacht cruises, scuba diving, and airport transfers at exclusive combo rates.'}
           </p>
         </div>
 
-        {/* 3 Package Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        {/* 1. Quick Tabs Selector (To switch packages smoothly) */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 p-1.5 rounded-2xl bg-slate-100/90 max-w-4xl mx-auto border border-slate-200">
           {packages.map((pkg, idx) => {
+            const isActive = idx === activePackageIdx;
             return (
-              <motion.div
+              <button
                 key={pkg.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.6, delay: idx * 0.15 }}
-                className={`bg-white rounded-3xl border ${pkg.borderColor} shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden group`}
+                type="button"
+                onClick={() => setActivePackageIdx(idx)}
+                className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center gap-2 ${
+                  isActive
+                    ? 'bg-white text-slate-900 shadow-md border border-slate-200 scale-100'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                }`}
               >
-                {/* Top Corner Ambient Glow */}
-                <div
-                  className={`absolute top-0 end-0 w-44 h-44 bg-gradient-to-bl ${pkg.highlight} rounded-bl-full pointer-events-none transition duration-500 group-hover:scale-125`}
-                />
-
-                {/* Popular Crown Badge for the Middle Package */}
-                {pkg.isPopular && (
-                  <div className="absolute top-0 inset-x-0 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-white text-[11px] font-black py-1.5 text-center uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-sm z-20">
-                    <Crown className="w-3.5 h-3.5 fill-white" />
-                    <span>{isAr ? 'عرض السعر الملكي الأكثر طلباً وتوفيراً' : 'Best Value & Most Popular Choice'}</span>
-                  </div>
+                <span>{isAr ? pkg.tabLabelAr : pkg.tabLabelEn}</span>
+                {isActive && (
+                  <span className="w-2 h-2 rounded-full bg-[#F97316] animate-pulse" />
                 )}
-
-                {/* Card Header & Content */}
-                <div className={`p-6 sm:p-8 space-y-6 ${pkg.isPopular ? 'pt-10' : ''}`}>
-                  
-                  {/* Category Pill & Duration */}
-                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <span className={`px-3 py-1 rounded-full text-xs font-black border ${pkg.badgeStyle}`}>
-                      {isAr ? pkg.badgeAr : pkg.badgeEn}
-                    </span>
-                    <span className="flex items-center gap-1 text-xs text-slate-500 font-bold bg-slate-100/90 px-2.5 py-1 rounded-lg">
-                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{isAr ? pkg.durationAr : pkg.durationEn}</span>
-                    </span>
-                  </div>
-
-                  {/* Package Title */}
-                  <div className="space-y-1">
-                    <h3 className="text-2xl font-black font-heading text-slate-900 group-hover:text-[#0284C7] transition-colors leading-tight">
-                      {isAr ? pkg.nameAr : pkg.nameEn}
-                    </h3>
-                  </div>
-
-                  {/* Price Showcase Box */}
-                  <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-50 to-sky-50/60 border border-slate-200/80 flex items-center justify-between">
-                    <div>
-                      <span className="text-[11px] text-slate-400 font-bold block line-through">
-                        {isAr ? 'السعر المنفصل:' : 'Regular:'} {formatPrice(pkg.originalPrice)}
-                      </span>
-                      <div className="flex items-baseline gap-1 mt-0.5">
-                        <span className="text-3xl font-black text-slate-900 tracking-tight">
-                          {formatPrice(pkg.offerPrice)}
-                        </span>
-                        <span className="text-xs text-slate-500 font-bold">
-                          {isAr ? '/ للفرد' : '/ person'}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="text-end">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-xl bg-emerald-500 text-white font-black text-xs shadow-sm">
-                        <span>{isAr ? 'وفر' : 'Save'} {formatPrice(pkg.savingAmount)}</span>
-                      </span>
-                      <span className="text-[10px] text-emerald-600 font-bold block mt-1">
-                        {isAr ? 'خصم باقة حصري' : 'Combo Discount'}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Includes List */}
-                  <div className="space-y-3 pt-2">
-                    <div className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
-                      <span>{isAr ? 'يشمل هذا البكج الكامل:' : 'What This Package Includes:'}</span>
-                    </div>
-
-                    <ul className="space-y-2.5">
-                      {pkg.includes.map((item, i) => {
-                        const IconComponent = item.icon;
-                        return (
-                          <li key={i} className="flex items-start gap-2.5 text-xs font-semibold text-slate-700 leading-relaxed">
-                            <div className="w-5 h-5 rounded-md bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-[#0284C7]" />
-                            </div>
-                            <span>{isAr ? item.textAr : item.textEn}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-
-                </div>
-
-                {/* Card Action Footer */}
-                <div className="p-6 sm:p-8 pt-0 space-y-3">
-                  <button
-                    type="button"
-                    onClick={() => handleBookPackage(pkg)}
-                    className={`w-full py-3.5 px-6 rounded-2xl font-black text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer ${
-                      pkg.isPopular
-                        ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-orange-500/25'
-                        : 'bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white shadow-sky-600/25'
-                    }`}
-                  >
-                    <span>{isAr ? 'احجز الباقة واستفد من العرض' : 'Book Package & Lock Offer'}</span>
-                    <ArrowIcon className="w-4 h-4" />
-                  </button>
-
-                  <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500 font-medium">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>{isAr ? 'تأكيد فوري ودفع عند الوصول • إمكانية تعديل المواعيد' : 'Instant Confirmation • Pay on Arrival'}</span>
-                  </div>
-                </div>
-
-              </motion.div>
+              </button>
             );
           })}
         </div>
 
-        {/* Bottom Trust Guarantee Note */}
-        <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/80 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-start">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shrink-0">
-              <Crown className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-900">
-                {isAr ? 'تريد تخصيص برنامج باقة خاصة بعائلتك أو مجموعتك؟' : 'Need a custom tailored holiday package for your group?'}
-              </h4>
-              <p className="text-xs text-slate-500 mt-0.5">
-                {isAr
-                  ? 'تواصل مع فريق حجوزات الهنا مباشرة عبر الواتساب لتنسيق جدول رحلات مخصص بخصم إضافي.'
-                  : 'Contact our WhatsApp concierge team to customize your private schedule with special bundle rates.'}
-              </p>
-            </div>
-          </div>
-
-          <a
-            href="https://wa.me/201100777330?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D8%A8%D8%A7%D9%82%D8%A9%20%D8%B1%D8%AD%D9%84%D8%A7%D8%AA%20%D8%AE%D8%A7%D8%B5%D8%A9%20%D8%A8%D8%B3%D8%B9%D8%B1%20%D8%AA%D9%88%D9%81%D9%8A%D8%B1%D9%8A"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shrink-0 cursor-pointer"
+        {/* 2. GRAND SHOWCASE CARD (Matching user's exact screenshot design) */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPkg.id}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-white/70 backdrop-blur-md rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/80 shadow-xl"
           >
-            <span>{isAr ? 'تخصيص باقة خاصة' : 'Custom Bundle Request'}</span>
-            <ArrowIcon className="w-3.5 h-3.5" />
-          </a>
-        </div>
+            {/* ── Left Column: Showcase Image Card with Floating Offer Banner ── */}
+            <div className="lg:col-span-5 relative order-2 lg:order-1">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-4/3 sm:aspect-16/10 lg:aspect-4/3 bg-slate-900 group">
+                <img
+                  src={currentPkg.image}
+                  alt={isAr ? currentPkg.titleAr : currentPkg.titleEn}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+
+                {/* Top Duration Badge */}
+                <div className="absolute top-4 start-4">
+                  <span className="px-3.5 py-1 rounded-xl bg-black/60 backdrop-blur-md text-white text-xs font-black border border-white/20 flex items-center gap-1.5 shadow-sm">
+                    <Calendar className="w-3.5 h-3.5 text-amber-400" />
+                    <span>{isAr ? currentPkg.durationAr : currentPkg.durationEn}</span>
+                  </span>
+                </div>
+
+                {/* Floating Bottom Offer Pill (Identical to user's screenshot) */}
+                <div className="absolute bottom-4 inset-x-4 p-3.5 sm:p-4 rounded-2xl bg-white/95 backdrop-blur-md shadow-xl border border-slate-100 flex items-center justify-between gap-3">
+                  {/* Price Block */}
+                  <div className="shrink-0">
+                    <span className="text-xs text-slate-400 line-through block font-medium">
+                      {formatPrice(currentPkg.originalPrice)}
+                    </span>
+                    <span className="text-2xl sm:text-3xl font-black text-[#F97316] leading-none block">
+                      {formatPrice(currentPkg.offerPrice)}
+                    </span>
+                  </div>
+
+                  {/* Offer Description Block */}
+                  <div className="text-end">
+                    <span className="inline-block text-[11px] sm:text-xs font-black text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full mb-1">
+                      {isAr ? currentPkg.priceBadgeAr : currentPkg.priceBadgeEn}
+                    </span>
+                    <p className="text-[11px] text-slate-600 line-clamp-1 font-medium">
+                      {isAr ? currentPkg.priceIncludesAr : currentPkg.priceIncludesEn}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Right Column: Grand Package Content, Bullets & CTAs ── */}
+            <div className="lg:col-span-7 space-y-6 order-1 lg:order-2">
+              
+              {/* Category Pill Tag */}
+              <div>
+                <span className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-black border ${currentPkg.badgeColor}`}>
+                  <Sparkles className="w-3 h-3 text-[#F97316]" />
+                  <span>{isAr ? currentPkg.badgeAr : currentPkg.badgeEn}</span>
+                </span>
+              </div>
+
+              {/* Title & Description */}
+              <div className="space-y-3">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-slate-900 tracking-tight leading-tight">
+                  {isAr ? currentPkg.titleAr : currentPkg.titleEn}
+                </h3>
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                  {isAr ? currentPkg.descriptionAr : currentPkg.descriptionEn}
+                </p>
+              </div>
+
+              {/* 2-Column Feature Bullets (Exactly matching screenshot bullet style) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 pt-2 border-t border-slate-100">
+                {(isAr ? currentPkg.featuresAr : currentPkg.featuresEn).map((feature, i) => (
+                  <div key={i} className="flex items-start gap-2 text-xs sm:text-[13px] text-slate-700 leading-snug">
+                    <span className="w-2 h-2 rounded-full bg-[#F97316] shrink-0 mt-1.5" />
+                    <span className="font-medium">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Action Buttons Row */}
+              <div className="pt-4 flex flex-wrap items-center gap-3 sm:gap-4 border-t border-slate-100">
+                <a
+                  href={getWhatsAppBookingLink(currentPkg.whatsappMsg)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2.5 px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white font-black text-sm shadow-lg shadow-[#0284C7]/25 hover:shadow-xl transition-all cursor-pointer group"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white text-transparent" />
+                  <span>{isAr ? 'احجز الباقة عبر الواتساب (تأكيد فوري)' : 'Book Package via WhatsApp'}</span>
+                  <ArrowIcon className="w-4 h-4 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextIdx = (activePackageIdx + 1) % packages.length;
+                    setActivePackageIdx(nextIdx);
+                  }}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold text-sm shadow-xs transition-colors cursor-pointer"
+                >
+                  <span>{isAr ? 'الباقة التالية' : 'Next Package'}</span>
+                  <ChevronLeft className="w-4 h-4 text-slate-400 rtl:rotate-0 rotate-180" />
+                </button>
+              </div>
+
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
       </div>
     </div>
