@@ -43,11 +43,28 @@
 
     <link rel="stylesheet" href="/src/index.css" />
     
-    <!-- Canonical & Alternate Hreflang URLs -->
-    <link rel="canonical" href="https://www.elahanasafari.com/" />
-    <link rel="alternate" hreflang="ar" href="https://www.elahanasafari.com/" />
-    <link rel="alternate" hreflang="en" href="https://www.elahanasafari.com/" />
-    <link rel="alternate" hreflang="x-default" href="https://www.elahanasafari.com/" />
+    <!-- Dynamic Canonical & Alternate Hreflang Tags (Pre-initialized to active path) -->
+    <link rel="canonical" id="canonical-tag" href="https://www.elahanasafari.com/" />
+    <link rel="alternate" id="hreflang-ar" hreflang="ar" href="https://www.elahanasafari.com/" />
+    <link rel="alternate" id="hreflang-en" hreflang="en" href="https://www.elahanasafari.com/" />
+    <link rel="alternate" id="hreflang-xdefault" hreflang="x-default" href="https://www.elahanasafari.com/" />
+    <script>
+      (function() {
+        try {
+          var p = window.location.pathname || '/';
+          var origin = 'https://www.elahanasafari.com';
+          var full = origin + (p === '/' ? '/' : p.replace(/\/+$/, ''));
+          var c = document.getElementById('canonical-tag');
+          if (c) c.href = full;
+          var ar = document.getElementById('hreflang-ar');
+          if (ar) ar.href = full;
+          var en = document.getElementById('hreflang-en');
+          if (en) en.href = full;
+          var xd = document.getElementById('hreflang-xdefault');
+          if (xd) xd.href = full;
+        } catch(e) {}
+      })();
+    </script>
     <link rel="apple-touch-icon" href="/logo.png" />
 
     <!-- Google Site Verification (Google Search Console) -->

@@ -144,6 +144,7 @@ export const ExperienceDetailsPage = ({ slugOverride }) => {
       <SEOHead
         title={experience.title}
         description={experience.shortDescription}
+        canonicalUrl={`https://www.elahanasafari.com/experience/${slug}`}
         structuredData={structuredData}
       />
 

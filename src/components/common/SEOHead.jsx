@@ -102,8 +102,12 @@ export const SEOHead = ({ title, description, keywords, canonicalUrl, structured
       }
       metaKeywords.setAttribute('content', keywords || DEFAULT_KEYWORDS);
 
-      // Canonical URL
-      const activeUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://www.elahanasafari.com');
+      // Canonical URL (Always clean without tracking or search query strings)
+      const cleanOrigin = typeof window !== 'undefined' ? window.location.origin : 'https://www.elahanasafari.com';
+      const cleanPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+      const defaultUrl = `${cleanOrigin}${cleanPath === '/' ? '/' : cleanPath.replace(/\/+$/, '')}`;
+      const activeUrl = canonicalUrl || defaultUrl;
+      
       let canonical = document.querySelector('link[rel="canonical"]');
       if (!canonical) {
         canonical = document.createElement('link');
@@ -111,6 +115,21 @@ export const SEOHead = ({ title, description, keywords, canonicalUrl, structured
         document.head.appendChild(canonical);
       }
       canonical.setAttribute('href', activeUrl);
+
+      // Dynamic Alternate Hreflang URLs for the active page
+      const updateHreflang = (lang, url) => {
+        let tag = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
+        if (!tag) {
+          tag = document.createElement('link');
+          tag.setAttribute('rel', 'alternate');
+          tag.setAttribute('hreflang', lang);
+          document.head.appendChild(tag);
+        }
+        tag.setAttribute('href', url);
+      };
+      updateHreflang('ar', activeUrl);
+      updateHreflang('en', activeUrl);
+      updateHreflang('x-default', activeUrl);
 
       // Open Graph Tags
       const setMetaProperty = (prop, content) => {
