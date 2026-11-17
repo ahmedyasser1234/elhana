@@ -311,9 +311,18 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
 
         const GroupIcon = isSafari ? Flame : isSea ? Waves : isTransfer ? Car : MapPin;
 
-        const sectionClasses = isSecondInPair
-          ? 'h-[calc(100svh-var(--header-h))] relative md:w-1/2 md:ms-[50%] md:border-s md:border-white/10 md:shadow-[-12px_0_30px_-14px_rgba(0,0,0,0.35)]'
-          : 'h-[calc(100svh-var(--header-h))] relative w-full';
+        // Desktop 2-Card System:
+        // Trip 0 is the full-width white base with fixed logo watermark.
+        // Even trips (0, 2, 4...) occupy start (right) half on desktop.
+        // Odd trips (1, 3, 5...) occupy end (left) half on desktop.
+        // On desktop, sections after 0 are md:bg-transparent so ONLY the cards slide up!
+        const sectionClasses = i === 0
+          ? 'h-[calc(100svh-var(--header-h))] relative w-full'
+          : isSecondInPair
+          ? 'h-[calc(100svh-var(--header-h))] relative w-full md:w-1/2 md:ms-[50%] md:shadow-none'
+          : 'h-[calc(100svh-var(--header-h))] relative w-full md:w-1/2 md:start-0 md:shadow-none';
+
+        const sectionBg = i === 0 ? 'bg-white' : 'bg-white md:bg-transparent';
 
         return (
           <StackSection
@@ -321,34 +330,37 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
             as="article"
             index={globalIndex}
             id={`trip-${trip.slug}`}
-            bg="bg-neutral-900"
+            bg={sectionBg}
             className={sectionClasses}
           >
-            {/* Sleek Branded Luxury Background with Logo Watermark */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#060D1A] via-[#0A1628] to-[#060D1A] pointer-events-none overflow-hidden">
-              {/* Ambient Radial Lighting Glow */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(2,132,199,0.14)_0%,transparent_70%)]" />
+            {/* Fixed White Canvas with Logo Watermark (Rendered on Base Section 0) */}
+            {i === 0 && (
+              <div className="absolute inset-0 bg-white pointer-events-none overflow-hidden">
+                {/* Subtle Ambient Radial Glow */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(2,132,199,0.035)_0%,transparent_70%)]" />
 
-              {/* Subtle El Hana Logo Watermark in Background */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <img
-                  src="/logo-transparent.webp"
-                  alt=""
-                  aria-hidden="true"
-                  className="w-80 h-80 sm:w-[480px] sm:h-[480px] object-contain opacity-[0.07] brightness-125 select-none pointer-events-none filter drop-shadow-[0_0_80px_rgba(2,132,199,0.3)]"
-                />
+                {/* Subtle El Hana Logo Watermark in Center of Screen */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img
+                    src="/logo-transparent.webp"
+                    alt=""
+                    aria-hidden="true"
+                    className="w-72 h-72 sm:w-96 sm:h-96 lg:w-[460px] lg:h-[460px] object-contain opacity-[0.045] grayscale brightness-90 select-none pointer-events-none"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Dark Ambient Gradient for High Contrast */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-
-            {/* Active Column Container: on Desktop 1st card occupies start (right) half, 2nd card occupies full half */}
-            <div className={`relative h-full w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 z-10 ${isFirstInPair ? 'md:w-1/2 md:start-0' : ''}`}>
-              {/* Unified Luxury Experience Card */}
-              <div className="w-full max-w-[440px] lg:max-w-[480px] bg-white/95 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl border border-white/40 flex flex-col transition-all duration-300 hover:shadow-cyan-500/15">
+            {/* Active Card Column Container */}
+            <div
+              className={`relative h-full w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 z-10 ${
+                i === 0 ? 'md:w-1/2 md:start-0' : ''
+              }`}
+            >
+              {/* Unified Clean Luxury Travel Card */}
+              <div className="w-full max-w-[430px] lg:max-w-[460px] bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-900/10 border border-slate-200/80 flex flex-col transition-all duration-300 hover:shadow-2xl hover:border-slate-300">
                 {/* High-Resolution Photo Bay */}
-                <div className="relative h-56 sm:h-64 lg:h-72 w-full overflow-hidden bg-slate-900 group">
+                <div className="relative h-56 sm:h-64 lg:h-72 w-full overflow-hidden bg-slate-100 group">
                   <picture className="w-full h-full">
                     <source srcSet={toWebp(trip.image)} type="image/webp" />
                     <img
@@ -367,16 +379,16 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
                     />
                   </picture>
 
-                  {/* Gradient on image bottom */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/20 pointer-events-none" />
+                  {/* Gradient on bottom of photo for contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
 
-                  {/* Top Badges: Category & Counter */}
+                  {/* Top Floating Badges: Category & Counter */}
                   <div className="absolute top-3.5 inset-x-4 flex items-center justify-between pointer-events-none">
-                    <span className="px-3 py-1 rounded-full text-xs font-black bg-black/60 backdrop-blur-md text-white border border-white/20 flex items-center gap-1.5 shadow-md">
-                      <GroupIcon className="w-3.5 h-3.5 text-amber-400" />
-                      <span>{trip.categoryBadge}</span>
+                    <span className="px-3 py-1 rounded-full text-xs font-black bg-white/95 backdrop-blur-md text-slate-800 border border-slate-200/80 flex items-center gap-1.5 shadow-sm">
+                      <GroupIcon className="w-3.5 h-3.5 text-amber-500" />
+                      <span className={badgeColor}>{trip.categoryBadge}</span>
                     </span>
-                    <span dir="ltr" className="text-xs font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20 shadow-md">
+                    <span dir="ltr" className="text-xs font-mono font-bold text-slate-700 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-slate-200/80 shadow-sm">
                       {pad(i + 1)} / {pad(total)}
                     </span>
                   </div>
@@ -399,7 +411,7 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
                     <div className="flex items-center gap-3">
                       <span className="flex items-center gap-1 font-bold text-amber-500">
                         <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
-                        <span className="text-sm font-black">{trip.rating}</span>
+                        <span className="text-sm font-black text-slate-900">{trip.rating}</span>
                       </span>
                       <span className="flex items-center gap-1 text-slate-500 font-medium">
                         <Clock className="w-3.5 h-3.5 text-slate-400" />
@@ -440,18 +452,18 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
             </div>
 
             {/* Desktop Teaser on 2nd Half: Informs user that the next trip will slide in beside this one */}
-            {isFirstInPair && nextTrip && (
+            {i === 0 && nextTrip && (
               <div className="hidden md:flex absolute end-0 top-0 bottom-0 w-1/2 items-center justify-center p-8 pointer-events-none z-10">
-                <div className="flex flex-col items-center gap-3 p-6 rounded-3xl bg-white/[0.04] backdrop-blur-md border border-white/10 text-white shadow-2xl max-w-[360px] text-center pointer-events-auto">
-                  <span className="text-xs uppercase tracking-wider text-[#00f5ff] font-bold">
+                <div className="flex flex-col items-center gap-2.5 p-6 rounded-3xl bg-slate-50/90 backdrop-blur-md border border-slate-200/80 text-slate-800 shadow-sm max-w-[340px] text-center pointer-events-auto">
+                  <span className="text-[11px] uppercase tracking-wider text-[#0284C7] font-black">
                     {isAr ? 'الرحلة التالية' : 'Next Adventure'}
                   </span>
-                  <span className="text-base font-black text-white line-clamp-2">
+                  <span className="text-sm font-black text-slate-900 line-clamp-1">
                     {nextTrip.title}
                   </span>
-                  <span className="inline-flex items-center gap-2 text-xs font-bold text-slate-300 bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 mt-1">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-xs mt-1">
                     <span>{isAr ? 'مرّر لأسفل لعرض الرحلة' : 'Scroll down to reveal'}</span>
-                    <span className="animate-bounce text-[#00f5ff]">↓</span>
+                    <span className="animate-bounce text-[#0284C7]">↓</span>
                   </span>
                 </div>
               </div>
