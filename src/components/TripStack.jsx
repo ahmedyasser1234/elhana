@@ -353,14 +353,14 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
 
             {/* Active Card Column Container */}
             <div
-              className={`relative h-full w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 z-10 ${
+              className={`relative h-full w-full flex items-center justify-center p-3 sm:p-5 lg:p-6 xl:p-8 z-10 ${
                 i === 0 ? 'md:w-1/2 md:start-0' : ''
               }`}
             >
-              {/* Unified Clean Luxury Travel Card */}
-              <div className="w-full max-w-[430px] lg:max-w-[460px] bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-900/10 border border-slate-200/80 flex flex-col transition-all duration-300 hover:shadow-2xl hover:border-slate-300">
-                {/* High-Resolution Photo Bay */}
-                <div className="relative h-56 sm:h-64 lg:h-72 w-full overflow-hidden bg-slate-100 group">
+              {/* Unified Clean Luxury Travel Card - Wide & Immersive */}
+              <div className="w-full max-w-[560px] lg:max-w-[640px] xl:max-w-[700px] 2xl:max-w-[760px] bg-white rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/10 border border-slate-200/90 flex flex-col transition-all duration-300 hover:shadow-2xl hover:border-slate-300">
+                {/* High-Resolution Photo Bay - Expansive & Cinematic */}
+                <div className="relative h-60 sm:h-72 lg:h-80 xl:h-96 w-full overflow-hidden bg-slate-100 group">
                   <picture className="w-full h-full">
                     <source srcSet={toWebp(trip.image)} type="image/webp" />
                     <img
@@ -383,66 +383,82 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
 
                   {/* Top Floating Badges: Category & Counter */}
-                  <div className="absolute top-3.5 inset-x-4 flex items-center justify-between pointer-events-none">
-                    <span className="px-3 py-1 rounded-full text-xs font-black bg-white/95 backdrop-blur-md text-slate-800 border border-slate-200/80 flex items-center gap-1.5 shadow-sm">
-                      <GroupIcon className="w-3.5 h-3.5 text-amber-500" />
+                  <div className="absolute top-4 inset-x-5 flex items-center justify-between pointer-events-none">
+                    <span className="px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-black bg-white/95 backdrop-blur-md text-slate-800 border border-slate-200/80 flex items-center gap-2 shadow-md">
+                      <GroupIcon className="w-4 h-4 text-amber-500" />
                       <span className={badgeColor}>{trip.categoryBadge}</span>
                     </span>
-                    <span dir="ltr" className="text-xs font-mono font-bold text-slate-700 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-slate-200/80 shadow-sm">
+                    <span dir="ltr" className="text-xs sm:text-sm font-mono font-bold text-slate-700 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full border border-slate-200/80 shadow-md">
                       {pad(i + 1)} / {pad(total)}
                     </span>
                   </div>
                 </div>
 
                 {/* Details Body */}
-                <div className="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-3.5">
+                <div className="p-5 sm:p-6 lg:p-7 flex flex-col justify-between flex-1 space-y-4">
                   {/* Title & Short Description */}
-                  <div className="space-y-1.5">
-                    <h2 className="text-xl sm:text-2xl font-black font-heading leading-tight text-slate-900 line-clamp-1 hover:text-[#0284C7] transition-colors">
+                  <div className="space-y-2">
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-black font-heading leading-tight text-slate-900 line-clamp-2 hover:text-[#0284C7] transition-colors">
                       <Link to={trip.href}>{trip.title}</Link>
                     </h2>
-                    <p className="text-xs sm:text-sm leading-relaxed text-slate-600 line-clamp-2">
+                    <p className="text-xs sm:text-sm lg:text-base leading-relaxed text-slate-600 line-clamp-2">
                       {trip.subtitle}
                     </p>
                   </div>
 
+                  {/* Quick Feature Highlights Row */}
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      <span>{isAr ? 'شامل الانتقالات والتوصيل' : 'Roundtrip Hotel Transfer'}</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-sky-800 bg-sky-50 px-2.5 py-1 rounded-lg border border-sky-200/60">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                      <span>{isAr ? 'مرشد سياحي معتمد' : 'Certified Tour Guide'}</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200/60">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                      <span>{isAr ? 'تأكيد فوري وضمان أفضل سعر' : 'Instant Confirmation'}</span>
+                    </span>
+                  </div>
+
                   {/* Meta Row: Rating, Duration & Price */}
-                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1 font-bold text-amber-500">
-                        <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
-                        <span className="text-sm font-black text-slate-900">{trip.rating}</span>
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-4">
+                      <span className="flex items-center gap-1.5 font-bold text-amber-500">
+                        <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400 text-amber-400 shrink-0" />
+                        <span className="text-sm sm:text-base font-black text-slate-900">{trip.rating}</span>
                       </span>
-                      <span className="flex items-center gap-1 text-slate-500 font-medium">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
+                      <span className="flex items-center gap-1.5 text-slate-500 font-semibold">
+                        <Clock className="w-4 h-4 text-slate-400" />
                         <span>{trip.duration}</span>
                       </span>
                     </div>
 
                     <div className="text-end">
-                      <span className="text-[10px] text-slate-400 block leading-none mb-0.5">
+                      <span className="text-[10px] sm:text-xs text-slate-400 block leading-none mb-0.5 font-semibold">
                         {isAr ? 'السعر يبدأ من' : 'From'}
                       </span>
-                      <span className="text-lg sm:text-xl font-black text-[#0284C7] leading-none">
+                      <span className="text-xl sm:text-2xl lg:text-3xl font-black text-[#0284C7] leading-none">
                         {formatPrice(trip.startingPrice)}
                       </span>
                     </div>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="pt-1 flex items-center justify-between gap-3">
+                  <div className="pt-1 flex items-center justify-between gap-3 sm:gap-4">
                     <Link
                       to={trip.href}
                       aria-label={`${t('trips.view', 'عرض الرحلة')}: ${trip.title}`}
-                      className="inline-flex items-center justify-center gap-2 flex-1 py-3 rounded-2xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white text-xs sm:text-sm font-bold shadow-md shadow-[#0284C7]/20 hover:shadow-lg transition-all group/btn cursor-pointer"
+                      className="inline-flex items-center justify-center gap-2 flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white text-xs sm:text-sm lg:text-base font-bold shadow-lg shadow-[#0284C7]/20 hover:shadow-xl hover:shadow-[#0284C7]/30 transition-all group/btn cursor-pointer"
                     >
                       <span>{isTransfer ? (isAr ? 'حجز وتفاصيل الانتقالات' : 'Book Transfers') : t('trips.view', 'عرض تفاصيل الرحلة')}</span>
-                      <ArrowIcon className="w-4 h-4 transition-transform group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1" />
+                      <ArrowIcon className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1" />
                     </Link>
 
                     <Link
                       to="/experiences"
-                      className="text-xs font-bold text-slate-600 hover:text-[#0284C7] px-2 py-2 transition-colors whitespace-nowrap cursor-pointer"
+                      className="text-xs sm:text-sm font-bold text-slate-600 hover:text-[#0284C7] px-3 py-2 transition-colors whitespace-nowrap cursor-pointer"
                     >
                       {isAr ? 'جميع الرحلات ←' : 'All Tours →'}
                     </Link>
@@ -454,15 +470,15 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
             {/* Desktop Teaser on 2nd Half: Informs user that the next trip will slide in beside this one */}
             {i === 0 && nextTrip && (
               <div className="hidden md:flex absolute end-0 top-0 bottom-0 w-1/2 items-center justify-center p-8 pointer-events-none z-10">
-                <div className="flex flex-col items-center gap-2.5 p-6 rounded-3xl bg-slate-50/90 backdrop-blur-md border border-slate-200/80 text-slate-800 shadow-sm max-w-[340px] text-center pointer-events-auto">
-                  <span className="text-[11px] uppercase tracking-wider text-[#0284C7] font-black">
+                <div className="flex flex-col items-center gap-3 p-8 rounded-3xl bg-slate-50/90 backdrop-blur-md border border-slate-200/80 text-slate-800 shadow-lg max-w-[420px] text-center pointer-events-auto">
+                  <span className="text-xs uppercase tracking-wider text-[#0284C7] font-black">
                     {isAr ? 'الرحلة التالية' : 'Next Adventure'}
                   </span>
-                  <span className="text-sm font-black text-slate-900 line-clamp-1">
+                  <span className="text-base sm:text-lg font-black text-slate-900 line-clamp-2">
                     {nextTrip.title}
                   </span>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-xs mt-1">
-                    <span>{isAr ? 'مرّر لأسفل لعرض الرحلة' : 'Scroll down to reveal'}</span>
+                  <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-600 bg-white px-4 py-1.5 rounded-full border border-slate-200 shadow-xs mt-1">
+                    <span>{isAr ? 'مرّر لأسفل لعرض الرحلة جنباً إلى جنب' : 'Scroll down to reveal'}</span>
                     <span className="animate-bounce text-[#0284C7]">↓</span>
                   </span>
                 </div>
