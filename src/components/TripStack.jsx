@@ -324,120 +324,134 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
             bg="bg-neutral-900"
             className={sectionClasses}
           >
-            {/* Ambient Blurred Background (smoothly fills wide screens so no empty black borders appear) */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img
-                src={trip.image}
-                alt=""
-                aria-hidden="true"
-                className="h-full w-full object-cover blur-2xl scale-110 opacity-50 brightness-75"
-              />
+            {/* Sleek Branded Luxury Background with Logo Watermark */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#060D1A] via-[#0A1628] to-[#060D1A] pointer-events-none overflow-hidden">
+              {/* Ambient Radial Lighting Glow */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(2,132,199,0.14)_0%,transparent_70%)]" />
+
+              {/* Subtle El Hana Logo Watermark in Background */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <img
+                  src="/logo-transparent.webp"
+                  alt=""
+                  aria-hidden="true"
+                  className="w-80 h-80 sm:w-[480px] sm:h-[480px] object-contain opacity-[0.07] brightness-125 select-none pointer-events-none filter drop-shadow-[0_0_80px_rgba(2,132,199,0.3)]"
+                />
+              </div>
             </div>
 
             {/* Dark Ambient Gradient for High Contrast */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
-            {/* Main Active Column: on Desktop 1st card occupies start (right) half, 2nd card occupies full half */}
-            <div className={`relative h-full w-full ${isFirstInPair ? 'md:w-1/2 md:start-0' : ''}`}>
-              {/* Full High-Res Photographic Image - completely visible without cropping */}
-              <picture className="absolute inset-0 h-full w-full flex items-center justify-center">
-                <source srcSet={toWebp(trip.image)} type="image/webp" />
-                <img
-                  src={trip.image}
-                  alt={trip.title}
-                  width="1600"
-                  height="900"
-                  loading="lazy"
-                  decoding="async"
-                  onError={(e) => {
-                    const fallback = '/images/real/user-atv-safari.webp';
-                    if (e.currentTarget.src !== fallback && !e.currentTarget.src.endsWith(fallback)) {
-                      e.currentTarget.src = fallback;
-                    }
-                  }}
-                  className="h-full w-full object-contain"
-                  style={{ objectPosition: trip.focus || 'center' }}
-                />
-              </picture>
+            {/* Active Column Container: on Desktop 1st card occupies start (right) half, 2nd card occupies full half */}
+            <div className={`relative h-full w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 z-10 ${isFirstInPair ? 'md:w-1/2 md:start-0' : ''}`}>
+              {/* Unified Luxury Experience Card */}
+              <div className="w-full max-w-[440px] lg:max-w-[480px] bg-white/95 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl border border-white/40 flex flex-col transition-all duration-300 hover:shadow-cyan-500/15">
+                {/* High-Resolution Photo Bay */}
+                <div className="relative h-56 sm:h-64 lg:h-72 w-full overflow-hidden bg-slate-900 group">
+                  <picture className="w-full h-full">
+                    <source srcSet={toWebp(trip.image)} type="image/webp" />
+                    <img
+                      src={trip.image}
+                      alt={trip.title}
+                      loading="lazy"
+                      decoding="async"
+                      onError={(e) => {
+                        const fallback = '/images/real/user-atv-safari.webp';
+                        if (e.currentTarget.src !== fallback && !e.currentTarget.src.endsWith(fallback)) {
+                          e.currentTarget.src = fallback;
+                        }
+                      }}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      style={{ objectPosition: trip.focus || 'center 40%' }}
+                    />
+                  </picture>
 
-              {/* Floating Glassmorphic Trip Details Card */}
-              <div
-                className="absolute inset-x-4 bottom-6 md:bottom-8 md:inset-x-6 max-w-[420px] mx-auto bg-white/95 backdrop-blur-md p-5 sm:p-6 shadow-2xl rounded-3xl md:p-6 border border-white/60 space-y-3.5 transition-all duration-300"
-              >
-                {/* Category & Counter */}
-                <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
-                  <span className={`text-xs sm:text-sm font-black flex items-center gap-1.5 ${badgeColor}`}>
-                    <GroupIcon className="w-4 h-4 shrink-0" />
-                    <span>{trip.categoryBadge}</span>
-                  </span>
-                  <p dir="ltr" className="text-xs font-mono font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">
-                    {pad(i + 1)} / {pad(total)}
-                  </p>
-                </div>
+                  {/* Gradient on image bottom */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/20 pointer-events-none" />
 
-                {/* Title & Short Description */}
-                <div className="space-y-1.5">
-                  <h2 className="text-xl sm:text-2xl font-black font-heading leading-tight text-slate-900 line-clamp-2">
-                    {trip.title}
-                  </h2>
-                  <p className="text-xs sm:text-sm leading-relaxed text-slate-600 line-clamp-3">
-                    {trip.subtitle}
-                  </p>
-                </div>
-
-                {/* Meta Row: Rating, Duration & Price */}
-                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-3">
-                    <span className="flex items-center gap-1 font-bold text-amber-500">
-                      <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
-                      <span className="text-sm font-black">{trip.rating}</span>
+                  {/* Top Badges: Category & Counter */}
+                  <div className="absolute top-3.5 inset-x-4 flex items-center justify-between pointer-events-none">
+                    <span className="px-3 py-1 rounded-full text-xs font-black bg-black/60 backdrop-blur-md text-white border border-white/20 flex items-center gap-1.5 shadow-md">
+                      <GroupIcon className="w-3.5 h-3.5 text-amber-400" />
+                      <span>{trip.categoryBadge}</span>
                     </span>
-                    <span className="flex items-center gap-1 text-slate-500 font-medium">
-                      <Clock className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{trip.duration}</span>
-                    </span>
-                  </div>
-
-                  <div className="text-end">
-                    <span className="text-[10px] text-slate-400 block leading-none mb-0.5">
-                      {isAr ? 'السعر يبدأ من' : 'From'}
-                    </span>
-                    <span className="text-lg sm:text-xl font-black text-[#0284C7] leading-none">
-                      {formatPrice(trip.startingPrice)}
+                    <span dir="ltr" className="text-xs font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20 shadow-md">
+                      {pad(i + 1)} / {pad(total)}
                     </span>
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="pt-1 flex items-center justify-between gap-3">
-                  <Link
-                    to={trip.href}
-                    aria-label={`${t('trips.view', 'عرض الرحلة')}: ${trip.title}`}
-                    className="inline-flex items-center justify-center gap-2 flex-1 py-3 rounded-2xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white text-xs sm:text-sm font-bold shadow-md shadow-[#0284C7]/20 hover:shadow-lg transition-all group/btn cursor-pointer"
-                  >
-                    <span>{isTransfer ? (isAr ? 'حجز وتفاصيل الانتقالات' : 'Book Transfers') : t('trips.view', 'عرض تفاصيل الرحلة')}</span>
-                    <ArrowIcon className="w-4 h-4 transition-transform group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1" />
-                  </Link>
+                {/* Details Body */}
+                <div className="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-3.5">
+                  {/* Title & Short Description */}
+                  <div className="space-y-1.5">
+                    <h2 className="text-xl sm:text-2xl font-black font-heading leading-tight text-slate-900 line-clamp-1 hover:text-[#0284C7] transition-colors">
+                      <Link to={trip.href}>{trip.title}</Link>
+                    </h2>
+                    <p className="text-xs sm:text-sm leading-relaxed text-slate-600 line-clamp-2">
+                      {trip.subtitle}
+                    </p>
+                  </div>
 
-                  <Link
-                    to="/experiences"
-                    className="text-xs font-bold text-slate-600 hover:text-[#0284C7] px-2 py-2 transition-colors whitespace-nowrap cursor-pointer"
-                  >
-                    {isAr ? 'جميع الرحلات ←' : 'All Tours →'}
-                  </Link>
+                  {/* Meta Row: Rating, Duration & Price */}
+                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1 font-bold text-amber-500">
+                        <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
+                        <span className="text-sm font-black">{trip.rating}</span>
+                      </span>
+                      <span className="flex items-center gap-1 text-slate-500 font-medium">
+                        <Clock className="w-3.5 h-3.5 text-slate-400" />
+                        <span>{trip.duration}</span>
+                      </span>
+                    </div>
+
+                    <div className="text-end">
+                      <span className="text-[10px] text-slate-400 block leading-none mb-0.5">
+                        {isAr ? 'السعر يبدأ من' : 'From'}
+                      </span>
+                      <span className="text-lg sm:text-xl font-black text-[#0284C7] leading-none">
+                        {formatPrice(trip.startingPrice)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="pt-1 flex items-center justify-between gap-3">
+                    <Link
+                      to={trip.href}
+                      aria-label={`${t('trips.view', 'عرض الرحلة')}: ${trip.title}`}
+                      className="inline-flex items-center justify-center gap-2 flex-1 py-3 rounded-2xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white text-xs sm:text-sm font-bold shadow-md shadow-[#0284C7]/20 hover:shadow-lg transition-all group/btn cursor-pointer"
+                    >
+                      <span>{isTransfer ? (isAr ? 'حجز وتفاصيل الانتقالات' : 'Book Transfers') : t('trips.view', 'عرض تفاصيل الرحلة')}</span>
+                      <ArrowIcon className="w-4 h-4 transition-transform group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1" />
+                    </Link>
+
+                    <Link
+                      to="/experiences"
+                      className="text-xs font-bold text-slate-600 hover:text-[#0284C7] px-2 py-2 transition-colors whitespace-nowrap cursor-pointer"
+                    >
+                      {isAr ? 'جميع الرحلات ←' : 'All Tours →'}
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Desktop Teaser on 2nd Half: Informs user that the next trip will slide in beside this one */}
             {isFirstInPair && nextTrip && (
-              <div className="hidden md:flex absolute end-0 top-0 bottom-0 w-1/2 items-end justify-center pb-10 pointer-events-none">
-                <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-black/40 backdrop-blur-md border border-white/15 text-white shadow-xl pointer-events-auto">
-                  <span className="text-xs text-slate-300">{isAr ? 'الرحلة التالية:' : 'Next Tour:'}</span>
-                  <span className="text-xs font-bold text-white line-clamp-1">{nextTrip.title}</span>
-                  <span className="flex items-center gap-1 text-[11px] font-bold text-[#00f5ff] bg-white/10 px-2 py-0.5 rounded-full border border-white/20">
-                    <span>{isAr ? 'مرّر لأسفل' : 'Scroll down'}</span>
-                    <span className="animate-bounce">↓</span>
+              <div className="hidden md:flex absolute end-0 top-0 bottom-0 w-1/2 items-center justify-center p-8 pointer-events-none z-10">
+                <div className="flex flex-col items-center gap-3 p-6 rounded-3xl bg-white/[0.04] backdrop-blur-md border border-white/10 text-white shadow-2xl max-w-[360px] text-center pointer-events-auto">
+                  <span className="text-xs uppercase tracking-wider text-[#00f5ff] font-bold">
+                    {isAr ? 'الرحلة التالية' : 'Next Adventure'}
+                  </span>
+                  <span className="text-base font-black text-white line-clamp-2">
+                    {nextTrip.title}
+                  </span>
+                  <span className="inline-flex items-center gap-2 text-xs font-bold text-slate-300 bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 mt-1">
+                    <span>{isAr ? 'مرّر لأسفل لعرض الرحلة' : 'Scroll down to reveal'}</span>
+                    <span className="animate-bounce text-[#00f5ff]">↓</span>
                   </span>
                 </div>
               </div>
