@@ -297,13 +297,13 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
         const isTransfer = trip.group === 'transfers';
         const isOutsideSharm = trip.group === 'outside-sharm';
 
-        const badgeStyle = isSafari
-          ? 'bg-amber-50 text-amber-700 border-amber-200'
+        const badgeColor = isSafari
+          ? 'text-amber-600'
           : isSea
-          ? 'bg-sky-50 text-[#0284C7] border-sky-200'
+          ? 'text-[#0284C7]'
           : isTransfer
-          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-          : 'bg-purple-50 text-purple-700 border-purple-200';
+          ? 'text-emerald-600'
+          : 'text-purple-600';
 
         const GroupIcon = isSafari ? Flame : isSea ? Waves : isTransfer ? Car : MapPin;
 
@@ -316,8 +316,18 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
             bg="bg-neutral-900"
             className="h-[calc(100svh-var(--header-h))] relative"
           >
-            {/* Full-Bleed High-Res Photographic Background */}
-            <picture className="absolute inset-0 h-full w-full">
+            {/* Ambient Blurred Background (smoothly fills wide screens so no empty black borders appear) */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <img
+                src={trip.image}
+                alt=""
+                aria-hidden="true"
+                className="h-full w-full object-cover blur-2xl scale-110 opacity-50 brightness-75"
+              />
+            </div>
+
+            {/* Full High-Res Photographic Image - completely visible without cropping */}
+            <picture className="absolute inset-0 h-full w-full flex items-center justify-center">
               <source srcSet={toWebp(trip.image)} type="image/webp" />
               <img
                 src={trip.image}
@@ -332,13 +342,13 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
                     e.currentTarget.src = fallback;
                   }
                 }}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 style={{ objectPosition: trip.focus || 'center' }}
               />
             </picture>
 
             {/* Dark Ambient Gradient for High Contrast */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent md:bg-black/20" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
 
             {/* Floating Glassmorphic Trip Details Card */}
             <div
@@ -346,8 +356,8 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
             >
               {/* Category & Counter */}
               <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
-                <span className={`px-3 py-1 rounded-full text-xs font-black border flex items-center gap-1.5 shadow-xs ${badgeStyle}`}>
-                  <GroupIcon className="w-3.5 h-3.5" />
+                <span className={`text-xs sm:text-sm font-black flex items-center gap-1.5 ${badgeColor}`}>
+                  <GroupIcon className="w-4 h-4 shrink-0" />
                   <span>{trip.categoryBadge}</span>
                 </span>
                 <p dir="ltr" className="text-xs font-mono font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">
@@ -367,10 +377,10 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
 
               {/* Meta Row: Rating, Duration & Price */}
               <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="flex items-center gap-1 font-bold text-amber-500 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
-                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                    <span>{trip.rating}</span>
+                <div className="flex items-center gap-3">
+                  <span className="flex items-center gap-1 font-bold text-amber-500">
+                    <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
+                    <span className="text-sm font-black">{trip.rating}</span>
                   </span>
                   <span className="flex items-center gap-1 text-slate-500 font-medium">
                     <Clock className="w-3.5 h-3.5 text-slate-400" />
