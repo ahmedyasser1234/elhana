@@ -26,7 +26,7 @@ export const VEHICLE_TYPES = [
     tagEn: "Minivan (6 Pax)",
     maxPassengers: 6,
     maxLuggage: 6,
-    image: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/family-minivan-sharm.jpg",
     description: "Comfortable, spacious 6-passenger family minivan with wide legroom and generous cargo trunk for 6 bags.",
     descriptionAr: "فان عائلي مريح ومكيف يتسع لـ 6 ركاب و 6 حقائب سفر، الخيار الأمثل للعائلات ومجموعات الأصدقاء.",
     basePrice: 30,
@@ -41,7 +41,7 @@ export const VEHICLE_TYPES = [
     tagEn: "HiAce (14-15 Pax)",
     maxPassengers: 15,
     maxLuggage: 15,
-    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/hiace-van-sharm.jpg",
     description: "High-roof tourist Toyota HiAce passenger van with 14-15 comfortable seats, dual powerful A/C, and huge luggage space.",
     descriptionAr: "ميكروباص سياحي تويوتا هاي إيس سقف عالي مكيف ومجهز بالكامل، يتسع لـ 14 إلى 15 راكب مع مساحة واسعة لجميع الحقائب للمجموعات الكبيرة.",
     basePrice: 45,
@@ -68,8 +68,7 @@ export const FLEET_CARS = [
     gallery: [
       "/images/transfers/vip-transfers-sharm.jpg",
       "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
+      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
     ],
     descriptionAr: "ليموزين مرسيدس E-Class الألمانية الفاخرة، صالون جلدي ناعم ومريح، عزل صوتي كامل، تكييف رقمي مزدوج، وسائق VIP خاص بزي رسمي مع لافتة استقبال باسمك.",
     descriptionEn: "German luxury Mercedes-Benz E-Class VIP limousine with premium leather interior, whisper-quiet cabin, digital climate A/C, and chauffeur in formal attire.",
@@ -108,9 +107,9 @@ export const FLEET_CARS = [
     maxPassengers: 3,
     maxLuggage: 3,
     basePrice: 20,
-    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/corolla-sedan-sharm.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80",
+      "/images/transfers/corolla-sedan-sharm.jpg",
       "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
     ],
@@ -153,11 +152,11 @@ export const FLEET_CARS = [
     maxPassengers: 6,
     maxLuggage: 6,
     basePrice: 30,
-    image: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/family-minivan-sharm.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
+      "/images/transfers/family-minivan-sharm.jpg",
+      "/images/transfers/hiace-van-interior.jpg",
+      "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80"
     ],
     descriptionAr: "ميني فان عائلي مريح تويوتا إنوفا، مقاعد كابتن واسعة ومريحة لـ 6 ركاب مع تكييف هواء مركزي أمامي وخلفي ومساحة واسعة تتسع لـ 6 حقائب سفر كبيرة.",
     descriptionEn: "Spacious Toyota Innova 6-passenger family minivan with wide captain seats, dual front & rear A/C, and generous luggage cargo for 6 bags.",
@@ -196,11 +195,11 @@ export const FLEET_CARS = [
     maxPassengers: 6,
     maxLuggage: 6,
     basePrice: 38,
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/family-minivan-sharm.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
+      "/images/transfers/family-minivan-sharm.jpg",
+      "/images/transfers/hiace-van-interior.jpg",
+      "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80"
     ],
     descriptionAr: "أحدث طرازات هيونداي ستاريا الفاخرة بتصميم مستقبلي ونوافذ بانورامية واسعة ومقاعد كابتن جلدية منفصلة لـ 6 ركاب مع تكييف رقمي مستقل لكل مقعد.",
     descriptionEn: "Top-tier futuristic Hyundai Staria VIP van with panoramic glass windows, executive leather captain chairs for 6 guests, and individual climate controls.",
@@ -241,11 +240,11 @@ export const FLEET_CARS = [
     maxPassengers: 14,
     maxLuggage: 14,
     basePrice: 45,
-    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/hiace-van-sharm.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
+      "/images/transfers/hiace-van-sharm.jpg",
+      "/images/transfers/hiace-van-interior.jpg",
+      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80"
     ],
     descriptionAr: "ميكروباص سياحي تويوتا هاي إيس سقف عالي مكيف ومجهز بالكامل، يتسع لـ 14 راكب بسهولة حركة ووقوف بالداخل ومساحة خلفية ضخمة لـ 14 حقيبة سفر كبيرة للمجموعات السياحية.",
     descriptionEn: "High-roof tourist Toyota HiAce microbus with 14 comfortable seats, dual heavy-duty air conditioning, and massive luggage cargo for 14 large bags.",
@@ -284,11 +283,11 @@ export const FLEET_CARS = [
     maxPassengers: 15,
     maxLuggage: 15,
     basePrice: 50,
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/hiace-van-sharm.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
+      "/images/transfers/hiace-van-sharm.jpg",
+      "/images/transfers/hiace-van-interior.jpg",
+      "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80"
     ],
     descriptionAr: "النسخة الأعلى تجهيزاً من تويوتا هاي إيس، صالون فخم بمقاعد مخملية مريحة تتسع لـ 15 راكب مع فتحات تكييف مستقلة فوق كل مقعد ومساحة واسعة لجميع الحقائب.",
     descriptionEn: "Top-trim Super GL VIP HiAce with plush upholstered seating, dual powerful air conditioners with overhead vents, accommodating 15 guests comfortably.",
@@ -315,7 +314,6 @@ export const FLEET_CARS = [
       driver: "Veteran Sinai Highway Chauffeur"
     }
   },
-
 ];
 
 export const getCarsByCategory = (catId) => {
@@ -339,7 +337,7 @@ export const TRANSFER_GALLERY = [
     badgeEn: "Limousine 3 Pax",
     price: 20,
     image: "/images/transfers/vip-transfers-sharm.jpg",
-    thumb: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=300&q=80"
+    thumb: "/images/transfers/vip-transfers-sharm.jpg"
   },
   {
     id: "gal-minivan6",
@@ -352,8 +350,8 @@ export const TRANSFER_GALLERY = [
     badgeAr: "ميني فان 6 راكب",
     badgeEn: "Minivan 6 Pax",
     price: 30,
-    image: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80",
-    thumb: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=300&q=80"
+    image: "/images/transfers/family-minivan-sharm.jpg",
+    thumb: "/images/transfers/family-minivan-sharm.jpg"
   },
   {
     id: "gal-hiace",
@@ -366,8 +364,8 @@ export const TRANSFER_GALLERY = [
     badgeAr: "هاي إيس 14-15 راكب",
     badgeEn: "HiAce 14-15 Pax",
     price: 45,
-    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
-    thumb: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=300&q=80"
+    image: "/images/transfers/hiace-van-sharm.jpg",
+    thumb: "/images/transfers/hiace-van-sharm.jpg"
   }
 ];
 

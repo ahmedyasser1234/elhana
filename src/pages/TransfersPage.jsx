@@ -139,7 +139,15 @@ export const TransfersPage = () => {
         structuredData={structuredData}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10">
+
+        {/* Breadcrumbs */}
+        <Breadcrumbs 
+          items={[
+            { label: isAr ? 'الرئيسية' : 'Home', link: '/' }, 
+            { label: isAr ? 'الانتقالات وتوصيل المطار' : 'Transfers' }
+          ]} 
+        />
 
         {/* ── 1. TITLE HEADER ─────────────────────────────────── */}
         <div className="space-y-3">
@@ -175,45 +183,56 @@ export const TransfersPage = () => {
         {/* ── 2. DYNAMIC VEHICLE & CAR SHOWCASE (فئات الانتقالات وسيارات كل فئة) ────────── */}
         <div className="space-y-4">
           
-          {/* Top Category Tabs Selector */}
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2 sm:p-2.5 border border-sky-100 shadow-sm flex items-center gap-2 overflow-x-auto [scrollbar-width:none]">
-            <span className="text-xs font-black text-slate-800 px-3 py-1 shrink-0 hidden sm:inline-flex items-center gap-1.5 border-e border-slate-200">
-              <Car className="w-4 h-4 text-[#0284C7]" />
-              <span>{isAr ? 'اختر فئة السيارة:' : 'Select Vehicle Class:'}</span>
-            </span>
-
-            <div className="flex items-center gap-2 w-full sm:w-auto">
-              {VEHICLE_TYPES.map((cat) => {
-                const isCatActive = selectedVehicleId === cat.id;
-                const catCars = getCarsByCategory(cat.id);
-                return (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => handleSelectCategory(cat.id)}
-                    className={`flex-1 sm:flex-initial px-3.5 sm:px-5 py-2.5 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 sm:gap-2.5 text-xs sm:text-sm whitespace-nowrap cursor-pointer ${
-                      isCatActive
-                        ? 'bg-slate-900 text-white shadow-md ring-2 ring-[#0284C7] scale-[1.01]'
-                        : 'bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200/80'
-                    }`}
-                  >
-                    <span className="font-extrabold">{isAr ? cat.nameAr : cat.name}</span>
-                    <span className={`text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full ${
-                      isCatActive ? 'bg-[#0284C7] text-white' : 'bg-slate-200/80 text-slate-600'
+          {/* Top Category Segment Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {VEHICLE_TYPES.map((cat) => {
+              const isCatActive = selectedVehicleId === cat.id;
+              const catCars = getCarsByCategory(cat.id);
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => handleSelectCategory(cat.id)}
+                  className={`relative p-3.5 sm:p-4 rounded-2xl text-start transition-all duration-300 cursor-pointer border-2 flex items-center justify-between gap-3 ${
+                    isCatActive
+                      ? 'bg-slate-900 text-white border-[#0284C7] ring-4 ring-[#0284C7]/20 shadow-lg scale-[1.01]'
+                      : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200/90 hover:border-sky-300 shadow-xs'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
+                      isCatActive ? 'bg-[#0284C7] text-white shadow-sm' : 'bg-sky-50 text-[#0284C7]'
                     }`}>
-                      {catCars.length} {isAr ? 'موديلات' : 'Models'}
+                      <Car className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className={`font-black text-xs sm:text-sm truncate ${isCatActive ? 'text-white' : 'text-slate-900'}`}>
+                        {isAr ? cat.nameAr : cat.name}
+                      </h3>
+                      <p className={`text-[11px] font-semibold truncate ${isCatActive ? 'text-slate-300' : 'text-slate-500'}`}>
+                        {catCars.map(c => isAr ? c.nameAr.split(' ')[0] + ' ' + (c.nameAr.split(' ')[1] || '') : c.name.split(' ')[0]).join(' • ')}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="text-end shrink-0">
+                    <span className={`text-[9px] uppercase font-bold block ${isCatActive ? 'text-slate-400' : 'text-slate-400'}`}>
+                      {isAr ? 'تبدأ من' : 'Starts'}
                     </span>
-                  </button>
-                );
-              })}
-            </div>
+                    <span className={`text-sm sm:text-base font-black font-heading ${isCatActive ? 'text-[#38BDF8]' : 'text-[#0284C7]'}`}>
+                      {formatPrice(cat.basePrice)}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
 
           {/* Main 2-Column Showcase */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5 items-stretch">
             
             {/* Main Active Car Viewport (lg:col-span-2) */}
-            <div className="lg:col-span-2 min-h-[380px] sm:min-h-[440px] md:min-h-[480px] lg:min-h-[520px] rounded-3xl overflow-hidden shadow-xl bg-slate-950 border border-sky-100/90 relative group p-4 sm:p-6 flex flex-col justify-between">
+            <div className="lg:col-span-2 min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] rounded-3xl overflow-hidden shadow-xl bg-slate-950 border border-sky-100/90 relative group p-4 sm:p-6 flex flex-col justify-between">
               
               {/* Photo Display with Animated Transition */}
               <AnimatePresence mode="wait">
@@ -238,22 +257,19 @@ export const TransfersPage = () => {
               </AnimatePresence>
 
               {/* Ambient Dark Gradient for Legibility */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/25 to-slate-950/40 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/20 to-slate-950/50 pointer-events-none" />
 
-              {/* Top Bar inside photo: Breadcrumbs + Fullscreen & Gallery Controls */}
+              {/* Top Bar inside photo: Active Car Badge + Photo Switcher & Specs */}
               <div className="relative z-10 flex items-center justify-between gap-2">
-                <Breadcrumbs 
-                  items={[
-                    { label: isAr ? 'الرئيسية' : 'Home', link: '/' }, 
-                    { label: isAr ? 'الانتقالات وتوصيل المطار' : 'Transfers' }
-                  ]} 
-                  variant="hero" 
-                />
+                <div className="flex items-center gap-2 bg-slate-950/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-white text-xs font-bold">
+                  <Car className="w-3.5 h-3.5 text-[#38BDF8]" />
+                  <span>{isAr ? activeCar.nameAr : activeCar.name}</span>
+                </div>
 
                 <div className="flex items-center gap-2">
-                  {/* Photo Switcher Dots/Pills if multiple photos */}
+                  {/* Photo Switcher Pills if multiple photos */}
                   {activeCarPhotos.length > 1 && (
-                    <div className="flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
+                    <div className="flex items-center gap-1 bg-slate-950/80 backdrop-blur-md px-2 py-1 rounded-full border border-white/20">
                       {activeCarPhotos.map((_, pIdx) => (
                         <button
                           key={pIdx}
@@ -262,11 +278,14 @@ export const TransfersPage = () => {
                             e.stopPropagation();
                             setActivePhotoIdx(pIdx);
                           }}
-                          className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-                            activePhotoIdx === pIdx ? 'bg-[#38BDF8] scale-125' : 'bg-white/40 hover:bg-white/80'
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-black transition-all cursor-pointer ${
+                            activePhotoIdx === pIdx 
+                              ? 'bg-[#0284C7] text-white shadow-xs' 
+                              : 'bg-white/10 hover:bg-white/20 text-white/80'
                           }`}
-                          aria-label={`Photo ${pIdx + 1}`}
-                        />
+                        >
+                          {pIdx === 0 ? (isAr ? 'الخارج' : 'Exterior') : pIdx === 1 ? (isAr ? 'الصالون' : 'Cabin') : (pIdx + 1)}
+                        </button>
                       ))}
                     </div>
                   )}
@@ -277,17 +296,17 @@ export const TransfersPage = () => {
                       setFleetModalCar(activeCar);
                       setIsFleetModalOpen(true);
                     }}
-                    className="px-3 py-1.5 rounded-full bg-slate-900/80 hover:bg-slate-900 text-white border border-white/20 text-xs font-bold flex items-center gap-1.5 backdrop-blur-md transition cursor-pointer"
+                    className="px-3 py-1.5 rounded-full bg-slate-950/80 hover:bg-slate-900 text-white border border-white/20 text-xs font-bold flex items-center gap-1.5 backdrop-blur-md transition cursor-pointer"
                   >
                     <Maximize2 className="w-3.5 h-3.5" />
-                    <span>{isAr ? 'عرض الصور والمواصفات' : 'Photos & Specs'}</span>
+                    <span>{isAr ? 'المواصفات والصور' : 'Specs & Photos'}</span>
                   </button>
                 </div>
               </div>
 
               {/* Bottom Floating Info Card for the Active Car */}
               <div className="relative z-10 bg-slate-950/85 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/20 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xl">
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="px-2.5 py-0.5 rounded-full bg-[#0284C7] text-white text-[10px] font-black uppercase tracking-wider shadow-sm">
                       {isAr ? activeCar.tagAr : activeCar.tagEn}
@@ -337,90 +356,114 @@ export const TransfersPage = () => {
 
             </div>
 
-            {/* Side Column: Available Cars for Selected Category (lg:col-span-1) */}
-            <div className="flex flex-col gap-3">
-              <div className="bg-slate-900 text-white rounded-2xl p-3 sm:p-3.5 flex items-center justify-between border border-slate-800 shadow-sm">
-                <div>
-                  <span className="text-[10px] uppercase tracking-wider text-[#38BDF8] font-black block">
-                    {isAr ? 'موديلات الفئة المتاحة' : 'Available Class Models'}
+            {/* Side Column: Available Cars for Selected Category + Guarantees (lg:col-span-1) */}
+            <div className="flex flex-col justify-between gap-3 h-full">
+              <div className="space-y-3">
+                <div className="bg-slate-900 text-white rounded-2xl p-3 sm:p-3.5 flex items-center justify-between border border-slate-800 shadow-sm">
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-[#38BDF8] font-black block">
+                      {isAr ? 'موديلات الفئة المتاحة' : 'Available Class Models'}
+                    </span>
+                    <h4 className="text-xs sm:text-sm font-black text-white">
+                      {isAr ? activeCategoryObj.nameAr : activeCategoryObj.name}
+                    </h4>
+                  </div>
+                  <span className="text-xs font-bold text-slate-300 bg-white/10 px-2.5 py-1 rounded-xl">
+                    {activeCategoryCars.length} {isAr ? 'خيارات' : 'Options'}
                   </span>
-                  <h4 className="text-xs sm:text-sm font-black text-white">
-                    {isAr ? activeCategoryObj.nameAr : activeCategoryObj.name}
-                  </h4>
                 </div>
-                <span className="text-xs font-bold text-slate-300 bg-white/10 px-2.5 py-1 rounded-xl">
-                  {activeCategoryCars.length} {isAr ? 'خيارات' : 'Options'}
-                </span>
+
+                {/* List of Cars Under This Category */}
+                <div className="flex flex-row lg:flex-col gap-2.5 overflow-x-auto lg:overflow-visible pb-1 lg:pb-0 [scrollbar-width:none]">
+                  {activeCategoryCars.map((car) => {
+                    const isCarActive = selectedCarId === car.id;
+                    return (
+                      <motion.button
+                        key={car.id}
+                        type="button"
+                        onClick={() => handleSelectCar(car)}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className={`w-72 sm:w-80 lg:w-full p-3 rounded-2xl border-2 transition-all duration-300 text-start flex items-center gap-3 shrink-0 cursor-pointer shadow-xs ${
+                          isCarActive
+                            ? 'bg-slate-900 text-white border-[#0284C7] ring-2 ring-[#0284C7]/30 shadow-md'
+                            : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200/90 hover:border-sky-300'
+                        }`}
+                      >
+                        {/* Car Thumbnail */}
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 shadow-inner bg-slate-950">
+                          <img
+                            src={car.image}
+                            alt={isAr ? car.nameAr : car.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          {isCarActive && (
+                            <div className="absolute inset-0 bg-sky-500/20 ring-2 ring-inset ring-[#0284C7] rounded-xl pointer-events-none" />
+                          )}
+                          <span className="absolute bottom-1 end-1 bg-black/75 backdrop-blur-xs text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">
+                            📷 {car.gallery?.length || 1}
+                          </span>
+                        </div>
+
+                        {/* Car Info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-1 mb-1">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                              isCarActive ? 'bg-[#0284C7] text-white' : 'bg-sky-50 text-[#0284C7]'
+                            }`}>
+                              {isAr ? car.tagAr : car.tagEn}
+                            </span>
+                            <span className={`text-xs font-black font-heading ${
+                              isCarActive ? 'text-[#38BDF8]' : 'text-[#0284C7]'
+                            }`}>
+                              {formatPrice(car.basePrice)}
+                            </span>
+                          </div>
+
+                          <h4 className={`text-xs sm:text-sm font-extrabold truncate ${isCarActive ? 'text-white' : 'text-slate-900'}`}>
+                            {isAr ? car.nameAr : car.name}
+                          </h4>
+
+                          <div className="flex items-center gap-2 mt-1 text-[11px] font-semibold">
+                            <span className={isCarActive ? 'text-slate-300' : 'text-slate-500'}>
+                              👥 {car.maxPassengers}
+                            </span>
+                            <span className={isCarActive ? 'text-slate-400' : 'text-slate-300'}>•</span>
+                            <span className={isCarActive ? 'text-slate-300' : 'text-slate-500'}>
+                              🧳 {car.maxLuggage}
+                            </span>
+                            <span className={isCarActive ? 'text-slate-400' : 'text-slate-300'}>•</span>
+                            <span className={isCarActive ? 'text-sky-300' : 'text-slate-500'}>
+                              {car.model}
+                            </span>
+                          </div>
+                        </div>
+                      </motion.button>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* List of Cars Under This Category */}
-              <div className="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 [scrollbar-width:none] flex-1">
-                {activeCategoryCars.map((car) => {
-                  const isCarActive = selectedCarId === car.id;
-                  return (
-                    <motion.button
-                      key={car.id}
-                      type="button"
-                      onClick={() => handleSelectCar(car)}
-                      whileHover={{ scale: 1.015 }}
-                      whileTap={{ scale: 0.985 }}
-                      className={`w-72 sm:w-80 lg:w-full p-3 sm:p-3.5 rounded-2xl sm:rounded-3xl border-2 transition-all duration-300 text-start flex items-center gap-3 shrink-0 cursor-pointer shadow-sm ${
-                        isCarActive
-                          ? 'bg-slate-900 text-white border-[#0284C7] ring-4 ring-[#0284C7]/20 shadow-xl'
-                          : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200 hover:border-sky-300'
-                      }`}
-                    >
-                      {/* Car Thumbnail */}
-                      <div className="relative w-20 h-20 rounded-xl sm:rounded-2xl overflow-hidden shrink-0 shadow-inner bg-slate-950">
-                        <img
-                          src={car.image}
-                          alt={isAr ? car.nameAr : car.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        {isCarActive && (
-                          <div className="absolute inset-0 bg-sky-500/20 ring-2 ring-inset ring-[#0284C7] rounded-xl sm:rounded-2xl pointer-events-none" />
-                        )}
-                        <span className="absolute bottom-1 end-1 bg-black/75 backdrop-blur-xs text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">
-                          📷 {car.gallery?.length || 1}
-                        </span>
-                      </div>
-
-                      {/* Car Info */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-1 mb-1">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                            isCarActive ? 'bg-[#0284C7] text-white' : 'bg-sky-50 text-[#0284C7]'
-                          }`}>
-                            {isAr ? car.tagAr : car.tagEn}
-                          </span>
-                          <span className={`text-xs font-black font-heading ${
-                            isCarActive ? 'text-[#38BDF8]' : 'text-[#0284C7]'
-                          }`}>
-                            {formatPrice(car.basePrice)}
-                          </span>
-                        </div>
-
-                        <h4 className={`text-xs sm:text-sm font-extrabold truncate ${isCarActive ? 'text-white' : 'text-slate-900'}`}>
-                          {isAr ? car.nameAr : car.name}
-                        </h4>
-
-                        <div className="flex items-center gap-2 mt-1 text-[11px] font-semibold">
-                          <span className={isCarActive ? 'text-slate-300' : 'text-slate-500'}>
-                            👥 {car.maxPassengers}
-                          </span>
-                          <span className={isCarActive ? 'text-slate-400' : 'text-slate-300'}>•</span>
-                          <span className={isCarActive ? 'text-slate-300' : 'text-slate-500'}>
-                            🧳 {car.maxLuggage}
-                          </span>
-                          <span className={isCarActive ? 'text-slate-400' : 'text-slate-300'}>•</span>
-                          <span className={isCarActive ? 'text-sky-300' : 'text-slate-500'}>
-                            {car.model}
-                          </span>
-                        </div>
-                      </div>
-                    </motion.button>
-                  );
-                })}
+              {/* Category Guarantees Box (Gracefully fills vertical height) */}
+              <div className="bg-gradient-to-br from-sky-50/90 via-white to-sky-50/50 rounded-2xl p-4 border border-sky-100 shadow-xs space-y-2 mt-auto">
+                <div className="flex items-center gap-2 text-xs font-black text-slate-900">
+                  <ShieldCheck className="w-4 h-4 text-[#0284C7]" />
+                  <span>{isAr ? 'ضمانات وانتقالات الهنا VIP' : 'El Hana VIP Guarantees'}</span>
+                </div>
+                <ul className="text-[11px] font-semibold text-slate-600 space-y-1.5">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                    <span>{isAr ? 'السعر للمركبة بالكامل شامل السائق والوقود' : 'Price per entire vehicle with chauffeur'}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                    <span>{isAr ? 'تتبع هبوط الطيران ولافتة استقبال بالاسم' : 'Live flight tracking & nameplate greeting'}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                    <span>{isAr ? 'تكييف رقمي فائق التبريد ومياه معدنية' : 'Dual icy A/C & complimentary water'}</span>
+                  </li>
+                </ul>
               </div>
 
             </div>
