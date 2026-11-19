@@ -353,14 +353,14 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
 
             {/* Active Card Column Container */}
             <div
-              className={`relative h-full w-full flex items-center justify-center p-3 sm:p-5 lg:p-6 xl:p-8 z-10 ${
+              className={`relative h-full w-full flex items-center justify-center p-2.5 sm:p-4 lg:p-5 xl:p-6 z-10 ${
                 i === 0 ? 'md:w-1/2 md:start-0' : ''
               }`}
             >
-              {/* Unified Clean Luxury Travel Card - Wide & Immersive */}
-              <div className="w-full max-w-[560px] lg:max-w-[640px] xl:max-w-[700px] 2xl:max-w-[760px] bg-white rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/10 border border-slate-200/90 flex flex-col transition-all duration-300 hover:shadow-2xl hover:border-slate-300">
-                {/* High-Resolution Photo Bay - Expansive & Cinematic */}
-                <div className="relative h-60 sm:h-72 lg:h-80 xl:h-96 w-full overflow-hidden bg-slate-100 group">
+              {/* Unified Clean Luxury Travel Card - Fits perfectly within viewport with unclipped buttons */}
+              <div className="w-full max-w-[480px] lg:max-w-[530px] xl:max-w-[580px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-slate-900/8 border border-slate-200/90 flex flex-col transition-all duration-300 hover:shadow-2xl hover:border-slate-300 max-h-[calc(100svh-var(--header-h)-1.5rem)]">
+                {/* High-Resolution Photo Bay - Balanced & Responsive */}
+                <div className="relative h-36 sm:h-44 md:h-40 lg:h-48 xl:h-52 w-full overflow-hidden bg-slate-100 group shrink-0">
                   <picture className="w-full h-full">
                     <source srcSet={toWebp(trip.image)} type="image/webp" />
                     <img
@@ -383,82 +383,82 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
 
                   {/* Top Floating Badges: Category & Counter */}
-                  <div className="absolute top-4 inset-x-5 flex items-center justify-between pointer-events-none">
-                    <span className="px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-black bg-white/95 backdrop-blur-md text-slate-800 border border-slate-200/80 flex items-center gap-2 shadow-md">
-                      <GroupIcon className="w-4 h-4 text-amber-500" />
+                  <div className="absolute top-3 inset-x-3.5 flex items-center justify-between pointer-events-none">
+                    <span className="px-3 py-1 rounded-full text-xs font-black bg-white/95 backdrop-blur-md text-slate-800 border border-slate-200/80 flex items-center gap-1.5 shadow-sm">
+                      <GroupIcon className="w-3.5 h-3.5 text-amber-500" />
                       <span className={badgeColor}>{trip.categoryBadge}</span>
                     </span>
-                    <span dir="ltr" className="text-xs sm:text-sm font-mono font-bold text-slate-700 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full border border-slate-200/80 shadow-md">
+                    <span dir="ltr" className="text-xs font-mono font-bold text-slate-700 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-slate-200/80 shadow-sm">
                       {pad(i + 1)} / {pad(total)}
                     </span>
                   </div>
                 </div>
 
                 {/* Details Body */}
-                <div className="p-5 sm:p-6 lg:p-7 flex flex-col justify-between flex-1 space-y-4">
+                <div className="p-3.5 sm:p-4 lg:p-5 flex flex-col justify-between flex-1 space-y-2.5 sm:space-y-3">
                   {/* Title & Short Description */}
-                  <div className="space-y-2">
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-black font-heading leading-tight text-slate-900 line-clamp-2 hover:text-[#0284C7] transition-colors">
+                  <div className="space-y-1">
+                    <h2 className="text-base sm:text-lg lg:text-xl font-black font-heading leading-tight text-slate-900 line-clamp-1 hover:text-[#0284C7] transition-colors">
                       <Link to={trip.href}>{trip.title}</Link>
                     </h2>
-                    <p className="text-xs sm:text-sm lg:text-base leading-relaxed text-slate-600 line-clamp-2">
+                    <p className="text-xs sm:text-xs lg:text-sm leading-relaxed text-slate-600 line-clamp-2">
                       {trip.subtitle}
                     </p>
                   </div>
 
                   {/* Quick Feature Highlights Row */}
-                  <div className="flex flex-wrap items-center gap-2 pt-1">
-                    <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60">
+                  <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                    <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      <span>{isAr ? 'شامل الانتقالات والتوصيل' : 'Roundtrip Hotel Transfer'}</span>
+                      <span>{isAr ? 'شامل الانتقالات' : 'Roundtrip Transfer'}</span>
                     </span>
-                    <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-sky-800 bg-sky-50 px-2.5 py-1 rounded-lg border border-sky-200/60">
+                    <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-sky-800 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200/60">
                       <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
-                      <span>{isAr ? 'مرشد سياحي معتمد' : 'Certified Tour Guide'}</span>
+                      <span>{isAr ? 'مرشد سياحي معتمد' : 'Certified Guide'}</span>
                     </span>
-                    <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200/60">
+                    <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                      <span>{isAr ? 'تأكيد فوري وضمان أفضل سعر' : 'Instant Confirmation'}</span>
+                      <span>{isAr ? 'تأكيد فوري' : 'Instant Confirm'}</span>
                     </span>
                   </div>
 
                   {/* Meta Row: Rating, Duration & Price */}
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm">
-                    <div className="flex items-center gap-4">
-                      <span className="flex items-center gap-1.5 font-bold text-amber-500">
-                        <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400 text-amber-400 shrink-0" />
+                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <span className="flex items-center gap-1 font-bold text-amber-500">
+                        <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
                         <span className="text-sm sm:text-base font-black text-slate-900">{trip.rating}</span>
                       </span>
-                      <span className="flex items-center gap-1.5 text-slate-500 font-semibold">
-                        <Clock className="w-4 h-4 text-slate-400" />
+                      <span className="flex items-center gap-1 text-slate-500 font-semibold text-xs sm:text-sm">
+                        <Clock className="w-3.5 h-3.5 text-slate-400" />
                         <span>{trip.duration}</span>
                       </span>
                     </div>
 
                     <div className="text-end">
-                      <span className="text-[10px] sm:text-xs text-slate-400 block leading-none mb-0.5 font-semibold">
+                      <span className="text-[10px] text-slate-400 block leading-none mb-0.5 font-semibold">
                         {isAr ? 'السعر يبدأ من' : 'From'}
                       </span>
-                      <span className="text-xl sm:text-2xl lg:text-3xl font-black text-[#0284C7] leading-none">
+                      <span className="text-lg sm:text-xl lg:text-2xl font-black text-[#0284C7] leading-none">
                         {formatPrice(trip.startingPrice)}
                       </span>
                     </div>
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="pt-1 flex items-center justify-between gap-3 sm:gap-4">
+                  {/* Action Buttons - Distinct, High-Contrast & Prominent */}
+                  <div className="pt-1 flex items-center justify-between gap-2.5 sm:gap-3">
                     <Link
                       to={trip.href}
                       aria-label={`${t('trips.view', 'عرض الرحلة')}: ${trip.title}`}
-                      className="inline-flex items-center justify-center gap-2 flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white text-xs sm:text-sm lg:text-base font-bold shadow-lg shadow-[#0284C7]/20 hover:shadow-xl hover:shadow-[#0284C7]/30 transition-all group/btn cursor-pointer"
+                      className="inline-flex items-center justify-center gap-2 flex-1 py-2.5 sm:py-3 px-4 sm:px-5 rounded-xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white text-xs sm:text-sm font-extrabold shadow-md shadow-[#0284C7]/20 hover:shadow-lg hover:shadow-[#0284C7]/30 transition-all group/btn cursor-pointer"
                     >
                       <span>{isTransfer ? (isAr ? 'حجز وتفاصيل الانتقالات' : 'Book Transfers') : t('trips.view', 'عرض تفاصيل الرحلة')}</span>
-                      <ArrowIcon className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1" />
+                      <ArrowIcon className="w-4 h-4 transition-transform group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1" />
                     </Link>
 
                     <Link
                       to="/experiences"
-                      className="text-xs sm:text-sm font-bold text-slate-600 hover:text-[#0284C7] px-3 py-2 transition-colors whitespace-nowrap cursor-pointer"
+                      className="inline-flex items-center justify-center py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-slate-300 text-xs sm:text-sm font-bold text-slate-700 hover:text-[#0284C7] transition-all whitespace-nowrap cursor-pointer shadow-2xs"
                     >
                       {isAr ? 'جميع الرحلات ←' : 'All Tours →'}
                     </Link>
