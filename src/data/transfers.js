@@ -11,7 +11,7 @@ export const VEHICLE_TYPES = [
     tagEn: "Limousine (3 Pax)",
     maxPassengers: 3,
     maxLuggage: 3,
-    image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/vip-transfers-sharm.jpg",
     description: "Private executive sedan limousine with leather interior, icy dual A/C, and professional chauffeur for up to 3 passengers.",
     descriptionAr: "سيارة ليموزين وسيدان ملاكي خاصة ومكيفة تناسب الأفراد والأزواج والعائلات الصغيرة حتى 3 ركاب مع 3 حقائب سفر.",
     basePrice: 20,
@@ -64,9 +64,9 @@ export const FLEET_CARS = [
     maxPassengers: 3,
     maxLuggage: 3,
     basePrice: 28,
-    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/vip-transfers-sharm.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
+      "/images/transfers/vip-transfers-sharm.jpg",
       "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
@@ -338,7 +338,7 @@ export const TRANSFER_GALLERY = [
     badgeAr: "ليموزين 3 راكب",
     badgeEn: "Limousine 3 Pax",
     price: 20,
-    image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/transfers/vip-transfers-sharm.jpg",
     thumb: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=300&q=80"
   },
   {

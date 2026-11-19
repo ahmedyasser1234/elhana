@@ -35,6 +35,8 @@ import { VehicleSpecsModal } from './VehicleSpecsModal';
 export const TransferCalculator = ({ 
   selectedVehicleId, 
   onSelectVehicle, 
+  selectedCarId: propSelectedCarId,
+  onSelectCar: propOnSelectCar,
   isSidebar = false,
   id = "transfer-booking-widget" 
 }) => {
@@ -83,6 +85,17 @@ export const TransferCalculator = ({
     }
   }, [selectedVehicleId]);
 
+  // Sync specific car if prop changes from outside
+  useEffect(() => {
+    if (propSelectedCarId) {
+      setSelectedCarId(propSelectedCarId);
+      const carObj = getCarById(propSelectedCarId);
+      if (carObj) {
+        setActiveCategory(carObj.categoryId || carObj.category);
+      }
+    }
+  }, [propSelectedCarId]);
+
   const activeCar = FLEET_CARS.find(c => c.id === selectedCarId) || FLEET_CARS[0];
 
   const handleSelectCar = (carId) => {
@@ -92,6 +105,9 @@ export const TransferCalculator = ({
       setActiveCategory(carObj.categoryId);
       if (onSelectVehicle) {
         onSelectVehicle(carObj.categoryId);
+      }
+      if (propOnSelectCar) {
+        propOnSelectCar(carId);
       }
     }
   };
