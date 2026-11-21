@@ -165,6 +165,7 @@ export const Footer = () => {
               <li><Link to="/diving" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "غوص الغواصة والغطس" : "Intro Scuba Diving"}</Link></li>
               <li><Link to="/parasailing" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "باراشوت طيران باراسيليج" : "Parasailing Flight"}</Link></li>
               <li><Link to="/banana-boat" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "الألعاب المائية والبنانا" : "Banana & Tube Rides"}</Link></li>
+              <li><Link to="/dolphin-experience" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "عرض الدلافين والسباحة" : "Dolphin Show & Swim"}</Link></li>
               <li><Link to="/sea-trips" className="text-[#0369A1] font-bold hover:text-amber-600 hover:underline transition inline-block">{isAr ? "عرض جميع رحلات البحر" : "All Sea Trips"}</Link></li>
             </ul>
           </div>
@@ -172,17 +173,18 @@ export const Footer = () => {
           {/* Col 4: Quick Links & Legal */}
           <div className="space-y-3">
             <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#0369A1] font-heading">
-              {t('footer.legal')}
+              {isAr ? "روابط سريعة والمدونة" : "Quick Links & Blog"}
             </h3>
             <ul className="space-y-2.5 text-xs font-medium text-slate-700">
-              <li><Link to="/about" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{t('nav.about')}</Link></li>
+              <li><Link to="/experiences" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "جميع التجارب والرحلات" : "All Experiences"}</Link></li>
+              <li><Link to="/gallery" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "معرض الصور الحقيقية" : "Photo Gallery"}</Link></li>
               <li><Link to="/transfers" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{t('nav.transfers')}</Link></li>
+              <li><Link to="/airport-vip" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "انتقالات مطار شرم VIP" : "Airport VIP Taxi"}</Link></li>
+              <li><Link to="/blog" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{t('nav.blog')}</Link></li>
+              <li><Link to="/about" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{t('nav.about')}</Link></li>
               <li><Link to="/contact" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{t('nav.contact')}</Link></li>
               <li><Link to="/faq" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{t('nav.faq')}</Link></li>
-              <li><Link to="/blog" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{t('nav.blog')}</Link></li>
               <li><Link to="/privacy-policy" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "سياسة الخصوصية" : "Privacy Policy"}</Link></li>
-              <li><Link to="/terms-and-conditions" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "الشروط والأحكام" : "Terms & Conditions"}</Link></li>
-              <li><Link to="/cancellation-policy" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "سياسة الإلغاء" : "Cancellation Policy"}</Link></li>
             </ul>
           </div>
 
