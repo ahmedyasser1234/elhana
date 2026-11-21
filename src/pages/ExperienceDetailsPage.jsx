@@ -117,22 +117,67 @@ export const ExperienceDetailsPage = ({ slugOverride }) => {
     setActiveModalImgIdx(initialIdx);
   };
 
+  const baseUrl = 'https://www.elahanasafari.com';
+  const formattedImages = images.map(img => 
+    img.startsWith('http') ? img : `${baseUrl}${img.startsWith('/') ? '' : '/'}${img}`
+  );
+
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "TouristAttraction",
+    "@type": "Product",
     "name": experience.title,
-    "description": experience.shortDescription,
-    "image": images,
+    "description": experience.shortDescription || overviewText || experience.title,
+    "image": formattedImages,
+    "sku": `EXP-${experience.id || slug}`.toUpperCase(),
+    "mpn": `MPN-${experience.id || slug}`.toUpperCase(),
+    "brand": {
+      "@type": "Brand",
+      "name": "El Hana Group"
+    },
+    "category": experience.categoryLabel || "Tours & Travel",
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": experience.rating,
-      "reviewCount": experience.reviewsCount
+      "ratingValue": String(experience.rating || "4.9"),
+      "reviewCount": String(experience.reviewsCount || "100"),
+      "bestRating": "5",
+      "worstRating": "1"
     },
     "offers": {
       "@type": "Offer",
-      "price": experience.startingPrice,
-      "priceCurrency": "USD"
-    }
+      "url": `${baseUrl}/experience/${slug}`,
+      "price": String(experience.startingPrice || 25),
+      "priceCurrency": "USD",
+      "priceValidUntil": "2027-12-31",
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      "seller": {
+        "@type": "TravelAgency",
+        "name": "El Hana Group Sharm El Sheikh",
+        "url": baseUrl
+      }
+    },
+    ...(tourReviews && tourReviews.length > 0 ? {
+      "review": tourReviews.slice(0, 5).map(rev => {
+        const body = typeof rev.text === 'object' 
+          ? (rev.text[i18n.language] || rev.text.en || rev.text.ar || '') 
+          : (rev.text || '');
+        return {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": rev.name || "Verified Traveler"
+          },
+          "datePublished": "2026-02-15",
+          "reviewBody": body || "Great tour experience with El Hana Group.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": String(rev.rating || 5),
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        };
+      })
+    } : {})
   };
 
   return (

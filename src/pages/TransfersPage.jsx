@@ -100,26 +100,43 @@ export const TransfersPage = () => {
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Service",
-    "name": isAr ? "خدمة الانتقالات الخاصة وتاكسي المطار في شرم الشيخ" : "Private Airport & Hotel Transfers Sharm El Sheikh",
+    "@type": "Product",
+    "name": isAr ? "خدمة الانتقالات الخاصة وتوصيل المطار في شرم الشيخ" : "Private Airport & Hotel Transfers Sharm El Sheikh",
     "description": isAr 
-      ? "توصيل خاص VIP بين مطار شرم الشيخ وجميع الفنادق بأسعار ثابتة تشمل سيارات ليموزين، ميني فان 7 راكب، وتويوتا هاي إيس 14-15 راكب."
-      : "Private VIP airport and hotel shuttle service in Sharm El Sheikh with limousines, 7-seater minivans, and 14-15 seater HiAce buses.",
-    "provider": {
-      "@type": "TravelAgency",
-      "name": "El Hana Group Safari & Marine",
-      "url": "https://www.elhanasafari.com"
+      ? "توصيل خاص VIP بين مطار شرم الشيخ وجميع الفنادق بأسعار ثابتة تشمل سيارات ليموزين، ميني فان 6 راكب، وتويوتا هاي إيس 14-15 راكب."
+      : "Private VIP airport and hotel shuttle service in Sharm El Sheikh with limousines, 6-seater minivans, and 14-15 seater HiAce buses.",
+    "image": [
+      "https://www.elahanasafari.com/images/transfers/vip-transfers-sharm.jpg",
+      "https://www.elahanasafari.com/images/transfers/family-minivan-sharm.jpg",
+      "https://www.elahanasafari.com/images/transfers/hiace-van-sharm.jpg"
+    ],
+    "sku": "TRANSFER-SHARM-VIP",
+    "mpn": "TRANSFER-SHARM-VIP",
+    "brand": {
+      "@type": "Brand",
+      "name": "El Hana Group"
     },
-    "areaServed": "Sharm El Sheikh, Dahab, South Sinai",
+    "category": "Airport Transfers & Transportation",
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.98",
-      "reviewCount": "384"
+      "reviewCount": "384",
+      "bestRating": "5",
+      "worstRating": "1"
     },
     "offers": {
       "@type": "Offer",
+      "url": "https://www.elahanasafari.com/transfers",
       "price": "20",
-      "priceCurrency": "USD"
+      "priceCurrency": "USD",
+      "priceValidUntil": "2027-12-31",
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      "seller": {
+        "@type": "TravelAgency",
+        "name": "El Hana Group",
+        "url": "https://www.elahanasafari.com"
+      }
     }
   };
 
