@@ -3,15 +3,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   Star,
-  Clock,
   ArrowLeft,
-  ArrowRight,
-  Compass,
-  Ship,
-  Car,
-  MapPin,
-  Flame,
-  Waves
+  ArrowRight
 } from 'lucide-react';
 import { EXPERIENCES, getLocalizedExperience } from '../data/experiences';
 import { useCurrency } from '../context/CurrencyContext';
@@ -309,8 +302,6 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
           ? 'text-emerald-600'
           : 'text-purple-600';
 
-        const GroupIcon = isSafari ? Flame : isSea ? Waves : isTransfer ? Car : MapPin;
-
         // Desktop 2-Card System:
         // Trip 0 is the full-width white base with fixed logo watermark.
         // Even trips (0, 2, 4...) occupy start (right) half on desktop.
@@ -384,8 +375,7 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
 
                   {/* Top Floating Badges: Category & Counter */}
                   <div className="absolute top-3 inset-x-3.5 flex items-center justify-between pointer-events-none">
-                    <span className="px-3 py-1 rounded-full text-xs font-black bg-white/95 backdrop-blur-md text-slate-800 border border-slate-200/80 flex items-center gap-1.5 shadow-sm">
-                      <GroupIcon className="w-3.5 h-3.5 text-amber-500" />
+                    <span className="px-3 py-1 rounded-full text-xs font-black bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-sm">
                       <span className={badgeColor}>{trip.categoryBadge}</span>
                     </span>
                     <span dir="ltr" className="text-xs font-mono font-bold text-slate-700 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-slate-200/80 shadow-sm">
@@ -395,7 +385,7 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
                 </div>
 
                 {/* Details Body */}
-                <div className="p-3.5 sm:p-4 lg:p-5 flex flex-col justify-between flex-1 space-y-2.5 sm:space-y-3">
+                <div className="p-3.5 sm:p-4 lg:p-5 flex flex-col justify-between flex-1 space-y-3">
                   {/* Title & Short Description */}
                   <div className="space-y-1">
                     <h2 className="text-base sm:text-lg lg:text-xl font-black font-heading leading-tight text-slate-900 line-clamp-1 hover:text-[#0284C7] transition-colors">
@@ -406,32 +396,12 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
                     </p>
                   </div>
 
-                  {/* Quick Feature Highlights Row */}
-                  <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                    <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      <span>{isAr ? 'شامل الانتقالات' : 'Roundtrip Transfer'}</span>
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-sky-800 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200/60">
-                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
-                      <span>{isAr ? 'مرشد سياحي معتمد' : 'Certified Guide'}</span>
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                      <span>{isAr ? 'تأكيد فوري' : 'Instant Confirm'}</span>
-                    </span>
-                  </div>
-
-                  {/* Meta Row: Rating, Duration & Price */}
-                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm">
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <span className="flex items-center gap-1 font-bold text-amber-500">
+                  {/* Meta Row: Rating & Price */}
+                  <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="flex items-center gap-1.5 font-bold text-amber-500">
                         <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
                         <span className="text-sm sm:text-base font-black text-slate-900">{trip.rating}</span>
-                      </span>
-                      <span className="flex items-center gap-1 text-slate-500 font-semibold text-xs sm:text-sm">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{trip.duration}</span>
                       </span>
                     </div>
 
@@ -478,7 +448,7 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
                     {nextTrip.title}
                   </span>
                   <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-600 bg-white px-4 py-1.5 rounded-full border border-slate-200 shadow-xs mt-1">
-                    <span>{isAr ? 'مرّر لأسفل لعرض الرحلة جنباً إلى جنب' : 'Scroll down to reveal'}</span>
+                    <span>{isAr ? 'مرر لأسفل لعرض باقي الرحلات' : 'Scroll down to reveal more tours'}</span>
                     <span className="animate-bounce text-[#0284C7]">↓</span>
                   </span>
                 </div>
