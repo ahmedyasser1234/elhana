@@ -1,7 +1,16 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Bus, ShieldCheck, Crown, CalendarCheck, ArrowLeft, ArrowRight } from 'lucide-react';
+import { 
+  CarFront, 
+  ShieldCheck, 
+  Crown, 
+  CalendarCheck2, 
+  ArrowLeft, 
+  ArrowRight,
+  Sparkles,
+  Award,
+  CheckCircle2
+} from 'lucide-react';
 import { TiltCard } from '../common/TiltCard';
 import { TextMaskReveal } from '../common/TextMaskReveal';
 
@@ -12,32 +21,76 @@ export const WhyChooseUs = () => {
 
   const features = [
     {
-      icon: Bus,
+      id: 'transfers',
       title: t('whyUs.f1Title'),
       desc: t('whyUs.f1Desc'),
-      highlight: "from-[#0284C7]/15 to-transparent",
-      iconBg: "bg-sky-50 border-sky-200 text-[#0284C7] group-hover:bg-[#0284C7] group-hover:text-white shadow-sky-500/10"
+      highlight: "from-[#0284C7]/20 via-[#38BDF8]/10 to-transparent",
+      badgeText: isAr ? "مجاني" : "FREE",
+      badgeColor: "bg-sky-50 text-[#0284C7] border-sky-200",
+      gradient: "from-sky-400 via-[#0284C7] to-[#0369A1]",
+      shadow: "shadow-sky-500/30",
+      ring: "ring-sky-100 group-hover:ring-sky-200",
+      glow: "bg-sky-400/40",
+      renderIcon: () => (
+        <div className="relative flex items-center justify-center">
+          <CarFront className="w-7 h-7 text-white stroke-[2.2] drop-shadow-sm" />
+          <span className="absolute -top-1 -end-1 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-white animate-pulse" />
+        </div>
+      )
     },
     {
-      icon: ShieldCheck,
+      id: 'team',
       title: t('whyUs.f2Title'),
       desc: t('whyUs.f2Desc'),
-      highlight: "from-[#F97316]/15 to-transparent",
-      iconBg: "bg-orange-50 border-orange-200 text-[#F97316] group-hover:bg-[#F97316] group-hover:text-white shadow-orange-500/10"
+      highlight: "from-[#F97316]/20 via-[#FDBA74]/10 to-transparent",
+      badgeText: "PADI ★",
+      badgeColor: "bg-amber-50 text-amber-700 border-amber-200",
+      gradient: "from-amber-400 via-[#F97316] to-[#C2410C]",
+      shadow: "shadow-orange-500/30",
+      ring: "ring-orange-100 group-hover:ring-orange-200",
+      glow: "bg-orange-400/40",
+      renderIcon: () => (
+        <div className="relative flex items-center justify-center">
+          <ShieldCheck className="w-7 h-7 text-white stroke-[2.2] drop-shadow-sm" />
+          <Award className="w-3.5 h-3.5 text-amber-200 absolute -bottom-1 -end-1 drop-shadow-xs" />
+        </div>
+      )
     },
     {
-      icon: Crown,
+      id: 'luxury',
       title: t('whyUs.f3Title'),
       desc: t('whyUs.f3Desc'),
-      highlight: "from-[#0284C7]/15 to-transparent",
-      iconBg: "bg-sky-50 border-sky-200 text-[#0284C7] group-hover:bg-[#0284C7] group-hover:text-white shadow-sky-500/10"
+      highlight: "from-[#0284C7]/20 via-[#67E8F9]/10 to-transparent",
+      badgeText: isAr ? "5 نجوم" : "5 STARS",
+      badgeColor: "bg-sky-50 text-[#0284C7] border-sky-200",
+      gradient: "from-cyan-400 via-[#0284C7] to-[#1E40AF]",
+      shadow: "shadow-blue-500/30",
+      ring: "ring-sky-100 group-hover:ring-sky-200",
+      glow: "bg-cyan-400/40",
+      renderIcon: () => (
+        <div className="relative flex items-center justify-center">
+          <Crown className="w-7 h-7 text-white stroke-[2.2] drop-shadow-sm" />
+          <Sparkles className="w-3.5 h-3.5 text-amber-300 absolute -top-1 -end-1 animate-pulse" />
+        </div>
+      )
     },
     {
-      icon: CalendarCheck,
+      id: 'flex',
       title: t('whyUs.f4Title'),
       desc: t('whyUs.f4Desc'),
-      highlight: "from-[#F97316]/15 to-transparent",
-      iconBg: "bg-orange-50 border-orange-200 text-[#F97316] group-hover:bg-[#F97316] group-hover:text-white shadow-orange-500/10"
+      highlight: "from-[#F59E0B]/20 via-[#FCD34D]/10 to-transparent",
+      badgeText: isAr ? "24 ساعة" : "24h Free",
+      badgeColor: "bg-amber-50 text-amber-700 border-amber-200",
+      gradient: "from-amber-400 via-[#F59E0B] to-[#D97706]",
+      shadow: "shadow-amber-500/30",
+      ring: "ring-amber-100 group-hover:ring-amber-200",
+      glow: "bg-amber-400/40",
+      renderIcon: () => (
+        <div className="relative flex items-center justify-center">
+          <CalendarCheck2 className="w-7 h-7 text-white stroke-[2.2] drop-shadow-sm" />
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300 absolute -bottom-1 -end-1 drop-shadow-xs" />
+        </div>
+      )
     }
   ];
 
@@ -73,7 +126,6 @@ export const WhyChooseUs = () => {
         {/* Feature Cards Grid (Stacking cards on mobile under header, clean grid on desktop) */}
         <div className="flex flex-col space-y-6 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-8 pb-8 md:pb-0">
           {features.map((feat, idx) => {
-            const Icon = feat.icon;
             return (
               <div
                 key={idx}
@@ -84,15 +136,27 @@ export const WhyChooseUs = () => {
                 }}
               >
                 <TiltCard maxRotate={6} className="h-full">
-                  <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-[0_16px_40px_-12px_rgba(15,23,42,0.12)] hover:border-[#0284C7]/50 hover:shadow-2xl hover:shadow-[#0284C7]/10 transition-all duration-300 space-y-6 flex flex-col justify-between group h-full relative overflow-hidden min-h-[220px]">
+                  <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-[0_16px_40px_-12px_rgba(15,23,42,0.10)] hover:border-[#0284C7]/50 hover:shadow-2xl hover:shadow-[#0284C7]/12 transition-all duration-300 space-y-6 flex flex-col justify-between group h-full relative overflow-hidden min-h-[230px]">
                     
                     {/* Top Right Decorative Glow */}
-                    <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${feat.highlight} rounded-bl-full pointer-events-none transition duration-500 group-hover:scale-125`}></div>
+                    <div className={`absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl ${feat.highlight} rounded-bl-full pointer-events-none transition duration-500 group-hover:scale-125`}></div>
 
                     <div className="space-y-4 relative z-10">
-                      {/* Modern Crisp Lucide Icon Badge */}
-                      <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center shadow-md transition-all duration-300 group-hover:scale-110 ${feat.iconBg}`}>
-                        <Icon className="w-7 h-7 stroke-[2]" />
+                      
+                      {/* Ultra-Modern 3D Gradient Icon Badge */}
+                      <div className="relative w-15 h-15 shrink-0">
+                        {/* Luminous Ambient Glow */}
+                        <div className={`absolute inset-0 rounded-2xl ${feat.glow} blur-md opacity-45 group-hover:opacity-90 transition-opacity duration-300`} />
+                        
+                        {/* Main 3D Gradient Squircle */}
+                        <div className={`w-15 h-15 rounded-2xl bg-gradient-to-br ${feat.gradient} p-3.5 flex items-center justify-center shadow-lg ${feat.shadow} ring-4 ${feat.ring} transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3 relative z-10`}>
+                          {feat.renderIcon()}
+                        </div>
+
+                        {/* Micro Pill Badge in Top Corner */}
+                        <span className={`absolute -top-1.5 -end-1.5 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider backdrop-blur-md border ${feat.badgeColor} shadow-xs z-20`}>
+                          {feat.badgeText}
+                        </span>
                       </div>
 
                       <h3 className="text-lg font-extrabold text-slate-900 font-heading leading-snug group-hover:text-[#0284C7] transition-colors duration-300">
