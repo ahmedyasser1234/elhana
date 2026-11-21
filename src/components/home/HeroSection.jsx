@@ -139,12 +139,9 @@ export const HeroSection = () => {
           {/* TEXT CONTENT COLUMN */}
           <div className="lg:col-span-7 space-y-5 text-left rtl:text-right">
             
-            {/* Eyebrow Badge */}
-            <div
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/70 backdrop-blur-md border border-sky-400/40 text-sky-300 font-semibold text-xs tracking-wider shadow-md"
-            >
-              <span className="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
-              <span>{isAr ? "شركة الهنا للسياحة والسفاري VIP" : "EL HANA GROUP TOURISM VIP"}</span>
+            {/* Eyebrow Text */}
+            <div className="text-sky-300 font-bold text-xs sm:text-sm tracking-wider drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
+              {isAr ? "شركة الهنا للسياحة والسفاري VIP" : "EL HANA GROUP TOURISM VIP"}
             </div>
 
             {/* Single Line Headline */}
@@ -153,17 +150,15 @@ export const HeroSection = () => {
                 {isAr ? (
                   <span>
                     حيث تترك المغامرة{' '}
-                    <span className="relative inline-block text-sky-400 font-black">
+                    <span className="text-sky-400 font-black">
                       أثراً لا يُنسى.
-                      <span className="absolute bottom-0.5 left-0 right-0 h-[3.5px] bg-gradient-to-r from-sky-400 to-amber-400 rounded-full"></span>
                     </span>
                   </span>
                 ) : (
                   <span>
                     Where Power Leaves a{' '}
-                    <span className="relative inline-block text-sky-400 font-black">
+                    <span className="text-sky-400 font-black">
                       Mark.
-                      <span className="absolute bottom-0.5 left-0 right-0 h-[3.5px] bg-gradient-to-r from-sky-400 to-amber-400 rounded-full"></span>
                     </span>
                   </span>
                 )}
