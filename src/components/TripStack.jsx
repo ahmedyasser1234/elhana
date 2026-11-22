@@ -440,14 +440,11 @@ export default function TripStack({ startIndex = 1, trips: customTrips }) {
             {/* Desktop Teaser on 2nd Half: Informs user that the next trip will slide in beside this one */}
             {i === 0 && nextTrip && (
               <div className="hidden md:flex absolute end-0 top-0 bottom-0 w-1/2 items-center justify-center p-8 pointer-events-none z-10">
-                <div className="flex flex-col items-center gap-3 p-8 rounded-3xl bg-slate-50/90 backdrop-blur-md border border-slate-200/80 text-slate-800 shadow-lg max-w-[420px] text-center pointer-events-auto">
+                <div className="flex flex-col items-center gap-2.5 p-6 rounded-3xl bg-slate-50/90 backdrop-blur-md border border-slate-200/80 text-slate-800 shadow-lg max-w-[360px] text-center pointer-events-auto">
                   <span className="text-xs uppercase tracking-wider text-[#0284C7] font-black">
                     {isAr ? 'الرحلة التالية' : 'Next Adventure'}
                   </span>
-                  <span className="text-base sm:text-lg font-black text-slate-900 line-clamp-2">
-                    {nextTrip.title}
-                  </span>
-                  <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-600 bg-white px-4 py-1.5 rounded-full border border-slate-200 shadow-xs mt-1">
+                  <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-600 bg-white px-4 py-1.5 rounded-full border border-slate-200 shadow-xs">
                     <span>{isAr ? 'مرر لأسفل لعرض باقي الرحلات' : 'Scroll down to reveal more tours'}</span>
                     <span className="animate-bounce text-[#0284C7]">↓</span>
                   </span>

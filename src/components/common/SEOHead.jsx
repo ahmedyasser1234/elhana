@@ -62,6 +62,14 @@ const DEFAULT_ORGANIZATION_SCHEMA = {
     "https://web.facebook.com/profile.php?id=61583787661164",
     "https://www.instagram.com/el_hana_group/"
   ],
+  "hasMerchantReturnPolicy": {
+    "@type": "MerchantReturnPolicy",
+    "applicableCountry": "EG",
+    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+    "merchantReturnDays": 1,
+    "returnMethod": "https://schema.org/ReturnByMail",
+    "returnFees": "https://schema.org/FreeReturn"
+  },
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": "4.9",
