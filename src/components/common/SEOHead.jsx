@@ -60,7 +60,7 @@ const DEFAULT_ORGANIZATION_SCHEMA = {
   ],
   "sameAs": [
     "https://web.facebook.com/profile.php?id=61583787661164",
-    "https://www.instagram.com/el_hana_group/"
+    "https://www.instagram.com/elhana_safari"
   ],
   "hasMerchantReturnPolicy": {
     "@type": "MerchantReturnPolicy",

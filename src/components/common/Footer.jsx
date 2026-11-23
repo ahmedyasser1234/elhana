@@ -99,12 +99,12 @@ export const Footer = () => {
 
             <div className="flex items-center gap-3 text-slate-600 pt-2">
               <a
-                href="https://www.instagram.com/el_hana_group/"
+                href="https://www.instagram.com/elhana_safari"
                 target="_blank"
                 rel="noreferrer"
                 className="w-9 h-9 rounded-xl bg-white border border-sky-100 shadow-sm flex items-center justify-center hover:text-white hover:bg-gradient-to-tr hover:from-amber-500 hover:to-purple-600 hover:border-transparent transition duration-300"
-                title="Instagram @el_hana_group"
-                aria-label="Instagram El Hana Group"
+                title="Instagram @elhana_safari"
+                aria-label="Instagram El Hana Safari"
               >
                 <Camera className="w-4 h-4" />
               </a>

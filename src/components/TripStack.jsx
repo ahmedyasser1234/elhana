@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -13,6 +13,19 @@ import StackSection from './StackSection';
 const pad = (n) => String(n).padStart(2, '0');
 const toWebp = (url) => (url ? url.replace(/\.(jpg|jpeg|png)$/i, '.webp') : url);
 
+const getBadgeColor = (group) => {
+  switch (group) {
+    case 'safari':
+      return 'text-amber-600';
+    case 'sea':
+      return 'text-[#0284C7]';
+    case 'transfers':
+      return 'text-emerald-600';
+    default:
+      return 'text-purple-600';
+  }
+};
+
 // Strictly ordered 24 trips (3 cards per row on desktop):
 // 1. Safari First -> 2. Sea & Marine -> 3. Transfers -> 4. Outside Sharm -> 5. Private VIP
 const ORDERED_TRIP_DEFINITIONS = [
@@ -25,7 +38,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'سفاري البيتش باجي في الصحراء',
     groupBadgeEn: 'Sinai Desert Quad Safari',
     focus: 'center 45%',
-    image: '/images/real/user-atv-safari.webp'
+    image: '/images/real/user-atv-safari.webp',
+    isPortrait: true
   },
   {
     slug: 'dune-buggy-adventure',
@@ -33,7 +47,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'سفاري الكار باجي في الجبال',
     groupBadgeEn: 'Polaris Dune Buggy Safari',
     focus: 'center 50%',
-    image: '/images/real/polaris-buggy-white.webp'
+    image: '/images/real/polaris-buggy-white.webp',
+    isPortrait: true
   },
   {
     slug: 'luxury-polaris-canam-buggy-safari',
@@ -41,7 +56,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'سفاري بولاريس وكان-آم توربو VIP',
     groupBadgeEn: 'Can-Am & Polaris Turbo VIP',
     focus: 'center 50%',
-    image: '/images/real/family-buggy-ride.jpg'
+    image: '/images/real/family-buggy-ride.jpg',
+    isPortrait: false
   },
 
   // ═══════════════════════════════════════════════════════════════
@@ -53,7 +69,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'سوبر سفاري كومبو شامل',
     groupBadgeEn: 'Super Safari Combo All-In-One',
     focus: 'center 45%',
-    image: '/images/real/polaris-buggy-family.webp'
+    image: '/images/real/polaris-buggy-family.webp',
+    isPortrait: false
   },
   {
     slug: 'authentic-bedouin-experience-dinner',
@@ -61,7 +78,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'سهرة وعشاء بدوي ورصد النجوم',
     groupBadgeEn: 'Bedouin Dinner & Stargazing',
     focus: 'center 45%',
-    image: '/images/safari/bedouin/vip/IMG-20260722-WA0354.jpg'
+    image: '/images/safari/bedouin/vip/IMG-20260722-WA0354.jpg',
+    isPortrait: true
   },
   {
     slug: 'camel-riding',
@@ -69,7 +87,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'قوافل الجمال البدوية بالغروب',
     groupBadgeEn: 'Sunset Camel Caravan Ride',
     focus: 'center 45%',
-    image: '/images/real/camel-riding-hero.jpg'
+    image: '/images/real/camel-riding-hero.jpg',
+    isPortrait: true
   },
 
   // ═══════════════════════════════════════════════════════════════
@@ -81,7 +100,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'ركوب الخيل العربي الأصيل',
     groupBadgeEn: 'Arabian Horseback Riding',
     focus: 'center 45%',
-    image: '/images/real/horse-riding-hero.jpg'
+    image: '/images/real/horse-riding-hero.jpg',
+    isPortrait: true
   },
   {
     slug: 'romantic-bedouin-candlelight-dinner',
@@ -89,7 +109,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'عشاء رومانسي بالخيمة البدوية',
     groupBadgeEn: 'Romantic Bedouin Dinner',
     focus: 'center 45%',
-    image: '/images/romantic/romantic-bedouin-candlelight-dinner.jpg'
+    image: '/images/romantic/romantic-bedouin-candlelight-dinner.jpg',
+    isPortrait: false
   },
   {
     slug: 'marry-me-proposal-desert',
@@ -97,7 +118,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'باقة طلب الزواج VIP في الصحراء',
     groupBadgeEn: 'Desert VIP Proposal Package',
     focus: 'center 45%',
-    image: '/images/romantic/marry-me-proposal-desert.jpg'
+    image: '/images/romantic/marry-me-proposal-desert.jpg',
+    isPortrait: false
   },
 
   // ═══════════════════════════════════════════════════════════════
@@ -109,7 +131,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'يخوت ملكية VIP لرأس محمد',
     groupBadgeEn: 'VIP Luxury Yacht & White Island',
     focus: 'center 45%',
-    image: '/images/sea/ras-mohammed-luxury-yacht.webp'
+    image: '/images/sea/ras-mohammed-luxury-yacht.webp',
+    isPortrait: false
   },
   {
     slug: 'introductory-scuba-diving-red-sea',
@@ -117,7 +140,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'غوص استكشافي بالأسطوانة PADI',
     groupBadgeEn: 'Red Sea Scuba Diving & Reefs',
     focus: 'center 35%',
-    image: '/images/sea/scuba-diving-intro.jpg'
+    image: '/images/sea/scuba-diving-intro.jpg',
+    isPortrait: false
   },
   {
     slug: 'tiran-island-snorkeling-boat-trip',
@@ -125,7 +149,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'رحلة يخت وسنوركلينج جزيرة تيران',
     groupBadgeEn: 'Tiran Island Snorkeling Cruise',
     focus: 'center 40%',
-    image: '/images/sea/snorkeling-ras-mohammed-reef.jpg'
+    image: '/images/sea/snorkeling-ras-mohammed-reef.jpg',
+    isPortrait: false
   },
 
   // ═══════════════════════════════════════════════════════════════
@@ -137,7 +162,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'باراشوت الألعاب المائية بشرم',
     groupBadgeEn: 'Red Sea Parasailing Flight',
     focus: 'center 40%',
-    image: '/images/sea/parasailing-sharm-flight.jpg'
+    image: '/images/sea/parasailing-sharm-flight.jpg',
+    isPortrait: false
   },
   {
     slug: 'banana-boat-tube-water-fun',
@@ -145,7 +171,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'ألعاب البانانا بوت والتيوب المائية',
     groupBadgeEn: 'Banana Boat & Water Tube Ride',
     focus: 'center 45%',
-    image: '/images/sea/banana-boat-water-ride.jpg'
+    image: '/images/sea/banana-boat-water-ride.jpg',
+    isPortrait: false
   },
   {
     slug: 'dolphin-swim-show-experience',
@@ -153,7 +180,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'عرض ودولفين شو والسباحة معها',
     groupBadgeEn: 'Dolphin Show & Swim Experience',
     focus: 'center 40%',
-    image: '/images/sea/dolphin-show-sharm.jpg'
+    image: '/images/sea/dolphin-show-sharm.jpg',
+    isPortrait: false
   },
 
   // ═══════════════════════════════════════════════════════════════
@@ -165,7 +193,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'باقة طلب الزواج VIP على اليخت',
     groupBadgeEn: 'VIP Yacht Proposal Package',
     focus: 'center 45%',
-    image: '/images/romantic/marry-me-proposal-yacht.jpg'
+    image: '/images/romantic/marry-me-proposal-yacht.jpg',
+    isPortrait: false
   },
   {
     slug: 'ras-mohammed-land-bus-tour',
@@ -173,7 +202,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'جولة محمية رأس محمد البرية بالباص',
     groupBadgeEn: 'Ras Mohammed Overland Bus Tour',
     focus: 'center 45%',
-    image: '/images/excursions/ras-mohammed/ras-mohammed-gate-of-allah.jpg'
+    image: '/images/excursions/ras-mohammed/ras-mohammed-gate-of-allah.jpg',
+    isPortrait: false
   },
   {
     slug: 'vip-airport-transfers-sinai',
@@ -189,7 +219,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     subtitleEn: 'Pre-fixed price private airport and intercity transfers across Sharm El Sheikh, Dahab, and Saint Catherine with licensed luxury sedans, 6-pax minivans, and 15-pax HiAce microbuses.',
     startingPrice: 15,
     rating: 4.95,
-    href: '/transfers'
+    href: '/transfers',
+    isPortrait: false
   },
 
   // ═══════════════════════════════════════════════════════════════
@@ -201,7 +232,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'جولة دهب وبلو هول والوادي الملون',
     groupBadgeEn: 'Dahab & Blue Hole Canyon Tour',
     focus: 'center 55%',
-    image: '/images/excursions/dahab/dahab-blue-hole-lagoon.jpg'
+    image: '/images/excursions/dahab/dahab-blue-hole-lagoon.jpg',
+    isPortrait: false
   },
   {
     slug: 'st-catherine-mount-sinai-trip',
@@ -209,7 +241,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'شروق جبل موسى ودير سانت كاترين',
     groupBadgeEn: 'Mount Sinai Sunrise & Monastery',
     focus: 'center 50%',
-    image: '/images/excursions/catherine/mount-sinai-sea-of-clouds.jpg'
+    image: '/images/excursions/catherine/mount-sinai-sea-of-clouds.jpg',
+    isPortrait: false
   },
   {
     slug: 'nuweiba-wishwashi-canyon-safari',
@@ -217,7 +250,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'مغامرة وادي الوشواشي في نويبع',
     groupBadgeEn: 'Nuweiba Wishwashi Canyon Safari',
     focus: 'center 50%',
-    image: '/images/excursions/nuweiba/nuweiba-wishwashi-emerald.jpg'
+    image: '/images/excursions/nuweiba/nuweiba-wishwashi-emerald.jpg',
+    isPortrait: false
   },
 
   // ═══════════════════════════════════════════════════════════════
@@ -229,7 +263,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'فيورد طابا وقلعة صلاح الدين',
     groupBadgeEn: 'Taba Fjord Bay & Castle',
     focus: 'center 50%',
-    image: '/images/excursions/taba/taba-fjord-bay-crystal.jpg'
+    image: '/images/excursions/taba/taba-fjord-bay-crystal.jpg',
+    isPortrait: false
   },
   {
     slug: 'vip-private-yacht-charter',
@@ -245,7 +280,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     subtitleEn: 'Exclusive private yacht charter for you and your family with professional crew, snorkeling gear, and open seafood buffet throughout the day.',
     startingPrice: 220,
     rating: 5.0,
-    href: '/experiences?category=sea'
+    href: '/experiences?category=sea',
+    isPortrait: false
   },
   {
     slug: 'custom-vip-adventure',
@@ -261,9 +297,128 @@ const ORDERED_TRIP_DEFINITIONS = [
     subtitleEn: 'Customize your private holiday itinerary across Sharm and South Sinai with dedicated concierge service and private chauffeur 24/7.',
     startingPrice: 35,
     rating: 5.0,
-    href: '/experiences'
+    href: '/experiences',
+    isPortrait: false
   }
 ];
+
+/**
+ * Single Responsive Luxury Card Component
+ * Displays complete photos (landscape or portrait) with zero empty space
+ * using a cinematic dual-layer ambient backdrop technique.
+ */
+function TripCard({ trip, total, index, isAr, formatPrice, t, ArrowIcon }) {
+  const [isPortrait, setIsPortrait] = useState(trip.isPortrait || false);
+  const badgeColor = getBadgeColor(trip.group);
+
+  const handleImageLoad = (e) => {
+    const { naturalWidth, naturalHeight } = e.currentTarget;
+    if (naturalHeight > naturalWidth * 1.05) {
+      setIsPortrait(true);
+    }
+  };
+
+  return (
+    <div className="w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[440px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-slate-900/8 border border-slate-200/90 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:border-slate-300 group/card">
+      {/* High-Resolution Photo Bay with Smart Dual-Layer Display */}
+      <div className="relative h-52 sm:h-60 md:h-52 lg:h-60 xl:h-64 w-full overflow-hidden bg-slate-950 group shrink-0">
+        {/* Ambient Backdrop Layer: Fills 100% of the box so NO empty space ever shows */}
+        <img
+          src={trip.image}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover filter blur-xl scale-125 opacity-60 brightness-90 pointer-events-none select-none transition-transform duration-700"
+        />
+
+        {/* Subtle Darkening Gradient for Badge Legibility & Luxury Contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-slate-950/35 pointer-events-none z-10" />
+
+        {/* Main Image: Shows COMPLETE photo without empty space */}
+        <picture className="relative z-10 w-full h-full flex items-center justify-center">
+          <source srcSet={toWebp(trip.image)} type="image/webp" />
+          <img
+            src={trip.image}
+            alt={trip.title}
+            loading="lazy"
+            decoding="async"
+            onLoad={handleImageLoad}
+            onError={(e) => {
+              const fallback = '/images/real/user-atv-safari.webp';
+              if (e.currentTarget.src !== fallback && !e.currentTarget.src.endsWith(fallback)) {
+                e.currentTarget.src = fallback;
+              }
+            }}
+            className={`w-full h-full transition-transform duration-700 group-hover/card:scale-105 ${
+              isPortrait
+                ? 'object-contain max-h-full py-1 drop-shadow-xl'
+                : 'object-cover'
+            }`}
+            style={{ objectPosition: trip.focus || 'center center' }}
+          />
+        </picture>
+
+        {/* Top Floating Badges: Category & Counter */}
+        <div className="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-20">
+          <span className="px-2.5 py-1 rounded-full text-xs font-black bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-xs">
+            <span className={badgeColor}>{trip.categoryBadge}</span>
+          </span>
+          <span dir="ltr" className="text-xs font-mono font-bold text-slate-700 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full border border-slate-200/80 shadow-xs">
+            {pad(index + 1)} / {pad(total)}
+          </span>
+        </div>
+      </div>
+
+      {/* Details Body */}
+      <div className="p-3.5 sm:p-4 lg:p-4.5 flex flex-col justify-between flex-1 gap-2.5 bg-white">
+        {/* Title & Short Description */}
+        <div className="space-y-1">
+          <h3 className="text-sm sm:text-base lg:text-lg font-black font-heading leading-snug text-slate-900 line-clamp-1 hover:text-[#0284C7] transition-colors">
+            <Link to={trip.href}>{trip.title}</Link>
+          </h3>
+          <p className="text-xs sm:text-xs lg:text-[13px] leading-relaxed text-slate-600 line-clamp-2 min-h-[2.25rem]">
+            {trip.subtitle}
+          </p>
+        </div>
+
+        {/* Meta Row: Rating & Price */}
+        <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm">
+          <div className="flex items-center gap-1.5 font-bold text-amber-500">
+            <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
+            <span className="text-sm font-black text-slate-900">{trip.rating}</span>
+          </div>
+
+          <div className="text-end">
+            <span className="text-[10px] text-slate-400 block leading-none mb-0.5 font-semibold">
+              {isAr ? 'السعر يبدأ من' : 'From'}
+            </span>
+            <span className="text-base sm:text-lg lg:text-xl font-black text-[#0284C7] leading-none">
+              {formatPrice(trip.startingPrice)}
+            </span>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="pt-0.5 flex items-center gap-2">
+          <Link
+            to={trip.href}
+            aria-label={`${t('trips.view', 'عرض الرحلة')}: ${trip.title}`}
+            className="inline-flex items-center justify-center gap-1.5 flex-1 py-2 sm:py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white text-xs font-extrabold shadow-sm hover:shadow-md transition-all group/btn cursor-pointer whitespace-nowrap"
+          >
+            <span>{trip.isTransfer ? (isAr ? 'حجز الانتقالات' : 'Book Transfers') : t('trips.view', 'عرض التفاصيل')}</span>
+            <ArrowIcon className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1" />
+          </Link>
+
+          <Link
+            to="/experiences"
+            className="inline-flex items-center justify-center py-2 sm:py-2.5 px-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-slate-300 text-xs font-bold text-slate-700 hover:text-[#0284C7] transition-all whitespace-nowrap cursor-pointer shadow-2xs"
+          >
+            {isAr ? 'كل الرحلات' : 'All Tours'}
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function TripStack({ startIndex = 2, trips: customTrips }) {
   const { t, i18n } = useTranslation();
@@ -291,7 +446,8 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
           focus: item.focus || 'center',
           rating: item.rating || 5.0,
           startingPrice: item.startingPrice,
-          isTransfer: !!item.isCustomTransfer
+          isTransfer: !!item.isCustomTransfer,
+          isPortrait: !!item.isPortrait
         };
       }
 
@@ -318,25 +474,13 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
         focus: item.focus || 'center',
         rating: localized.rating || 4.9,
         startingPrice: localized.startingPrice || 25,
-        isTransfer: false
+        isTransfer: false,
+        isPortrait: !!item.isPortrait
       };
     });
   }, [customTrips, i18n.language, isAr]);
 
   const total = trips.length;
-
-  const getBadgeColor = (group) => {
-    switch (group) {
-      case 'safari':
-        return 'text-amber-600';
-      case 'sea':
-        return 'text-[#0284C7]';
-      case 'transfers':
-        return 'text-emerald-600';
-      default:
-        return 'text-purple-600';
-    }
-  };
 
   return (
     <>
@@ -351,7 +495,6 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
         const col = i % 3;
         const isFirst = i === 0;
         const globalIndex = startIndex + i;
-        const badgeColor = getBadgeColor(trip.group);
 
         // Section classes:
         // i === 0 is the full-width white base with fixed logo watermark & placeholders for slots 1 and 2.
@@ -396,7 +539,7 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
             {/* Desktop Slot 1 Teaser Placeholder (Rendered on Base Section 0 until Trip 1 slides in) */}
             {isFirst && (
               <div className="hidden md:flex absolute inset-y-0 start-[33.333333%] w-1/3 items-center justify-center p-2 sm:p-2.5 lg:p-3 xl:p-4 pointer-events-none z-10">
-                <div className="flex flex-col items-center justify-center gap-3 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-50/80 backdrop-blur-xs border-2 border-dashed border-slate-200/90 text-slate-700 w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[430px] min-h-[380px] lg:min-h-[420px] text-center pointer-events-auto shadow-xs">
+                <div className="flex flex-col items-center justify-center gap-3 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-50/80 backdrop-blur-xs border-2 border-dashed border-slate-200/90 text-slate-700 w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[440px] min-h-[380px] lg:min-h-[440px] xl:min-h-[460px] text-center pointer-events-auto shadow-xs">
                   <div className="w-12 h-12 rounded-2xl bg-white shadow-xs flex items-center justify-center text-[#0284C7] font-black text-lg border border-slate-100">
                     02
                   </div>
@@ -414,7 +557,7 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
             {/* Desktop Slot 2 Teaser Placeholder (Rendered on Base Section 0 until Trip 2 slides in) */}
             {isFirst && (
               <div className="hidden md:flex absolute inset-y-0 start-[66.666667%] w-1/3 items-center justify-center p-2 sm:p-2.5 lg:p-3 xl:p-4 pointer-events-none z-10">
-                <div className="flex flex-col items-center justify-center gap-3 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-50/50 backdrop-blur-xs border-2 border-dashed border-slate-200/70 text-slate-500 w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[430px] min-h-[380px] lg:min-h-[420px] text-center pointer-events-auto">
+                <div className="flex flex-col items-center justify-center gap-3 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-50/50 backdrop-blur-xs border-2 border-dashed border-slate-200/70 text-slate-500 w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[440px] min-h-[380px] lg:min-h-[440px] xl:min-h-[460px] text-center pointer-events-auto">
                   <div className="w-12 h-12 rounded-2xl bg-white/90 shadow-2xs flex items-center justify-center text-slate-400 font-black text-lg border border-slate-100">
                     03
                   </div>
@@ -434,91 +577,15 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
                 isFirst ? 'md:w-1/3 md:start-0' : ''
               }`}
             >
-              {/* Unified Clean Luxury Travel Card - 1/3 Screen Slot Width */}
-              <div className="w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[430px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-slate-900/8 border border-slate-200/90 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:border-slate-300 max-h-[calc(100svh-var(--header-h)-1.5rem)] group/card">
-                {/* High-Resolution Photo Bay */}
-                <div className="relative h-38 sm:h-42 md:h-40 lg:h-44 xl:h-48 w-full overflow-hidden bg-slate-100 group shrink-0">
-                  <picture className="w-full h-full">
-                    <source srcSet={toWebp(trip.image)} type="image/webp" />
-                    <img
-                      src={trip.image}
-                      alt={trip.title}
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e) => {
-                        const fallback = '/images/real/user-atv-safari.webp';
-                        if (e.currentTarget.src !== fallback && !e.currentTarget.src.endsWith(fallback)) {
-                          e.currentTarget.src = fallback;
-                        }
-                      }}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                      style={{ objectPosition: trip.focus || 'center 40%' }}
-                    />
-                  </picture>
-
-                  {/* Gradient on bottom of photo for contrast */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
-
-                  {/* Top Floating Badges: Category & Counter */}
-                  <div className="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none">
-                    <span className="px-2.5 py-1 rounded-full text-xs font-black bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-xs">
-                      <span className={badgeColor}>{trip.categoryBadge}</span>
-                    </span>
-                    <span dir="ltr" className="text-xs font-mono font-bold text-slate-700 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full border border-slate-200/80 shadow-xs">
-                      {pad(i + 1)} / {pad(total)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Details Body */}
-                <div className="p-3.5 sm:p-4 lg:p-4.5 flex flex-col justify-between flex-1 gap-2.5">
-                  {/* Title & Short Description */}
-                  <div className="space-y-1">
-                    <h3 className="text-sm sm:text-base lg:text-lg font-black font-heading leading-snug text-slate-900 line-clamp-1 hover:text-[#0284C7] transition-colors">
-                      <Link to={trip.href}>{trip.title}</Link>
-                    </h3>
-                    <p className="text-xs sm:text-xs lg:text-[13px] leading-relaxed text-slate-600 line-clamp-2 min-h-[2.25rem]">
-                      {trip.subtitle}
-                    </p>
-                  </div>
-
-                  {/* Meta Row: Rating & Price */}
-                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm">
-                    <div className="flex items-center gap-1.5 font-bold text-amber-500">
-                      <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
-                      <span className="text-sm font-black text-slate-900">{trip.rating}</span>
-                    </div>
-
-                    <div className="text-end">
-                      <span className="text-[10px] text-slate-400 block leading-none mb-0.5 font-semibold">
-                        {isAr ? 'السعر يبدأ من' : 'From'}
-                      </span>
-                      <span className="text-base sm:text-lg lg:text-xl font-black text-[#0284C7] leading-none">
-                        {formatPrice(trip.startingPrice)}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="pt-0.5 flex items-center gap-2">
-                    <Link
-                      to={trip.href}
-                      aria-label={`${t('trips.view', 'عرض الرحلة')}: ${trip.title}`}
-                      className="inline-flex items-center justify-center gap-1.5 flex-1 py-2 sm:py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white text-xs font-extrabold shadow-sm hover:shadow-md transition-all group/btn cursor-pointer whitespace-nowrap"
-                    >
-                      <span>{trip.isTransfer ? (isAr ? 'حجز الانتقالات' : 'Book Transfers') : t('trips.view', 'عرض التفاصيل')}</span>
-                      <ArrowIcon className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1" />
-                    </Link>
-
-                    <Link
-                      to="/experiences"
-                      className="inline-flex items-center justify-center py-2 sm:py-2.5 px-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-slate-300 text-xs font-bold text-slate-700 hover:text-[#0284C7] transition-all whitespace-nowrap cursor-pointer shadow-2xs"
-                    >
-                      {isAr ? 'كل الرحلات' : 'All Tours'}
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              <TripCard
+                trip={trip}
+                total={total}
+                index={i}
+                isAr={isAr}
+                formatPrice={formatPrice}
+                t={t}
+                ArrowIcon={ArrowIcon}
+              />
             </div>
           </StackSection>
         );

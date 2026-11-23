@@ -103,7 +103,7 @@ export const ContactUsPage = () => {
                   </a>
 
                   <a
-                    href="https://www.instagram.com/el_hana_group/"
+                    href="https://www.instagram.com/elhana_safari"
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-2 p-2.5 rounded-xl bg-gradient-to-r from-amber-500/15 to-purple-600/15 border border-purple-500/30 hover:border-purple-500/60 text-white text-xs font-bold transition"

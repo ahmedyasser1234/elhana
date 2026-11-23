@@ -55,7 +55,7 @@ export const InstagramGallery = () => {
         </div>
 
         <a
-          href="https://www.instagram.com/el_hana_group/"
+          href="https://www.instagram.com/elhana_safari"
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-white bg-[#C2410C] hover:bg-[#9A3412] px-7 py-3 rounded-full shadow-md hover:shadow-lg transition duration-300"
