@@ -7,12 +7,42 @@ export const DestinationGuideSection = () => {
   const { t } = useTranslation();
 
   const destinations = [
-    { name: t('destinations.d1Name'), desc: t('destinations.d1Desc'), image: "/images/real/atv-quad-hero.png" },
-    { name: t('destinations.d2Name'), desc: t('destinations.d2Desc'), image: "/images/real/atv-quad.jpg" },
-    { name: t('destinations.d3Name'), desc: t('destinations.d3Desc'), image: "/images/real/camel-caravan.jpg" },
-    { name: t('destinations.d4Name'), desc: t('destinations.d4Desc'), image: "/images/real/family-buggy-ride.jpg" },
-    { name: t('destinations.d5Name'), desc: t('destinations.d5Desc'), image: "/images/real/file_00000000721c8243bcf2dcba3f2f0d76.png" },
-    { name: t('destinations.d6Name'), desc: t('destinations.d6Desc'), image: "/images/real/IMG-20260722-WA0076.jpg" }
+    { 
+      name: t('destinations.d1Name'), 
+      desc: t('destinations.d1Desc'), 
+      image: "/images/destinations/naama-bay.jpg",
+      imageWebp: "/images/destinations/naama-bay.webp"
+    },
+    { 
+      name: t('destinations.d2Name'), 
+      desc: t('destinations.d2Desc'), 
+      image: "/images/destinations/ras-mohammed.jpg",
+      imageWebp: "/images/destinations/ras-mohammed.webp"
+    },
+    { 
+      name: t('destinations.d3Name'), 
+      desc: t('destinations.d3Desc'), 
+      image: "/images/destinations/south-sinai-desert.jpg",
+      imageWebp: "/images/destinations/south-sinai-desert.webp"
+    },
+    { 
+      name: t('destinations.d4Name'), 
+      desc: t('destinations.d4Desc'), 
+      image: "/images/destinations/tiran-island.jpg",
+      imageWebp: "/images/destinations/tiran-island.webp"
+    },
+    { 
+      name: t('destinations.d5Name'), 
+      desc: t('destinations.d5Desc'), 
+      image: "/images/destinations/nabq-bay.jpg",
+      imageWebp: "/images/destinations/nabq-bay.webp"
+    },
+    { 
+      name: t('destinations.d6Name'), 
+      desc: t('destinations.d6Desc'), 
+      image: "/images/destinations/hadaba-ras-um-sid.jpg",
+      imageWebp: "/images/destinations/hadaba-ras-um-sid.webp"
+    }
   ];
 
   return (
@@ -39,14 +69,18 @@ export const DestinationGuideSection = () => {
               className="bg-white/95 backdrop-blur-md rounded-3xl overflow-hidden shadow-md hover:shadow-2xl border border-sky-100/80 hover:border-[#0284C7] group transition-all duration-300 flex flex-col justify-between hover:-translate-y-1"
             >
               <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
-                <div className="absolute bottom-3.5 left-3.5 text-white font-black text-lg font-heading">
+                <picture className="w-full h-full">
+                  <source srcSet={item.imageWebp} type="image/webp" />
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </picture>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent"></div>
+                <div className="absolute bottom-3.5 left-4 rtl:left-auto rtl:right-4 text-white font-black text-lg font-heading drop-shadow-sm">
                   <span>{item.name}</span>
                 </div>
               </div>
