@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="whyShieldOuter" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="80%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+    <linearGradient id="whyShieldInner" x1="18" y1="14" x2="46" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#FEF3C7"/>
+      <stop offset="100%" stop-color="#FDE68A"/>
+    </linearGradient>
+    <linearGradient id="whyStarGrad" x1="24" y1="20" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+    <filter id="whyGoldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Radiant Halo -->
+  <circle cx="32" cy="32" r="28" stroke="#FBBF24" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.45"/>
+  <ellipse cx="32" cy="56" rx="20" ry="3.5" fill="#B45309" fill-opacity="0.2"/>
+
+  <!-- Golden 5-Star Laurel Wreath Leaves on Bottom Sides -->
+  <path d="M12 40C10 34 11 26 15 20M52 40C54 34 53 26 49 20" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <!-- Laurel Leaves Left -->
+  <ellipse cx="11.5" cy="34" rx="2.5" ry="1.5" transform="rotate(-30 11.5 34)" fill="#FBBF24"/>
+  <ellipse cx="12.5" cy="27" rx="2.5" ry="1.5" transform="rotate(-50 12.5 27)" fill="#FBBF24"/>
+  <ellipse cx="16" cy="21" rx="2.5" ry="1.5" transform="rotate(-70 16 21)" fill="#FBBF24"/>
+  <!-- Laurel Leaves Right -->
+  <ellipse cx="52.5" cy="34" rx="2.5" ry="1.5" transform="rotate(30 52.5 34)" fill="#FBBF24"/>
+  <ellipse cx="51.5" cy="27" rx="2.5" ry="1.5" transform="rotate(50 51.5 27)" fill="#FBBF24"/>
+  <ellipse cx="48" cy="21" rx="2.5" ry="1.5" transform="rotate(70 48 21)" fill="#FBBF24"/>
+
+  <!-- Master Shield Heavy 3D Bevel Body -->
+  <path d="M32 8L49 15V31C49 42 41 51 32 55C23 51 15 42 15 31V15L32 8Z" fill="url(#whyShieldOuter)" filter="url(#whyGoldGlow)"/>
+
+  <!-- Shield Inner Lustrous Inset -->
+  <path d="M32 12.5L45 18V31C45 39.5 38.5 47 32 50.5C25.5 47 19 39.5 19 31V18L32 12.5Z" fill="url(#whyShieldInner)" stroke="#FFFFFF" stroke-width="1.2"/>
+
+  <!-- Shield Diagonal Glass Reflection -->
+  <path d="M32 13L44 18V26L32 13Z" fill="#FFFFFF" fill-opacity="0.6"/>
+
+  <!-- Center Master Certified Emblem: 3D Compass & Star -->
+  <path d="M32 18L35 25.5L43 26.5L37 32L39 40L32 36L25 40L27 32L21 26.5L29 25.5L32 18Z" fill="url(#whyStarGrad)"/>
+  <!-- Inner Faceted Star Highlight -->
+  <path d="M32 20L34 26L39 26.5L35 30.5L36.5 36L32 33V20Z" fill="#FDE68A"/>
+
+  <!-- Center Gem Diamond -->
+  <circle cx="32" cy="29" r="3" fill="#FFFFFF" stroke="#D97706" stroke-width="1"/>
+  <circle cx="32" cy="29" r="1.5" fill="#0284C7"/>
+
+  <!-- Lower Verified Checkmark Ribbon in Shield -->
+  <path d="M26 43L30 46L38 39" stroke="#047857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
