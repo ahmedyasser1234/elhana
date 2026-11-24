@@ -614,9 +614,11 @@ export const EXPERIENCES = [
     shortDescription: "The ultimate Sinai desert adventure combining ATV Quad, Dune Buggy, Camel Ride, Bedouin BBQ & stargazing.",
     description: "Why choose one when you can experience all desert adventures in a single action-packed afternoon and evening? Ride quads through canyon trails, command a dune buggy, mount a camel, taste authentic Bedouin bread and tea, enjoy a lavish dinner buffet with live oriental performances, and stargaze with a telescope.",
     images: [
+      "/images/safari/super-safari-combo-hero.webp",
       "/images/real/polaris-buggy-family.webp",
-      "/images/real/atv-quad.webp",
-      "/images/real/camel-caravan.jpg"
+      "/images/real/user-atv-safari.webp",
+      "/images/safari/camel/camel-riding-hero.webp",
+      "/images/romantic/romantic-bedouin-candlelight-dinner.webp"
     ],
     duration: "6 Hours",
     location: "Sinai Desert Valley, Sharm El Sheikh",

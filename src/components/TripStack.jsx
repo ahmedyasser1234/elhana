@@ -66,7 +66,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeAr: 'سوبر سفاري كومبو شامل',
     groupBadgeEn: 'Super Safari Combo All-In-One',
     focus: 'center 45%',
-    image: '/images/real/polaris-buggy-family.webp'
+    image: '/images/safari/super-safari-combo-hero.webp'
   },
   {
     slug: 'authentic-bedouin-experience-dinner',

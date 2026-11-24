@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T16:39:02.903Z",
+  "generated": "2026-11-24T16:58:41.499Z",
   "items": [
     {
       "url": "/images/safari/atv/double/dinner/WhatsApp Image 2026-10-05 at 11.26.00 AM (1).jpeg",
@@ -486,6 +486,18 @@
       "name": "horse-riding-hero.webp",
       "type": "image",
       "rel": "/images/safari/horse/horse-riding-hero.webp"
+    },
+    {
+      "url": "/images/safari/super-safari-combo-hero.jpg",
+      "name": "super-safari-combo-hero.jpg",
+      "type": "image",
+      "rel": "/images/safari/super-safari-combo-hero.jpg"
+    },
+    {
+      "url": "/images/safari/super-safari-combo-hero.webp",
+      "name": "super-safari-combo-hero.webp",
+      "type": "image",
+      "rel": "/images/safari/super-safari-combo-hero.webp"
     },
     {
       "url": "/images/sea/banana-boat-water-ride.jpg",
