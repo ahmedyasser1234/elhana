@@ -134,7 +134,7 @@ export const HeroSection = () => {
         </picture>
         
         {/* Directional Soft Scrim ONLY Behind Text Column - Buggy & Landscape Remain 100% Clearly Visible */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent rtl:bg-gradient-to-l pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-white/20 to-transparent rtl:bg-gradient-to-l pointer-events-none"></div>
         {/* Soft Bottom Transition to Next Stack Section */}
         <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white/70 via-white/15 to-transparent pointer-events-none"></div>
       </div>
@@ -148,7 +148,7 @@ export const HeroSection = () => {
           <div className="lg:col-span-7 space-y-5 text-left rtl:text-right">
             
             {/* Eyebrow Text */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100/90 text-[#0284C7] font-black text-xs sm:text-sm tracking-wider uppercase border border-sky-200/80 shadow-xs">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100/90 text-[#0369A1] font-black text-xs sm:text-sm tracking-wider uppercase border border-sky-200/80 shadow-xs">
               <span>{isAr ? "شركة الهنا للسياحة والسفاري VIP" : "EL HANA GROUP TOURISM VIP"}</span>
             </div>
 
@@ -158,14 +158,14 @@ export const HeroSection = () => {
                 {isAr ? (
                   <span>
                     حيث تترك المغامرة{' '}
-                    <span className="text-[#0284C7]">
+                    <span className="text-[#0369A1] font-black">
                       أثراً لا يُنسى.
                     </span>
                   </span>
                 ) : (
                   <span>
                     Where Power Leaves a{' '}
-                    <span className="text-[#0284C7]">
+                    <span className="text-[#0369A1] font-black">
                       Mark.
                     </span>
                   </span>
