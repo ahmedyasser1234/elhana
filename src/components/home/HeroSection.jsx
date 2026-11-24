@@ -65,7 +65,7 @@ export const HeroSection = () => {
 
   const currentOffer = showcaseOffers[activeSlideIdx];
 
-  // Category Cards Configuration - Vibrant Brand Identity Palettes
+  // Category Cards Configuration - Unified Luxury Royal Navy Glass with Refined Brand Accents
   const cardsData = [
     {
       id: 1,
@@ -73,10 +73,9 @@ export const HeroSection = () => {
       tag: isAr ? "سفاري الصحراء" : "DESERT SAFARI",
       title: isAr ? "إثارة وتشويق بلا حدود" : "Pure Adrenaline",
       link: "/safari",
-      cardBg: "bg-gradient-to-br from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] border-sky-300/40 hover:border-white shadow-sky-500/25",
-      iconBg: "bg-white/20 text-white backdrop-blur-md",
-      tagColor: "text-sky-200",
-      titleColor: "text-white",
+      accentBg: "bg-sky-500/20 text-[#38BDF8] border border-sky-400/30",
+      tagColor: "text-sky-400",
+      hoverBorder: "hover:border-sky-400/80 hover:shadow-sky-500/20",
     },
     {
       id: 2,
@@ -84,10 +83,9 @@ export const HeroSection = () => {
       tag: isAr ? "اليخوت الفاخرة" : "VIP YACHTS",
       title: isAr ? "إبحار ملوكي VIP" : "Royal Sailing VIP",
       link: "/sea-trips",
-      cardBg: "bg-gradient-to-br from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 border-amber-300/40 hover:border-white shadow-amber-500/25",
-      iconBg: "bg-white/20 text-white backdrop-blur-md",
-      tagColor: "text-amber-100",
-      titleColor: "text-white",
+      accentBg: "bg-amber-500/20 text-amber-300 border border-amber-400/30",
+      tagColor: "text-amber-400",
+      hoverBorder: "hover:border-amber-400/80 hover:shadow-amber-500/20",
     },
     {
       id: 3,
@@ -95,10 +93,9 @@ export const HeroSection = () => {
       tag: isAr ? "الغوص والسنوركلينج" : "DIVING & REEFS",
       title: isAr ? "عالم المرجان والأعماق" : "Underwater Reefs",
       link: "/diving",
-      cardBg: "bg-gradient-to-br from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 border-teal-300/40 hover:border-white shadow-teal-500/25",
-      iconBg: "bg-white/20 text-white backdrop-blur-md",
-      tagColor: "text-teal-100",
-      titleColor: "text-white",
+      accentBg: "bg-emerald-500/20 text-emerald-300 border border-emerald-400/30",
+      tagColor: "text-emerald-400",
+      hoverBorder: "hover:border-emerald-400/80 hover:shadow-emerald-500/20",
     },
     {
       id: 4,
@@ -106,10 +103,9 @@ export const HeroSection = () => {
       tag: isAr ? "الانتقالات الخاصة" : "VIP TRANSFERS",
       title: isAr ? "توصيل 24/7 للمطار والفندق" : "24/7 Airport Shuttles",
       link: "/transfers",
-      cardBg: "bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 border-orange-300/40 hover:border-white shadow-orange-500/25",
-      iconBg: "bg-white/20 text-white backdrop-blur-md",
-      tagColor: "text-orange-100",
-      titleColor: "text-white",
+      accentBg: "bg-orange-500/20 text-orange-300 border border-orange-400/30",
+      tagColor: "text-orange-400",
+      hoverBorder: "hover:border-orange-400/80 hover:shadow-orange-500/20",
     },
   ];
 
@@ -294,16 +290,16 @@ export const HeroSection = () => {
                   <Link
                     key={card.id}
                     to={card.link}
-                    className={`p-3 sm:p-3.5 rounded-2xl ${card.cardBg} backdrop-blur-xl border shadow-lg hover:shadow-2xl flex items-center gap-2.5 sm:gap-3 transition-all duration-300 group cursor-pointer hover:scale-[1.03] active:scale-98`}
+                    className={`p-3 sm:p-3.5 rounded-2xl bg-[#0B1E36]/90 hover:bg-[#0E2746]/95 backdrop-blur-2xl border border-sky-500/20 ${card.hoverBorder} shadow-xl shadow-slate-950/25 flex items-center gap-2.5 sm:gap-3 transition-all duration-300 group cursor-pointer hover:scale-[1.02] active:scale-98`}
                   >
-                    <div className={`p-2 sm:p-2.5 rounded-xl ${card.iconBg} shrink-0 group-hover:scale-110 transition duration-300`}>
+                    <div className={`p-2 sm:p-2.5 rounded-xl ${card.accentBg} shrink-0 group-hover:scale-110 transition duration-300`}>
                       <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className={`text-[9px] sm:text-[10px] font-black tracking-wider uppercase ${card.tagColor} block truncate`}>
                         {card.tag}
                       </span>
-                      <div className={`text-[11px] sm:text-xs lg:text-[13px] font-black ${card.titleColor} transition truncate leading-snug drop-shadow-xs`}>
+                      <div className="text-[11px] sm:text-xs lg:text-[13px] font-black text-white group-hover:text-sky-200 transition truncate leading-snug drop-shadow-xs">
                         {card.title}
                       </div>
                     </div>
