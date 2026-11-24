@@ -218,6 +218,20 @@ div[class*="elfsight-app"] {
   overflow: visible !important;
 }
 
+/* Force single row */
+div[class*="elfsight-app"] [class*="posts-grid"],
+div[class*="elfsight-app"] [class*="PostsGrid"],
+div[class*="elfsight-app"] [class*="eapps-instagram-feed-posts-grid"],
+div[class*="elfsight-app"] [class*="slider-inner"],
+div[class*="elfsight-app"] [class*="SliderInner"] {
+  grid-template-rows: 1fr !important;
+}
+
+div[class*="elfsight-app"] [class*="slide-row"]:nth-child(n+2),
+div[class*="elfsight-app"] [class*="SlideRow"]:nth-child(n+2) {
+  display: none !important;
+}
+
 div[class*="elfsight-app"] [class*="arrow"],
 div[class*="elfsight-app"] button[class*="Arrow"],
 div[class*="elfsight-app"] [class*="Control"],

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { DollarSign, ChevronDown } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
 
-export const CurrencySwitcher = () => {
+export const CurrencySwitcher = ({ isTransparent = false }) => {
   const { currency, setCurrency, rates } = useCurrency();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -23,13 +23,17 @@ export const CurrencySwitcher = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-stone-700 bg-stone-100 hover:bg-stone-200/80 rounded-lg border border-stone-200 transition"
+        className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
+          isTransparent
+            ? 'text-white bg-white/15 hover:bg-white/25 border-white/20 backdrop-blur-md'
+            : 'text-stone-700 bg-stone-100 hover:bg-stone-200/80 border-stone-200'
+        }`}
         title="Select Currency"
       >
-        <DollarSign className="w-3.5 h-3.5 text-[#0284C7]" />
-        <span className="font-bold text-stone-800">{activeCurrency.symbol}</span>
-        <span className="uppercase font-bold text-stone-800">{currency}</span>
-        <ChevronDown className="w-3 h-3 text-stone-500" />
+        <DollarSign className={`w-3.5 h-3.5 ${isTransparent ? 'text-sky-300' : 'text-[#0284C7]'}`} />
+        <span className={`font-bold ${isTransparent ? 'text-white' : 'text-stone-800'}`}>{activeCurrency.symbol}</span>
+        <span className={`uppercase font-bold ${isTransparent ? 'text-white' : 'text-stone-800'}`}>{currency}</span>
+        <ChevronDown className={`w-3 h-3 ${isTransparent ? 'text-white/80' : 'text-stone-500'}`} />
       </button>
 
       {open && (
