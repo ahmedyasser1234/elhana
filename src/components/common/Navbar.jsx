@@ -141,7 +141,7 @@ export const Navbar = () => {
       <header
         className={`sticky top-0 z-[1000] w-full h-[var(--header-h)] flex items-center transition-all duration-300 ${
           isTransparent
-            ? 'bg-white/40 backdrop-blur-md text-slate-800 border-b border-white/60 shadow-2xs'
+            ? 'bg-transparent text-slate-900 border-b border-transparent shadow-none'
             : scrolled
               ? 'bg-white/95 backdrop-blur-xl text-slate-900 shadow-md border-b border-sky-100/80'
               : 'bg-white/90 backdrop-blur-md text-slate-900 border-b border-sky-100/50'
@@ -164,7 +164,7 @@ export const Navbar = () => {
                       e.currentTarget.src = '/logo.jpg';
                     }
                   }}
-                  className="h-11 sm:h-13 lg:h-14 w-auto max-w-[150px] sm:max-w-[180px] lg:max-w-[210px] object-contain group-hover:scale-105 transition duration-300 drop-shadow-xs"
+                  className="h-11 sm:h-13 lg:h-14 w-auto max-w-[150px] sm:max-w-[180px] lg:max-w-[210px] object-contain group-hover:scale-105 transition duration-300 drop-shadow-[0_1px_3px_rgba(255,255,255,0.85)]"
                 />
               </picture>
             </Link>

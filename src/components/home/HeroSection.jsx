@@ -102,8 +102,8 @@ export const HeroSection = () => {
   ];
 
   return (
-    <div className="relative min-h-[calc(100svh-var(--header-h))] flex flex-col justify-between pt-6 sm:pt-8 md:pt-10 pb-8 sm:pb-12 md:pb-14 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-gradient-to-b from-sky-50/50 via-white to-amber-50/20 w-full">
-      {/* 1. REAL PHOTO BACKGROUND - LUMINOUS LIGHT LUXURY ATMOSPHERE */}
+    <div className="relative min-h-[100svh] flex flex-col justify-between pt-[calc(var(--header-h)+1.25rem)] sm:pt-[calc(var(--header-h)+1.75rem)] pb-8 sm:pb-12 md:pb-14 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none w-full">
+      {/* 1. REAL PHOTO BACKGROUND - 100% CLEAR, SHARP & VIVID UNDER TRANSPARENT NAVBAR */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <picture>
           <source media="(max-width: 640px)" srcSet="/images/real/polaris-buggy-family-mobile.webp" type="image/webp" />
@@ -121,14 +121,14 @@ export const HeroSection = () => {
               e.target.onerror = null;
               e.target.src = '/images/real/atv-quad-hero.png';
             }}
-            className="w-full h-full object-cover object-center scale-100 opacity-90"
+            className="w-full h-full object-cover object-center scale-100"
           />
         </picture>
         
-        {/* Soft Light Luminous Overlays guaranteeing maximum clarity, contrast & logo prominence */}
-        <div className="absolute inset-0 bg-white/40"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/20 rtl:from-white/20 rtl:via-white/80 rtl:to-white/95"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-transparent to-white/80"></div>
+        {/* Directional Soft Scrim ONLY Behind Text Column - Buggy & Landscape Remain 100% Clearly Visible */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent rtl:bg-gradient-to-l pointer-events-none"></div>
+        {/* Soft Bottom Transition to Next Stack Section */}
+        <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white/70 via-white/15 to-transparent pointer-events-none"></div>
       </div>
 
       {/* 2. Main Content Container */}
@@ -146,7 +146,7 @@ export const HeroSection = () => {
 
             {/* Headline */}
             <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-black text-slate-900 font-heading leading-tight tracking-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-black text-slate-900 font-heading leading-tight tracking-tight drop-shadow-[0_1px_3px_rgba(255,255,255,0.9)]">
                 {isAr ? (
                   <span>
                     حيث تترك المغامرة{' '}
@@ -167,7 +167,7 @@ export const HeroSection = () => {
 
             {/* Subtitle Paragraph */}
             <p
-              className="text-sm sm:text-base text-slate-700 max-w-xl font-medium leading-relaxed"
+              className="text-sm sm:text-base text-slate-800 max-w-xl font-bold leading-relaxed drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]"
             >
               {isAr
                 ? "نصنع تجارب سياحية فاخرة تجمع بين إثارة صحراء سيناء، يخوت البحر الأحمر VIP، والانتقالات المباشرة من الفندق في شرم الشيخ."

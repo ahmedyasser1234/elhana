@@ -26,7 +26,7 @@ export const HomePage = () => {
       {/* ONE Stacking Deck Container for All Home Sections (الحركة والتصكيك المتراكب الأصلي) */}
       <main className="relative isolate -mt-[var(--header-h)]">
         {/* PANEL 0: Hero Section (Sticks at top, flat top) */}
-        <StackSection index={0} id="hero" bg="bg-white">
+        <StackSection index={0} id="hero" bg="bg-transparent">
           <HeroSection />
         </StackSection>
 
