@@ -205,90 +205,29 @@ export const InstagramGallery = () => {
   };
 
   return (
-    <section className="w-full min-h-[calc(100svh-var(--header-h))] flex flex-col justify-center py-12 md:py-16 bg-gradient-to-bl from-orange-50/70 via-amber-50/40 to-sky-50/50 text-slate-900 relative overflow-hidden">
+    <section className="w-full py-10 md:py-14 bg-gradient-to-bl from-orange-50/50 via-amber-50/30 to-sky-50/40 text-slate-900 relative overflow-hidden">
       {/* Ambient Radial Glows */}
-      <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-[#F97316]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-[#0284C7]/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#F97316]/10 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#0284C7]/10 rounded-full blur-[130px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10 w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10 w-full">
         
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center space-y-3">
-          {/* Instagram Badge */}
-          <a
-            href={INSTAGRAM_PROFILE_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-600/10 via-pink-600/10 to-amber-600/10 border border-pink-500/30 text-pink-700 hover:text-pink-800 font-extrabold text-xs uppercase tracking-wider transition-all hover:scale-105 shadow-2xs"
-          >
-            {/* Instagram Camera Vector */}
-            <svg className="w-4 h-4 fill-current text-pink-600" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-            </svg>
-            <span>{isAr ? 'حساب إنستغرام الرسمي' : 'Official Instagram'} {INSTAGRAM_HANDLE}</span>
-            <CheckCircle2 className="w-3.5 h-3.5 text-sky-500 fill-sky-500 text-white" />
-          </a>
-
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading tracking-tight text-slate-900">
-            {isAr ? 'ريلز ولحظات حية من مغامراتنا في شرم الشيخ' : 'Live Social Grid & Real Instagram Reels'}
+        {/* Clean, Minimal Section Header */}
+        <div className="text-center">
+          <h2 className="text-2xl sm:text-3xl font-black font-heading tracking-tight text-slate-900">
+            {isAr ? 'تابع مغامراتنا الحية على إنستغرام' : 'Follow Our Sinai Adventures on Instagram'}
           </h2>
-
-          <p className="max-w-2xl text-slate-600 text-xs sm:text-sm font-medium">
-            {isAr
-              ? 'شاهد أحدث مقاطع الريلز والصور الحية من جولات البيتش باجي، الكار باجي، والسهرات البدوية مباشرة من حسابنا.'
-              : 'Real guest moments, video reels and action captures in Sharm El Sheikh straight from our official feed.'}
-          </p>
-
-          {/* Interactive Filter Pills */}
-          {!elfsightWidgetId && (
-            <div className="flex items-center gap-2 pt-2">
-              <button
-                onClick={() => setFilter('all')}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition shadow-xs cursor-pointer ${
-                  filter === 'all'
-                    ? 'bg-slate-900 text-white shadow-md'
-                    : 'bg-white/80 text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-200'
-                }`}
-              >
-                {isAr ? 'جميع المنشورات (8)' : 'All Posts (8)'}
-              </button>
-
-              <button
-                onClick={() => setFilter('reels')}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition shadow-xs flex items-center gap-1.5 cursor-pointer ${
-                  filter === 'reels'
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md'
-                    : 'bg-white/80 text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-200'
-                }`}
-              >
-                <Film className="w-3.5 h-3.5" />
-                <span>{isAr ? 'ريلز وفيديو (4)' : 'Reels & Videos (4)'}</span>
-              </button>
-
-              <button
-                onClick={() => setFilter('photos')}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition shadow-xs flex items-center gap-1.5 cursor-pointer ${
-                  filter === 'photos'
-                    ? 'bg-sky-600 text-white shadow-md'
-                    : 'bg-white/80 text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-200'
-                }`}
-              >
-                <Camera className="w-3.5 h-3.5" />
-                <span>{isAr ? 'صور وتجارب (4)' : 'Photos (4)'}</span>
-              </button>
-            </div>
-          )}
         </div>
 
-        {/* ── AUTO-SYNC ELFSIGHT WIDGET (IF CONFIGURED) ── */}
+        {/* ── AUTO-SYNC ELFSIGHT WIDGET (1 ROW - 4 POSTS) ── */}
         {elfsightWidgetId ? (
-          <div className="w-full bg-white/70 backdrop-blur-md rounded-3xl p-4 sm:p-6 border border-slate-200/80 shadow-lg min-h-[400px]">
+          <div className="w-full overflow-hidden">
             <div className={`elfsight-app-${elfsightWidgetId}`} data-elfsight-app-lazy />
           </div>
         ) : (
-          /* ── NATIVE RESPONSIVE INSTAGRAM GRID ── */
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
-            {filteredMedia.map((item, index) => {
+          /* ── NATIVE RESPONSIVE INSTAGRAM GRID (EXACTLY 1 ROW OF 4 POSTS) ── */
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
+            {filteredMedia.slice(0, 4).map((item, index) => {
               const isReel = item.type === 'reel';
               const mediaSrc = isReel ? item.posterUrl : item.url;
 
@@ -382,30 +321,6 @@ export const InstagramGallery = () => {
             })}
           </div>
         )}
-
-        {/* Action & Direct Instagram Link Footer */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-          <a
-            href={INSTAGRAM_PROFILE_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="w-full sm:w-auto px-7 py-3 rounded-full bg-gradient-to-r from-[#F97316] via-pink-600 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white font-black text-xs sm:text-sm tracking-wide shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-            </svg>
-            <span>{isAr ? 'تابع حسابنا على إنستغرام @elhana_safari' : 'Follow @elhana_safari on Instagram'}</span>
-          </a>
-
-          <a
-            href={INSTAGRAM_PROFILE_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 px-5 py-3 rounded-full border border-slate-200 shadow-2xs hover:border-slate-300 transition"
-          >
-            <span>{isAr ? 'شاركنا تجاربك مع منشن @elhana_safari' : 'Tag @elhana_safari in your stories'}</span>
-          </a>
-        </div>
 
       </div>
 
