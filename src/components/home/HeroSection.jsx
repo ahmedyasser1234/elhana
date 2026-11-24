@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Compass, Anchor, Waves, Car, ArrowRight, Play, Star, MapPin } from 'lucide-react';
+import { ArrowRight, Play, Star, MapPin } from 'lucide-react';
 import { FloatingSearchWidget } from './FloatingSearchWidget';
 
 export const HeroSection = () => {
@@ -65,45 +65,45 @@ export const HeroSection = () => {
 
   const currentOffer = showcaseOffers[activeSlideIdx];
 
-  // Category Cards Configuration - Unified Luxury Royal Navy Glass with Refined Brand Accents
+  // Category Cards Configuration - Real Thumbnail Images with Luxury Royal Navy Glass
   const cardsData = [
     {
       id: 1,
-      icon: Compass,
+      image: "/images/real/user-atv-safari.webp",
       tag: isAr ? "سفاري الصحراء" : "DESERT SAFARI",
       title: isAr ? "إثارة وتشويق بلا حدود" : "Pure Adrenaline",
       link: "/safari",
-      accentBg: "bg-sky-500/20 text-[#38BDF8] border border-sky-400/30",
+      accentBorder: "border-sky-400/50",
       tagColor: "text-sky-400",
       hoverBorder: "hover:border-sky-400/80 hover:shadow-sky-500/20",
     },
     {
       id: 2,
-      icon: Anchor,
+      image: "/images/sea/ras-mohammed-luxury-yacht.webp",
       tag: isAr ? "اليخوت الفاخرة" : "VIP YACHTS",
       title: isAr ? "إبحار ملوكي VIP" : "Royal Sailing VIP",
       link: "/sea-trips",
-      accentBg: "bg-amber-500/20 text-amber-300 border border-amber-400/30",
+      accentBorder: "border-amber-400/50",
       tagColor: "text-amber-400",
       hoverBorder: "hover:border-amber-400/80 hover:shadow-amber-500/20",
     },
     {
       id: 3,
-      icon: Waves,
+      image: "/images/sea/snorkeling-ras-mohammed-reef.webp",
       tag: isAr ? "الغوص والسنوركلينج" : "DIVING & REEFS",
       title: isAr ? "عالم المرجان والأعماق" : "Underwater Reefs",
       link: "/diving",
-      accentBg: "bg-emerald-500/20 text-emerald-300 border border-emerald-400/30",
+      accentBorder: "border-emerald-400/50",
       tagColor: "text-emerald-400",
       hoverBorder: "hover:border-emerald-400/80 hover:shadow-emerald-500/20",
     },
     {
       id: 4,
-      icon: Car,
+      image: "/images/transfers/vip-transfers-sharm.webp",
       tag: isAr ? "الانتقالات الخاصة" : "VIP TRANSFERS",
       title: isAr ? "توصيل 24/7 للمطار والفندق" : "24/7 Airport Shuttles",
       link: "/transfers",
-      accentBg: "bg-orange-500/20 text-orange-300 border border-orange-400/30",
+      accentBorder: "border-orange-400/50",
       tagColor: "text-orange-400",
       hoverBorder: "hover:border-orange-400/80 hover:shadow-orange-500/20",
     },
@@ -282,30 +282,35 @@ export const HeroSection = () => {
               </div>
             </Link>
 
-            {/* 2. Interactive Category Grid (2x2) - 100% Zero Overlap on Desktop & Mobile */}
+            {/* 2. Interactive Category Grid (2x2) - Real Photo Thumbnails */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mt-3.5 sm:mt-4 w-full max-w-sm sm:max-w-md lg:max-w-none">
-              {cardsData.map((card) => {
-                const Icon = card.icon;
-                return (
-                  <Link
-                    key={card.id}
-                    to={card.link}
-                    className={`p-3 sm:p-3.5 rounded-2xl bg-[#0B1E36]/90 hover:bg-[#0E2746]/95 backdrop-blur-2xl border border-sky-500/20 ${card.hoverBorder} shadow-xl shadow-slate-950/25 flex items-center gap-2.5 sm:gap-3 transition-all duration-300 group cursor-pointer hover:scale-[1.02] active:scale-98`}
-                  >
-                    <div className={`p-2 sm:p-2.5 rounded-xl ${card.accentBg} shrink-0 group-hover:scale-110 transition duration-300`}>
-                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+              {cardsData.map((card) => (
+                <Link
+                  key={card.id}
+                  to={card.link}
+                  className={`p-2 sm:p-2.5 rounded-2xl bg-[#0B1E36]/90 hover:bg-[#0E2746]/95 backdrop-blur-2xl border border-sky-500/20 ${card.hoverBorder} shadow-xl shadow-slate-950/25 flex items-center gap-2.5 sm:gap-3 transition-all duration-300 group cursor-pointer hover:scale-[1.02] active:scale-98`}
+                >
+                  {/* Real Photo Thumbnail */}
+                  <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden shrink-0 border ${card.accentBorder} shadow-md relative group-hover:scale-105 transition duration-300 bg-slate-900`}>
+                    <img
+                      src={card.image}
+                      alt={card.tag}
+                      className="w-full h-full object-cover object-center group-hover:scale-110 transition duration-500"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition duration-300 pointer-events-none" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className={`text-[9px] sm:text-[10px] font-black tracking-wider uppercase ${card.tagColor} block truncate`}>
+                      {card.tag}
+                    </span>
+                    <div className="text-[11px] sm:text-xs lg:text-[13px] font-black text-white group-hover:text-sky-200 transition truncate leading-snug drop-shadow-xs">
+                      {card.title}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <span className={`text-[9px] sm:text-[10px] font-black tracking-wider uppercase ${card.tagColor} block truncate`}>
-                        {card.tag}
-                      </span>
-                      <div className="text-[11px] sm:text-xs lg:text-[13px] font-black text-white group-hover:text-sky-200 transition truncate leading-snug drop-shadow-xs">
-                        {card.title}
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
+                  </div>
+                </Link>
+              ))}
             </div>
 
           </div>
