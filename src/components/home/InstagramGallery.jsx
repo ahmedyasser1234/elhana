@@ -221,7 +221,7 @@ export const InstagramGallery = () => {
 
         {/* ── AUTO-SYNC ELFSIGHT WIDGET (1 ROW - UNCLIPPED ARROWS) ── */}
         {elfsightWidgetId ? (
-          <div className="w-full px-4 sm:px-8 md:px-14 relative overflow-visible">
+          <div className="w-full px-6 sm:px-12 md:px-16 lg:px-20 relative overflow-visible">
             <div className={`elfsight-app-${elfsightWidgetId} overflow-visible`} data-elfsight-app-lazy />
           </div>
         ) : (

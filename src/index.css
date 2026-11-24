@@ -227,6 +227,10 @@ div[class*="elfsight-app"] [class*="SliderInner"] {
   grid-template-rows: 1fr !important;
 }
 
+div[class*="elfsight-app"] [class*="GridComponent__Grid"] > div:nth-child(n+5),
+div[class*="elfsight-app"] [class*="posts-grid"] > div:nth-child(n+5),
+div[class*="elfsight-app"] [class*="PostsGrid"] > div:nth-child(n+5),
+div[class*="elfsight-app"] [class*="eapps-instagram-feed-posts-grid"] > div:nth-child(n+5),
 div[class*="elfsight-app"] [class*="slide-row"]:nth-child(n+2),
 div[class*="elfsight-app"] [class*="SlideRow"]:nth-child(n+2) {
   display: none !important;
@@ -235,10 +239,26 @@ div[class*="elfsight-app"] [class*="SlideRow"]:nth-child(n+2) {
 div[class*="elfsight-app"] [class*="arrow"],
 div[class*="elfsight-app"] button[class*="Arrow"],
 div[class*="elfsight-app"] [class*="Control"],
-div[class*="elfsight-app"] [class*="navigation"] {
+div[class*="elfsight-app"] [class*="navigation"],
+div[class*="elfsight-app"] [class*="Navigation"] {
   overflow: visible !important;
-  z-index: 30 !important;
+  z-index: 50 !important;
   opacity: 1 !important;
+}
+
+/* Ensure arrows stay inside visible bounds */
+div[class*="elfsight-app"] [class*="arrow-prev"],
+div[class*="elfsight-app"] button[class*="ArrowPrev"],
+div[class*="elfsight-app"] [class*="ControlPrev"],
+div[class*="elfsight-app"] [class*="nav-prev"] {
+  left: 4px !important;
+}
+
+div[class*="elfsight-app"] [class*="arrow-next"],
+div[class*="elfsight-app"] button[class*="ArrowNext"],
+div[class*="elfsight-app"] [class*="ControlNext"],
+div[class*="elfsight-app"] [class*="nav-next"] {
+  right: 4px !important;
 }
 
 

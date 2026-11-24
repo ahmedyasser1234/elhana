@@ -73,7 +73,7 @@ export const HeroSection = () => {
       tag: isAr ? "سفاري الصحراء" : "DESERT SAFARI",
       title: isAr ? "إثارة وتشويق بلا حدود" : "Pure Adrenaline",
       link: "/safari",
-      accentBg: "bg-sky-500/20 text-sky-300",
+      accentBg: "bg-sky-50 text-[#0284C7] border border-sky-100",
     },
     {
       id: 2,
@@ -81,7 +81,7 @@ export const HeroSection = () => {
       tag: isAr ? "اليخوت الفاخرة" : "VIP YACHTS",
       title: isAr ? "إبحار ملوكي VIP" : "Royal Sailing VIP",
       link: "/sea-trips",
-      accentBg: "bg-amber-500/20 text-amber-300",
+      accentBg: "bg-amber-50 text-amber-600 border border-amber-100",
     },
     {
       id: 3,
@@ -89,7 +89,7 @@ export const HeroSection = () => {
       tag: isAr ? "الغوص والسنوركلينج" : "DIVING & REEFS",
       title: isAr ? "عالم المرجان والأعماق" : "Underwater Reefs",
       link: "/diving",
-      accentBg: "bg-emerald-500/20 text-emerald-300",
+      accentBg: "bg-emerald-50 text-emerald-600 border border-emerald-100",
     },
     {
       id: 4,
@@ -97,13 +97,13 @@ export const HeroSection = () => {
       tag: isAr ? "الانتقالات الخاصة" : "VIP TRANSFERS",
       title: isAr ? "توصيل 24/7 للمطار والفندق" : "24/7 Airport Shuttles",
       link: "/transfers",
-      accentBg: "bg-orange-500/20 text-orange-300",
+      accentBg: "bg-orange-50 text-orange-600 border border-orange-100",
     },
   ];
 
   return (
-    <div className="relative min-h-[calc(100svh-var(--header-h))] flex flex-col justify-between pt-6 sm:pt-8 md:pt-10 pb-8 sm:pb-12 md:pb-14 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-slate-900 w-full">
-      {/* 1. REAL PHOTO BACKGROUND - SOFT DARK SLATE SHADOW FOR ULTRA READABILITY */}
+    <div className="relative min-h-[calc(100svh-var(--header-h))] flex flex-col justify-between pt-6 sm:pt-8 md:pt-10 pb-8 sm:pb-12 md:pb-14 px-4 sm:px-6 lg:px-8 overflow-x-clip select-none bg-gradient-to-b from-sky-50/50 via-white to-amber-50/20 w-full">
+      {/* 1. REAL PHOTO BACKGROUND - LUMINOUS LIGHT LUXURY ATMOSPHERE */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <picture>
           <source media="(max-width: 640px)" srcSet="/images/real/polaris-buggy-family-mobile.webp" type="image/webp" />
@@ -121,14 +121,14 @@ export const HeroSection = () => {
               e.target.onerror = null;
               e.target.src = '/images/real/atv-quad-hero.png';
             }}
-            className="w-full h-full object-cover object-center scale-100"
+            className="w-full h-full object-cover object-center scale-100 opacity-90"
           />
         </picture>
         
-        {/* Soft Dark Vignette for maximum text readability */}
-        <div className="absolute inset-0 bg-slate-950/65 lg:bg-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/60 to-slate-950/40 rtl:bg-gradient-to-l"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950/80"></div>
+        {/* Soft Light Luminous Overlays guaranteeing maximum clarity, contrast & logo prominence */}
+        <div className="absolute inset-0 bg-white/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/20 rtl:from-white/20 rtl:via-white/80 rtl:to-white/95"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-transparent to-white/80"></div>
       </div>
 
       {/* 2. Main Content Container */}
@@ -140,24 +140,24 @@ export const HeroSection = () => {
           <div className="lg:col-span-7 space-y-5 text-left rtl:text-right">
             
             {/* Eyebrow Text */}
-            <div className="text-sky-300 font-bold text-xs sm:text-sm tracking-wider drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-              {isAr ? "شركة الهنا للسياحة والسفاري VIP" : "EL HANA GROUP TOURISM VIP"}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100/90 text-[#0284C7] font-black text-xs sm:text-sm tracking-wider uppercase border border-sky-200/80 shadow-xs">
+              <span>{isAr ? "شركة الهنا للسياحة والسفاري VIP" : "EL HANA GROUP TOURISM VIP"}</span>
             </div>
 
-            {/* Single Line Headline */}
+            {/* Headline */}
             <div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.25rem] font-bold text-white font-heading leading-snug tracking-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-black text-slate-900 font-heading leading-tight tracking-tight">
                 {isAr ? (
                   <span>
                     حيث تترك المغامرة{' '}
-                    <span className="text-sky-400 font-black">
+                    <span className="text-[#0284C7]">
                       أثراً لا يُنسى.
                     </span>
                   </span>
                 ) : (
                   <span>
                     Where Power Leaves a{' '}
-                    <span className="text-sky-400 font-black">
+                    <span className="text-[#0284C7]">
                       Mark.
                     </span>
                   </span>
@@ -167,7 +167,7 @@ export const HeroSection = () => {
 
             {/* Subtitle Paragraph */}
             <p
-              className="text-sm sm:text-base text-slate-100 max-w-xl font-normal leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.75)]"
+              className="text-sm sm:text-base text-slate-700 max-w-xl font-medium leading-relaxed"
             >
               {isAr
                 ? "نصنع تجارب سياحية فاخرة تجمع بين إثارة صحراء سيناء، يخوت البحر الأحمر VIP، والانتقالات المباشرة من الفندق في شرم الشيخ."
@@ -179,7 +179,7 @@ export const HeroSection = () => {
               className="flex flex-wrap items-center gap-4 pt-1"
             >
               <Link to="/experiences">
-                <button className="px-7 py-3 rounded-full bg-[#0369A1] hover:bg-[#075985] text-white font-bold text-xs sm:text-sm border border-sky-400/40 shadow-lg shadow-[#0369A1]/40 hover:shadow-sky-500/50 transition duration-300 flex items-center gap-2.5 group cursor-pointer">
+                <button className="px-7 py-3 rounded-full bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white font-black text-xs sm:text-sm shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition duration-300 flex items-center gap-2.5 group cursor-pointer">
                   <span>{isAr ? "استكشف تجاربنا" : "Explore Our Work"}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition duration-300 rtl:rotate-180" />
                 </button>
@@ -187,12 +187,12 @@ export const HeroSection = () => {
 
               <button
                 onClick={() => setShowVideoModal(true)}
-                className="flex items-center gap-2.5 group cursor-pointer py-2 px-4 rounded-full bg-slate-900/70 backdrop-blur-md border border-slate-700 hover:border-sky-400 shadow-md transition duration-300"
+                className="flex items-center gap-2.5 group cursor-pointer py-2.5 px-5 rounded-full bg-white/90 hover:bg-white backdrop-blur-md border border-slate-200/90 hover:border-sky-400 shadow-md transition duration-300"
               >
-                <div className="w-8 h-8 rounded-full bg-[#0284C7] text-white flex items-center justify-center shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-[#0284C7] text-white flex items-center justify-center shadow-xs">
                   <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
                 </div>
-                <span className="text-xs sm:text-sm font-medium text-slate-200 group-hover:text-sky-300 transition duration-300">
+                <span className="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-[#0284C7] transition duration-300">
                   {isAr ? "شاهد الفيديو" : "Watch Video"}
                 </span>
               </button>
@@ -206,7 +206,7 @@ export const HeroSection = () => {
             {/* 1. Real Image Frame Showing Website Offerings (Yacht, Marine, Dahab, Transfers) */}
             <Link
               to={currentOffer.link}
-              className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[16/10] lg:h-[280px] xl:h-[310px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-2 sm:border-3 border-white/20 bg-slate-950 group z-20 block cursor-pointer"
+              className="relative w-full max-w-sm sm:max-w-md lg:max-w-none aspect-[16/10] lg:h-[280px] xl:h-[310px] rounded-3xl overflow-hidden shadow-2xl border-2 sm:border-3 border-white/90 bg-slate-100 group z-20 block cursor-pointer"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -226,31 +226,31 @@ export const HeroSection = () => {
               </AnimatePresence>
               
               {/* Soft Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent pointer-events-none"></div>
 
               {/* Top Badges Row */}
               <div className="absolute top-3.5 inset-x-3.5 flex items-center justify-between pointer-events-none z-10">
                 {/* Rating Badge */}
-                <div className="px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-bold text-white shadow-md flex items-center gap-1.5">
+                <div className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/80 text-[10px] sm:text-[11px] font-bold text-slate-900 shadow-md flex items-center gap-1.5">
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   <span>4.9</span>
-                  <span className="text-[10px] text-slate-300">(1,280+)</span>
+                  <span className="text-[10px] text-slate-500">(1,280+)</span>
                 </div>
 
                 {/* Active Category Badge */}
-                <div className="px-3 py-1 rounded-full bg-[#0284C7]/90 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-black text-white shadow-md flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <div className="px-3 py-1 rounded-full bg-[#0284C7] text-[10px] sm:text-[11px] font-black text-white shadow-md flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span>
                   <span>{isAr ? currentOffer.badgeAr : currentOffer.badgeEn}</span>
                 </div>
               </div>
 
               {/* Bottom Info Pill (Shows what El Hana Offers) */}
-              <div className="absolute bottom-3 inset-x-3.5 flex items-center justify-between gap-2 z-10 bg-slate-950/80 backdrop-blur-md p-2.5 rounded-2xl border border-white/15">
+              <div className="absolute bottom-3 inset-x-3.5 flex items-center justify-between gap-2 z-10 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl border border-slate-200/80 shadow-lg">
                 <div className="min-w-0 flex-1">
-                  <span className="text-[10px] text-[#38BDF8] font-bold block uppercase tracking-wider">
+                  <span className="text-[10px] text-[#0284C7] font-black block uppercase tracking-wider">
                     {isAr ? "خدمات ورحلات الهنا" : "El Hana Services"}
                   </span>
-                  <div className="text-xs sm:text-sm font-black text-white truncate">
+                  <div className="text-xs sm:text-sm font-black text-slate-900 truncate">
                     {isAr ? currentOffer.titleAr : currentOffer.titleEn}
                   </div>
                 </div>
@@ -266,7 +266,7 @@ export const HeroSection = () => {
                         e.stopPropagation();
                         setActiveSlideIdx(idx);
                       }}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${activeSlideIdx === idx ? 'w-4 bg-[#38BDF8]' : 'w-1.5 bg-white/40'}`}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${activeSlideIdx === idx ? 'w-4 bg-[#0284C7]' : 'w-1.5 bg-slate-300'}`}
                       aria-label={`Slide ${idx + 1}`}
                     />
                   ))}
@@ -282,16 +282,16 @@ export const HeroSection = () => {
                   <Link
                     key={card.id}
                     to={card.link}
-                    className="p-3 sm:p-3.5 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 backdrop-blur-xl border border-slate-800 hover:border-sky-400/80 shadow-lg hover:shadow-sky-500/20 flex items-center gap-2.5 sm:gap-3 transition-all duration-300 group cursor-pointer hover:scale-[1.02] active:scale-98"
+                    className="p-3 sm:p-3.5 rounded-2xl bg-white/90 hover:bg-white backdrop-blur-xl border border-slate-200/90 hover:border-sky-400 shadow-sm hover:shadow-xl hover:shadow-sky-500/10 flex items-center gap-2.5 sm:gap-3 transition-all duration-300 group cursor-pointer hover:scale-[1.02] active:scale-98"
                   >
                     <div className={`p-2 sm:p-2.5 rounded-xl ${card.accentBg} shrink-0 group-hover:scale-110 transition duration-300`}>
                       <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <span className="text-[9px] sm:text-[10px] font-bold tracking-wider uppercase text-sky-400 block truncate">
+                      <span className="text-[9px] sm:text-[10px] font-black tracking-wider uppercase text-[#0284C7] block truncate">
                         {card.tag}
                       </span>
-                      <div className="text-[11px] sm:text-xs lg:text-[13px] font-bold text-white group-hover:text-sky-300 transition truncate leading-snug">
+                      <div className="text-[11px] sm:text-xs lg:text-[13px] font-black text-slate-900 group-hover:text-[#0284C7] transition truncate leading-snug">
                         {card.title}
                       </div>
                     </div>

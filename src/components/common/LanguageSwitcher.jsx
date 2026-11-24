@@ -25,14 +25,14 @@ export const LanguageSwitcher = ({ isTransparent = false }) => {
         onClick={() => setOpen(!open)}
         className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
           isTransparent
-            ? 'text-white bg-white/15 hover:bg-white/25 border-white/20 backdrop-blur-md'
+            ? 'text-slate-800 bg-white/85 hover:bg-white border-slate-200/90 backdrop-blur-md shadow-2xs'
             : 'text-stone-700 bg-stone-100 hover:bg-stone-200/80 border-stone-200'
         }`}
       >
-        <Globe className={`w-3.5 h-3.5 ${isTransparent ? 'text-sky-300' : 'text-[#D4AF37]'}`} />
+        <Globe className={`w-3.5 h-3.5 ${isTransparent ? 'text-[#0284C7]' : 'text-[#D4AF37]'}`} />
         <span>{activeLang.flag}</span>
-        <span className={`uppercase font-bold ${isTransparent ? 'text-white' : 'text-stone-800'}`}>{activeLang.code}</span>
-        <ChevronDown className={`w-3 h-3 ${isTransparent ? 'text-white/80' : 'text-stone-500'}`} />
+        <span className={`uppercase font-bold ${isTransparent ? 'text-slate-800' : 'text-stone-800'}`}>{activeLang.code}</span>
+        <ChevronDown className={`w-3 h-3 ${isTransparent ? 'text-slate-500' : 'text-stone-500'}`} />
       </button>
 
       {open && (

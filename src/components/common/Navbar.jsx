@@ -141,7 +141,7 @@ export const Navbar = () => {
       <header
         className={`sticky top-0 z-[1000] w-full h-[var(--header-h)] flex items-center transition-all duration-300 ${
           isTransparent
-            ? 'bg-transparent text-white border-b border-transparent'
+            ? 'bg-white/40 backdrop-blur-md text-slate-800 border-b border-white/60 shadow-2xs'
             : scrolled
               ? 'bg-white/95 backdrop-blur-xl text-slate-900 shadow-md border-b border-sky-100/80'
               : 'bg-white/90 backdrop-blur-md text-slate-900 border-b border-sky-100/50'
@@ -176,10 +176,10 @@ export const Navbar = () => {
                 className={`px-2 xl:px-3 py-1.5 xl:py-2 text-[11px] xl:text-xs font-extrabold rounded-xl transition whitespace-nowrap ${
                   location.pathname === '/'
                     ? isTransparent
-                      ? 'text-white bg-white/20 shadow-xs'
+                      ? 'text-[#0284C7] bg-white/90 shadow-xs border border-sky-100'
                       : 'text-[#0284C7] bg-sky-50'
                     : isTransparent
-                      ? 'text-white/90 hover:text-white hover:bg-white/10'
+                      ? 'text-slate-700 hover:text-[#0284C7] hover:bg-white/70'
                       : 'text-slate-700 hover:text-[#0284C7] hover:bg-sky-50/60'
                 }`}
               >
@@ -193,15 +193,15 @@ export const Navbar = () => {
                   className={`px-2 xl:px-3 py-1.5 xl:py-2 text-[11px] xl:text-xs font-extrabold rounded-xl flex items-center gap-1 transition whitespace-nowrap ${
                     isSafariActive
                       ? isTransparent
-                        ? 'text-white bg-white/20'
+                        ? 'text-[#0284C7] bg-white/90 shadow-xs border border-sky-100'
                         : 'text-[#0284C7] bg-sky-50'
                       : isTransparent
-                        ? 'text-white/90 hover:text-white hover:bg-white/10'
+                        ? 'text-slate-700 hover:text-[#0284C7] hover:bg-white/70'
                         : 'text-slate-700 hover:text-[#0284C7] hover:bg-sky-50/60'
                   }`}
                 >
                   <span>{t('nav.safari')}</span>
-                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${safariDropdown ? 'rotate-180 text-[#0284C7]' : isTransparent ? 'text-white/80' : ''}`} />
+                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${safariDropdown ? 'rotate-180 text-[#0284C7]' : 'text-slate-500'}`} />
                 </Link>
                 {safariDropdown && (
                   <div className={`absolute top-full pt-1.5 w-72 z-[1100] ${isAr ? 'right-0' : 'left-0'}`}>
@@ -227,15 +227,15 @@ export const Navbar = () => {
                   className={`px-2 xl:px-3 py-1.5 xl:py-2 text-[11px] xl:text-xs font-extrabold rounded-xl flex items-center gap-1 transition whitespace-nowrap ${
                     isSeaActive
                       ? isTransparent
-                        ? 'text-white bg-white/20'
+                        ? 'text-[#0284C7] bg-white/90 shadow-xs border border-sky-100'
                         : 'text-[#0284C7] bg-sky-50'
                       : isTransparent
-                        ? 'text-white/90 hover:text-white hover:bg-white/10'
+                        ? 'text-slate-700 hover:text-[#0284C7] hover:bg-white/70'
                         : 'text-slate-700 hover:text-[#0284C7] hover:bg-sky-50/60'
                   }`}
                 >
                   <span>{t('nav.seaTrips')}</span>
-                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${seaDropdown ? 'rotate-180 text-[#0284C7]' : isTransparent ? 'text-white/80' : ''}`} />
+                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${seaDropdown ? 'rotate-180 text-[#0284C7]' : 'text-slate-500'}`} />
                 </Link>
                 {seaDropdown && (
                   <div className={`absolute top-full pt-1.5 w-72 z-[1100] ${isAr ? 'right-0' : 'left-0'}`}>
@@ -259,10 +259,10 @@ export const Navbar = () => {
                 className={`px-2 xl:px-3 py-1.5 xl:py-2 text-[11px] xl:text-xs font-extrabold rounded-xl transition whitespace-nowrap ${
                   location.pathname === '/excursions'
                     ? isTransparent
-                      ? 'text-white bg-white/20'
+                      ? 'text-[#0284C7] bg-white/90 shadow-xs border border-sky-100'
                       : 'text-[#0284C7] bg-sky-50'
                     : isTransparent
-                      ? 'text-white/90 hover:text-white hover:bg-white/10'
+                      ? 'text-slate-700 hover:text-[#0284C7] hover:bg-white/70'
                       : 'text-slate-700 hover:text-[#0284C7] hover:bg-sky-50/60'
                 }`}
               >
@@ -274,10 +274,10 @@ export const Navbar = () => {
                 className={`px-2 xl:px-3 py-1.5 xl:py-2 text-[11px] xl:text-xs font-extrabold rounded-xl transition whitespace-nowrap ${
                   location.pathname === '/transfers'
                     ? isTransparent
-                      ? 'text-white bg-white/20'
+                      ? 'text-[#0284C7] bg-white/90 shadow-xs border border-sky-100'
                       : 'text-[#0284C7] bg-sky-50'
                     : isTransparent
-                      ? 'text-white/90 hover:text-white hover:bg-white/10'
+                      ? 'text-slate-700 hover:text-[#0284C7] hover:bg-white/70'
                       : 'text-slate-700 hover:text-[#0284C7] hover:bg-sky-50/60'
                 }`}
               >
@@ -289,10 +289,10 @@ export const Navbar = () => {
                 className={`hidden xl:inline-block px-2 xl:px-3 py-1.5 xl:py-2 text-[11px] xl:text-xs font-extrabold rounded-xl transition whitespace-nowrap ${
                   location.pathname === '/experiences'
                     ? isTransparent
-                      ? 'text-white bg-white/20'
+                      ? 'text-[#0284C7] bg-white/90 shadow-xs border border-sky-100'
                       : 'text-[#0284C7] bg-sky-50'
                     : isTransparent
-                      ? 'text-white/90 hover:text-white hover:bg-white/10'
+                      ? 'text-slate-700 hover:text-[#0284C7] hover:bg-white/70'
                       : 'text-slate-700 hover:text-[#0284C7] hover:bg-sky-50/60'
                 }`}
               >
@@ -305,15 +305,15 @@ export const Navbar = () => {
                   className={`px-2 xl:px-3 py-1.5 xl:py-2 text-[11px] xl:text-xs font-extrabold rounded-xl flex items-center gap-1 transition whitespace-nowrap cursor-pointer ${
                     isMoreActive
                       ? isTransparent
-                        ? 'text-white bg-white/20'
+                        ? 'text-[#0284C7] bg-white/90 shadow-xs border border-sky-100'
                         : 'text-[#0284C7] bg-sky-50'
                       : isTransparent
-                        ? 'text-white/90 hover:text-white hover:bg-white/10'
+                        ? 'text-slate-700 hover:text-[#0284C7] hover:bg-white/70'
                         : 'text-slate-700 hover:text-[#0284C7] hover:bg-sky-50/60'
                   }`}
                 >
                   <span>{isAr ? 'المزيد' : 'More'}</span>
-                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${moreDropdown ? 'rotate-180 text-[#0284C7]' : isTransparent ? 'text-white/80' : ''}`} />
+                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${moreDropdown ? 'rotate-180 text-[#0284C7]' : 'text-slate-500'}`} />
                 </button>
                 {moreDropdown && (
                   <div className={`absolute top-full pt-1.5 w-64 z-[1100] ${isAr ? 'right-0' : 'left-0'}`}>
@@ -353,7 +353,7 @@ export const Navbar = () => {
               <button
                 onClick={() => setMobileMenuOpen(prev => !prev)}
                 className={`p-2 rounded-xl transition cursor-pointer ${
-                  isTransparent ? 'text-white hover:bg-white/15' : 'text-slate-800 hover:bg-slate-100'
+                  isTransparent ? 'text-slate-800 hover:bg-white/60' : 'text-slate-800 hover:bg-slate-100'
                 }`}
                 aria-label="Toggle menu"
               >
