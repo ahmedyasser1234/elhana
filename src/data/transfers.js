@@ -11,7 +11,7 @@ export const VEHICLE_TYPES = [
     tagEn: "Limousine (3 Pax)",
     maxPassengers: 3,
     maxLuggage: 3,
-    image: "/images/transfers/vip-transfers-sharm.jpg",
+    image: "/images/transfers/vip-transfers-sharm.jpg?v=4",
     description: "Private executive sedan limousine with leather interior, icy dual A/C, and professional chauffeur for up to 3 passengers.",
     descriptionAr: "سيارة ليموزين وسيدان ملاكي خاصة ومكيفة تناسب الأفراد والأزواج والعائلات الصغيرة حتى 3 ركاب مع 3 حقائب سفر.",
     basePrice: 20,
@@ -26,7 +26,7 @@ export const VEHICLE_TYPES = [
     tagEn: "Minivan (6 Pax)",
     maxPassengers: 6,
     maxLuggage: 6,
-    image: "/images/transfers/family-minivan-sharm.jpg",
+    image: "/images/transfers/family-minivan-sharm.jpg?v=4",
     description: "Comfortable, spacious 6-passenger family minivan with wide legroom and generous cargo trunk for 6 bags.",
     descriptionAr: "فان عائلي مريح ومكيف يتسع لـ 6 ركاب و 6 حقائب سفر، الخيار الأمثل للعائلات ومجموعات الأصدقاء.",
     basePrice: 30,
@@ -41,7 +41,7 @@ export const VEHICLE_TYPES = [
     tagEn: "HiAce (14-15 Pax)",
     maxPassengers: 15,
     maxLuggage: 15,
-    image: "/images/transfers/hiace-van-sharm.jpg",
+    image: "/images/transfers/hiace-van-sharm.jpg?v=4",
     description: "High-roof tourist Toyota HiAce passenger van with 14-15 comfortable seats, dual powerful A/C, and huge luggage space.",
     descriptionAr: "ميكروباص سياحي تويوتا هاي إيس سقف عالي مكيف ومجهز بالكامل، يتسع لـ 14 إلى 15 راكب مع مساحة واسعة لجميع الحقائب للمجموعات الكبيرة.",
     basePrice: 45,
@@ -64,9 +64,9 @@ export const FLEET_CARS = [
     maxPassengers: 3,
     maxLuggage: 3,
     basePrice: 28,
-    image: "/images/transfers/vip-transfers-sharm.jpg",
+    image: "/images/transfers/vip-transfers-sharm.jpg?v=4",
     gallery: [
-      "/images/transfers/vip-transfers-sharm.jpg",
+      "/images/transfers/vip-transfers-sharm.jpg?v=4",
       "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
     ],
@@ -152,9 +152,9 @@ export const FLEET_CARS = [
     maxPassengers: 6,
     maxLuggage: 6,
     basePrice: 30,
-    image: "/images/transfers/family-minivan-sharm.jpg",
+    image: "/images/transfers/family-minivan-sharm.jpg?v=4",
     gallery: [
-      "/images/transfers/family-minivan-sharm.jpg",
+      "/images/transfers/family-minivan-sharm.jpg?v=4",
       "/images/transfers/hiace-van-interior.jpg",
       "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80"
     ],
@@ -195,9 +195,9 @@ export const FLEET_CARS = [
     maxPassengers: 6,
     maxLuggage: 6,
     basePrice: 38,
-    image: "/images/transfers/family-minivan-sharm.jpg",
+    image: "/images/transfers/family-minivan-sharm.jpg?v=4",
     gallery: [
-      "/images/transfers/family-minivan-sharm.jpg",
+      "/images/transfers/family-minivan-sharm.jpg?v=4",
       "/images/transfers/hiace-van-interior.jpg",
       "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=80"
     ],
@@ -240,9 +240,9 @@ export const FLEET_CARS = [
     maxPassengers: 14,
     maxLuggage: 14,
     basePrice: 45,
-    image: "/images/transfers/hiace-van-sharm.jpg",
+    image: "/images/transfers/hiace-van-sharm.jpg?v=4",
     gallery: [
-      "/images/transfers/hiace-van-sharm.jpg",
+      "/images/transfers/hiace-van-sharm.jpg?v=4",
       "/images/transfers/hiace-van-interior.jpg",
       "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80"
     ],
@@ -283,9 +283,9 @@ export const FLEET_CARS = [
     maxPassengers: 15,
     maxLuggage: 15,
     basePrice: 50,
-    image: "/images/transfers/hiace-van-sharm.jpg",
+    image: "/images/transfers/hiace-van-sharm.jpg?v=4",
     gallery: [
-      "/images/transfers/hiace-van-sharm.jpg",
+      "/images/transfers/hiace-van-sharm.jpg?v=4",
       "/images/transfers/hiace-van-interior.jpg",
       "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80"
     ],
@@ -336,8 +336,8 @@ export const TRANSFER_GALLERY = [
     badgeAr: "ليموزين 3 راكب",
     badgeEn: "Limousine 3 Pax",
     price: 20,
-    image: "/images/transfers/vip-transfers-sharm.jpg",
-    thumb: "/images/transfers/vip-transfers-sharm.jpg"
+    image: "/images/transfers/vip-transfers-sharm.jpg?v=4",
+    thumb: "/images/transfers/vip-transfers-sharm.jpg?v=4"
   },
   {
     id: "gal-minivan6",
@@ -350,8 +350,8 @@ export const TRANSFER_GALLERY = [
     badgeAr: "ميني فان 6 راكب",
     badgeEn: "Minivan 6 Pax",
     price: 30,
-    image: "/images/transfers/family-minivan-sharm.jpg",
-    thumb: "/images/transfers/family-minivan-sharm.jpg"
+    image: "/images/transfers/family-minivan-sharm.jpg?v=4",
+    thumb: "/images/transfers/family-minivan-sharm.jpg?v=4"
   },
   {
     id: "gal-hiace",
@@ -364,8 +364,8 @@ export const TRANSFER_GALLERY = [
     badgeAr: "هاي إيس 14-15 راكب",
     badgeEn: "HiAce 14-15 Pax",
     price: 45,
-    image: "/images/transfers/hiace-van-sharm.jpg",
-    thumb: "/images/transfers/hiace-van-sharm.jpg"
+    image: "/images/transfers/hiace-van-sharm.jpg?v=4",
+    thumb: "/images/transfers/hiace-van-sharm.jpg?v=4"
   }
 ];
 
