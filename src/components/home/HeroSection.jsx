@@ -45,7 +45,7 @@ export const HeroSection = () => {
     },
     {
       id: 'transfers',
-      image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80',
+      image: '/images/transfers/vip-transfers-sharm.webp',
       alt: 'Sharm El Sheikh VIP Private Transfers 24/7',
       badgeAr: 'توصيل المطار 24/7',
       badgeEn: '24/7 Airport Transfers',
