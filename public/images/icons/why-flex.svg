@@ -1,63 +1,77 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <defs>
-    <linearGradient id="whyCalHeader" x1="12" y1="12" x2="52" y2="24" gradientUnits="userSpaceOnUse">
+    <linearGradient id="flexTicketBody" x1="8" y1="14" x2="48" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F0FDF4"/>
+    </linearGradient>
+    <linearGradient id="flexTicketHeader" x1="8" y1="14" x2="48" y2="24" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#10B981"/>
-      <stop offset="60%" stop-color="#059669"/>
       <stop offset="100%" stop-color="#047857"/>
     </linearGradient>
-    <linearGradient id="whyCalBody" x1="12" y1="20" x2="52" y2="54" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="60%" stop-color="#F0FDF4"/>
-      <stop offset="100%" stop-color="#DCFCE7"/>
-    </linearGradient>
-    <linearGradient id="whyBadgeGrad" x1="28" y1="28" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+    <linearGradient id="flexUndoArrow" x1="16" y1="20" x2="52" y2="52" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#34D399"/>
       <stop offset="50%" stop-color="#10B981"/>
-      <stop offset="100%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#059669"/>
     </linearGradient>
-    <linearGradient id="whyGoldRing" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="flexGoldClock" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
       <stop offset="100%" stop-color="#D97706"/>
     </linearGradient>
-    <filter id="whyFlexGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
+    <filter id="flexGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
       <feComposite in="SourceGraphic" in2="blur" operator="over"/>
     </filter>
   </defs>
 
-  <!-- Ambient Shadow -->
-  <ellipse cx="32" cy="55" rx="22" ry="4" fill="#047857" fill-opacity="0.25"/>
+  <!-- Ambient Ground Shadow -->
+  <ellipse cx="32" cy="56" rx="24" ry="4" fill="#047857" fill-opacity="0.25"/>
 
-  <!-- Calendar Page Back Dropshadow Sheet -->
-  <rect x="15" y="15" width="38" height="36" rx="6" fill="#A7F3D0" fill-opacity="0.7"/>
+  <!-- ==================== BOOKING PASS / TICKET (Tilted Perspective) ==================== -->
+  <g transform="rotate(-6 30 30)">
+    <!-- Ticket Body with Perforated Notch -->
+    <path d="M8 12C8 9.8 9.8 8 12 8H42C44.2 8 46 9.8 46 12V24C43.5 24 41.5 26 41.5 28.5C41.5 31 43.5 33 46 33V44C46 46.2 44.2 48 42 48H12C9.8 48 8 46.2 8 44V33C10.5 33 12.5 31 12.5 28.5C12.5 26 10.5 24 8 24V12Z" fill="url(#flexTicketBody)" stroke="#86EFAC" stroke-width="1.5"/>
 
-  <!-- Main Calendar Page Body -->
-  <rect x="12" y="13" width="38" height="38" rx="6" fill="url(#whyCalBody)" stroke="#86EFAC" stroke-width="1.5"/>
+    <!-- Upper Ticket Header (Emerald Green with Plane / Compass Icon) -->
+    <path d="M8 12C8 9.8 9.8 8 12 8H42C44.2 8 46 9.8 46 12V18H8V12Z" fill="url(#flexTicketHeader)"/>
+    <circle cx="14" cy="13" r="1.5" fill="#FFFFFF"/>
+    <circle cx="19" cy="13" r="1.5" fill="#FFFFFF" fill-opacity="0.6"/>
+    <rect x="25" y="12" width="16" height="2" rx="1" fill="#FFFFFF"/>
 
-  <!-- Upper Emerald Header Bar -->
-  <path d="M12 19C12 15.7 14.7 13 18 13H44C47.3 13 50 15.7 50 19V24H12V19Z" fill="url(#whyCalHeader)"/>
+    <!-- Dotted Tear Line Across Notch -->
+    <line x1="13" y1="28.5" x2="41" y2="28.5" stroke="#86EFAC" stroke-width="1.2" stroke-dasharray="2 2"/>
 
-  <!-- Metallic Binder Rings (Gold/Chrome) -->
-  <rect x="20" y="8" width="4" height="9" rx="2" fill="url(#whyGoldRing)" stroke="#FFFFFF" stroke-width="0.8"/>
-  <rect x="38" y="8" width="4" height="9" rx="2" fill="url(#whyGoldRing)" stroke="#FFFFFF" stroke-width="0.8"/>
+    <!-- Barcode Lines at Bottom -->
+    <line x1="14" y1="38" x2="14" y2="44" stroke="#064E3B" stroke-width="1.5"/>
+    <line x1="17" y1="38" x2="17" y2="44" stroke="#064E3B" stroke-width="1"/>
+    <line x1="20" y1="38" x2="20" y2="44" stroke="#064E3B" stroke-width="2"/>
+    <line x1="24" y1="38" x2="24" y2="44" stroke="#064E3B" stroke-width="1"/>
+    <line x1="27" y1="38" x2="27" y2="44" stroke="#064E3B" stroke-width="1.5"/>
+    <line x1="30" y1="38" x2="30" y2="44" stroke="#064E3B" stroke-width="2"/>
+  </g>
 
-  <!-- Calendar Grid Lines / Dots -->
-  <circle cx="20" cy="30" r="1.8" fill="#A7F3D0"/>
-  <circle cx="28" cy="30" r="1.8" fill="#A7F3D0"/>
-  <circle cx="20" cy="37" r="1.8" fill="#A7F3D0"/>
-  <circle cx="28" cy="37" r="1.8" fill="#A7F3D0"/>
-  <circle cx="20" cy="44" r="1.8" fill="#A7F3D0"/>
+  <!-- ==================== LARGE CIRCULAR FLEXIBLE CANCELLATION / UNDO ARROW ==================== -->
+  <!-- Circular Arrow Arc (Representing Free Modification & Cancellation) -->
+  <path d="M22 18C14 24 13 36 20 44C27 52 39 52 46 45" stroke="url(#flexUndoArrow)" stroke-width="4.5" stroke-linecap="round" fill="none" filter="url(#flexGlow)"/>
+  <!-- Arrow Head Pointing Back (Undo / Cancel) -->
+  <path d="M24 12L20 19L27 21" stroke="url(#flexUndoArrow)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 
-  <!-- Large 3D Verified Check Badge (Lower Right) -->
-  <circle cx="42" cy="41" r="12" fill="url(#whyBadgeGrad)" stroke="#FFFFFF" stroke-width="2.5" filter="url(#whyFlexGlow)"/>
+  <!-- ==================== SHIELD: 100% FREE CANCELLATION GUARANTEE ==================== -->
+  <!-- 3D Emerald Shield (Bottom Right) -->
+  <path d="M47 28L57 32V42C57 48 52 53 47 55C42 53 37 48 37 42V32L47 28Z" fill="#10B981" stroke="#FFFFFF" stroke-width="2" filter="url(#flexGlow)"/>
+  <!-- Inner Shield Glow -->
+  <path d="M47 31L54 34V42C54 46.5 50.5 50.5 47 52C43.5 50.5 40 46.5 40 42V34L47 31Z" fill="#047857"/>
 
-  <!-- Inner Concentric Ring -->
-  <circle cx="42" cy="41" r="9.5" stroke="#A7F3D0" stroke-width="1" stroke-dasharray="2 2" fill="none"/>
+  <!-- Crisp White Checkmark Inside Shield -->
+  <path d="M43 42L46 45L51 38" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <!-- Bold White Verified Checkmark -->
-  <path d="M36.5 41L40.2 44.7L47.5 37" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- Small 24H Guarantee Golden Badge (Top Right) -->
-  <rect x="36" y="16" width="12" height="6" rx="2" fill="#F59E0B"/>
-  <path d="M38.5 20.5H45.5" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round"/>
+  <!-- ==================== 24H FLEXIBLE GUARANTEE CLOCK (Top Right) ==================== -->
+  <circle cx="48" cy="14" r="8.5" fill="url(#flexGoldClock)" stroke="#FFFFFF" stroke-width="1.5" filter="url(#flexGlow)"/>
+  <!-- Clock Face -->
+  <circle cx="48" cy="14" r="6" fill="#FFFFFF"/>
+  <!-- Clock Hands pointing to 24h limit -->
+  <path d="M48 10.5V14L50.5 15.5" stroke="#B45309" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- "24h" Mini Badge -->
+  <rect x="42" y="21" width="12" height="5" rx="2" fill="#D97706"/>
+  <path d="M44 23.5H52" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round"/>
 </svg>
