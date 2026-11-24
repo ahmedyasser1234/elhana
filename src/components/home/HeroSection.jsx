@@ -65,45 +65,45 @@ export const HeroSection = () => {
 
   const currentOffer = showcaseOffers[activeSlideIdx];
 
-  // Category Cards Configuration - Real Thumbnail Images with Luxury Royal Navy Glass
+  // Category Cards Configuration - Rich Illustrated Icon-Images with Luxury Royal Navy Glass
   const cardsData = [
     {
       id: 1,
-      image: "/images/real/user-atv-safari.webp",
+      image: "/images/icons/safari-atv.svg",
       tag: isAr ? "سفاري الصحراء" : "DESERT SAFARI",
       title: isAr ? "إثارة وتشويق بلا حدود" : "Pure Adrenaline",
       link: "/safari",
-      accentBorder: "border-sky-400/50",
+      accentBg: "bg-sky-500/15 border-sky-400/30",
       tagColor: "text-sky-400",
       hoverBorder: "hover:border-sky-400/80 hover:shadow-sky-500/20",
     },
     {
       id: 2,
-      image: "/images/sea/ras-mohammed-luxury-yacht.webp",
+      image: "/images/icons/vip-yacht.svg",
       tag: isAr ? "اليخوت الفاخرة" : "VIP YACHTS",
       title: isAr ? "إبحار ملوكي VIP" : "Royal Sailing VIP",
       link: "/sea-trips",
-      accentBorder: "border-amber-400/50",
+      accentBg: "bg-amber-500/15 border-amber-400/30",
       tagColor: "text-amber-400",
       hoverBorder: "hover:border-amber-400/80 hover:shadow-amber-500/20",
     },
     {
       id: 3,
-      image: "/images/sea/snorkeling-ras-mohammed-reef.webp",
+      image: "/images/icons/diving-snorkeling.svg",
       tag: isAr ? "الغوص والسنوركلينج" : "DIVING & REEFS",
       title: isAr ? "عالم المرجان والأعماق" : "Underwater Reefs",
       link: "/diving",
-      accentBorder: "border-emerald-400/50",
+      accentBg: "bg-emerald-500/15 border-emerald-400/30",
       tagColor: "text-emerald-400",
       hoverBorder: "hover:border-emerald-400/80 hover:shadow-emerald-500/20",
     },
     {
       id: 4,
-      image: "/images/transfers/vip-transfers-sharm.webp",
+      image: "/images/icons/vip-transfer.svg",
       tag: isAr ? "الانتقالات الخاصة" : "VIP TRANSFERS",
       title: isAr ? "توصيل 24/7 للمطار والفندق" : "24/7 Airport Shuttles",
       link: "/transfers",
-      accentBorder: "border-orange-400/50",
+      accentBg: "bg-orange-500/15 border-orange-400/30",
       tagColor: "text-orange-400",
       hoverBorder: "hover:border-orange-400/80 hover:shadow-orange-500/20",
     },
@@ -282,7 +282,7 @@ export const HeroSection = () => {
               </div>
             </Link>
 
-            {/* 2. Interactive Category Grid (2x2) - Real Photo Thumbnails */}
+            {/* 2. Interactive Category Grid (2x2) - Rich Illustrated Icon-Images */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mt-3.5 sm:mt-4 w-full max-w-sm sm:max-w-md lg:max-w-none">
               {cardsData.map((card) => (
                 <Link
@@ -290,16 +290,15 @@ export const HeroSection = () => {
                   to={card.link}
                   className={`p-2 sm:p-2.5 rounded-2xl bg-[#0B1E36]/90 hover:bg-[#0E2746]/95 backdrop-blur-2xl border border-sky-500/20 ${card.hoverBorder} shadow-xl shadow-slate-950/25 flex items-center gap-2.5 sm:gap-3 transition-all duration-300 group cursor-pointer hover:scale-[1.02] active:scale-98`}
                 >
-                  {/* Real Photo Thumbnail */}
-                  <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden shrink-0 border ${card.accentBorder} shadow-md relative group-hover:scale-105 transition duration-300 bg-slate-900`}>
+                  {/* Icon-Style Image Container */}
+                  <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl p-1.5 shrink-0 border ${card.accentBg} shadow-inner flex items-center justify-center relative group-hover:scale-110 transition duration-300 bg-slate-900/40`}>
                     <img
                       src={card.image}
                       alt={card.tag}
-                      className="w-full h-full object-cover object-center group-hover:scale-110 transition duration-500"
+                      className="w-full h-full object-contain filter drop-shadow-md group-hover:brightness-110 transition duration-300"
                       loading="lazy"
                       decoding="async"
                     />
-                    <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition duration-300 pointer-events-none" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <span className={`text-[9px] sm:text-[10px] font-black tracking-wider uppercase ${card.tagColor} block truncate`}>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="limoBody" x1="10" y1="26" x2="54" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="35%" stop-color="#1E293B"/>
+      <stop offset="70%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="limoRoof" x1="20" y1="18" x2="44" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="tintedWindows" x1="22" y1="20" x2="42" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="40%" stop-color="#0369A1"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="goldCarStripe" x1="8" y1="36" x2="56" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="wheelTire" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="alloyRim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F1F5F9"/>
+      <stop offset="50%" stop-color="#94A3B8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <filter id="headlightGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Ground Shadow -->
+  <ellipse cx="32" cy="51" rx="26" ry="4" fill="#000000" fill-opacity="0.45"/>
+
+  <!-- Wheels (Front & Rear Luxury Multi-Spoke Rims) -->
+  <!-- Rear Wheel -->
+  <circle cx="18" cy="44" r="7.5" fill="url(#wheelTire)"/>
+  <circle cx="18" cy="44" r="5" fill="url(#alloyRim)"/>
+  <circle cx="18" cy="44" r="2" fill="#0F172A"/>
+  <line x1="18" y1="39.5" x2="18" y2="48.5" stroke="#CBD5E1" stroke-width="0.8"/>
+  <line x1="13.5" y1="44" x2="22.5" y2="44" stroke="#CBD5E1" stroke-width="0.8"/>
+  <line x1="14.8" y1="40.8" x2="21.2" y2="47.2" stroke="#CBD5E1" stroke-width="0.8"/>
+  <line x1="14.8" y1="47.2" x2="21.2" y2="40.8" stroke="#CBD5E1" stroke-width="0.8"/>
+
+  <!-- Front Wheel -->
+  <circle cx="46" cy="44" r="7.5" fill="url(#wheelTire)"/>
+  <circle cx="46" cy="44" r="5" fill="url(#alloyRim)"/>
+  <circle cx="46" cy="44" r="2" fill="#0F172A"/>
+  <line x1="46" y1="39.5" x2="46" y2="48.5" stroke="#CBD5E1" stroke-width="0.8"/>
+  <line x1="41.5" y1="44" x2="50.5" y2="44" stroke="#CBD5E1" stroke-width="0.8"/>
+  <line x1="42.8" y1="40.8" x2="49.2" y2="47.2" stroke="#CBD5E1" stroke-width="0.8"/>
+  <line x1="42.8" y1="47.2" x2="49.2" y2="40.8" stroke="#CBD5E1" stroke-width="0.8"/>
+
+  <!-- Wheel Arches (Fender Cutouts) -->
+  <path d="M10 44H11C11 40 14 37 18 37C22 37 25 40 25 44H39C39 40 42 37 46 37C50 37 53 40 53 44H56L57 41L55 35L47 31H38L25 31L13 33L7 38L7 42L10 44Z" fill="url(#limoBody)"/>
+
+  <!-- Upper Cabin / Roof Greenhouse -->
+  <path d="M16 31L23 20H41L49 31H16Z" fill="url(#limoRoof)" stroke="#64748B" stroke-width="0.8"/>
+
+  <!-- Executive Privacy Windows -->
+  <path d="M24 22L18.5 30H29V22H24Z" fill="url(#tintedWindows)"/>
+  <path d="M31 22V30H40L37 22H31Z" fill="url(#tintedWindows)"/>
+  <path d="M41.5 22L47.5 30H41.5V22Z" fill="url(#tintedWindows)"/>
+  <!-- Chrome B-Pillar & Window Trim -->
+  <path d="M17 30H48.5" stroke="#CBD5E1" stroke-width="1"/>
+  <path d="M30 21V30" stroke="#CBD5E1" stroke-width="1.2"/>
+
+  <!-- Main Luxury Sedan Body Silhouette -->
+  <path d="M6 38C6 38 10 33 16 32C22 31 38 31 46 32L55 35C57 36 58 38 58 40L57 43H53C53 40 50 37.5 46 37.5C42 37.5 39 40 39 43H25C25 40 22 37.5 18 37.5C14 37.5 11 40 11 43H7L6 38Z" fill="url(#limoBody)"/>
+
+  <!-- Metallic Chrome Waistline & Handles -->
+  <path d="M8 36C18 35 44 35 56 38" stroke="url(#goldCarStripe)" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- Door Handles -->
+  <rect x="25" y="34" width="3" height="1" rx="0.5" fill="#E2E8F0"/>
+  <rect x="36" y="34" width="3" height="1" rx="0.5" fill="#E2E8F0"/>
+
+  <!-- Front Luxury Grille & Bumper -->
+  <path d="M56 36L58 40L57 43H55L54 40Z" fill="#CBD5E1"/>
+
+  <!-- Xenon / LED Glowing Headlights (Amber / Warm Gold Glow) -->
+  <path d="M52 35L57 37L54 39H50L52 35Z" fill="#FEF08A" filter="url(#headlightGlow)"/>
+  <path d="M53 36L56 37L54 38L52 38L53 36Z" fill="#FFFFFF"/>
+  <!-- Rear Tail Light (Ruby Red) -->
+  <path d="M6.5 37L8 36L8 39L6.5 38.5Z" fill="#EF4444"/>
+</svg>
