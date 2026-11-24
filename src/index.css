@@ -213,3 +213,18 @@ img {
   animation: spinSlow 12s linear infinite;
 }
 
+/* Elfsight Instagram Slider & Navigation Arrows Fixes */
+div[class*="elfsight-app"] {
+  overflow: visible !important;
+}
+
+div[class*="elfsight-app"] [class*="arrow"],
+div[class*="elfsight-app"] button[class*="Arrow"],
+div[class*="elfsight-app"] [class*="Control"],
+div[class*="elfsight-app"] [class*="navigation"] {
+  overflow: visible !important;
+  z-index: 30 !important;
+  opacity: 1 !important;
+}
+
+

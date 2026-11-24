@@ -219,10 +219,10 @@ export const InstagramGallery = () => {
           </h2>
         </div>
 
-        {/* ── AUTO-SYNC ELFSIGHT WIDGET (1 ROW - 4 POSTS) ── */}
+        {/* ── AUTO-SYNC ELFSIGHT WIDGET (1 ROW - UNCLIPPED ARROWS) ── */}
         {elfsightWidgetId ? (
-          <div className="w-full overflow-hidden">
-            <div className={`elfsight-app-${elfsightWidgetId}`} data-elfsight-app-lazy />
+          <div className="w-full px-4 sm:px-8 md:px-14 relative overflow-visible">
+            <div className={`elfsight-app-${elfsightWidgetId} overflow-visible`} data-elfsight-app-lazy />
           </div>
         ) : (
           /* ── NATIVE RESPONSIVE INSTAGRAM GRID (EXACTLY 1 ROW OF 4 POSTS) ── */
