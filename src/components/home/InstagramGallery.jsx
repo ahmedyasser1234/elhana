@@ -151,7 +151,7 @@ export const InstagramGallery = () => {
       if (!document.getElementById('elfsight-platform-script')) {
         const script = document.createElement('script');
         script.id = 'elfsight-platform-script';
-        script.src = 'https://static.elfsight.com/platform/platform.js';
+        script.src = 'https://elfsightcdn.com/platform.js';
         script.async = true;
         document.body.appendChild(script);
       } else if (window.ElfsightPlatform && typeof window.ElfsightPlatform.init === 'function') {
