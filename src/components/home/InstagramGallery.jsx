@@ -140,17 +140,23 @@ export const InstagramGallery = () => {
   const [isMuted, setIsMuted] = useState(false);
   const modalVideoRef = useRef(null);
 
-  // Optional Live Instagram Feed Widget (Elfsight / Behold.so)
-  // When configured, it automatically live-syncs new posts directly from Instagram
-  const elfsightWidgetId = typeof window !== 'undefined' ? (window.ELFSIGHT_INSTAGRAM_ID || import.meta.env?.VITE_INSTAGRAM_ELFSIGHT_ID) : null;
+  // Live Instagram Feed Widget (Elfsight Auto-Syncing with @elhana_safari)
+  // Automatically live-syncs new posts, reels and videos directly from Instagram
+  const elfsightWidgetId = typeof window !== 'undefined'
+    ? (window.ELFSIGHT_INSTAGRAM_ID || import.meta.env?.VITE_INSTAGRAM_ELFSIGHT_ID || '6316a352-250a-4ae1-8932-657a03e89816')
+    : '6316a352-250a-4ae1-8932-657a03e89816';
 
   useEffect(() => {
-    if (elfsightWidgetId && !document.getElementById('elfsight-platform-script')) {
-      const script = document.createElement('script');
-      script.id = 'elfsight-platform-script';
-      script.src = 'https://static.elfsight.com/platform/platform.js';
-      script.async = true;
-      document.body.appendChild(script);
+    if (elfsightWidgetId) {
+      if (!document.getElementById('elfsight-platform-script')) {
+        const script = document.createElement('script');
+        script.id = 'elfsight-platform-script';
+        script.src = 'https://static.elfsight.com/platform/platform.js';
+        script.async = true;
+        document.body.appendChild(script);
+      } else if (window.ElfsightPlatform && typeof window.ElfsightPlatform.init === 'function') {
+        window.ElfsightPlatform.init();
+      }
     }
   }, [elfsightWidgetId]);
 
