@@ -78,6 +78,35 @@ function AppContent() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            {/* Direct Language Landing Routes for Ads & Campaigns */}
+            <Route path="/it" element={<HomePage />} />
+            <Route path="/ar" element={<HomePage />} />
+            <Route path="/ru" element={<HomePage />} />
+            <Route path="/de" element={<HomePage />} />
+            <Route path="/es" element={<HomePage />} />
+            <Route path="/en" element={<HomePage />} />
+
+            {/* Direct Italian Subpage Routes */}
+            <Route path="/it/safari" element={<SafariToursPage />} />
+            <Route path="/it/atv-tours" element={<ATVToursPage />} />
+            <Route path="/it/buggy-tours" element={<BuggyToursPage />} />
+            <Route path="/it/bedouin-experience" element={<BedouinExperiencePage />} />
+            <Route path="/it/camel-riding" element={<CamelRidingPage />} />
+            <Route path="/it/horse-riding" element={<HorseRidingPage />} />
+            <Route path="/it/excursions" element={<ExcursionsPage />} />
+            <Route path="/it/sea-trips" element={<SeaTripsPage />} />
+            <Route path="/it/dolphin-experience" element={<DolphinExperiencePage />} />
+            <Route path="/it/yacht-trips" element={<YachtTripsPage />} />
+            <Route path="/it/snorkeling" element={<SnorkelingPage />} />
+            <Route path="/it/diving" element={<DivingPage />} />
+            <Route path="/it/parasailing" element={<ParasailingPage />} />
+            <Route path="/it/banana-boat" element={<BananaBoatPage />} />
+            <Route path="/it/experiences" element={<AllExperiencesPage />} />
+            <Route path="/it/experience/:slug" element={<ExperienceDetailsPage />} />
+            <Route path="/it/transfers" element={<TransfersPage />} />
+            <Route path="/it/about" element={<AboutUsPage />} />
+            <Route path="/it/contact" element={<ContactUsPage />} />
+
             <Route path="/safari" element={<SafariToursPage />} />
             <Route path="/atv-tours" element={<ATVToursPage />} />
             <Route path="/buggy-tours" element={<BuggyToursPage />} />

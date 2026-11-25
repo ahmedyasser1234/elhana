@@ -1,3 +1,5 @@
+import { IT_EXPERIENCE_TRANSLATIONS } from './translations/itExperiences.js';
+
 export const EXPERIENCES = [
   {
     id: "exp-dahab-1",
@@ -2255,7 +2257,8 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
     }
   } catch {}
 
-  const localized = translations[experience.slug]?.[lang];
+  const itTranslation = lang === 'it' ? IT_EXPERIENCE_TRANSLATIONS[experience.slug] : null;
+  const localized = itTranslation || translations[experience.slug]?.[lang];
   const base = localized ? {
     ...experience,
     title: localized.title || experience.title,

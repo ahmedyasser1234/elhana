@@ -7,7 +7,12 @@ import { FloatingSearchWidget } from './FloatingSearchWidget';
 
 export const HeroSection = () => {
   const { t, i18n } = useTranslation();
-  const isAr = i18n.language === 'ar';
+  const lang = i18n.language || 'en';
+  const isAr = lang === 'ar';
+  const isIt = lang === 'it';
+  const isRu = lang === 'ru';
+  const isDe = lang === 'de';
+  const isEs = lang === 'es';
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [activeSlideIdx, setActiveSlideIdx] = useState(0);
 
@@ -19,8 +24,10 @@ export const HeroSection = () => {
       alt: 'Luxury VIP Yacht Cruise Ras Mohammed Sharm El Sheikh',
       badgeAr: 'اليخوت الفاخرة VIP',
       badgeEn: 'VIP Luxury Yacht',
+      badgeIt: 'Yacht VIP di Lusso',
       titleAr: 'إبحار ملوكي، رأس محمد، والجزيرة البيضاء',
       titleEn: 'Royal Sailing, Ras Mohammed & White Island',
+      titleIt: 'Navigazione Reale, Ras Mohammed e Isola Bianca',
       link: '/sea-trips'
     },
     {
@@ -29,8 +36,10 @@ export const HeroSection = () => {
       alt: 'Red Sea Snorkeling and Diving Sharm El Sheikh',
       badgeAr: 'الغوص والسنوركلينج',
       badgeEn: 'Diving & Reefs',
+      badgeIt: 'Immersioni & Barriere',
       titleAr: 'عالم المرجان الساحر وأعماق البحر الأحمر',
       titleEn: 'Vibrant Coral Reefs & Marine Life',
+      titleIt: 'Barriera Corallina e Vita Marina del Mar Rosso',
       link: '/diving'
     },
     {
@@ -39,8 +48,10 @@ export const HeroSection = () => {
       alt: 'Dahab Blue Hole & Sinai Excursions',
       badgeAr: 'رحلات سيناء ودهب',
       badgeEn: 'Sinai & Dahab Tours',
+      badgeIt: 'Tour Sinai e Dahab',
       titleAr: 'بلو هول دهب، جبل موسى، وسانت كاترين',
       titleEn: 'Dahab Blue Hole & St. Catherine',
+      titleIt: 'Dahab Blue Hole & Monastero di Santa Caterina',
       link: '/excursions'
     },
     {
@@ -49,8 +60,10 @@ export const HeroSection = () => {
       alt: 'Sharm El Sheikh VIP Private Transfers 24/7',
       badgeAr: 'توصيل المطار 24/7',
       badgeEn: '24/7 Airport Transfers',
+      badgeIt: 'Transfer Aeroporto 24/7',
       titleAr: 'ليموزين، ميني فان، وتويوتا هاي إيس خاصة',
       titleEn: 'Private Limousines, Minivans & HiAce',
+      titleIt: 'Limousine Private, Minivan e Toyota HiAce',
       link: '/transfers'
     }
   ];
@@ -70,8 +83,8 @@ export const HeroSection = () => {
     {
       id: 1,
       image: "/images/icons/safari-atv.svg",
-      tag: isAr ? "سفاري الصحراء" : "DESERT SAFARI",
-      title: isAr ? "إثارة وتشويق بلا حدود" : "Pure Adrenaline",
+      tag: isAr ? "سفاري الصحراء" : isIt ? "SAFARI NEL DESERTO" : isRu ? "САФАРИ В ПУСТЫНЕ" : isDe ? "WÜSTENSAFARI" : isEs ? "SAFARI EN DESIERTO" : "DESERT SAFARI",
+      title: isAr ? "إثارة وتشويق بلا حدود" : isIt ? "Pura Adrenalina" : isRu ? "Чистый адреналин" : isDe ? "Pures Adrenalin" : isEs ? "Pura Adrenalina" : "Pure Adrenaline",
       link: "/safari",
       accentBg: "bg-sky-500/15 border-sky-400/30",
       tagColor: "text-sky-400",
@@ -80,8 +93,8 @@ export const HeroSection = () => {
     {
       id: 2,
       image: "/images/icons/vip-yacht.svg",
-      tag: isAr ? "اليخوت الفاخرة" : "VIP YACHTS",
-      title: isAr ? "إبحار ملوكي VIP" : "Royal Sailing VIP",
+      tag: isAr ? "اليخوت الفاخرة" : isIt ? "YACHT VIP" : isRu ? "VIP ЯХТЫ" : isDe ? "VIP YACHTEN" : isEs ? "YATES VIP" : "VIP YACHTS",
+      title: isAr ? "إبحار ملوكي VIP" : isIt ? "Navigazione Reale VIP" : isRu ? "Королевский круиз" : isDe ? "Königliches Segeln" : isEs ? "Navegación Real VIP" : "Royal Sailing VIP",
       link: "/sea-trips",
       accentBg: "bg-amber-500/15 border-amber-400/30",
       tagColor: "text-amber-400",
@@ -90,8 +103,8 @@ export const HeroSection = () => {
     {
       id: 3,
       image: "/images/icons/diving-snorkeling.svg",
-      tag: isAr ? "الغوص والسنوركلينج" : "DIVING & REEFS",
-      title: isAr ? "عالم المرجان والأعماق" : "Underwater Reefs",
+      tag: isAr ? "الغوص والسنوركلينج" : isIt ? "IMMERSIONI & REEF" : isRu ? "ДАЙВИНГ И РИФЫ" : isDe ? "TAUCHEN & RIFFE" : isEs ? "BUCEO Y ARRECIFES" : "DIVING & REEFS",
+      title: isAr ? "عالم المرجان والأعماق" : isIt ? "Barriere Coralline Subacquee" : isRu ? "Подводные рифы" : isDe ? "Korallenriffe & Meer" : isEs ? "Arrecifes Submarinos" : "Underwater Reefs",
       link: "/diving",
       accentBg: "bg-emerald-500/15 border-emerald-400/30",
       tagColor: "text-emerald-400",
@@ -100,8 +113,8 @@ export const HeroSection = () => {
     {
       id: 4,
       image: "/images/icons/vip-transfer.svg",
-      tag: isAr ? "الانتقالات الخاصة" : "VIP TRANSFERS",
-      title: isAr ? "توصيل 24/7 للمطار والفندق" : "24/7 Airport Shuttles",
+      tag: isAr ? "الانتقالات الخاصة" : isIt ? "TRANSFER PRIVATI" : isRu ? "ТРАНСФЕР 24/7" : isDe ? "PRIVATE TRANSFERS" : isEs ? "TRASLADOS PRIVADOS" : "VIP TRANSFERS",
+      title: isAr ? "توصيل 24/7 للمطار والفندق" : isIt ? "Navette 24/7 Aeroporto & Hotel" : isRu ? "24/7 трансфер в аэропорт" : isDe ? "24/7 Flughafen & Hotel" : isEs ? "Traslados 24/7 Aeropuerto/Hotel" : "24/7 Airport Shuttles",
       link: "/transfers",
       accentBg: "bg-orange-500/15 border-orange-400/30",
       tagColor: "text-orange-400",
@@ -149,7 +162,7 @@ export const HeroSection = () => {
             
             {/* Eyebrow Text */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100/90 text-[#0369A1] font-black text-xs sm:text-sm tracking-wider uppercase border border-sky-200/80 shadow-xs">
-              <span>{isAr ? "شركة الهنا للسياحة والسفاري VIP" : "EL HANA GROUP TOURISM VIP"}</span>
+              <span>{isAr ? "شركة الهنا للسياحة والسفاري VIP" : isIt ? "EL HANA GROUP TURISMO & SAFARI VIP" : isRu ? "EL HANA GROUP ТУРИЗМ & VIP САФАРИ" : isDe ? "EL HANA GROUP TOURISMUS & VIP SAFARI" : "EL HANA GROUP TOURISM VIP"}</span>
             </div>
 
             {/* Headline */}
@@ -162,11 +175,39 @@ export const HeroSection = () => {
                       أثراً لا يُنسى.
                     </span>
                   </span>
+                ) : isIt ? (
+                  <span>
+                    Dove l'Avventura Lascia un{' '}
+                    <span className="text-[#0369A1] font-black">
+                      Segno Indelebile.
+                    </span>
+                  </span>
+                ) : isRu ? (
+                  <span>
+                    Где приключения оставляют{' '}
+                    <span className="text-[#0369A1] font-black">
+                      яркий след.
+                    </span>
+                  </span>
+                ) : isDe ? (
+                  <span>
+                    Wo Abenteuer unvergessliche{' '}
+                    <span className="text-[#0369A1] font-black">
+                      Spuren hinterlassen.
+                    </span>
+                  </span>
+                ) : isEs ? (
+                  <span>
+                    Donde la Aventura Deja una{' '}
+                    <span className="text-[#0369A1] font-black">
+                      Huella Imborrable.
+                    </span>
+                  </span>
                 ) : (
                   <span>
-                    Where Power Leaves a{' '}
+                    Where Adventure Leaves an{' '}
                     <span className="text-[#0369A1] font-black">
-                      Mark.
+                      Unforgettable Mark.
                     </span>
                   </span>
                 )}
@@ -179,7 +220,15 @@ export const HeroSection = () => {
             >
               {isAr
                 ? "نصنع تجارب سياحية فاخرة تجمع بين إثارة صحراء سيناء، يخوت البحر الأحمر VIP، والانتقالات المباشرة من الفندق في شرم الشيخ."
-                : "We partner with ambitious travelers to create Sinai adventures that resonate, engage, and deliver real impact."}
+                : isIt
+                ? "Creiamo esperienze esclusive a 5 stelle: safari mozzafiato nel deserto del Sinai, crociere in yacht VIP nel Mar Rosso e trasferimenti diretti dal tuo hotel a Sharm El Sheikh."
+                : isRu
+                ? "Мы создаем эксклюзивные туры в Шарм-эль-Шейхе: захватывающие саفاри в пустыне Синая, VIP-яхты по Красному морю и индивидуальные трансферы из отеля."
+                : isDe
+                ? "Wir bieten erstklassige 5-Sterne-Erlebnisse: Wüstensafaris im Sinai, VIP-Yachtausflüge auf dem Roten Meer und direkte Hoteltransfers in Sharm El Sheikh."
+                : isEs
+                ? "Creamos experiencias exclusivas de 5 estrellas: emocionantes safaris por el desierto del Sinaí, yates VIP en el Mar Rojo y traslados directos desde tu hotel en Sharm El Sheikh."
+                : "We create luxury travel experiences combining the thrill of the Sinai desert, VIP Red Sea yachts, and direct hotel transfers in Sharm El Sheikh."}
             </p>
 
             {/* Action Buttons */}
@@ -188,7 +237,7 @@ export const HeroSection = () => {
             >
               <Link to="/experiences">
                 <button className="px-7 py-3 rounded-full bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white font-black text-xs sm:text-sm shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition duration-300 flex items-center gap-2.5 group cursor-pointer">
-                  <span>{isAr ? "استكشف تجاربنا" : "Explore Our Work"}</span>
+                  <span>{isAr ? "استكشف تجاربنا" : isIt ? "Esplora le Esperienze" : isRu ? "Все экскурсии" : isDe ? "Erlebnisse entdecken" : isEs ? "Explorar Experiencias" : "Explore Experiences"}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition duration-300 rtl:rotate-180" />
                 </button>
               </Link>
@@ -201,7 +250,7 @@ export const HeroSection = () => {
                   <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
                 </div>
                 <span className="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-[#0284C7] transition duration-300">
-                  {isAr ? "شاهد الفيديو" : "Watch Video"}
+                  {isAr ? "شاهد الفيديو" : isIt ? "Guarda il Video" : isRu ? "Смотреть видео" : isDe ? "Video ansehen" : isEs ? "Ver Video" : "Watch Video"}
                 </span>
               </button>
             </div>
@@ -248,7 +297,7 @@ export const HeroSection = () => {
                 {/* Active Category Badge */}
                 <div className="px-3 py-1 rounded-full bg-[#0284C7] text-[10px] sm:text-[11px] font-black text-white shadow-md flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span>
-                  <span>{isAr ? currentOffer.badgeAr : currentOffer.badgeEn}</span>
+                  <span>{isAr ? currentOffer.badgeAr : isIt ? (currentOffer.badgeIt || currentOffer.badgeEn) : currentOffer.badgeEn}</span>
                 </div>
               </div>
 
@@ -256,10 +305,10 @@ export const HeroSection = () => {
               <div className="absolute bottom-3 inset-x-3.5 flex items-center justify-between gap-2 z-10 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl border border-slate-200/80 shadow-lg">
                 <div className="min-w-0 flex-1">
                   <span className="text-[10px] text-[#0284C7] font-black block uppercase tracking-wider">
-                    {isAr ? "خدمات ورحلات الهنا" : "El Hana Services"}
+                    {isAr ? "خدمات ورحلات الهنا" : isIt ? "Servizi El Hana Group" : isRu ? "Услуги El Hana" : "El Hana Services"}
                   </span>
                   <div className="text-xs sm:text-sm font-black text-slate-900 truncate">
-                    {isAr ? currentOffer.titleAr : currentOffer.titleEn}
+                    {isAr ? currentOffer.titleAr : isIt ? (currentOffer.titleIt || currentOffer.titleEn) : currentOffer.titleEn}
                   </div>
                 </div>
 

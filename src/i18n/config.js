@@ -17,7 +17,40 @@ const resources = {
   es: { translation: es }
 };
 
-const savedLang = localStorage.getItem('app_lang') || 'en';
+const getInitialLanguage = () => {
+  if (typeof window !== 'undefined') {
+    // 1. Check URL query parameters: ?lang=it or ?l=it or ?locale=it
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlLang = params.get('lang') || params.get('l') || params.get('locale');
+      if (urlLang && ['en', 'ar', 'ru', 'it', 'de', 'es'].includes(urlLang.toLowerCase())) {
+        const cleanLang = urlLang.toLowerCase();
+        localStorage.setItem('app_lang', cleanLang);
+        return cleanLang;
+      }
+
+      // 2. Check path prefix: /it or /it/...
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      if (pathParts.length > 0 && ['en', 'ar', 'ru', 'it', 'de', 'es'].includes(pathParts[0].toLowerCase())) {
+        const cleanLang = pathParts[0].toLowerCase();
+        localStorage.setItem('app_lang', cleanLang);
+        return cleanLang;
+      }
+    } catch (e) {
+      // Ignore errors in non-browser context
+    }
+
+    // 3. Fallback to localStorage
+    const saved = localStorage.getItem('app_lang');
+    if (saved && ['en', 'ar', 'ru', 'it', 'de', 'es'].includes(saved)) {
+      return saved;
+    }
+  }
+
+  return 'en';
+};
+
+const savedLang = getInitialLanguage();
 
 i18n
   .use(initReactI18next)

@@ -26,6 +26,40 @@ export const LanguageProvider = ({ children }) => {
     }
   };
 
+  // Listen to URL parameters (?lang=it) or path prefix (/it) dynamically
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const detectAndApplyLang = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const urlLang = params.get('lang') || params.get('l') || params.get('locale');
+        if (urlLang && LANGUAGES.some(l => l.code === urlLang.toLowerCase())) {
+          const clean = urlLang.toLowerCase();
+          if (clean !== currentLang) {
+            changeLanguage(clean);
+            return;
+          }
+        }
+
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        if (pathParts.length > 0 && LANGUAGES.some(l => l.code === pathParts[0].toLowerCase())) {
+          const clean = pathParts[0].toLowerCase();
+          if (clean !== currentLang) {
+            changeLanguage(clean);
+            return;
+          }
+        }
+      } catch (e) {
+        // Ignore
+      }
+    };
+
+    detectAndApplyLang();
+    window.addEventListener('popstate', detectAndApplyLang);
+    return () => window.removeEventListener('popstate', detectAndApplyLang);
+  }, [currentLang]);
+
   useEffect(() => {
     const active = LANGUAGES.find(l => l.code === currentLang) || LANGUAGES[0];
     document.documentElement.dir = active.dir;

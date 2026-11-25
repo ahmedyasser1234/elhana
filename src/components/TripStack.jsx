@@ -37,6 +37,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'safari',
     groupBadgeAr: 'سفاري البيتش باجي في الصحراء',
     groupBadgeEn: 'Sinai Desert Quad Safari',
+    groupBadgeIt: 'Safari in Quad nel Deserto',
     focus: 'center 45%',
     image: '/images/real/user-atv-safari.webp'
   },
@@ -45,6 +46,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'safari',
     groupBadgeAr: 'سفاري الكار باجي في الجبال',
     groupBadgeEn: 'Polaris Dune Buggy Safari',
+    groupBadgeIt: 'Avventura in Dune Buggy Polaris',
     focus: 'center 45%',
     image: '/images/real/polaris-buggy-white.webp'
   },
@@ -53,6 +55,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'safari',
     groupBadgeAr: 'سفاري بولاريس وكان-آم توربو VIP',
     groupBadgeEn: 'Can-Am & Polaris Turbo VIP',
+    groupBadgeIt: 'Safari Can-Am & Polaris VIP',
     focus: 'center 45%',
     image: '/images/real/family-buggy-ride.jpg'
   },
@@ -65,6 +68,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'safari',
     groupBadgeAr: 'سوبر سفاري كومبو شامل',
     groupBadgeEn: 'Super Safari Combo All-In-One',
+    groupBadgeIt: 'Super Safari Combo Completo',
     focus: 'center 45%',
     image: '/images/safari/super-safari-combo-hero.webp'
   },
@@ -73,6 +77,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'safari',
     groupBadgeAr: 'سهرة وعشاء بدوي ورصد النجوم',
     groupBadgeEn: 'Bedouin Dinner & Stargazing',
+    groupBadgeIt: 'Cena Beduina & Stelle',
     focus: 'center 50%',
     image: '/images/safari/bedouin/vip/IMG-20260722-WA0352.webp'
   },
@@ -81,6 +86,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'safari',
     groupBadgeAr: 'قوافل الجمال البدوية بالغروب',
     groupBadgeEn: 'Sunset Camel Caravan Ride',
+    groupBadgeIt: 'Carovana di Cammelli al Tramonto',
     focus: 'center 45%',
     image: '/images/real/camel-riding-hero.jpg'
   },
@@ -93,6 +99,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'safari',
     groupBadgeAr: 'ركوب الخيل العربي الأصيل',
     groupBadgeEn: 'Arabian Horseback Riding',
+    groupBadgeIt: 'Passeggiata a Cavallo nel Deserto',
     focus: 'center 45%',
     image: '/images/real/horse-riding-hero.jpg'
   },
@@ -101,6 +108,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'safari',
     groupBadgeAr: 'عشاء رومانسي بالخيمة البدوية',
     groupBadgeEn: 'Romantic Bedouin Dinner',
+    groupBadgeIt: 'Cena Beduina Romantica',
     focus: 'center 45%',
     image: '/images/romantic/romantic-bedouin-candlelight-dinner.jpg'
   },
@@ -109,6 +117,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'safari',
     groupBadgeAr: 'باقة طلب الزواج VIP في الصحراء',
     groupBadgeEn: 'Desert VIP Proposal Package',
+    groupBadgeIt: 'Proposta di Matrimonio VIP nel Deserto',
     focus: 'center 45%',
     image: '/images/romantic/marry-me-proposal-desert.jpg'
   },
@@ -121,6 +130,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'sea',
     groupBadgeAr: 'يخوت ملكية VIP لرأس محمد',
     groupBadgeEn: 'VIP Luxury Yacht & White Island',
+    groupBadgeIt: 'Crociera Yacht VIP & Isola Bianca',
     focus: 'center 45%',
     image: '/images/sea/ras-mohammed-luxury-yacht.webp'
   },
@@ -129,6 +139,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'sea',
     groupBadgeAr: 'غوص استكشافي بالأسطوانة PADI',
     groupBadgeEn: 'Red Sea Scuba Diving & Reefs',
+    groupBadgeIt: 'Battesimo del Mare & Barriere PADI',
     focus: 'center 35%',
     image: '/images/sea/scuba-diving-intro.jpg'
   },
@@ -137,6 +148,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'sea',
     groupBadgeAr: 'رحلة يخت وسنوركلينج جزيرة تيران',
     groupBadgeEn: 'Tiran Island Snorkeling Cruise',
+    groupBadgeIt: 'Snorkeling e Yacht Isola di Tiran',
     focus: 'center 40%',
     image: '/images/sea/snorkeling-ras-mohammed-reef.jpg'
   },
@@ -149,6 +161,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'sea',
     groupBadgeAr: 'باراشوت الألعاب المائية بشرم',
     groupBadgeEn: 'Red Sea Parasailing Flight',
+    groupBadgeIt: 'Volo in Paracadute a Sharm',
     focus: 'center 40%',
     image: '/images/sea/parasailing-sharm-flight.jpg'
   },
@@ -157,6 +170,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'sea',
     groupBadgeAr: 'ألعاب البانانا بوت والتيوب المائية',
     groupBadgeEn: 'Banana Boat & Water Tube Ride',
+    groupBadgeIt: 'Banana Boat & Sport Acquatici',
     focus: 'center 45%',
     image: '/images/sea/banana-boat-water-ride.jpg'
   },
@@ -165,6 +179,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'sea',
     groupBadgeAr: 'عرض ودولفين شو والسباحة معها',
     groupBadgeEn: 'Dolphin Show & Swim Experience',
+    groupBadgeIt: 'Spettacolo e Nuoto con i Delfini',
     focus: 'center 40%',
     image: '/images/sea/dolphin-show-sharm.jpg'
   },
@@ -177,6 +192,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'sea',
     groupBadgeAr: 'باقة طلب الزواج VIP على اليخت',
     groupBadgeEn: 'VIP Yacht Proposal Package',
+    groupBadgeIt: 'Proposta di Matrimonio VIP su Yacht',
     focus: 'center 45%',
     image: '/images/romantic/marry-me-proposal-yacht.jpg'
   },
@@ -185,6 +201,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'sea',
     groupBadgeAr: 'جولة محمية رأس محمد البرية بالباص',
     groupBadgeEn: 'Ras Mohammed Overland Bus Tour',
+    groupBadgeIt: 'Tour Parco Ras Mohammed via Terra',
     focus: 'center 45%',
     image: '/images/excursions/ras-mohammed/ras-mohammed-gate-of-allah.jpg'
   },
@@ -194,12 +211,15 @@ const ORDERED_TRIP_DEFINITIONS = [
     isCustomTransfer: true,
     groupBadgeAr: 'انتقالات خاصة 24/7 داخل جنوب سيناء',
     groupBadgeEn: '24/7 South Sinai VIP Transfers',
+    groupBadgeIt: 'Trasferimenti Privati 24/7 Sud Sinai',
     focus: 'center 45%',
     image: '/images/transfers/vip-transfers-sharm.jpg',
     titleAr: 'انتقالات خاصة VIP بين مطار وفنادق شرم الشيخ وجنوب سيناء',
     titleEn: 'VIP Private Airport & South Sinai Hotel Transfers 24/7',
+    titleIt: 'Trasferimenti Privati VIP Aeroporto e Hotel Sharm El Sheikh',
     subtitleAr: 'توصيل مريح ومكيف بأسعار ثابتة ومحددة مسبقاً من مطار شرم الشيخ الدولي لجميع الفنادق والمنتجعات، ورحلات سياحية خاصة لدهب وسانت كاترين بأسطول ليموزين سيدان، ميني فان 6 ركاب، وتويوتا هاي إيس 15 راكب.',
     subtitleEn: 'Pre-fixed price private airport and intercity transfers across Sharm El Sheikh, Dahab, and Saint Catherine with licensed luxury sedans, 6-pax minivans, and 15-pax HiAce microbuses.',
+    subtitleIt: 'Navette con aria condizionata a tariffa fissa dall\'Aeroporto di Sharm El Sheikh per tutti i resort, Dahab e Santa Caterina con limousine, minivan 6 posti e Toyota HiAce 15 posti.',
     startingPrice: 15,
     rating: 4.95,
     href: '/transfers'
@@ -213,6 +233,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'outside-sharm',
     groupBadgeAr: 'جولة دهب وبلو هول والوادي الملون',
     groupBadgeEn: 'Dahab & Blue Hole Canyon Tour',
+    groupBadgeIt: 'Escursione Dahab, Blue Hole e Canyon',
     focus: 'center 55%',
     image: '/images/excursions/dahab/dahab-blue-hole-lagoon.jpg'
   },
@@ -221,6 +242,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'outside-sharm',
     groupBadgeAr: 'شروق جبل موسى ودير سانت كاترين',
     groupBadgeEn: 'Mount Sinai Sunrise & Monastery',
+    groupBadgeIt: 'Alba Monte Sinai & Monastero di Santa Caterina',
     focus: 'center 50%',
     image: '/images/excursions/catherine/mount-sinai-sea-of-clouds.jpg'
   },
@@ -229,6 +251,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'outside-sharm',
     groupBadgeAr: 'مغامرة وادي الوشواشي في نويبع',
     groupBadgeEn: 'Nuweiba Wishwashi Canyon Safari',
+    groupBadgeIt: 'Avventura Canyon Wishwashi a Nuweiba',
     focus: 'center 50%',
     image: '/images/excursions/nuweiba/nuweiba-wishwashi-emerald.jpg'
   },
@@ -241,6 +264,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     group: 'outside-sharm',
     groupBadgeAr: 'فيورد طابا وقلعة صلاح الدين',
     groupBadgeEn: 'Taba Fjord Bay & Castle',
+    groupBadgeIt: 'Fiordo di Taba & Fortezza di Salah El Din',
     focus: 'center 50%',
     image: '/images/excursions/taba/taba-fjord-bay-crystal.jpg'
   },
@@ -250,12 +274,15 @@ const ORDERED_TRIP_DEFINITIONS = [
     isCustomExperience: true,
     groupBadgeAr: 'تأجير يخوت خاصة VIP',
     groupBadgeEn: 'Private VIP Yacht Charter',
+    groupBadgeIt: 'Noleggio Yacht VIP Esclusivo',
     focus: 'center 45%',
     image: '/images/sea/ras-mohammed-luxury-yacht.webp',
     titleAr: 'تأجير يخت سياحي ملكي خاص VIP لرأس محمد والجزيرة البيضاء',
     titleEn: 'Private VIP Luxury Yacht Charter to Ras Mohammed & White Island',
+    titleIt: 'Noleggio Yacht Privato VIP per Ras Mohammed e Isola Bianca',
     subtitleAr: 'يخت سياحي ملكي خاص بالكامل لك ولعائلتك لرحلات بحرية استثنائية مع طاقم محترف، ومعدات سنوركلينج وبوفيه سي فود مفتوح طوال اليوم.',
     subtitleEn: 'Exclusive private yacht charter for you and your family with professional crew, snorkeling gear, and open seafood buffet throughout the day.',
+    subtitleIt: 'Yacht privato di lusso per te e la tua famiglia con equipaggio professionale, attrezzatura snorkeling e buffet di pesce aperto.',
     startingPrice: 220,
     rating: 5.0,
     href: '/experiences?category=sea'
@@ -266,12 +293,15 @@ const ORDERED_TRIP_DEFINITIONS = [
     isCustomExperience: true,
     groupBadgeAr: 'برامج سياحية VIP مخصصة',
     groupBadgeEn: 'Tailor-Made VIP Itineraries',
+    groupBadgeIt: 'Itinerari VIP su Misura',
     focus: 'center 45%',
     image: '/images/real/polaris-buggy-family.webp',
     titleAr: 'برامج سياحية وجولات VIP مخصصة في شرم الشيخ وجنوب سيناء',
     titleEn: 'Custom Tailor-Made VIP Sinai Tours & Holiday Itineraries',
+    titleIt: 'Programmi Turistici VIP su Misura a Sharm e nel Sinai',
     subtitleAr: 'صمم جدول إجازتك ورحلاتك في شرم الشيخ وسيناء باختيارك الخاص مع مرشدين وخدمة كونسيرج متميزة وسيارات خاصة على مدار الساعة.',
     subtitleEn: 'Customize your private holiday itinerary across Sharm and South Sinai with dedicated concierge service and private chauffeur 24/7.',
+    subtitleIt: 'Crea il tuo itinerario esclusivo a Sharm El Sheikh con concierge dedicato, guide private e auto di lusso 24/7.',
     startingPrice: 35,
     rating: 5.0,
     href: '/experiences'
@@ -282,7 +312,7 @@ const ORDERED_TRIP_DEFINITIONS = [
  * Single Responsive Luxury Card Component
  * Fully edge-to-edge photography with zero empty space or bars.
  */
-function TripCard({ trip, total, index, isAr, formatPrice, t, ArrowIcon }) {
+function TripCard({ trip, total, index, isAr, isIt, formatPrice, t, ArrowIcon }) {
   const badgeColor = getBadgeColor(trip.group);
 
   return (
@@ -342,7 +372,7 @@ function TripCard({ trip, total, index, isAr, formatPrice, t, ArrowIcon }) {
 
           <div className="text-end">
             <span className="text-[10px] text-slate-400 block leading-none mb-0.5 font-semibold">
-              {isAr ? 'السعر يبدأ من' : 'From'}
+              {isAr ? 'السعر يبدأ من' : isIt ? 'A partire da' : 'From'}
             </span>
             <span className="text-base sm:text-lg lg:text-xl font-black text-[#0284C7] leading-none">
               {formatPrice(trip.startingPrice)}
@@ -357,7 +387,7 @@ function TripCard({ trip, total, index, isAr, formatPrice, t, ArrowIcon }) {
             aria-label={`${t('trips.view', 'عرض الرحلة')}: ${trip.title}`}
             className="inline-flex items-center justify-center gap-1.5 flex-1 py-2 sm:py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] hover:from-[#0369A1] hover:to-[#075985] text-white text-xs font-extrabold shadow-sm hover:shadow-md transition-all group/btn cursor-pointer whitespace-nowrap"
           >
-            <span>{trip.isTransfer ? (isAr ? 'حجز الانتقالات' : 'Book Transfers') : t('trips.view', 'عرض التفاصيل')}</span>
+            <span>{trip.isTransfer ? (isAr ? 'حجز الانتقالات' : isIt ? 'Prenota Trasferimento' : 'Book Transfers') : (isIt ? 'Vedi Dettagli' : t('trips.view', 'عرض التفاصيل'))}</span>
             <ArrowIcon className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1" />
           </Link>
 
@@ -365,7 +395,7 @@ function TripCard({ trip, total, index, isAr, formatPrice, t, ArrowIcon }) {
             to="/experiences"
             className="inline-flex items-center justify-center py-2 sm:py-2.5 px-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-slate-300 text-xs font-bold text-slate-700 hover:text-[#0284C7] transition-all whitespace-nowrap cursor-pointer shadow-2xs"
           >
-            {isAr ? 'كل الرحلات' : 'All Tours'}
+            {isAr ? 'كل الرحلات' : isIt ? 'Tutti i Tour' : 'All Tours'}
           </Link>
         </div>
       </div>
@@ -377,6 +407,7 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
   const { t, i18n } = useTranslation();
   const { formatPrice } = useCurrency();
   const isAr = i18n.language === 'ar';
+  const isIt = i18n.language === 'it';
   const ArrowIcon = isAr ? ArrowLeft : ArrowRight;
 
   // Resolve ordered trips with authentic high-res images and localized details
@@ -390,9 +421,9 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
           id: `custom-exp-${item.slug}`,
           index: idx,
           slug: item.slug,
-          title: isAr ? item.titleAr : item.titleEn,
-          subtitle: isAr ? item.subtitleAr : item.subtitleEn,
-          categoryBadge: isAr ? item.groupBadgeAr : item.groupBadgeEn,
+          title: isAr ? item.titleAr : isIt ? (item.titleIt || item.titleEn) : item.titleEn,
+          subtitle: isAr ? item.subtitleAr : isIt ? (item.subtitleIt || item.subtitleEn) : item.subtitleEn,
+          categoryBadge: isAr ? item.groupBadgeAr : isIt ? (item.groupBadgeIt || item.groupBadgeEn) : item.groupBadgeEn,
           group: item.group,
           image: item.image,
           href: item.href,
@@ -411,6 +442,8 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
 
       const badgeLabel = isAr
         ? (item.groupBadgeAr || localized.categoryLabel || 'رحلة مميزة')
+        : isIt
+        ? (item.groupBadgeIt || localized.categoryLabel || 'Esperienza Esclusiva')
         : (item.groupBadgeEn || localized.categoryLabel || 'Featured Tour');
 
       return {
@@ -429,7 +462,7 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
         isTransfer: false
       };
     });
-  }, [customTrips, i18n.language, isAr]);
+  }, [customTrips, i18n.language, isAr, isIt]);
 
   const total = trips.length;
 
@@ -495,10 +528,10 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
                     02
                   </div>
                   <span className="text-xs uppercase tracking-wider text-[#0284C7] font-black">
-                    {isAr ? 'الرحلة التالية' : 'Next Adventure'}
+                    {isAr ? 'الرحلة التالية' : isIt ? 'Prossima Avventura' : 'Next Adventure'}
                   </span>
                   <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-600 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-2xs">
-                    <span>{isAr ? 'مرر لأسفل لعرض باقي الرحلات' : 'Scroll down to reveal more tours'}</span>
+                    <span>{isAr ? 'مرر لأسفل لعرض باقي الرحلات' : isIt ? 'Scorri verso il basso per scoprire altri tour' : 'Scroll down to reveal more tours'}</span>
                     <span className="animate-bounce text-[#0284C7]">↓</span>
                   </span>
                 </div>
@@ -513,10 +546,10 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
                     03
                   </div>
                   <span className="text-xs uppercase tracking-wider text-slate-500 font-bold">
-                    {isAr ? 'رحلات وتجارب VIP' : 'VIP Experiences'}
+                    {isAr ? 'رحلات وتجارب VIP' : isIt ? 'Esperienze VIP' : 'VIP Experiences'}
                   </span>
                   <p className="text-xs text-slate-400 font-medium px-4 leading-relaxed">
-                    {isAr ? 'أكثر من 24 رحلة وسفاري ويخوت فاخرة في شرم الشيخ' : '24+ Luxury Safaris, VIP Yachts & Sinai Excursions'}
+                    {isAr ? 'أكثر من 24 رحلة وسفاري ويخوت فاخرة في شرم الشيخ' : isIt ? 'Oltre 24 safari esclusivi, yacht VIP ed escursioni nel Sinai' : '24+ Luxury Safaris, VIP Yachts & Sinai Excursions'}
                   </p>
                 </div>
               </div>
@@ -533,6 +566,7 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
                 total={total}
                 index={i}
                 isAr={isAr}
+                isIt={isIt}
                 formatPrice={formatPrice}
                 t={t}
                 ArrowIcon={ArrowIcon}

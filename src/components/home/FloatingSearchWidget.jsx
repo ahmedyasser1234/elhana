@@ -8,6 +8,7 @@ import { SHARM_HOTELS, SHARM_ZONES } from '../../data/sharmHotels';
 export const FloatingSearchWidget = () => {
   const { t, i18n } = useTranslation();
   const isAr = i18n.language === 'ar';
+  const isIt = i18n.language === 'it';
   const navigate = useNavigate();
 
   const [hotelZone, setHotelZone] = useState('');
@@ -72,7 +73,7 @@ export const FloatingSearchWidget = () => {
   // Selected hotel display label
   const selectedHotelLabel = useMemo(() => {
     if (!hotelZone) {
-      return isAr ? 'جميع فنادق ومناطق شرم الشيخ' : 'All Sharm Hotels & Resorts';
+      return isAr ? 'جميع فنادق ومناطق شرم الشيخ' : isIt ? 'Tutti gli Hotel e Resort di Sharm' : 'All Sharm Hotels & Resorts';
     }
     const found = SHARM_HOTELS.find(
       (h) => h.name === hotelZone || h.nameAr === hotelZone || h.id === hotelZone
@@ -81,19 +82,19 @@ export const FloatingSearchWidget = () => {
       return isAr ? found.nameAr : found.name;
     }
     return hotelZone;
-  }, [hotelZone, isAr]);
+  }, [hotelZone, isAr, isIt]);
 
   // Selected category display label
   const selectedCategoryLabel = useMemo(() => {
     if (!category || category === 'all') {
-      return isAr ? 'كل التجارب والرحلات' : 'All Tours & Activities';
+      return isAr ? 'كل التجارب والرحلات' : isIt ? 'Tutte le Esperienze e Tour' : 'All Tours & Activities';
     }
     const found = CATEGORIES.find((c) => c.id === category);
     if (found) {
       return isAr ? (found.titleAr || found.title) : found.title;
     }
     return category;
-  }, [category, isAr]);
+  }, [category, isAr, isIt]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -156,7 +157,7 @@ export const FloatingSearchWidget = () => {
                 type="text"
                 value={hotelSearchQuery}
                 onChange={(e) => setHotelSearchQuery(e.target.value)}
-                placeholder={isAr ? "ابحث باسم الفندق أو المنطقة..." : "Search hotel or area..."}
+                placeholder={isAr ? "ابحث باسم الفندق أو المنطقة..." : isIt ? "Cerca per hotel o zona..." : "Search hotel or area..."}
                 autoFocus
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pl-8 pr-7 rtl:pl-7 rtl:pr-8 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#0284C7] focus:bg-white transition"
               />
@@ -185,14 +186,14 @@ export const FloatingSearchWidget = () => {
                   !hotelZone ? 'bg-sky-50 text-[#0284C7]' : 'text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <span>{isAr ? 'جميع فنادق ومناطق شرم الشيخ' : 'All Sharm Hotels & Resorts'}</span>
+                <span>{isAr ? 'جميع فنادق ومناطق شرم الشيخ' : isIt ? 'Tutti gli Hotel e Resort di Sharm' : 'All Sharm Hotels & Resorts'}</span>
                 {!hotelZone && <Check className="w-4 h-4 text-[#0284C7]" />}
               </button>
 
               {/* Zones and Hotels */}
               {filteredZones.length === 0 ? (
                 <div className="py-8 text-center text-xs text-slate-400 font-medium">
-                  {isAr ? 'لا توجد فنادق مطابقة للبحث' : 'No matching hotels found'}
+                  {isAr ? 'لا توجد فنادق مطابقة للبحث' : isIt ? 'Nessun hotel trovato' : 'No matching hotels found'}
                 </div>
               ) : (
                 filteredZones.map((zone) => (
@@ -273,7 +274,7 @@ export const FloatingSearchWidget = () => {
                   category === 'all' ? 'bg-sky-50 text-[#0284C7]' : 'text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <span>{isAr ? 'كل التجارب والرحلات' : 'All Tours & Activities'}</span>
+                <span>{isAr ? 'كل التجارب والرحلات' : isIt ? 'Tutte le Esperienze e Tour' : 'All Tours & Activities'}</span>
                 {category === 'all' && <Check className="w-4 h-4 text-[#0284C7]" />}
               </button>
               {CATEGORIES.map((cat) => {
@@ -337,6 +338,8 @@ export const FloatingSearchWidget = () => {
             <span>
               {isAr
                 ? `${guests} ${guests === 1 ? 'فرد' : guests === 2 ? 'فردين' : guests <= 10 ? 'أفراد' : 'فرد'}`
+                : isIt
+                ? `${guests} ${guests === 1 ? 'Ospite' : 'Ospiti'}`
                 : `${guests} ${guests === 1 ? 'Guest' : 'Guests'}`}
             </span>
             <ChevronDown
@@ -368,6 +371,8 @@ export const FloatingSearchWidget = () => {
                       <span>
                         {isAr
                           ? `${num} ${num === 1 ? 'فرد' : num === 2 ? 'فردين' : num <= 10 ? 'أفراد' : 'فرد'}`
+                          : isIt
+                          ? `${num} ${num === 1 ? 'Ospite' : 'Ospiti'}`
                           : `${num} ${num === 1 ? 'Guest' : 'Guests'}`}
                       </span>
                       {isSelected && <Check className="w-3.5 h-3.5 text-[#0284C7]" />}
@@ -386,7 +391,7 @@ export const FloatingSearchWidget = () => {
           type="submit"
           className="w-full py-3 bg-[#C2410C] hover:bg-[#9A3412] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-[#C2410C]/25 hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
         >
-          <span>{t('search.searchBtn', isAr ? 'بحث عن رحلة' : 'Find Adventures')}</span>
+          <span>{t('search.searchBtn', isAr ? 'بحث عن رحلة' : isIt ? 'Cerca Escursioni' : 'Find Adventures')}</span>
         </button>
       </div>
 

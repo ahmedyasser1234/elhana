@@ -1,4 +1,9 @@
 {
+  "trips": {
+    "stackLabel": "Le Nostre Esperienze Esclusive",
+    "view": "Vedi Dettagli",
+    "viewAll": "Tutti i Tour"
+  },
   "nav": {
     "home": "Home",
     "safari": "Safari Deserto",
