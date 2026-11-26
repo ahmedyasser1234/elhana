@@ -20,6 +20,8 @@ export const ExperienceDetailsPage = ({ slugOverride }) => {
   const slug = slugOverride || paramsSlug;
   const { t, i18n } = useTranslation();
   const isAr = i18n.language === 'ar';
+  const isIt = i18n.language === 'it';
+  const isRu = i18n.language === 'ru';
 
   const [rawExperience, setRawExperience] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -252,9 +254,19 @@ export const ExperienceDetailsPage = ({ slugOverride }) => {
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-amber-50 border border-amber-300/80 text-amber-950 font-black text-xs sm:text-sm shadow-xs mt-1">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shrink-0" />
               <span>
-                {isAr 
-                  ? 'السعر للمركبة الـ ATV المزدوجة (لشخصين) — وليس للفرد الواحد.' 
-                  : 'Price is per double ATV vehicle (for 2 people) — not per individual person.'}
+                {slug === 'super-desert-combo-safari' ? (
+                  isAr
+                    ? 'باقة السوبر سفاري الشاملة: اختيارك لمركبة (بيتش باجي سنجل أو دبل، أو كار باجي ثنائي أو رباعي) — شامل ركوب الجمال، العشاء والحفلة البدوية، ورصد النجوم بالتلسكوب.'
+                    : isIt
+                    ? 'Super Safari Tutto Incluso: A scelta tra Quad (Singolo/Doppio) o Buggy (2/4 Posti) — include Cammellata, Cena e Spettacolo Beduino e Stargazing con Telescopio.'
+                    : isRu
+                    ? 'Супер Сафари Комбо: На ваш выбор (Квадроцикл 1/2 или Багги 2/4) — включены верблюды, бедуинский ужин, шоу и телескоп.'
+                    : 'Super Safari All-In-One: Your choice of vehicle (Single/Double ATV or 2/4-Seater Buggy) — includes Camel Ride, Bedouin BBQ Dinner & Show, and Telescope Stargazing.'
+                ) : (
+                  isAr 
+                    ? 'السعر للمركبة الـ ATV المزدوجة (لشخصين) — وليس للفرد الواحد.' 
+                    : 'Price is per double ATV vehicle (for 2 people) — not per individual person.'
+                )}
               </span>
             </div>
           )}

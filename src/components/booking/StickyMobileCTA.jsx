@@ -31,7 +31,11 @@ export const StickyMobileCTA = ({ experience }) => {
         <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">{t('common.startingFrom')}</span>
         <div className="flex items-baseline gap-1">
           <span className="text-xl font-black text-white font-heading">{formatPrice(experience.startingPrice)}</span>
-          {isAtvBuggy ? (
+          {experience.slug === 'super-desert-combo-safari' ? (
+            <span className="text-[10px] text-amber-300 font-extrabold">
+              / {isAr ? 'الباقة الشاملة' : 'all-in combo'}
+            </span>
+          ) : isAtvBuggy ? (
             <span className="text-[10px] text-amber-300 font-extrabold">
               / {isAr ? 'للمركبة (شخصين)' : 'per vehicle (for 2)'}
             </span>

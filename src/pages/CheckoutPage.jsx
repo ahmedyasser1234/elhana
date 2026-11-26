@@ -65,6 +65,8 @@ export const CheckoutPage = () => {
           else if (subOpt === 'dinner_stargazing') selectedExtrasDetails.push('🔭 عشاء بدوي عادي + تلسكوب ورؤية النجوم ($25 للفرد)');
           else if (subOpt === 'dinner_vip') selectedExtrasDetails.push('👑 عشاء VIP فاخر شامل التران سفير ($30 للفرد)');
           else selectedExtrasDetails.push('🏕️ عشاء بدوي عادي شامل التران سفير ($20 للفرد)');
+        } else if (experience?.slug === 'super-desert-combo-safari') {
+          selectedExtrasDetails.push('✨ باقة سوبر سفاري الشاملة: ركوب جمال + عشاء وحفلة بدوية + رصد نجوم بالتلسكوب (مشمولة)');
         } else {
           if (bookingDraft.bedouinPartyOption === 'vip_dinner') selectedExtrasDetails.push('👑 عشاء VIP فاخر مع السفاري ($18 للفرد)');
           if (bookingDraft.bedouinPartyOption === 'standard_dinner' || bookingDraft.bedouinPartyOption === 'with_safari') selectedExtrasDetails.push('🏕️ عشاء بدوي عادي مع السفاري ($10 للفرد)');
@@ -449,6 +451,11 @@ export const CheckoutPage = () => {
                       <Sparkles className="w-3.5 h-3.5 text-[#38BDF8]" /> {isAr ? 'الإضافات المختارة' : 'Selected Extras'}
                     </span>
                     <div className="font-bold text-white text-[11px] flex flex-col gap-1">
+                      {experience?.slug === 'super-desert-combo-safari' && (
+                        <span className="text-emerald-400 font-bold">
+                          ✓ {isAr ? 'باقة سوبر شاملة: ركوب جمال + عشاء وحفلة بدوية + رصد نجوم بالتلسكوب' : 'All-in Super Combo: Camel + Dinner Show + Stargazing included'}
+                        </span>
+                      )}
                       {bookingDraft.bedouinPartyOption === 'vip_dinner' && <span className="text-amber-400">+ {isAr ? '👑 عشاء VIP فاخر مع السفاري ($18)' : '👑 VIP Bedouin Dinner ($18)'}</span>}
                       {(bookingDraft.bedouinPartyOption === 'standard_dinner' || bookingDraft.bedouinPartyOption === 'with_safari') && <span className="text-orange-300">+ {isAr ? '🏕️ عشاء بدوي عادي مع السفاري ($10)' : '🏕️ Standard Bedouin Dinner ($10)'}</span>}
                       {bookingDraft.privateTransfer && <span>+ {isAr ? 'سيارة توصيل خاصة VIP' : 'Private VIP Transfer'}</span>}

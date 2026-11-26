@@ -610,11 +610,11 @@ export const EXPERIENCES = [
   {
     id: "exp-11",
     slug: "super-desert-combo-safari",
-    title: "Super Desert Combo: ATV + Buggy + Camel + Dinner Show",
+    title: "Super Desert Combo: ATV Quad (Single/Double) or Dune Buggy (2/4-Seat) + Camel + Dinner Show + Stargazing",
     category: "safari",
     categoryLabel: "Safari Tours",
-    shortDescription: "The ultimate Sinai desert adventure combining ATV Quad, Dune Buggy, Camel Ride, Bedouin BBQ & stargazing.",
-    description: "Why choose one when you can experience all desert adventures in a single action-packed afternoon and evening? Ride quads through canyon trails, command a dune buggy, mount a camel, taste authentic Bedouin bread and tea, enjoy a lavish dinner buffet with live oriental performances, and stargaze with a telescope.",
+    shortDescription: "The ultimate Sinai combo: Choose between ATV Quad (Single/Double) or Dune Buggy (2/4-Seater) — including Camel Ride, Bedouin BBQ Dinner, Oriental Show & Telescope Stargazing.",
+    description: "Experience the ultimate all-in-one Sinai desert safari! Pick your preferred off-road vehicle: a high-powered ATV Quad (Single or Double) or an agile Dune Buggy (2-Seater or 4-Seater Family). Your adventure seamlessly includes a tranquil sunset camel trek across dunes, an authentic Bedouin open buffet BBQ feast with herbal tea and fresh bread, a live oriental folklore show (whirling Tanoura, belly dancer, fire show), and professional telescope stargazing under the Sinai sky.",
     images: [
       "/images/safari/super-safari-combo-hero.webp",
       "/images/real/polaris-buggy-family.webp",
@@ -634,36 +634,37 @@ export const EXPERIENCES = [
     suitableFor: ["Families", "Couples", "Groups", "All-in-One Seekers"],
     availableTimes: ["03:00 PM (Sunset Special)"],
     highlights: [
-      "All 4 top desert experiences in 1 single tour",
-      "ATV Quad bike ride (45 mins)",
-      "Dune Buggy ride (30 mins)",
-      "Camel ride at sunset",
-      "BBQ Dinner & live Oriental folklore show",
-      "Stargazing telescope session"
+      "Choice of vehicle: ATV Quad (Single/Double) OR Dune Buggy (2/4-Seater)",
+      "Tranquil camel ride at sunset across golden dunes",
+      "Authentic Bedouin BBQ open buffet dinner & Bedouin tea",
+      "Live Oriental folklore show (Tanoura dance, belly dance & fire show)",
+      "Astronomy session: Telescope stargazing with deep-sky viewing",
+      "Roundtrip hotel transfers in air-conditioned vehicles"
     ],
     included: [
-      "Roundtrip hotel transfer",
-      "ATV & Buggy usage + fuel",
-      "Camel ride",
-      "Bedouin tea & bread",
-      "Full BBQ Dinner buffet & soft drinks",
-      "Folklore show & stargazing"
+      "Roundtrip hotel transfer (Sharm El Sheikh)",
+      "Selected vehicle (ATV Quad or Dune Buggy) + fuel & helmet",
+      "Desert camel ride experience",
+      "Open buffet BBQ dinner & soft drinks",
+      "Bedouin herbal tea & traditional fresh bread",
+      "Live oriental show (Tanoura, belly dancer & fire show)",
+      "Professional telescope stargazing session"
     ],
     excluded: [
       "Bandana scarf & goggles rental ($3)",
       "Souvenir photos"
     ],
     itinerary: [
-      { time: "03:00 PM", title: "Hotel Departure", desc: "Hotel pickup by safari minibus." },
-      { time: "03:45 PM", title: "ATV Quad Ride", desc: "Zoom through sand dunes and echo canyon." },
-      { time: "04:45 PM", title: "Dune Buggy Drive", desc: "Switch to dune buggies for off-road excitement." },
-      { time: "05:30 PM", title: "Camel Ride & Sunset", desc: "Gentle camel ride up to sunset mountain view point." },
-      { time: "06:30 PM", title: "Bedouin Feast & Show", desc: "Open buffet dinner, Tanoura dance, belly dancer, and fire show." },
-      { time: "08:15 PM", title: "Stargazing", desc: "Look at Saturn's rings and moon craters via telescope." },
-      { time: "09:00 PM", title: "Hotel Return", desc: "Return to your resort." }
+      { time: "03:00 PM", title: "Hotel Departure", desc: "Comfortable pickup from your Sharm El Sheikh resort by safari minibus." },
+      { time: "03:45 PM", title: "Desert Trail Ride (Quad or Buggy)", desc: "Mount your chosen ATV Quad (Single/Double) or Dune Buggy (2/4-Seat) for an exhilarating ride through Echo Valley." },
+      { time: "05:15 PM", title: "Sunset Camel Ride", desc: "Gentle camel caravan ride up to the panoramic sunset mountain view point." },
+      { time: "06:15 PM", title: "Bedouin Feast & Open Buffet", desc: "Delicious BBQ dinner buffet with grilled specialties, fresh salads, Bedouin bread, and hot herbal tea." },
+      { time: "07:15 PM", title: "Live Oriental & Folklore Show", desc: "Mesmerizing whirling dervish Tanoura performance, belly dancing, and thrilling fire show." },
+      { time: "08:15 PM", title: "Telescope Stargazing", desc: "Peer through a high-powered astronomical telescope to view celestial wonders, planets, and constellations." },
+      { time: "09:00 PM", title: "Hotel Return", desc: "Safe and comfortable transfer back to your resort." }
     ],
     faq: [
-      { q: "Is this tour heavy on physical effort?", a: "No, activities are spaced out comfortably with rest stops and dinner." }
+      { q: "Is this tour heavy on physical effort?", a: "No, activities are spaced out comfortably with rest stops, camel riding, and a seated dinner show." }
     ]
   },
   {
@@ -1808,59 +1809,61 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
     },
     "super-desert-combo-safari": {
       ar: {
-        title: "سوبر سفاري الشامل: بيتش باجي + بوجي + جمال + عشاء",
-        categoryLabel: "رحلات السفاري الشاملة",
-        shortDescription: "أقوى مغامرة صحراوية تجمع بين البيتش باجي، الكار باجي، ركوب الجمال، والعشاء البدوي.",
+        title: "سوبر سفاري الشامل: بيتش باجي (سنجل/دبل) أو كار باجي (ثنائي/رباعي) + جمال + عشاء وحفلة + رصد النجوم",
+        categoryLabel: "رحلات السفاري الشاملة (كومبو)",
+        shortDescription: "أقوى باقة كومبو متكاملة: اختر مركبتك المفضلة (بيتش باجي سنجل أو دبل، أو كار باجي ثنائي أو رباعي عائلي) شامل ركوب الجمال، عشاء وبوفيه مشويات بدوي، حفلة فلكلورية شرقية، ورصد النجوم بالتلسكوب.",
         duration: "6 ساعات",
         location: "صحراء سيناء، شرم الشيخ",
         availableTimes: ["03:00 مساءً (عرض الغروب الخاطف)"],
         highlights: [
-          "أفضل 4 تجارب صحراوية في رحلة واحدة شاملة",
-          "قيادة البيتش باجي (45 دقيقة)",
-          "قيادة الكار باجي (30 دقيقة)",
-          "ركوب الجمال عند الغروب",
-          "عشاء مشويات وبوفيه مفتوح مع عرض شرقي مباشر",
-          "جلسة رصد النجوم بالتلسكوب"
+          "اختيارك للمركبة: بيتش باجي (سنجل أو دبل) أو كار باجي (ثنائي أو رباعي عائلي)",
+          "ركوب الجمال عند الغروب وسط الرمال والجبال",
+          "بوفيه عشاء مشويات مفتوح مع شاي الأعشاب والعيش البدوي الساخن",
+          "حفلة فلكلورية واستعراضية حية (تنورة مولوية، رقص شرقي، وعرض النار)",
+          "جلسة رصد فلكي للنجوم والمجرات بالتلسكوب الاحترافي",
+          "انتقالات مجانية مكيفة من وإلى الفندق"
         ],
         included: [
-          "انتقالات الفندق ذهاباً وإياداً",
-          "استخدام البيتش باجي والكار باجي + الوقود",
-          "ركوب الجمال",
-          "الشاي والخبز البدوي",
-          "عشاء بوفيه مشويات ومشروبات",
-          "العرض الفلكلوري ورصد النجوم"
+          "انتقالات الفندق ذهاباً وإياباً بسيارات حديثة ومكيفة",
+          "المركبة المختارة (بيتش باجي أو كار باجي) شاملة الوقود وخوذة الأمان",
+          "جولة ركوب الجمال الصحراوية",
+          "بوفيه عشاء بدوي مفتوح (مشويات وسلطات) ومشروبات",
+          "شاي الأعشاب والخبز البدوي الطازج",
+          "الحفلة الفلكلورية الشاملة (تنورة، رقص شرقي، وعرض النار)",
+          "رصد النجوم والقمر بالتلسكوب الفلكي"
         ],
         excluded: [
-          "إيجار الشال والنظارات ($3)",
+          "إيجار الشال والنظارات الواقية ($3)",
           "الصور التذكارية"
         ]
       },
       ru: {
-        title: "Супер Сафари Комбо: Квадроцикл + Багги + Верблюд + Ужин",
-        categoryLabel: "Комбо Сафари",
-        shortDescription: "Самое полное приключение в пустыне: квадроциклы, багги, верблюды, ужин и шоу.",
+        title: "Супер Сафари Комбо: Квадроцикл (1/2) или Багги (2/4) + Верблюды + Ужин и Шоу + Телескоп",
+        categoryLabel: "Комбо Сафари Всё Включено",
+        shortDescription: "Полный пакет всё включено: на выбор квадроцикл (одинарный или двойной) или багги (2 или 4 места) + верблюды, ужин барбекю, восточное шоу и телескоп.",
         duration: "6 часов",
-        location: "Синайская пустыня, Шарم-эль-Шейх",
+        location: "Синайская пустыня, Шарм-эль-Шейх",
         availableTimes: ["15:00 (Закат и Шоу)"],
         highlights: [
-          "4 лучших развлечения в одном туре",
-          "Катание на квадроцикле (45 мин)",
-          "Катание на Багги (30 мин)",
-          "Катание на верблюдах",
-          "Ужин барбекю и шоу",
-          "Телескоп"
+          "На ваш выбор: квадроцикл (1 или 2 места) или багги (2 или 4 места)",
+          "Прогулка на верблюдах на закате",
+          "Ужин-буфет барбекю и бедуинский чай",
+          "Восточное шоу: танец танура, танец живота и фаер-шоу",
+          "Наблюдение за звездами через профессиональный телескоп",
+          "Трансфер из отеля и обратно на авто с кондиционером"
         ],
         included: [
-          "Трансфер из отеля",
-          "Квадроциклы и Багги + топливо",
-          "Верблюды",
-          "Чай и хлеб",
-          "Ужин и шоу",
-          "Телескоп"
+          "Трансфер из отеля и обратно",
+          "Выбранный транспорт (квадроцикл или багги) + топливо и шлем",
+          "Прогулка на верблюдах",
+          "Шведский стол барбекю и напитки",
+          "Бедуинский чай и свежий хлеб",
+          "Восточное шоу и шоу с огнем",
+          "Сессия наблюдения за звездами через телескоп"
         ],
         excluded: [
-          "Арафатка и очки",
-          "Сувениры"
+          "Арафатка и защитные очки",
+          "Фотографии и сувениры"
         ]
       },
       it: {

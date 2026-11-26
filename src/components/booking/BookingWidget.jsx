@@ -21,6 +21,7 @@ export const BookingWidget = ({ experience }) => {
   const isSafari = safariCategories.includes(experience?.category) || 
                    ['atv-quad-bike-safari', 'dune-buggy-adventure', 'authentic-bedouin-experience-dinner', 'super-desert-combo-safari'].includes(experience?.slug);
   const isBedouinStandaloneExp = experience?.slug === 'authentic-bedouin-experience-dinner';
+  const isSuperCombo = experience?.slug === 'super-desert-combo-safari';
 
   const [adults, setAdults] = useState(bookingDraft.adults || 2);
   const [childrenCount, setChildrenCount] = useState(bookingDraft.children || 0);
@@ -203,11 +204,17 @@ export const BookingWidget = ({ experience }) => {
     return dict[key]?.[lang] || dict[key]?.en || '';
   };
 
+  // Super Safari Combo all-in package prices (vehicle + camel + dinner & show + stargazing)
+  const comboSingleQuadPrice = 50;
+  const comboDoubleQuadPrice = 65;
+  const comboBuggy2Price = 75;
+  const comboBuggy4Price = 120;
+
   // Pricing Logic
-  const quadSinglePrice = 15;
-  const quadDoublePrice = 20;
-  const buggy2Price = 28;
-  const buggy4Price = 32;
+  const quadSinglePrice = isSuperCombo ? comboSingleQuadPrice : 15;
+  const quadDoublePrice = isSuperCombo ? comboDoubleQuadPrice : 20;
+  const buggy2Price = isSuperCombo ? comboBuggy2Price : 28;
+  const buggy4Price = isSuperCombo ? comboBuggy4Price : 32;
 
   // Extras prices (EUR-based, converted to USD)
   // Photo €25 | Private car €20 | Van €30 | Scarf €4 | Goggles €6
@@ -248,6 +255,12 @@ export const BookingWidget = ({ experience }) => {
     } else {
       partyFee = (validAdults * 20) + (validChildren * 12);
     }
+  } else if (isSuperCombo) {
+    vehiclesPrice = (singleQuads * comboSingleQuadPrice) +
+                    (doubleQuads * comboDoubleQuadPrice) +
+                    (buggy2Seater * comboBuggy2Price) +
+                    (buggy4Seater * comboBuggy4Price);
+    partyFee = 0; // Bedouin dinner, folklore show, camel & stargazing are 100% included in Super Safari combo package!
   } else {
     vehiclesPrice = (singleQuads * quadSinglePrice) +
                     (doubleQuads * quadDoublePrice) +
@@ -309,6 +322,8 @@ export const BookingWidget = ({ experience }) => {
       ? (excursionTotal + extrasTotal)
       : isHorseCamelTab
       ? (horseCamelTotal + extrasTotal)
+      : isSuperCombo
+      ? ((vehiclesPrice > 0 ? vehiclesPrice : startingPrice) + extrasTotal)
       : (vehiclesPrice + partyFee + extrasTotal)
   );
 
@@ -317,6 +332,15 @@ export const BookingWidget = ({ experience }) => {
     // 0. Non-safari experiences (Sinai Excursions like Dahab, Catherine, etc., or Sea trips)
     if (!isSafari) {
       return experience?.startingPrice || 30;
+    }
+
+    // 0.1 Super Desert Combo package pricing
+    if (isSuperCombo) {
+      if (buggy4Seater > 0) return comboBuggy4Price;
+      if (buggy2Seater > 0) return comboBuggy2Price;
+      if (doubleQuads > 0) return comboDoubleQuadPrice;
+      if (singleQuads > 0) return comboSingleQuadPrice;
+      return startingPrice || 50;
     }
 
     // 1. Horse / Camel — per-person pricing
@@ -398,6 +422,13 @@ export const BookingWidget = ({ experience }) => {
     ) {
       return isAr ? 'باقة خاصة' : 'package';
     }
+    if (isSuperCombo) {
+      if (buggy4Seater > 0) return isAr ? 'كار باجي عائلي (4 أفراد)' : '4-seater family buggy';
+      if (buggy2Seater > 0) return isAr ? 'كار باجي ثنائي (فردين)' : '2-seater buggy';
+      if (doubleQuads > 0) return isAr ? 'بيتش باجي دبل (فردين)' : 'double quad (2 pax)';
+      if (singleQuads > 0) return isAr ? 'بيتش باجي سنجل (فرد)' : 'single quad (1 pax)';
+      return isAr ? 'للباقة الشاملة' : 'all-in package';
+    }
     if (!isSafari || isHorseCamelTab || isDinnerOnly || isBedouinStandaloneExp) {
       return isAr ? 'فرد واحد' : 'person';
     }
@@ -418,7 +449,11 @@ export const BookingWidget = ({ experience }) => {
 
   const handleProceedToCheckout = () => {
     const totalVehiclesCount = singleQuads + doubleQuads + buggy2Seater + buggy4Seater;
-    if (!isDinnerOnly && !isHorseCamelTab && totalVehiclesCount === 0 && bedouinPartyOption === 'none') {
+    if (isSuperCombo && totalVehiclesCount === 0) {
+      alert(isAr ? 'يرجى اختيار مركبتك (بيتش باجي سنجل أو دبل، أو كار باجي ثنائي أو رباعي) بالضغط على زر (+)' : 'Please select your vehicle (Single/Double ATV or 2/4-Seater Buggy) by clicking (+)');
+      return;
+    }
+    if (!isSuperCombo && !isDinnerOnly && !isHorseCamelTab && totalVehiclesCount === 0 && bedouinPartyOption === 'none') {
       alert(isAr ? 'يرجى اختيار مركبة واحدة على الأقل بالضغط على زر (+)' : 'Please select at least 1 vehicle by clicking (+)');
       return;
     }
@@ -434,22 +469,24 @@ export const BookingWidget = ({ experience }) => {
       doubleQuads,
       buggy2Seater,
       buggy4Seater,
-      bedouinPartyOption,
+      bedouinPartyOption: isSuperCombo ? 'super_combo_included' : bedouinPartyOption,
       bedouinPartySubOption,
       privateTransfer,
       photoVideoPackage: photoVideo,
       bedouinScarf,
       desertGoggles,
       privateSafari,
-      camelRide30min,
+      camelRide30min: isSuperCombo ? true : camelRide30min,
       horseRide1hr,
-      telescopeStargazing,
+      telescopeStargazing: isSuperCombo ? true : telescopeStargazing,
       totalPrice: grandTotal
     });
     navigate('/checkout');
   };
 
-  const whatsappMessage = isSafari
+  const whatsappMessage = isSuperCombo
+    ? `Hello! I want to reserve Super Desert Combo: ${experience.title || 'Super Desert Combo'} on ${selectedDate} (${selectedTime}).\nSelected Vehicles: Single Quads: ${singleQuads}, Double Quads: ${doubleQuads}, 2-Seater Buggies: ${buggy2Seater}, 4-Seater Buggies: ${buggy4Seater}.\nIncludes: Camel Ride + Bedouin BBQ Dinner & Show + Telescope Stargazing.\nGuests: ${adults} Adults, ${childrenCount} Kids.\nHotel: ${hotel || 'Sharm Resort'}.\nTotal: $${grandTotal}`
+    : isSafari
     ? `Hello! I want to reserve: ${experience.title || 'Safari Adventure'} on ${selectedDate} (${selectedTime}).\nVehicles: Single Quads: ${singleQuads}, Double Quads: ${doubleQuads}, 2-Seater Buggies: ${buggy2Seater}, 4-Seater Buggies: ${buggy4Seater}.\nBedouin Party: ${bedouinPartyOption}.\nGuests: ${adults} Adults, ${childrenCount} Kids.\nHotel: ${hotel || 'Sharm Resort'}.\nTotal: $${grandTotal}`
     : `Hello! I want to reserve: ${experience.title || 'Sinai Excursion'} on ${selectedDate} (${selectedTime}).\nGuests: ${adults} Adults, ${childrenCount} Kids.\nHotel: ${hotel || 'Sharm Resort'}.\nTotal: $${grandTotal}`;
 
@@ -704,7 +741,11 @@ export const BookingWidget = ({ experience }) => {
                       <div className="text-xs font-bold text-slate-800">
                         {getLabel('singleQuadLabel')}
                       </div>
-                      <div className="text-[10px] text-slate-600 font-bold">{formatPrice(quadSinglePrice)} — {isAr ? 'السعر للمركبة (لشخص واحد)' : 'Price per vehicle (for 1 person)'}</div>
+                      <div className="text-[10px] text-slate-600 font-bold">
+                        {formatPrice(quadSinglePrice)} — {isSuperCombo
+                          ? (isAr ? 'بيتش باجي سنجل (فرد واحد) — شامل العشاء والحفلة والجمال والتلسكوب' : 'Single Quad (1 rider) — All-in: Dinner, Show, Camel & Stargazing')
+                          : (isAr ? 'السعر للمركبة (لشخص واحد)' : 'Price per vehicle (for 1 person)')}
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
@@ -731,7 +772,11 @@ export const BookingWidget = ({ experience }) => {
                       <div className="text-xs font-bold text-slate-800">
                         {getLabel('doubleQuadLabel')}
                       </div>
-                      <div className="text-[10px] text-amber-800 font-black">{formatPrice(quadDoublePrice)} — {isAr ? 'السعر للمركبة الـ ATV المزدوجة (لشخصين)' : 'Price per double ATV vehicle (for 2 people)'}</div>
+                      <div className="text-[10px] text-amber-800 font-black">
+                        {formatPrice(quadDoublePrice)} — {isSuperCombo
+                          ? (isAr ? 'بيتش باجي دبل (فردان) — شامل العشاء والحفلة والجمال والتلسكوب' : 'Double Quad (2 riders) — All-in: Dinner, Show, Camel & Stargazing')
+                          : (isAr ? 'السعر للمركبة الـ ATV المزدوجة (لشخصين)' : 'Price per double ATV vehicle (for 2 people)')}
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
@@ -758,7 +803,11 @@ export const BookingWidget = ({ experience }) => {
                       <div className="text-xs font-bold text-slate-800">
                         {getLabel('buggy2Label')}
                       </div>
-                      <div className="text-[10px] text-slate-500 font-semibold">{formatPrice(buggy2Price)}</div>
+                      <div className="text-[10px] text-slate-500 font-semibold">
+                        {formatPrice(buggy2Price)} — {isSuperCombo
+                          ? (isAr ? 'كار باجي ثنائي (فردان) — شامل العشاء والحفلة والجمال والتلسكوب' : '2-Seater Buggy (2 riders) — All-in: Dinner, Show, Camel & Stargazing')
+                          : (isAr ? 'كار باجي ثنائي مقعدين' : '2-Seater Dune Buggy')}
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
@@ -785,7 +834,11 @@ export const BookingWidget = ({ experience }) => {
                       <div className="text-xs font-bold text-slate-800">
                         {getLabel('buggy4Label')}
                       </div>
-                      <div className="text-[10px] text-slate-500 font-semibold">{formatPrice(buggy4Price)} ({isAr ? 'عائلي 4 مقاعد' : 'Family 4 Seats'})</div>
+                      <div className="text-[10px] text-slate-500 font-semibold">
+                        {formatPrice(buggy4Price)} — {isSuperCombo
+                          ? (isAr ? 'كار باجي عائلي (4 أفراد) — شامل العشاء والحفلة والجمال والتلسكوب' : '4-Seater Buggy (4 riders) — All-in: Dinner, Show, Camel & Stargazing')
+                          : (isAr ? 'عائلي 4 مقاعد' : 'Family 4 Seats')}
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
@@ -815,7 +868,34 @@ export const BookingWidget = ({ experience }) => {
         {/* Bedouin Party Choice Selector */}
         {(isSafari || isBedouinStandaloneExp) && (
           <div className="space-y-2 pt-3 border-t border-stone-100">
-            <label className="text-xs font-bold text-slate-900 block">
+            {isSuperCombo ? (
+              <div className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-300/80 space-y-2.5">
+                <div className="flex items-center gap-2 text-amber-950 font-black text-xs sm:text-sm">
+                  <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>{isAr ? 'مشمول مجاناً في باقة السوبر سفاري لكل الضيوف:' : 'Included Free in Super Safari Package for All Guests:'}</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-semibold text-slate-800">
+                  <div className="flex items-center gap-2 bg-white/80 p-2 rounded-xl border border-amber-200/60 shadow-2xs">
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{isAr ? 'ركوب الجمال عند الغروب' : 'Sunset Camel Ride'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white/80 p-2 rounded-xl border border-amber-200/60 shadow-2xs">
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{isAr ? 'بوفيه عشاء مشويات بدوي مفتوح + شاي' : 'Open BBQ Dinner Buffet & Tea'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white/80 p-2 rounded-xl border border-amber-200/60 shadow-2xs">
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{isAr ? 'حفلة شرقية وتنورة وعرض النار' : 'Folklore Tanoura & Fire Show'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white/80 p-2 rounded-xl border border-amber-200/60 shadow-2xs">
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{isAr ? 'رصد النجوم بالتلسكوب الفلكي' : 'Telescope Stargazing Session'}</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <label className="text-xs font-bold text-slate-900 block">
               {getLabel('bedouinPartySection')}
             </label>
 
@@ -1122,8 +1202,10 @@ export const BookingWidget = ({ experience }) => {
                 </div>
               </div>
             )}
-          </div>
-        )}
+            </>
+          )}
+        </div>
+      )}
 
         {/* Hotel Pickup Location */}
         <div className="space-y-1.5 pt-2">
@@ -1385,85 +1467,97 @@ export const BookingWidget = ({ experience }) => {
                   </div>
                 </label>
 
-                {/* Stargazing Telescope */}
-                <label
-                  className={`flex flex-col justify-between p-2 sm:p-2.5 rounded-xl border cursor-pointer transition min-h-[58px] ${
-                    telescopeStargazing
-                      ? 'bg-sky-50/80 border-[#0284C7] ring-1 ring-[#0284C7]/40 shadow-xs'
-                      : 'bg-stone-50 border-stone-200 hover:bg-stone-100/70'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-1">
-                    <div className="flex items-start gap-1.5">
-                      <input
-                        type="checkbox"
-                        checked={telescopeStargazing}
-                        onChange={(e) => setTelescopeStargazing(e.target.checked)}
-                        className="sr-only"
-                      />
-                      <div
-                        className={`mt-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border flex items-center justify-center shrink-0 transition ${
-                          telescopeStargazing
-                            ? 'border-[#0284C7] bg-[#0284C7] text-white'
-                            : 'border-stone-300 bg-white'
-                        }`}
-                      >
-                        {telescopeStargazing && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                {/* Stargazing Telescope (Included in Super Safari combo) */}
+                {!isSuperCombo && (
+                  <label
+                    className={`flex flex-col justify-between p-2 sm:p-2.5 rounded-xl border cursor-pointer transition min-h-[58px] ${
+                      telescopeStargazing
+                        ? 'bg-sky-50/80 border-[#0284C7] ring-1 ring-[#0284C7]/40 shadow-xs'
+                        : 'bg-stone-50 border-stone-200 hover:bg-stone-100/70'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-1">
+                      <div className="flex items-start gap-1.5">
+                        <input
+                          type="checkbox"
+                          checked={telescopeStargazing}
+                          onChange={(e) => setTelescopeStargazing(e.target.checked)}
+                          className="sr-only"
+                        />
+                        <div
+                          className={`mt-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border flex items-center justify-center shrink-0 transition ${
+                            telescopeStargazing
+                              ? 'border-[#0284C7] bg-[#0284C7] text-white'
+                              : 'border-stone-300 bg-white'
+                          }`}
+                        >
+                          {telescopeStargazing && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                        </div>
+                        <div>
+                          <span className="text-[11px] sm:text-xs font-bold text-slate-900 leading-tight block">
+                            {isAr ? 'رصد بالمرصد الفلكي' : 'Stargazing'}
+                          </span>
+                          <span className="text-[9px] sm:text-[10px] text-slate-500 block mt-0.5 leading-none">
+                            {isAr ? 'تليسكوب فلكي' : 'Astro telescope'}
+                          </span>
+                        </div>
                       </div>
-                      <div>
-                        <span className="text-[11px] sm:text-xs font-bold text-slate-900 leading-tight block">
-                          {isAr ? 'رصد بالمرصد الفلكي' : 'Stargazing'}
-                        </span>
-                        <span className="text-[9px] sm:text-[10px] text-slate-500 block mt-0.5 leading-none">
-                          {isAr ? 'تليسكوب فلكي' : 'Astro telescope'}
-                        </span>
-                      </div>
+                      <span className="text-[11px] sm:text-xs font-bold text-[#0284C7] shrink-0">
+                        +{formatPrice(5)}
+                      </span>
                     </div>
-                    <span className="text-[11px] sm:text-xs font-bold text-[#0284C7] shrink-0">
-                      +{formatPrice(5)}
-                    </span>
-                  </div>
-                </label>
+                  </label>
+                )}
 
-                {/* Camel Ride */}
-                <label
-                  className={`flex flex-col justify-between p-2 sm:p-2.5 rounded-xl border cursor-pointer transition min-h-[58px] ${
-                    camelRide30min
-                      ? 'bg-sky-50/80 border-[#0284C7] ring-1 ring-[#0284C7]/40 shadow-xs'
-                      : 'bg-stone-50 border-stone-200 hover:bg-stone-100/70'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-1">
-                    <div className="flex items-start gap-1.5">
-                      <input
-                        type="checkbox"
-                        checked={camelRide30min}
-                        onChange={(e) => setCamelRide30min(e.target.checked)}
-                        className="sr-only"
-                      />
-                      <div
-                        className={`mt-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border flex items-center justify-center shrink-0 transition ${
-                          camelRide30min
-                            ? 'border-[#0284C7] bg-[#0284C7] text-white'
-                            : 'border-stone-300 bg-white'
-                        }`}
-                      >
-                        {camelRide30min && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                {/* Camel Ride (Included in Super Safari combo) */}
+                {!isSuperCombo && (
+                  <label
+                    className={`flex flex-col justify-between p-2 sm:p-2.5 rounded-xl border cursor-pointer transition min-h-[58px] ${
+                      camelRide30min
+                        ? 'bg-sky-50/80 border-[#0284C7] ring-1 ring-[#0284C7]/40 shadow-xs'
+                        : 'bg-stone-50 border-stone-200 hover:bg-stone-100/70'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-1">
+                      <div className="flex items-start gap-1.5">
+                        <input
+                          type="checkbox"
+                          checked={camelRide30min}
+                          onChange={(e) => setCamelRide30min(e.target.checked)}
+                          className="sr-only"
+                        />
+                        <div
+                          className={`mt-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border flex items-center justify-center shrink-0 transition ${
+                            camelRide30min
+                              ? 'border-[#0284C7] bg-[#0284C7] text-white'
+                              : 'border-stone-300 bg-white'
+                          }`}
+                        >
+                          {camelRide30min && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                        </div>
+                        <div>
+                          <span className="text-[11px] sm:text-xs font-bold text-slate-900 leading-tight block">
+                            {isAr ? 'جولة ركوب الجمل' : 'Camel Ride'}
+                          </span>
+                          <span className="text-[9px] sm:text-[10px] text-slate-500 block mt-0.5 leading-none">
+                            {isAr ? 'جولة 30 دقيقة' : '30-min ride'}
+                          </span>
+                        </div>
                       </div>
-                      <div>
-                        <span className="text-[11px] sm:text-xs font-bold text-slate-900 leading-tight block">
-                          {isAr ? 'جولة ركوب الجمل' : 'Camel Ride'}
-                        </span>
-                        <span className="text-[9px] sm:text-[10px] text-slate-500 block mt-0.5 leading-none">
-                          {isAr ? 'جولة 30 دقيقة' : '30-min ride'}
-                        </span>
-                      </div>
+                      <span className="text-[11px] sm:text-xs font-bold text-[#0284C7] shrink-0">
+                        +{formatPrice(camelExtra)}
+                      </span>
                     </div>
-                    <span className="text-[11px] sm:text-xs font-bold text-[#0284C7] shrink-0">
-                      +{formatPrice(camelExtra)}
-                    </span>
+                  </label>
+                )}
+
+                {/* Super Safari Included Card in Extras */}
+                {isSuperCombo && (
+                  <div className="col-span-1 sm:col-span-2 p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs font-bold flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{isAr ? 'ركوب الجمال، العشاء والحفلة البدوية، ورصد النجوم بالتلسكوب مشمولة بالفعل مجاناً في باقة السوبر سفاري.' : 'Camel ride, Bedouin dinner & show, and telescope stargazing are already included in your Super Safari package.'}</span>
                   </div>
-                </label>
+                )}
 
                 {/* Horse Ride */}
                 <label
@@ -1803,7 +1897,7 @@ export const BookingWidget = ({ experience }) => {
         )}
         {vehiclesPrice > 0 && (
           <div className="flex justify-between items-center text-xs text-slate-600">
-            <span>{isAr ? 'تكلفة المركبات' : 'Vehicles Total'}</span>
+            <span>{isSuperCombo ? (isAr ? 'تكلفة باقة السوبر سفاري' : 'Super Safari Package Total') : (isAr ? 'تكلفة المركبات' : 'Vehicles Total')}</span>
             <span className="font-extrabold text-slate-900">{formatPrice(vehiclesPrice)}</span>
           </div>
         )}

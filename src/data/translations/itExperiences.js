@@ -83,25 +83,26 @@ export const IT_EXPERIENCE_TRANSLATIONS = {
   },
 
   "super-desert-combo-safari": {
-    title: "Super Safari Combo Completo: Quad + Buggy + Cammelli + Cena Beduina",
+    title: "Super Safari Combo Completo: Quad (Singolo/Doppio) o Buggy (2/4 Posti) + Cammelli + Cena Beduina & Show + Stargazing",
     categoryLabel: "Super Safari Combo Tutto Incluso",
-    shortDescription: "La migliore avventura 4-in-1 a Sharm: guida sia il Quad ATV che il Dune Buggy, passeggia a cammello e goditi cena beduina con spettacolo sotto le stelle.",
+    shortDescription: "La migliore avventura all-in-one a Sharm: scegli il tuo mezzo tra Quad ATV (singolo o doppio) o Dune Buggy (2 o 4 posti), con cammellata al tramonto, cena barbecue a buffet, spettacolo orientale e osservazione stelle al telescopio inclusi.",
     duration: "5-6 Ore",
     location: "Deserto del Sinai, Sharm El Sheikh",
     availableTimes: ["15:00 (Pomeriggio & Serata)"],
     highlights: [
-      "Include Quad ATV + Dune Buggy nello stesso tour",
+      "A tua scelta: Quad ATV (Singolo o Doppio) oppure Dune Buggy (2 o 4 posti)",
       "Cammellata tradizionale al tramonto tra le dune",
-      "Cena barbecue a buffet libero sotto le stelle",
-      "Spettacolo beduino con danza tanoura e mangiafuoco",
-      "Telescopio professionale per l'osservazione delle stelle"
+      "Cena barbecue a buffet aperto con tè e pane beduino tipico",
+      "Spettacolo folcloristico orientale con danza Tanoura e show del fuoco",
+      "Osservazione astronomica delle stelle e dei pianeti con telescopio professionale",
+      "Transfer andata e ritorno incluso dal tuo resort a Sharm El Sheikh"
     ],
     included: [
       "Transfer a/r dal tuo hotel a Sharm",
-      "Guida di Quad ATV e Dune Buggy",
+      "Veicolo selezionato (Quad ATV o Dune Buggy) + carburante e casco",
       "Giro a dorso di cammello",
       "Cena beduina completa a buffet con bevande calde",
-      "Spettacolo serale e osservazione astronomica"
+      "Spettacolo serale e osservazione astronomica al telescopio"
     ],
     excluded: [
       "Bibite analcoliche in lattina",
