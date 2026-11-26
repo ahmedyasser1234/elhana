@@ -226,9 +226,9 @@ export const EXPERIENCES = [
   {
     id: "exp-2",
     slug: "dune-buggy-adventure",
-    title: "Sinai Desert Dune Buggy Tour",
+    title: "Sinai Desert Dune Buggy Safari",
     category: "buggy",
-    categoryLabel: "Buggy Tours",
+    categoryLabel: "Buggy Safari",
     shortDescription: "Command a heavy-duty 2-seater or 4-seater off-road buggy across high sand hills and mountain trails.",
     description: "Take the wheel of an off-road buggy engineered for Sinai's rocky desert terrain. Perfect for couples, families, or small groups looking for speed, stability, and maximum fun with roll-cage protection.",
     images: [
@@ -1165,8 +1165,8 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
     },
     "dune-buggy-adventure": {
       ar: {
-        title: "رحلة الكار باجي في صحراء سيناء",
-        categoryLabel: "رحلات الكار باجي",
+        title: "سفاري الكار باجي في صحراء سيناء",
+        categoryLabel: "سفاري الكار باجي",
         shortDescription: "قُد مركبة باجي صحراوية 250cc مقعدين أو 4 مقاعد واستمتع بالإثارة بين التلال والجبال.",
         duration: "3 ساعات",
         location: "صحراء سيناء، شرم الشيخ",

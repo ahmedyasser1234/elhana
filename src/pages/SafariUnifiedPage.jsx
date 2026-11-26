@@ -310,7 +310,7 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
       experienceSlug: 'atv-quad-bike-safari'
     },
     buggy: {
-      heroTitle: isAr ? 'رحلات سفاري الكار باجي في شرم الشيخ' : 'Car Buggy Desert Safaris in Sharm El Sheikh',
+      heroTitle: isAr ? 'سفاري الكار باجي في شرم الشيخ' : 'Car Buggy Desert Safaris in Sharm El Sheikh',
       heroSubtitle: isAr
         ? 'استمتع بقيادة سيارات الكار باجي الصحراوية المصممة خصيصاً للأزواج والعائلات مع هيكل أمان صلب وأحزمة أمان وتوصيل من الفندق.'
         : 'Enjoy driving desert dune buggies engineered specifically for couples and families with heavy-duty roll cage protection and hotel pickup.',

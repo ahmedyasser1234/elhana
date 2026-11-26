@@ -146,7 +146,7 @@ export const Footer = () => {
             </h3>
             <ul className="space-y-2.5 text-xs font-medium text-slate-700">
               <li><Link to="/atv-tours" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "سفاري بيتش باجي (ATV)" : "ATV Quad Bikes"}</Link></li>
-              <li><Link to="/buggy-tours" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "رحلات الكار باجي" : "Dune Buggy Tours"}</Link></li>
+              <li><Link to="/buggy-tours" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "سفاري الكار باجي" : "Dune Buggy Safaris"}</Link></li>
               <li><Link to="/bedouin-experience" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "السهرة والعشاء البدوي" : "Bedouin Experience"}</Link></li>
               <li><Link to="/camel-riding" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "ركوب الجمال بالصحراء" : "Camel Caravan"}</Link></li>
               <li><Link to="/horse-riding" className="hover:text-amber-600 hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">{isAr ? "ركوب الخيل بالصحراء والشاطئ" : "Horseback Riding"}</Link></li>

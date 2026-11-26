@@ -122,7 +122,7 @@ export const TripSlotMediaModal = ({
       if (subCategory === '2seater') return isAr ? 'كار باجي ثنائي (2 مقعد)' : '2-Seater Buggy';
       if (subCategory === '4seater') return isAr ? 'كار باجي عائلي (4 مقاعد)' : '4-Seater Family Buggy';
       if (subCategory === 'polaris1000') return isAr ? 'بولاريس 1000 تيربو' : 'Polaris 1000 Turbo';
-      return isAr ? 'رحلات الكار باجي والبولاريس' : 'Car Buggy & Polaris Safari';
+      return isAr ? 'سفاري الكار باجي والبولاريس' : 'Car Buggy & Polaris Safari';
     }
     if (category === 'camel') return isAr ? 'رحلات ركوب الجمال' : 'Camel Riding Safari';
     if (category === 'horse') return isAr ? 'رحلات ركوب الخيل' : 'Horse Riding Experience';
