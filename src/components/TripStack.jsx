@@ -39,11 +39,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeEn: 'Sinai Desert Quad Safari',
     groupBadgeIt: 'Safari in Quad nel Deserto',
     focus: 'center 45%',
-    image: '/images/real/user-atv-safari.webp',
-    images: [
-      '/images/real/user-atv-safari.webp',
-      '/images/real/user-atv-single.webp'
-    ]
+    image: '/images/real/user-atv-combined.webp',
+    images: ['/images/real/user-atv-combined.webp']
   },
   {
     slug: 'dune-buggy-adventure',
@@ -333,7 +330,7 @@ function TripCard({ trip, total, index, isAr, isIt, formatPrice, t, ArrowIcon })
             loading="lazy"
             decoding="async"
             onError={(e) => {
-              const fallback = '/images/real/user-atv-safari.webp';
+              const fallback = '/images/real/user-atv-combined.webp';
               if (e.currentTarget.src !== fallback && !e.currentTarget.src.endsWith(fallback)) {
                 e.currentTarget.src = fallback;
               }

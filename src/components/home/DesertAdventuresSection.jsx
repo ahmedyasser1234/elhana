@@ -81,11 +81,11 @@ export const DesertAdventuresSection = () => {
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white aspect-[4/3] group">
               <img
-                src="/images/real/user-atv-safari.webp"
+                src="/images/real/user-atv-combined.webp"
                 alt="Sinai Desert Safari ATV Quad Bikes"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/images/real/atv-real-showcase-1.webp';
+                  e.target.src = '/images/real/user-atv-safari.webp';
                 }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />

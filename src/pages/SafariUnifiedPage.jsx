@@ -306,7 +306,7 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
       heroSubtitle: isAr
         ? 'انطلق في مغامرة صحراوية حماسية على متن البيتش باجي 250cc بين جبال وسلاسل صحراء سيناء مع الشاي البدوي وتجربة صدى الصوت.'
         : 'Embark on an exhilarating desert adventure riding 250cc ATV quad bikes among Sinai mountains with Bedouin tea and mountain echo experience.',
-      heroImage: '/images/real/user-atv-safari.webp',
+      heroImage: '/images/real/user-atv-combined.webp',
       experienceSlug: 'atv-quad-bike-safari'
     },
     buggy: {
@@ -352,10 +352,10 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
         startingPrice: 15,
         galleryTitle: isAr ? 'معرض صور البيتش باجي السنجل (الفردي)' : 'Single ATV Quad Photo Gallery',
         images: [
+          '/images/real/user-atv-combined.webp',
           '/images/real/user-atv-single.webp',
           '/images/real/user-atv-safari.webp',
-          '/images/real/atv-real-showcase-2.webp',
-          '/images/real/atv-quad.webp'
+          '/images/real/atv-real-showcase-2.webp'
         ]
       },
       double: {
@@ -364,10 +364,10 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
         startingPrice: 20,
         galleryTitle: isAr ? 'معرض صور البيتش باجي الدبل (المزدوج)' : 'Double ATV Quad Photo Gallery',
         images: [
+          '/images/real/user-atv-combined.webp',
           '/images/real/user-atv-safari.webp',
           '/images/real/user-atv-single.webp',
-          '/images/real/atv-real-showcase-2.webp',
-          '/images/real/atv-quad.webp'
+          '/images/real/atv-real-showcase-2.webp'
         ]
       }
     },
