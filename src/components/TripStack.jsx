@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -39,7 +39,11 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeEn: 'Sinai Desert Quad Safari',
     groupBadgeIt: 'Safari in Quad nel Deserto',
     focus: 'center 45%',
-    image: '/images/real/user-atv-safari.webp'
+    image: '/images/real/user-atv-safari.webp',
+    images: [
+      '/images/real/user-atv-safari.webp',
+      '/images/real/user-atv-single.webp'
+    ]
   },
   {
     slug: 'dune-buggy-adventure',
@@ -313,14 +317,18 @@ const ORDERED_TRIP_DEFINITIONS = [
  * Fully edge-to-edge photography with zero empty space or bars.
  */
 function TripCard({ trip, total, index, isAr, isIt, formatPrice, t, ArrowIcon }) {
+  const cardImages = (trip.images && trip.images.length > 0) ? trip.images.slice(0, 4) : [trip.image];
+  const [activeImgIdx, setActiveImgIdx] = useState(0);
+  const currentImg = cardImages[activeImgIdx] || trip.image;
+
   return (
     <div className="w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[430px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-slate-900/8 border border-slate-200/90 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:border-slate-300 max-h-[calc(100svh-var(--header-h)-1.5rem)] group/card">
       {/* High-Resolution Photo Bay - Edge-to-Edge with Zero Empty Space */}
       <div className="relative h-48 sm:h-54 md:h-48 lg:h-54 xl:h-58 w-full overflow-hidden bg-slate-100 group shrink-0">
         <picture className="w-full h-full">
-          <source srcSet={toWebp(trip.image)} type="image/webp" />
+          <source srcSet={toWebp(currentImg)} type="image/webp" />
           <img
-            src={trip.image}
+            src={currentImg}
             alt={trip.title}
             loading="lazy"
             decoding="async"
@@ -344,6 +352,29 @@ function TripCard({ trip, total, index, isAr, isIt, formatPrice, t, ArrowIcon })
             {pad(index + 1)} / {pad(total)}
           </span>
         </div>
+
+        {/* Multi-Photo Dots Navigation */}
+        {cardImages.length > 1 && (
+          <div className="absolute bottom-2.5 inset-x-0 flex items-center justify-center gap-1.5 z-10 pointer-events-auto">
+            {cardImages.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setActiveImgIdx(i);
+                }}
+                className={`transition-all rounded-full h-1.5 cursor-pointer ${
+                  activeImgIdx === i
+                    ? 'w-5 bg-white shadow-md ring-1 ring-black/20'
+                    : 'w-2 bg-white/70 hover:bg-white'
+                }`}
+                aria-label={`Photo ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Details Body */}
@@ -461,6 +492,7 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
         categoryBadge: badgeLabel,
         group: item.group,
         image: tripImage,
+        images: item.images || (found.images && found.images.length > 0 ? found.images : [tripImage]),
         href: `/experience/${found.slug}`,
         focus: item.focus || 'center 45%',
         rating: localized.rating || 4.9,
