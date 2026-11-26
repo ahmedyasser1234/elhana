@@ -40,7 +40,11 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeIt: 'Safari in Quad nel Deserto',
     focus: 'center 45%',
     image: '/images/real/user-atv-combined.webp',
-    images: ['/images/real/user-atv-combined.webp']
+    images: [
+      '/images/real/user-atv-combined.webp',
+      '/images/real/user-atv-safari.webp',
+      '/images/real/user-atv-single.webp'
+    ]
   },
   {
     slug: 'dune-buggy-adventure',
