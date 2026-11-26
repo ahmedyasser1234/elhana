@@ -83,7 +83,7 @@ export const IT_EXPERIENCE_TRANSLATIONS = {
   },
 
   "super-desert-combo-safari": {
-    title: "Super Safari Combo Completo: Quad (Singolo/Doppio) o Buggy (2/4 Posti) + Cammelli + Cena Beduina & Show + Stargazing",
+    title: "Super Safari Combo Completo: Quad ATV o Dune Buggy + Cammelli + Cena Beduina & Stargazing",
     categoryLabel: "Super Safari Combo Tutto Incluso",
     shortDescription: "La migliore avventura all-in-one a Sharm: scegli il tuo mezzo tra Quad ATV (singolo o doppio) o Dune Buggy (2 o 4 posti), con cammellata al tramonto, cena barbecue a buffet, spettacolo orientale e osservazione stelle al telescopio inclusi.",
     duration: "5-6 Ore",

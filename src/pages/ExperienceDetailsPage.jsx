@@ -11,7 +11,7 @@ import { FAQAccordion } from '../components/faq/FAQAccordion';
 import { experiencesApi } from '../services/api/experiencesApi';
 import { LoadingSkeleton } from '../components/common/LoadingSkeleton';
 import { ErrorState } from '../components/common/ErrorState';
-import { Clock, MapPin, ShieldCheck, Check, X, Info, Sparkles, Camera, Maximize2, ChevronLeft, ChevronRight, Star, Quote, MessageSquarePlus, CheckCircle2 } from 'lucide-react';
+import { Clock, MapPin, ShieldCheck, Check, X, Info, Sparkles, Camera, Maximize2, ChevronLeft, ChevronRight, Star, Quote, MessageSquarePlus, CheckCircle2, Compass, Flame, Eye } from 'lucide-react';
 import { getLocalizedExperience } from '../data/experiences';
 import { getTourReviews } from '../data/reviews';
 
@@ -245,31 +245,106 @@ export const ExperienceDetailsPage = ({ slugOverride }) => {
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black font-heading text-slate-900 tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-black font-heading text-slate-900 tracking-tight leading-[1.25] text-balance">
             {experience.title}
           </h1>
 
-          {/* Price Clarity Note for ATV & Buggies */}
-          {isAtvOrBuggy && (
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-amber-50 border border-amber-300/80 text-amber-950 font-black text-xs sm:text-sm shadow-xs mt-1">
+          {/* Super Desert Combo Dedicated Showcase Card */}
+          {slug === 'super-desert-combo-safari' ? (
+            <div className="mt-3 p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-amber-500/10 via-amber-50/50 to-sky-500/5 border border-amber-300/80 shadow-xs space-y-3.5">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-200/70 pb-3">
+                <div className="inline-flex items-center gap-2">
+                  <span className="p-1.5 rounded-xl bg-amber-500 text-white shadow-xs">
+                    <Sparkles className="w-4 h-4" />
+                  </span>
+                  <span className="font-black text-sm sm:text-base text-amber-950">
+                    {isAr ? 'باقة السوبر الشاملة (All-in-One)' : 'All-in-One Super Safari Combo'}
+                  </span>
+                </div>
+                <span className="text-xs font-bold text-amber-900 bg-amber-100/90 px-3 py-1 rounded-full border border-amber-300/80 shadow-2xs">
+                  {isAr 
+                    ? 'اختر مركبتك المفضلة وكافة الأنشطة التالية مشمولة مجاناً لكل الأفراد:' 
+                    : isIt 
+                    ? 'Scegli il tuo veicolo, tutte le attività incluse:' 
+                    : isRu
+                    ? 'Выберите транспорт, все развлечения включены:'
+                    : 'Choose your vehicle, all activities below are included:'}
+                </span>
+              </div>
+
+              {/* 4 Feature Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                {/* 1. Vehicle Choice */}
+                <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/95 border border-amber-200/80 shadow-xs hover:border-amber-400 transition">
+                  <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+                    <Compass className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                  <div>
+                    <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+                      {isAr ? 'بيتش باجي أو كار باجي' : isIt ? 'Quad o Dune Buggy' : isRu ? 'Квадроцикл или Багги' : 'ATV Quad or Dune Buggy'}
+                    </span>
+                    <span className="text-[11px] text-amber-800 font-extrabold block mt-0.5">
+                      {isAr ? 'سنجل/دبل أو ثنائي/عائلي' : isIt ? 'Singolo/Doppio o 2/4 Posti' : isRu ? '1/2 места или 2/4 места' : 'Single/Double or 2/4-Seat'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 2. Camel Ride */}
+                <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/95 border border-emerald-200/80 shadow-xs hover:border-emerald-400 transition">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+                    <Check className="w-5 h-5 stroke-[2.8]" />
+                  </div>
+                  <div>
+                    <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+                      {isAr ? 'ركوب الجمال عند الغروب' : isIt ? 'Cammellata al Tramonto' : isRu ? 'Верблюды на закате' : 'Sunset Desert Camel Ride'}
+                    </span>
+                    <span className="text-[11px] text-emerald-700 font-extrabold block mt-0.5">
+                      {isAr ? '✓ مشمول مجاناً بالكامل' : isIt ? '✓ Incluso gratis nel tour' : isRu ? '✓ Бесплатно включено' : '✓ 100% Included Free'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 3. Bedouin Dinner & Show */}
+                <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/95 border border-orange-200/80 shadow-xs hover:border-orange-400 transition">
+                  <div className="w-10 h-10 rounded-xl bg-orange-100 text-orange-800 flex items-center justify-center shrink-0">
+                    <Flame className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                  <div>
+                    <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+                      {isAr ? 'عشاء مشويات وحفلة بدوية' : isIt ? 'Cena BBQ & Show Beduino' : isRu ? 'Ужин барбекю и шоу' : 'BBQ Buffet & Folklore Show'}
+                    </span>
+                    <span className="text-[11px] text-orange-700 font-extrabold block mt-0.5">
+                      {isAr ? 'بوفيه مفتوح + شاي وتنورة ونار' : isIt ? 'Buffet, Tè, Danza e Fuoco' : isRu ? 'Шведский стол и фаер-шоу' : 'Buffet, Bedouin Tea & Fire'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 4. Stargazing */}
+                <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/95 border border-sky-200/80 shadow-xs hover:border-sky-400 transition">
+                  <div className="w-10 h-10 rounded-xl bg-sky-100 text-[#0284C7] flex items-center justify-center shrink-0">
+                    <Eye className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                  <div>
+                    <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+                      {isAr ? 'رصد النجوم بالتلسكوب' : isIt ? 'Stargazing con Telescopio' : isRu ? 'Телескоп и звезды' : 'Telescope Stargazing'}
+                    </span>
+                    <span className="text-[11px] text-[#0284C7] font-extrabold block mt-0.5">
+                      {isAr ? 'مشاهدة كواكب ومجرات سيناء' : isIt ? 'Pianeti & Stelle nel Sinai' : isRu ? 'Наблюдение за планетами' : 'Sinai Night Sky & Planets'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : isAtvOrBuggy ? (
+            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-amber-50 border border-amber-300/80 text-amber-950 font-black text-xs sm:text-sm shadow-xs mt-1">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shrink-0" />
               <span>
-                {slug === 'super-desert-combo-safari' ? (
-                  isAr
-                    ? 'باقة السوبر سفاري الشاملة: اختيارك لمركبة (بيتش باجي سنجل أو دبل، أو كار باجي ثنائي أو رباعي) — شامل ركوب الجمال، العشاء والحفلة البدوية، ورصد النجوم بالتلسكوب.'
-                    : isIt
-                    ? 'Super Safari Tutto Incluso: A scelta tra Quad (Singolo/Doppio) o Buggy (2/4 Posti) — include Cammellata, Cena e Spettacolo Beduino e Stargazing con Telescopio.'
-                    : isRu
-                    ? 'Супер Сафари Комбо: На ваш выбор (Квадроцикл 1/2 или Багги 2/4) — включены верблюды, бедуинский ужин, шоу и телескоп.'
-                    : 'Super Safari All-In-One: Your choice of vehicle (Single/Double ATV or 2/4-Seater Buggy) — includes Camel Ride, Bedouin BBQ Dinner & Show, and Telescope Stargazing.'
-                ) : (
-                  isAr 
-                    ? 'السعر للمركبة الـ ATV المزدوجة (لشخصين) — وليس للفرد الواحد.' 
-                    : 'Price is per double ATV vehicle (for 2 people) — not per individual person.'
-                )}
+                {isAr 
+                  ? 'السعر للمركبة الـ ATV المزدوجة (لشخصين) — وليس للفرد الواحد.' 
+                  : 'Price is per double ATV vehicle (for 2 people) — not per individual person.'}
               </span>
             </div>
-          )}
+          ) : null}
         </div>
 
         {/* Image Gallery Showcase with 3D Sphere Animations */}

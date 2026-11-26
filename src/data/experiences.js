@@ -610,7 +610,7 @@ export const EXPERIENCES = [
   {
     id: "exp-11",
     slug: "super-desert-combo-safari",
-    title: "Super Desert Combo: ATV Quad (Single/Double) or Dune Buggy (2/4-Seat) + Camel + Dinner Show + Stargazing",
+    title: "Super Desert Combo: ATV Quad or Dune Buggy + Camel + Dinner Show + Stargazing",
     category: "safari",
     categoryLabel: "Safari Tours",
     shortDescription: "The ultimate Sinai combo: Choose between ATV Quad (Single/Double) or Dune Buggy (2/4-Seater) — including Camel Ride, Bedouin BBQ Dinner, Oriental Show & Telescope Stargazing.",
@@ -1809,7 +1809,7 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
     },
     "super-desert-combo-safari": {
       ar: {
-        title: "سوبر سفاري الشامل: بيتش باجي (سنجل/دبل) أو كار باجي (ثنائي/رباعي) + جمال + عشاء وحفلة + رصد النجوم",
+        title: "سوبر سفاري الشامل: بيتش باجي أو كار باجي + جمال + عشاء وحفلة ورصد نجوم",
         categoryLabel: "رحلات السفاري الشاملة (كومبو)",
         shortDescription: "أقوى باقة كومبو متكاملة: اختر مركبتك المفضلة (بيتش باجي سنجل أو دبل، أو كار باجي ثنائي أو رباعي عائلي) شامل ركوب الجمال، عشاء وبوفيه مشويات بدوي، حفلة فلكلورية شرقية، ورصد النجوم بالتلسكوب.",
         duration: "6 ساعات",
@@ -1838,7 +1838,7 @@ export const getLocalizedExperience = (experience, lang = 'en') => {
         ]
       },
       ru: {
-        title: "Супер Сафари Комбо: Квадроцикл (1/2) или Багги (2/4) + Верблюды + Ужин и Шоу + Телескоп",
+        title: "Супер Сафари Комбо: Квадроцикл или Багги + Верблюды + Ужин и Телескоп",
         categoryLabel: "Комбо Сафари Всё Включено",
         shortDescription: "Полный пакет всё включено: на выбор квадроцикл (одинарный или двойной) или багги (2 или 4 места) + верблюды, ужин барбекю, восточное шоу и телескоп.",
         duration: "6 часов",
