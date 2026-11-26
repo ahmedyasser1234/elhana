@@ -313,8 +313,6 @@ const ORDERED_TRIP_DEFINITIONS = [
  * Fully edge-to-edge photography with zero empty space or bars.
  */
 function TripCard({ trip, total, index, isAr, isIt, formatPrice, t, ArrowIcon }) {
-  const badgeColor = getBadgeColor(trip.group);
-
   return (
     <div className="w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[430px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-slate-900/8 border border-slate-200/90 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:border-slate-300 max-h-[calc(100svh-var(--header-h)-1.5rem)] group/card">
       {/* High-Resolution Photo Bay - Edge-to-Edge with Zero Empty Space */}
@@ -340,11 +338,8 @@ function TripCard({ trip, total, index, isAr, isIt, formatPrice, t, ArrowIcon })
         {/* Subtle Darkening Gradient for Badge & Image Contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/15 pointer-events-none" />
 
-        {/* Top Floating Badges: Category & Counter */}
-        <div className="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
-          <span className="px-2.5 py-1 rounded-full text-xs font-black bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-xs">
-            <span className={badgeColor}>{trip.categoryBadge}</span>
-          </span>
+        {/* Top Floating Badge: Counter Only (Trip name moved to card title below) */}
+        <div className="absolute top-3 start-3 pointer-events-none z-10">
           <span dir="ltr" className="text-xs font-mono font-bold text-slate-700 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full border border-slate-200/80 shadow-xs">
             {pad(index + 1)} / {pad(total)}
           </span>
@@ -417,13 +412,18 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
     return ORDERED_TRIP_DEFINITIONS.map((item, idx) => {
       // Custom Transfer or Custom Experience Card
       if (item.isCustomTransfer || item.isCustomExperience) {
+        const badgeTitle = isAr ? item.groupBadgeAr : isIt ? (item.groupBadgeIt || item.groupBadgeEn) : item.groupBadgeEn;
+        const oldTitle = isAr ? item.titleAr : isIt ? (item.titleIt || item.titleEn) : item.titleEn;
+        const oldSub = isAr ? item.subtitleAr : isIt ? (item.subtitleIt || item.subtitleEn) : item.subtitleEn;
+        const cardDesc = oldTitle && oldSub ? `${oldTitle}: ${oldSub}` : (oldTitle || oldSub || '');
+
         return {
           id: `custom-exp-${item.slug}`,
           index: idx,
           slug: item.slug,
-          title: isAr ? item.titleAr : isIt ? (item.titleIt || item.titleEn) : item.titleEn,
-          subtitle: isAr ? item.subtitleAr : isIt ? (item.subtitleIt || item.subtitleEn) : item.subtitleEn,
-          categoryBadge: isAr ? item.groupBadgeAr : isIt ? (item.groupBadgeIt || item.groupBadgeEn) : item.groupBadgeEn,
+          title: badgeTitle || oldTitle,
+          subtitle: cardDesc,
+          categoryBadge: badgeTitle,
           group: item.group,
           image: item.image,
           href: item.href,
@@ -446,12 +446,18 @@ export default function TripStack({ startIndex = 2, trips: customTrips }) {
         ? (item.groupBadgeIt || localized.categoryLabel || 'Esperienza Esclusiva')
         : (item.groupBadgeEn || localized.categoryLabel || 'Featured Tour');
 
+      // Trip name from top becomes main title; bold title becomes the start of the description
+      const cardTitle = badgeLabel || localized.title;
+      const cardDescription = localized.title && localized.shortDescription
+        ? `${localized.title}: ${localized.shortDescription}`
+        : (localized.title || localized.shortDescription || '');
+
       return {
         id: found.id || `trip-${item.slug}`,
         index: idx,
         slug: found.slug,
-        title: localized.title,
-        subtitle: localized.shortDescription,
+        title: cardTitle,
+        subtitle: cardDescription,
         categoryBadge: badgeLabel,
         group: item.group,
         image: tripImage,
