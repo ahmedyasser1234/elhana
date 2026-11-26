@@ -617,7 +617,6 @@ export const EXPERIENCES = [
     description: "Why choose one when you can experience all desert adventures in a single action-packed afternoon and evening? Ride quads through canyon trails, command a dune buggy, mount a camel, taste authentic Bedouin bread and tea, enjoy a lavish dinner buffet with live oriental performances, and stargaze with a telescope.",
     images: [
       "/images/safari/super-safari-combo-hero.webp",
-      "/images/safari/super-safari-combo-real-montage.webp",
       "/images/real/polaris-buggy-family.webp",
       "/images/real/user-atv-safari.webp",
       "/images/safari/camel/camel-riding-hero.webp",
