@@ -314,7 +314,7 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
       heroSubtitle: isAr
         ? 'استمتع بقيادة سيارات الكار باجي الصحراوية المصممة خصيصاً للأزواج والعائلات مع هيكل أمان صلب وأحزمة أمان وتوصيل من الفندق.'
         : 'Enjoy driving desert dune buggies engineered specifically for couples and families with heavy-duty roll cage protection and hotel pickup.',
-      heroImage: '/images/real/polaris-buggy-white.jpg',
+      heroImage: '/images/real/user-buggy-combined.webp',
       experienceSlug: 'dune-buggy-adventure'
     },
     bedouin: {
@@ -378,9 +378,9 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
         startingPrice: 28,
         galleryTitle: isAr ? 'معرض صور الكار باجي الثنائي (مقعدين)' : '2-Seater Dune Buggy Photo Gallery',
         images: [
+          '/images/real/user-buggy-combined.webp',
+          '/images/real/user-buggy-2seater.webp',
           '/images/real/polaris-buggy-white.jpg',
-          '/images/real/family-buggy-ride.jpg',
-          '/images/real/polaris-buggy-family.jpg',
           '/images/real/IMG-20260722-WA0368.jpg'
         ]
       },
@@ -390,9 +390,9 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
         startingPrice: 35,
         galleryTitle: isAr ? 'معرض صور الكار باجي العائلي (4 مقاعد)' : '4-Seater Family Buggy Photo Gallery',
         images: [
+          '/images/real/user-buggy-combined.webp',
+          '/images/real/user-buggy-4seater.webp',
           '/images/real/polaris-buggy-family.jpg',
-          '/images/real/family-buggy-ride.jpg',
-          '/images/real/polaris-buggy-white.jpg',
           '/images/real/IMG-20260722-WA0360.jpg'
         ]
       },

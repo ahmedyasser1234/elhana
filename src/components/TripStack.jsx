@@ -53,7 +53,12 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeEn: 'Polaris Dune Buggy Safari',
     groupBadgeIt: 'Avventura in Dune Buggy Polaris',
     focus: 'center 45%',
-    image: '/images/real/polaris-buggy-white.webp'
+    image: '/images/real/user-buggy-combined.webp',
+    images: [
+      '/images/real/user-buggy-combined.webp',
+      '/images/real/user-buggy-2seater.webp',
+      '/images/real/user-buggy-4seater.webp'
+    ]
   },
   {
     slug: 'luxury-polaris-canam-buggy-safari',

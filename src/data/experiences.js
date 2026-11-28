@@ -233,8 +233,10 @@ export const EXPERIENCES = [
     shortDescription: "Command a heavy-duty 2-seater or 4-seater off-road buggy across high sand hills and mountain trails.",
     description: "Take the wheel of an off-road buggy engineered for Sinai's rocky desert terrain. Perfect for couples, families, or small groups looking for speed, stability, and maximum fun with roll-cage protection.",
     images: [
+      "/images/real/user-buggy-combined.webp",
+      "/images/real/user-buggy-2seater.webp",
+      "/images/real/user-buggy-4seater.webp",
       "/images/real/polaris-buggy-white.webp",
-      "/images/real/polaris-buggy-family.webp",
       "/images/real/family-buggy-ride.jpg"
     ],
     duration: "3 Hours",
@@ -878,8 +880,10 @@ export const EXPERIENCES = [
     shortDescription: "Drive top-of-the-line Polaris XPEDITION (5-Seater VIP) or 1000cc Turbo Can-Am buggies across Sinai dunes in ultimate luxury.",
     description: "Elevate your desert safari experience with our ultra-luxury fleet of Polaris XPEDITION ADV 5-seater family buggies and high-octane 1000cc Turbo Can-Am Maverick vehicles. Engineered with heavy-duty long-travel suspension, plush bucket seats, and enclosed roll-cages for supreme power, safety, and comfort.",
     images: [
+      "/images/real/user-buggy-combined.webp",
+      "/images/real/user-buggy-2seater.webp",
+      "/images/real/user-buggy-4seater.webp",
       "/images/real/polaris-buggy-white.webp",
-      "/images/real/polaris-buggy-family.webp",
       "/images/real/family-buggy-ride.jpg"
     ],
     duration: "3.5 Hours",
