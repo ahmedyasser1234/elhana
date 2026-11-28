@@ -402,9 +402,10 @@ export const SafariUnifiedPage = ({ defaultTab = 'atv' }) => {
         startingPrice: 60,
         galleryTitle: isAr ? 'معرض صور كار باجي البولاريس 1000 VIP' : 'Polaris 1000 Turbo Photo Gallery',
         images: [
+          '/images/real/user-luxury-buggy-combined.webp',
+          '/images/real/user-polaris-1000.webp',
+          '/images/real/user-canam-blue.webp',
           '/images/real/polaris-buggy-white.jpg',
-          '/images/real/polaris-buggy-family.jpg',
-          '/images/real/family-buggy-ride.jpg',
           '/images/real/IMG-20260722-WA0344.jpg'
         ]
       }

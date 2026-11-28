@@ -59,7 +59,8 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeEn: 'Can-Am & Polaris Turbo VIP',
     groupBadgeIt: 'Safari Can-Am & Polaris VIP',
     focus: 'center 45%',
-    image: '/images/real/family-buggy-ride.jpg'
+    image: '/images/real/user-luxury-buggy-combined.webp',
+    images: ['/images/real/user-luxury-buggy-combined.webp']
   },
 
   // ═══════════════════════════════════════════════════════════════
