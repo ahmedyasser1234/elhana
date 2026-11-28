@@ -40,11 +40,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeIt: 'Safari in Quad nel Deserto',
     focus: 'center 45%',
     image: '/images/real/user-atv-combined.webp',
-    images: [
-      '/images/real/user-atv-combined.webp',
-      '/images/real/user-atv-safari.webp',
-      '/images/real/user-atv-single.webp'
-    ]
+    images: ['/images/real/user-atv-combined.webp']
   },
   {
     slug: 'dune-buggy-adventure',
@@ -54,11 +50,7 @@ const ORDERED_TRIP_DEFINITIONS = [
     groupBadgeIt: 'Avventura in Dune Buggy Polaris',
     focus: 'center 45%',
     image: '/images/real/user-buggy-combined.webp',
-    images: [
-      '/images/real/user-buggy-combined.webp',
-      '/images/real/user-buggy-2seater.webp',
-      '/images/real/user-buggy-4seater.webp'
-    ]
+    images: ['/images/real/user-buggy-combined.webp']
   },
   {
     slug: 'luxury-polaris-canam-buggy-safari',
